@@ -1,0 +1,16 @@
+import { site } from '../config';
+// A short, plain summary of the site for AI tools (see llmstxt.org).
+const body = `# ${site.name}
+
+> ${site.tagline}. ${site.description}
+
+## Services
+- [Website design](${site.url}/website-design/): New websites planned for Google and AI search before they are designed, built with our own AI website builder and finished by hand.
+- [Website maintenance](${site.url}/website-maintenance/): Monthly care that keeps a website updated, backed up and growing with new content.
+
+## Company
+- [About](${site.url}/about/): Founder led, selective, white hat only. Clarity over complexity, transparency over buzzwords, strategy over shortcuts.
+- [Contact](${site.url}/contact/): Start with a conversation on WhatsApp.
+- [Questions](${site.url}/#faq): Short, plain answers about websites, Google and AI search.
+`;
+export const GET = () => new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

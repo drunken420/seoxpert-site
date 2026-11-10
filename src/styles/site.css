@@ -157,3 +157,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .fbar a{color:var(--mute);text-decoration:none}
 @media (max-width:700px){.foot>.wrap:first-child{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}}
 .mmenu{position:absolute;left:0;right:0;top:100%}
+.svc h3 a{color:inherit;text-decoration:none}
+.more{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-weight:600;color:var(--acc);text-decoration:none}
+.more::after{content:"";width:8px;height:8px;border-top:2px solid;border-right:2px solid;rotate:45deg;transition:translate .2s ease}
+.more:hover::after{translate:4px 0}
