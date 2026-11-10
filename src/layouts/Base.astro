@@ -1,0 +1,55 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/sora/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '../styles/site.css';
+import logo from '../fragments/logo.svg?raw';
+import { site, whatsappLink } from '../config';
+
+interface Props { title: string; description?: string; path?: string }
+const { title, description = site.description, path = '/' } = Astro.props;
+const canonical = new URL(path, site.url).href;
+const ld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', '@id': `${site.url}/#org`, name: site.name, url: site.url, logo: `${site.url}/logo.svg`, slogan: site.tagline },
+    { '@type': 'WebSite', '@id': `${site.url}/#website`, url: site.url, name: site.name, publisher: { '@id': `${site.url}/#org` }, inLanguage: 'en' },
+  ],
+};
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+<meta name="theme-color" content="#7b18c1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content={site.name}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical}>
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
+<slot name="head" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head band"><div class="wrap"><a class="brand" href="/" aria-label="SEOXpert home" set:html={logo}></a>
+<nav class="menu" aria-label="Main"><a href="/#builder">AI builder</a><a href="/#services">Website building</a><a href="/#services">Monthly care</a><a href="/#services">Packages</a><a href="/#faq">FAQ</a></nav>
+<a class="btn sm" href={whatsappLink}>WhatsApp us</a>
+<button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mmenu"><i></i><i></i><i></i></button></div>
+<nav class="mmenu" id="mmenu" aria-label="Main, phone" hidden><a href="/#builder">AI builder</a><a href="/#services">Website building</a><a href="/#services">Monthly care</a><a href="/#services">Packages</a><a href="/#faq">FAQ</a></nav></header>
+<slot />
+<footer class="foot band"><div class="wrap">
+  <div class="fbrand"><a class="brand" href="/" aria-label="SEOXpert home" set:html={logo}></a><p>{site.tagline}.</p><a class="btn sm" href={whatsappLink}>WhatsApp us</a></div>
+  <nav aria-label="Services"><b>What we do</b><a href="/#services">Website building</a><a href="/#services">Monthly care</a><a href="/#services">Packages</a></nav>
+  <nav aria-label="Learn"><b>Learn more</b><a href="/#builder">Our AI builder</a><a href="/#why">Why SEOXpert</a><a href="/#faq">Questions</a></nav>
+</div><div class="wrap fbar"><span>&copy; {new Date().getFullYear()} SEOXpert</span><a href="#top">Back to top</a></div></footer>
+<script src="/js/ui.js" defer></script>
+<slot name="scripts" />
+</body>
+</html>
