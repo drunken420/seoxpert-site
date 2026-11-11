@@ -16,7 +16,13 @@ import { site, whatsappLink, emailLink, ways } from '../config';
   <span class="eyebrow rv">Write to us</span>
   <h2 class="rv">Send us a message.</h2>
   <div class="cgrid">
-    <form class="cform rv" id="cform" method="post" action="/api/contact" novalidate>
+    <div class="cpanel rv">
+      <div class="cpside"><i class="cppet" aria-hidden="true"></i><i class="cppet p2" aria-hidden="true"></i>
+        <h3>Let's talk about your website.</h3><p>No pressure, just honest insight.</p>
+        <ol><li><div><b>You message us</b><span>Tell us what your business does and what you need.</span></div></li><li><div><b>We ask a few questions</b><span>Enough to understand your goals and whether we are the right fit.</span></div></li><li><div><b>You get a clear plan</b><span>What we would build, how it works and what it costs, in plain language.</span></div></li></ol>
+        {emailLink && <a class="cpmail" href={emailLink}>{site.email}</a>}
+      </div>
+    <form class="cform" id="cform" method="post" action="/api/contact" novalidate>
       <div class="cf2">
         <label class="cf"><span>Your name</span><input name="name" autocomplete="name" required maxlength="80"></label>
         <label class="cf"><span>Your email</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label>
@@ -34,21 +40,13 @@ import { site, whatsappLink, emailLink, ways } from '../config';
       <div class="cfoot"><button class="btn" type="submit">Send message<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><p class="cnote">A real person reads every message and replies by email.</p></div>
       <p class="cstatus" role="status" aria-live="polite"></p>
     </form>
+    </div>
     <div class="cside">
       <div class="way rv" style="--d:1"><h3>Email</h3><p>Prefer your own email app? Write to us directly.</p>{emailLink ? <a class="cmail" href={emailLink}>{site.email}</a> : <p class="ph">[PLACEHOLDER] Your email address goes here.</p>}</div>
       {site.whatsapp && <div class="way rv"><h3>WhatsApp</h3><p>The quickest way to start a conversation with a real person.</p><a class="btn" href={whatsappLink}>WhatsApp us</a></div>}
       <div class="way rv" style="--d:2"><h3>Chat</h3><p>Instant answers to common questions about website design and website maintenance.</p><button class="btn ghost" type="button" data-chat-open>Open the chat</button></div>
     </div>
   </div>
-</div></section>
-<section class="solid tint band"><div class="wrap">
-  <span class="eyebrow rv">What happens next</span>
-  <h2 class="rv">Three simple steps.</h2>
-  <ol class="nsteps" style="max-width:760px">
-    <li class="rv"><h3>You message us</h3><p>Tell us what your business does and what you need.</p></li>
-    <li class="rv" style="--d:1"><h3>We ask a few questions</h3><p>Enough to understand your goals and whether we are the right fit.</p></li>
-    <li class="rv" style="--d:2"><h3>You get a clear plan</h3><p>What we would build, how it works and what it costs, in plain language.</p></li>
-  </ol>
 </div></section>
 <Related skip="/contact/" />
 </main>
