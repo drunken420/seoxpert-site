@@ -1,4 +1,13 @@
 (function () {
+  /* headings reveal word by word: wrap each word (and each inline element, kept whole) in a span */
+  [].forEach.call(document.querySelectorAll('main h2.rv'), function (h) {
+    var i = 0, kids = [].slice.call(h.childNodes);
+    kids.forEach(function (n) {
+      if (n.nodeType === 3) { var f = document.createDocumentFragment(); n.textContent.split(/(\s+)/).forEach(function (w) { if (!w) return; if (/^\s+$/.test(w)) { f.appendChild(document.createTextNode(w)); return; } var s = document.createElement('span'); s.className = 'w'; s.style.setProperty('--i', i++); s.textContent = w; f.appendChild(s); }); h.replaceChild(f, n); }
+      else if (n.nodeType === 1 && n.tagName !== 'BR') { var s = document.createElement('span'); s.className = 'w'; s.style.setProperty('--i', i++); h.replaceChild(s, n); s.appendChild(n); }
+    });
+    h.classList.add('wr');
+  });
   var rv = [].slice.call(document.querySelectorAll('.rv'));
   if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' }); rv.forEach(function (el) { io.observe(el); }); } else rv.forEach(function (el) { el.classList.add('in'); });
   var head = document.querySelector('.site-head');
@@ -116,4 +125,12 @@
   d.addEventListener('mouseleave', function () { d.classList.remove('shut'); });
   document.addEventListener('click', function (e) { if (!d.contains(e.target)) set(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && b.getAttribute('aria-expanded') === 'true') { set(false); b.focus(); } });
+})();
+
+/* Homepage XpertLab teaser: animations run only while it is on screen; the dotted globe's script loads when it comes near */
+(function () {
+  var labs = document.querySelector('.labs'); if (!labs || !('IntersectionObserver' in window)) return; var loaded = false;
+  function load(src, done) { var s = document.createElement('script'); s.src = src; s.onload = done; document.head.appendChild(s); }
+  new IntersectionObserver(function (es) { labs.classList.toggle('vis', es[0].isIntersecting); }).observe(labs);
+  new IntersectionObserver(function (es, io) { if (!es[0].isIntersecting || loaded) return; loaded = true; io.disconnect(); load('/js/land.js', function () { load('/js/lab-teaser.js'); }); }, { rootMargin: '300px 0px' }).observe(labs);
 })();

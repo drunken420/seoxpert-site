@@ -21,6 +21,7 @@ const extraLd = [
 ---
 <Base title={post.title} description={post.description} path={postUrl(post)} extraLd={extraLd} image={`${pic}.jpg`}>
 <main id="main">
+<div class="bprog" aria-hidden="true"><i></i></div>
 <article>
 <header class="bhead band"><div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">XpertAdvice</a><span aria-hidden="true">/</span><span aria-current="page">{post.tag}</span></nav>
@@ -31,6 +32,7 @@ const extraLd = [
 
 <section class="solid band"><div class="wrap bart">
   <div class="bbody">
+    <details class="btoc"><summary>In this guide <span>{post.sections.length + 1} parts</span></summary><ol>{post.sections.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}<li><a href="#questions">Questions people ask</a></li></ol></details>
     <figure class="pfig bfig"><img src={`${pic}.webp`} srcset={`${pic}-640.webp 640w, ${pic}.webp 1200w`} sizes="(max-width: 980px) 100vw, 700px" width="1200" height="630" alt={picAlt} decoding="async"></figure>
     {post.sections.map((s) => <section><h2 id={s.id}>{s.h}</h2><Fragment set:html={s.html} /></section>)}
     <section><h2 id="questions">Questions people ask</h2>
@@ -53,4 +55,13 @@ const extraLd = [
 </div></section>
 <Cta />
 </main>
+<script slot="scripts" is:inline>
+/* Guides: a thin bar under the menu shows how far through the guide you are, and the phone jump menu closes after a tap */
+(function () {
+  var bar = document.querySelector('.bprog i'), art = document.querySelector('.bbody'), toc = document.querySelector('.btoc'), raf = 0;
+  function set() { raf = 0; var r = art.getBoundingClientRect(), h = r.height - innerHeight * 0.6, p = h > 0 ? Math.min(1, Math.max(0, -r.top / h)) : 1; bar.style.transform = 'scaleX(' + p.toFixed(4) + ')'; }
+  if (bar && art) { addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(set); }, { passive: true }); addEventListener('resize', set); set(); }
+  if (toc) toc.addEventListener('click', function (e) { if (e.target.closest('a')) toc.open = false; });
+})();
+</script>
 </Base>

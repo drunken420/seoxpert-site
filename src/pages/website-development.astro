@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
-import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
 import Glance from '../components/Glance.astro';
 import pictures from '../data/pictures.json';
@@ -73,7 +72,6 @@ const extraLd = [{ '@type': 'Service', name: 'Website development', serviceType:
   </div>
 </div></section>
 <Glance page="website-development" guides={['seo-malaysia-guide', 'ai-seo-malaysia']} tint />
-<Trio />
 <Related skip="/website-development/" />
 <Cta title="Need a website developed the right way from the start?" />
 </main>

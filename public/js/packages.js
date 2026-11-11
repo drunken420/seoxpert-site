@@ -3,7 +3,7 @@
 (function () {
   var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   var cur = 'RM';
-  try { cur = localStorage.getItem('sx-cur') || (Intl.DateTimeFormat().resolvedOptions().timeZone === 'Asia/Kuala_Lumpur' ? 'RM' : 'USD'); } catch (e) {}
+  try { cur = localStorage.getItem('sx-cur') || (/^Asia\/(Kuala_Lumpur|Kuching)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone) ? 'RM' : 'USD'); } catch (e) {}
   if (cur !== 'USD') cur = 'RM';
   var key = function () { return cur === 'USD' ? 'usd' : 'rm'; };
   var bill = 'month'; // XpertCare: pay monthly, or yearly with 2 months free
