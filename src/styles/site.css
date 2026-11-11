@@ -143,7 +143,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .skip{position:absolute;left:12px;top:-60px;z-index:50;background:var(--ink);color:#fff;padding:10px 14px;border-radius:10px;font-weight:600;transition:top .15s ease}
 .skip:focus{top:12px}
 
-.burger{display:none;width:44px;height:44px;border:0;border-radius:12px;background:transparent;cursor:pointer;place-items:center;gap:0;padding:0;margin-left:6px;position:relative}
+.burger{display:none;flex:none;width:44px;height:44px;border:0;border-radius:12px;background:transparent;cursor:pointer;place-items:center;gap:0;padding:0;margin-left:6px;position:relative}
 .burger i{position:absolute;left:11px;right:11px;height:2px;border-radius:2px;background:var(--ink);transition:transform .25s ease,opacity .2s ease}
 .burger i:nth-child(1){top:15px}.burger i:nth-child(2){top:21px}.burger i:nth-child(3){top:27px}
 .burger[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}.burger[aria-expanded="true"] i:nth-child(2){opacity:0}.burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
