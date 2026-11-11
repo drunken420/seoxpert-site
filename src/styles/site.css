@@ -1,4 +1,9 @@
-:root{--bg:#f7f2fc;--bg2:#ffffff;--card:#ffffff;--line:#e6dcf2;--ink:#1a1026;--soft:#51465f;--mute:#786c88;--acc:#7b18c1;--acc2:#b06cff;--plum:#14081f;--plum2:#2a0d47;--logo-a:#9a35e8;--logo-b:#6a12ad;--logo-c:#b06cff;--f-d:'Sora Variable','Inter Variable',system-ui,sans-serif;--f-b:'Inter Variable',system-ui,-apple-system,'Segoe UI',sans-serif;--f-m:'JetBrains Mono Variable',ui-monospace,Consolas,monospace;color-scheme:light;--gl:max(16px,env(safe-area-inset-left,0px));--gr:max(16px,env(safe-area-inset-right,0px));--head-h:64px}
+/* Stand-in fonts sized like Sora and Inter, so text does not re-wrap (and the page does not jump) when the real fonts arrive */
+@font-face{font-family:'Sora Fallback';src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('Helvetica Bold'),local('Roboto Bold');font-weight:500 900;size-adjust:107.6%}
+@font-face{font-family:'Sora Fallback';src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('Helvetica'),local('Roboto');font-weight:100 499;size-adjust:107.6%}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('Helvetica'),local('Roboto');font-weight:100 499;size-adjust:106.3%}
+@font-face{font-family:'Inter Fallback';src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('Helvetica Bold'),local('Roboto Bold');font-weight:500 900;size-adjust:102%}
+:root{--bg:#f7f2fc;--bg2:#ffffff;--card:#ffffff;--line:#e6dcf2;--ink:#1a1026;--soft:#51465f;--mute:#786c88;--acc:#7b18c1;--acc2:#b06cff;--plum:#14081f;--plum2:#2a0d47;--logo-a:#9a35e8;--logo-b:#6a12ad;--logo-c:#b06cff;--f-d:'Sora Variable','Sora Fallback',system-ui,sans-serif;--f-b:'Inter Variable','Inter Fallback',system-ui,-apple-system,'Segoe UI',sans-serif;--f-m:'JetBrains Mono Variable',ui-monospace,Consolas,monospace;color-scheme:light;--gl:max(16px,env(safe-area-inset-left,0px));--gr:max(16px,env(safe-area-inset-right,0px));--head-h:64px}
 *{box-sizing:border-box}
 /* Big screens (2K, 4K, ultrawide). Up to 1920px wide the root is 16px and nothing changes.
    Wider than that the root grows with the screen, and because the build turns every px size into rem
@@ -7,6 +12,7 @@ html{font-size:16px}
 @media (min-width:1921px){html{font-size:max(16px,min(calc(100vw / 120),calc(100vh / 58.75)))}}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:17px;line-height:1.6;overflow-x:hidden}
+main{overflow-x:clip}
 h1,h2,h3,h4{text-wrap:balance;margin:0;font-family:var(--f-d);font-weight:700;letter-spacing:-.035em}
 :focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 .band{padding-left:var(--gl);padding-right:var(--gr)}
@@ -94,7 +100,7 @@ h1 em{font-style:normal;color:var(--acc)}
 /* marquee (liked, kept) */
 .marquee{position:relative;z-index:2;background:var(--bg2);overflow:hidden;padding-block:6px 30px}
 .marquee .track{display:flex;width:max-content;animation:slide 34s linear infinite}
-.marquee span{font:800 clamp(52px,8vw,110px)/1.1 var(--f-d);letter-spacing:-.045em;padding-right:.45em;color:transparent;-webkit-text-stroke:1.5px #cdb6ea;white-space:nowrap}
+.marquee span{font:800 clamp(52px,8vw,110px)/1.1 var(--f-d);letter-spacing:-.045em;padding-right:.45em;color:transparent;-webkit-text-stroke:1.5px #9f78d6;white-space:nowrap}
 /* colours go word by word: purple, black, outline (keep the word count a multiple of 6 so the loop joins cleanly) */
 .marquee span:nth-child(3n+1){color:var(--acc);-webkit-text-stroke:0}
 .marquee span:nth-child(3n+2){color:var(--ink);-webkit-text-stroke:0}
@@ -211,8 +217,8 @@ html.menu-open .chatfab{opacity:0;pointer-events:none}
 .foot nav b{font:700 13px/1 var(--f-b);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
 .foot nav a{color:var(--ink);text-decoration:none;width:fit-content}
 .foot nav a:hover,.fbar a:hover{color:var(--acc)}
-.fbar{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-block:18px 24px;font-size:14px;color:var(--mute)}
-.fbar a{color:var(--mute);text-decoration:none}
+.fbar{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--line);padding-block:18px 24px;font-size:14px;color:var(--mute)}
+.fbar a{color:var(--mute);text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
 @media (max-width:700px){.foot>.wrap:first-child{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}}
 .mmenu{position:absolute;left:0;right:0;top:100%}
 .svc h3 a{color:inherit;text-decoration:none}
@@ -339,7 +345,7 @@ h1,h2,h3{overflow-wrap:break-word}
 .fcard>*,.rcard>*,.way>*{position:relative}
 /* small marquee under inner page banners */
 .marquee.sm{padding-block:10px 12px;border-bottom:1px solid var(--line)}
-.marquee.sm span{font-size:clamp(26px,3.4vw,46px);-webkit-text-stroke:1.2px #cdb6ea}
+.marquee.sm span{font-size:clamp(26px,3.4vw,46px);-webkit-text-stroke:1.2px #9f78d6}
 .marquee.sm .track{animation-duration:46s}
 /* summary pictures (Glance.astro and blog guides) */
 .pfig{margin:0;max-width:860px}

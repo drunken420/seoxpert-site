@@ -2,6 +2,9 @@
 import '@fontsource-variable/inter/wght.css';
 import '@fontsource-variable/sora/wght.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
+// The two fonts every page shows first are fetched straight away, so headings do not jump when they arrive
+import soraFont from '@fontsource-variable/sora/files/sora-latin-wght-normal.woff2?url';
+import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '../styles/site.css';
 import logo from '../fragments/logo.svg?raw';
 import { site, whatsappLink, talkLabel, emailLink, areaText, areaLd } from '../config';
@@ -54,6 +57,8 @@ const ld = {
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<link rel="preload" href={soraFont} as="font" type="font/woff2" crossorigin>
+<link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content={description}>

@@ -1,4 +1,4 @@
-// Makes the summary picture for each page and each blog guide (public/img/<name>.webp, -640.webp and .jpg for sharing).
+// Makes the summary picture for each page and each blog guide (public/img/<name>.webp, -640.webp, -900.webp and .jpg for sharing).
 // Run after changing src/data/pictures.json or the guides in src/data/blog.ts:  node scripts/make-pics.cjs
 // The words in a picture come from the page itself, so a picture never says something the page does not.
 const { chromium } = require('playwright');
@@ -44,6 +44,7 @@ const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
     const png = await p.screenshot();
     await sharp(png).webp({ quality: 82 }).toFile(`public/img/${it.file}.webp`);
     await sharp(png).resize(640).webp({ quality: 80 }).toFile(`public/img/${it.file}-640.webp`);
+    await sharp(png).resize(900).webp({ quality: 80 }).toFile(`public/img/${it.file}-900.webp`);
     await sharp(png).jpeg({ quality: 84, mozjpeg: true }).toFile(`public/img/${it.file}.jpg`);
   }
   await b.close(); console.log(list.length, 'pictures written to public/img');

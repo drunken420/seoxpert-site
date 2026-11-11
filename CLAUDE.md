@@ -44,6 +44,11 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 
 ## Speed rule
 The 3D scene is an extra. The page must be complete, fast and readable without it (Lighthouse mobile 95+). Phones load 3D only after the first touch or scroll.
+- Fonts: `Base.astro` preloads the Sora and Inter latin files, and `site.css` starts with 'Sora Fallback' and 'Inter Fallback' (Arial sized to match), so headings do not re-wrap and pages do not jump when the fonts arrive. If you change a heading font or weight, measure the width again and update `size-adjust`.
+- Pictures: every summary picture has 640, 900 and 1200 wide versions (`make-pics.cjs`); the guide picture loads with `fetchpriority="high"`. `/img/` and `/work/` files are kept by browsers for a week (`public/_headers`), so give a changed picture a new file name if it must show at once.
+- `main{overflow-x:clip}` stops anything that slides in from the side (fanning cards, glows) from making the page scroll sideways.
+- The sitemap (`astro.config.mjs`) adds each guide's date and each page's picture.
+- Full site test (Lighthouse, axe, screen sizes) results: /mnt/project-files/seoxpert-site/site-test-2026-11-12.md
 
 ## Commands
 - `npm run dev` preview at http://localhost:4321

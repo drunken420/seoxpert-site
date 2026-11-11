@@ -33,16 +33,16 @@ const extraLd = [
 <section class="solid band"><div class="wrap bart">
   <div class="bbody">
     <details class="btoc"><summary>In this guide <span>{post.sections.length + 1} parts</span></summary><ol>{post.sections.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}<li><a href="#questions">Questions people ask</a></li></ol></details>
-    <figure class="pfig bfig"><img src={`${pic}.webp`} srcset={`${pic}-640.webp 640w, ${pic}.webp 1200w`} sizes="(max-width: 980px) 100vw, 700px" width="1200" height="630" alt={picAlt} decoding="async"></figure>
+    <figure class="pfig bfig"><img src={`${pic}.webp`} srcset={`${pic}-640.webp 640w, ${pic}-900.webp 900w, ${pic}.webp 1200w`} sizes="(max-width: 980px) 100vw, 800px" width="1200" height="630" alt={picAlt} fetchpriority="high"></figure>
     {post.sections.map((s) => <section><h2 id={s.id}>{s.h}</h2><Fragment set:html={s.html} /></section>)}
     <section><h2 id="questions">Questions people ask</h2>
       <div class="bfaq">{post.faqs.map((f) => <details><summary>{f.q}</summary><p set:html={f.a} /></details>)}</div>
     </section>
   </div>
-  <aside class="baside">
+  <div class="baside">
     <nav class="bbox toc" aria-label="In this guide"><b>In this guide</b><ol>{post.sections.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}<li><a href="#questions">Questions people ask</a></li></ol></nav>
     <div class="bbox dk"><span class="xp lt">{post.cta.pill}</span><h3>{post.cta.title}</h3><a class="btn" href={post.cta.href}>{post.cta.label}</a></div>
-  </aside>
+  </div>
 </div></section>
 </article>
 
