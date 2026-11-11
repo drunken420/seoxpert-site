@@ -107,3 +107,13 @@
   h.addEventListener('pointermove', function (e) { if (e.pointerType === 'touch') return; ev = e; if (!raf) raf = requestAnimationFrame(run); }, { passive: true });
   h.addEventListener('pointerleave', function () { h.style.setProperty('--on', '0'); if (art) { art.style.setProperty('--px', '0'); art.style.setProperty('--py', '0'); } });
 })();
+
+/* Services dropdown in the top menu: click or keyboard opens it, Escape or a click elsewhere closes it. Hover works without this. */
+(function () {
+  var d = document.querySelector('.mdrop'); if (!d) return; var b = d.querySelector('button');
+  function set(on) { b.setAttribute('aria-expanded', String(on)); d.classList.toggle('shut', !on && d.matches(':hover')); }
+  b.addEventListener('click', function () { set(b.getAttribute('aria-expanded') !== 'true'); });
+  d.addEventListener('mouseleave', function () { d.classList.remove('shut'); });
+  document.addEventListener('click', function (e) { if (!d.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && b.getAttribute('aria-expanded') === 'true') { set(false); b.focus(); } });
+})();

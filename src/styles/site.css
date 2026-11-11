@@ -296,3 +296,22 @@ h1,h2,h3{overflow-wrap:break-word}
 .pfig figcaption{font-size:14.5px;color:var(--mute);margin-top:12px;max-width:60em}
 .glance h2{margin-bottom:26px}
 .gread{margin:22px 0 0;max-width:860px;color:var(--soft)}.gread a{color:var(--acc);font-weight:600;text-underline-offset:3px}
+
+/* Services dropdown in the top menu (opens on hover, focus or click; script at the end of public/js/ui.js) */
+.menu{gap:6px;align-items:center}
+.mdrop{position:relative}
+.mdrop>button{display:flex;align-items:center;gap:6px;font:inherit;font-weight:500;color:var(--soft);background:transparent;border:0;padding:8px 11px;border-radius:8px;cursor:pointer;transition:color .2s ease,background .2s ease}
+.mdrop>button svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease}
+.mdrop>button:hover,.mdrop:hover>button,.mdrop>button[aria-expanded="true"]{color:var(--ink);background:rgba(123,24,193,.06)}
+.mdrop>button.cur{color:var(--acc);font-weight:600;background:rgba(123,24,193,.1)}
+.mdrop:hover>button svg,.mdrop>button[aria-expanded="true"] svg{transform:rotate(180deg)}
+.mpanel{position:absolute;left:-10px;top:100%;padding-top:14px;width:330px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease,visibility .18s}
+.mpanel::before{content:"";position:absolute;inset:14px 0 0;border-radius:18px;background:#fff;box-shadow:0 24px 50px rgba(74,14,120,.18),inset 0 0 0 1px var(--line)}
+.mdrop:hover .mpanel,.mdrop:focus-within .mpanel,.mdrop>button[aria-expanded="true"]+.mpanel{opacity:1;visibility:visible;transform:none}
+.mdrop.shut .mpanel{opacity:0;visibility:hidden}
+.menu .mpanel a{display:grid;gap:3px;padding:11px 14px;margin:0 8px;border-radius:12px;white-space:normal}
+.menu .mpanel a:first-child{margin-top:8px}.menu .mpanel a:last-child{margin-bottom:8px}
+.mpanel a b{font-weight:600;color:var(--ink)}
+.mpanel a span{font-size:13.5px;color:var(--soft);font-weight:400}
+.menu .mpanel a[aria-current]::after{display:none}
+.menu .mpanel a[aria-current] b{color:var(--acc)}
