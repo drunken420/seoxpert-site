@@ -257,16 +257,16 @@
     return api;
   });
 
-  // 03 Weather on your website: rain, snow, petals, leaves, fireflies or a storm on a flat canvas over a small website,
-  // or over the whole page. Snow piles up on buttons and cards, rain splashes off them, petals and leaves rest on them.
+  // 03 Weather on your website: rain, snow, petals, bubbles, fireflies or a storm on a flat canvas over a small website,
+  // or over the whole page. Snow piles up on buttons and cards, rain splashes off them, petals rest on them and bubbles pop against them.
   // It changes by itself until a visitor picks one. A small chip turns whole-page weather off from anywhere.
   (function () {
     var el = stage('weather'); if (!el) return;
     var ctl = el.parentNode.querySelector('.dmctl'), cv = document.createElement('canvas'), cx = cv.getContext('2d');
     var kind = 'clear', page = false, near = false, mine = false, W = 0, H = 0, P = [], S = [], drops = [], raf = 0, flash = 0, dim = 0, nextBolt = 0, bolt = null, nextAuto = 0, ai = 0, lastT = 0;
     var piles = new Map(), dirtyRects = true, rectAt = 0, glow = null;
-    var PC = ['#7b18c1', '#9a35e8', '#b06cff', '#d9b8ff'], LC = ['#d9622b', '#e8a33d', '#b8452a', '#c9822f', '#a8572a'], cycle = ['snow', 'petals', 'rain', 'leaves', 'fireflies', 'storm'];
-    var names = { rain: 'Rain', snow: 'Snow', petals: 'Petals', leaves: 'Leaves', fireflies: 'Fireflies', storm: 'Storm' };
+    var PC = ['#7b18c1', '#9a35e8', '#b06cff', '#d9b8ff'], cycle = ['snow', 'petals', 'rain', 'bubbles', 'fireflies', 'storm'], pops = [];
+    var names = { rain: 'Rain', snow: 'Snow', petals: 'Petals', bubbles: 'Bubbles', fireflies: 'Fireflies', storm: 'Storm' };
     cv.className = 'wx'; cv.setAttribute('aria-hidden', 'true'); el.appendChild(cv);
     var chip = document.createElement('div'); chip.className = 'wxchip'; chip.hidden = true; chip.innerHTML = '<span></span><button type="button">Turn off</button>'; document.body.appendChild(chip);
     function dark() { return !page && /snow|fireflies|storm/.test(kind); }
@@ -277,9 +277,9 @@
       if (!dirtyRects && t - rectAt < 0.3) return; dirtyRects = false; rectAt = t;
       var o = page ? { left: 0, top: 0 } : el.getBoundingClientRect(), list = page ? document.querySelectorAll('main .btn, main .dmstage, .wxland, .dmgood li, .dmctl > div') : el.querySelectorAll('.wxland');
       S = [];
-      [].forEach.call(list, function (n) { var r = n.getBoundingClientRect(), L = r.left - o.left, T = r.top - o.top; if (r.width < 24 || T < 4 || T > H || L > W || L + r.width < 0) return;
+      [].forEach.call(list, function (n) { var r = n.getBoundingClientRect(), L = r.left - o.left, T = r.top - o.top; if (r.width < 24 || T < 4 || T > H + 40 || L > W || L + r.width < 0) return;
         var pile = piles.get(n), bins = Math.max(2, Math.round(r.width / 5)); if (pile && pile.length !== bins) pile = null;
-        S.push({ n: n, L: L, R: L + r.width, T: T, pile: pile }); });
+        S.push({ n: n, L: L, R: L + r.width, T: T, B: T + r.height, pile: pile }); });
     }
     function pileH(s, x) { if (!s.pile) return 0; var i = Math.floor((x - s.L) / (s.R - s.L) * s.pile.length); return s.pile[Math.max(0, Math.min(s.pile.length - 1, i))] || 0; }
     function hit(p, py) { for (var k = 0; k < S.length; k++) { var s = S[k]; if (s.n === p.skip || p.x < s.L + 2 || p.x > s.R - 2) continue; var top = s.T - pileH(s, p.x); if (py < top && p.y >= top) return s; } return null; }
@@ -291,20 +291,26 @@
     function spawn(p, top) {
       p.x = Math.random() * (W + 160) - 40; p.y = top ? -30 - Math.random() * 60 : Math.random() * H; p.rest = 0; p.skip = null;
       if (kind === 'snow') { p.r = 1.4 + Math.random() * 3; p.vy = 0.5 + Math.random() * 1.1; p.ph = Math.random() * 6.3; }
-      else if (kind === 'petals' || kind === 'leaves') { p.r = (kind === 'leaves' ? 7 : 6) + Math.random() * 8; p.vy = 0.7 + Math.random() * 1.1; p.ph = Math.random() * 6.3; p.a = Math.random() * 6.3; p.c = (kind === 'leaves' ? LC : PC)[Math.floor(Math.random() * 5) % (kind === 'leaves' ? 5 : 4)]; }
+      else if (kind === 'petals') { p.r = 6 + Math.random() * 8; p.vy = 0.7 + Math.random() * 1.1; p.ph = Math.random() * 6.3; p.a = Math.random() * 6.3; p.c = PC[Math.floor(Math.random() * 4)]; }
+      else if (kind === 'bubbles') { p.r = 5 + Math.random() * 13; p.y = top ? H + 20 + Math.random() * 60 : Math.random() * H; p.vy = -(0.55 + Math.random() * 0.9) * (1.2 - p.r / 40); p.ph = Math.random() * 6.3; }
       else if (kind === 'fireflies') { p.x = Math.random() * W; p.y = H * (0.15 + Math.random() * 0.8); p.ph = Math.random() * 6.3; p.sp = 0.6 + Math.random() * 1.2; p.vx = 0; p.vy = 0; }
       else { p.l = 10 + Math.random() * 16; p.vy = (kind === 'storm' ? 14 : 9) + Math.random() * 5; }
       return p;
     }
-    function count() { var a = W * H, k = { rain: [240, 1900], storm: [340, 1300], snow: [170, 3400], petals: [60, 9500], leaves: [46, 11000], fireflies: [42, 9000] }[kind]; return k ? Math.round(Math.min(k[0], a / k[1])) : 0; }
+    function count() { var a = W * H, k = { rain: [240, 1900], storm: [340, 1300], snow: [170, 3400], petals: [60, 9500], bubbles: [52, 9000], fireflies: [42, 9000] }[kind]; return k ? Math.round(Math.min(k[0], a / k[1])) : 0; }
     function strike() { var x = W * (0.2 + Math.random() * 0.6), y = 0, pts = [[x, 0]]; while (y < H * 0.7) { y += 16 + Math.random() * 30; x += (Math.random() - 0.5) * 60; pts.push([x, y]); } bolt = pts; flash = 1; setTimeout(function () { flash = 0.75; }, 150); }
     function splash(x, y) { for (var k = 0; k < 3; k++) drops.push({ x: x, y: y, vx: (Math.random() - 0.5) * 3.4, vy: -1.4 - Math.random() * 2, life: 1 }); if (drops.length > 160) drops.splice(0, drops.length - 160); }
-    function leaf(p, flat) { // a petal is a quarter circle; a leaf is a pointed oval with a vein
+    function leaf(p, flat) { // a petal is a quarter circle that tumbles as it falls
       cx.save(); cx.translate(p.x, p.y); cx.rotate(p.a); cx.scale(1, flat ? 0.4 : Math.cos(p.a * 1.6 + p.ph)); cx.globalAlpha = p.fade == null ? 0.88 : p.fade; cx.fillStyle = p.c; cx.beginPath();
-      if (kind === 'leaves') { cx.moveTo(-p.r, 0); cx.quadraticCurveTo(0, -p.r * 0.62, p.r, 0); cx.quadraticCurveTo(0, p.r * 0.62, -p.r, 0); cx.fill(); cx.strokeStyle = 'rgba(90,40,10,.45)'; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(-p.r * 0.8, 0); cx.lineTo(p.r * 0.85, 0); cx.stroke(); }
-      else { cx.moveTo(0, 0); cx.lineTo(p.r, 0); cx.arc(0, 0, p.r, 0, Math.PI / 2); cx.closePath(); cx.fill(); }
-      cx.restore();
+      cx.moveTo(0, 0); cx.lineTo(p.r, 0); cx.arc(0, 0, p.r, 0, Math.PI / 2); cx.closePath(); cx.fill(); cx.restore();
     }
+    // a bubble rises from below; touching the underside of a button or card pops it
+    function hitUnder(p, py) { for (var k = 0; k < S.length; k++) { var s = S[k]; if (p.x < s.L + 2 || p.x > s.R - 2) continue; var b = s.B + p.r; if (py > b && p.y <= b) return s; } return null; }
+    function bubble(p, wob) { var dk = dark(), g = cx.createRadialGradient(p.x - p.r * 0.35, p.y - p.r * 0.4, p.r * 0.1, p.x, p.y, p.r);
+      g.addColorStop(0, dk ? 'rgba(255,255,255,.28)' : 'rgba(255,255,255,.75)'); g.addColorStop(0.7, dk ? 'rgba(176,108,255,.08)' : 'rgba(176,108,255,.10)'); g.addColorStop(1, dk ? 'rgba(217,184,255,.35)' : 'rgba(123,24,193,.28)');
+      cx.save(); cx.translate(p.x, p.y); cx.scale(1 + wob, 1 - wob); cx.translate(-p.x, -p.y); cx.fillStyle = g; cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.283); cx.fill();
+      cx.strokeStyle = dk ? 'rgba(233,216,255,.55)' : 'rgba(123,24,193,.4)'; cx.lineWidth = 1.1; cx.stroke();
+      cx.strokeStyle = 'rgba(255,255,255,.9)'; cx.lineWidth = Math.max(1.2, p.r * 0.14); cx.lineCap = 'round'; cx.beginPath(); cx.arc(p.x, p.y, p.r * 0.68, 3.6, 4.3); cx.stroke(); cx.restore(); }
     function frame(ts) {
       raf = 0; if (!run()) { cx.clearRect(0, 0, W, H); return; }
       fit(); var t = ts / 1000, n = count(), wind = kind === 'storm' ? -3.4 : kind === 'rain' ? -1.4 : Math.sin(t * 0.3) * 0.6;
@@ -318,10 +324,14 @@
       } else if (kind === 'snow') {
         cx.fillStyle = 'rgba(255,255,255,.95)'; cx.beginPath();
         P.forEach(function (p) { var py = p.y; p.y += p.vy; p.x += wind + Math.sin(t * 1.2 + p.ph) * 0.6; var s = hit(p, py); if (s) { settle(s, p.x, p.r * 0.5); spawn(p, true); } else if (p.y > H + 10) spawn(p, true); cx.moveTo(p.x + p.r, p.y); cx.arc(p.x, p.y, p.r, 0, 6.283); }); cx.fill(); if (!dark()) { cx.strokeStyle = 'rgba(123,24,193,.4)'; cx.lineWidth = 1; cx.stroke(); }
-      } else if (kind === 'petals' || kind === 'leaves') {
+      } else if (kind === 'bubbles') {
+        P.forEach(function (p) { var py = p.y; p.y += p.vy; p.x += Math.sin(t * 1.4 + p.ph) * 0.5 + wind * 0.3; var s = hitUnder(p, py);
+          if (s || p.y < -30) { if (s) pops.push({ x: p.x, y: s.B, r: p.r, life: 1 }); spawn(p, true); }
+          bubble(p, Math.sin(t * 3 + p.ph) * 0.04); });
+      } else if (kind === 'petals') {
         P.forEach(function (p) {
           if (p.rest > 0) { p.rest--; if (p.rest < 40) p.fade = p.rest / 40 * 0.88; if (!p.rest) { p.fade = null; p.skip = p.on; p.vy = 0.6; } leaf(p, true); return; }
-          var py = p.y; p.y += p.vy; p.x += wind + Math.sin(t * 1.3 + p.ph) * (kind === 'leaves' ? 1.3 : 0.9); p.a += kind === 'leaves' ? 0.04 : 0.025;
+          var py = p.y; p.y += p.vy; p.x += wind + Math.sin(t * 1.3 + p.ph) * 0.9; p.a += 0.025;
           var s = hit(p, py); if (s) { p.y = s.T - 2; p.on = s.n; p.rest = 120 + Math.floor(Math.random() * 120); p.a = (Math.random() - 0.5) * 0.6; }
           else if (p.y > H + 20) spawn(p, true);
           leaf(p, false);
@@ -337,6 +347,10 @@
           var b = Math.max(0, Math.sin(t * p.sp * 1.6 + p.ph)), a = 0.15 + 0.85 * b * b, sz = 18 + 16 * b; cx.globalAlpha = a; cx.drawImage(spr, p.x - sz / 2, p.y - sz / 2, sz, sz); });
         cx.restore();
       }
+      // popped bubbles: a quick ring and a few specks
+      if (pops.length) { cx.strokeStyle = dark() ? 'rgba(233,216,255,.8)' : 'rgba(123,24,193,.5)'; pops = pops.filter(function (q) { q.life -= 0.07; if (q.life <= 0) return false; var rr = q.r * (1.6 - q.life * 0.6);
+        cx.globalAlpha = q.life; cx.lineWidth = 1.4; cx.beginPath(); cx.arc(q.x, q.y + q.r * 0.3, rr, 0, 6.283); cx.stroke();
+        for (var k = 0; k < 6; k++) { var an = k * 1.047 + q.r; cx.beginPath(); cx.arc(q.x + Math.cos(an) * rr * 1.35, q.y + q.r * 0.3 + Math.sin(an) * rr * 1.35, 1.3, 0, 6.283); cx.stroke(); } return true; }); cx.globalAlpha = 1; }
       // splashes, then the snow piles (they melt away once the snow stops)
       if (drops.length) { cx.fillStyle = dark() || kind === 'storm' ? 'rgba(217,184,255,.75)' : 'rgba(123,24,193,.4)'; cx.beginPath(); drops = drops.filter(function (d) { d.vy += 0.22; d.x += d.vx; d.y += d.vy; d.life -= 0.045; if (d.life <= 0) return false; cx.moveTo(d.x + 1.4, d.y); cx.arc(d.x, d.y, 1.4, 0, 6.283); return true; }); cx.fill(); }
       var gone = [];
@@ -359,7 +373,7 @@
     }
     function wake() { if (!raf && run()) raf = requestAnimationFrame(frame); }
     function sync() { chip.hidden = !(page && kind !== 'clear'); chip.firstChild.textContent = 'Weather: ' + (names[kind] || ''); [].forEach.call(ctl.querySelectorAll('button[data-whole]'), function (o) { o.setAttribute('aria-pressed', String((o.dataset.whole === '1') === page)); }); }
-    function set(k, auto) { if (!auto) mine = true; kind = k; P = []; drops = []; nextBolt = 0; flash = 0; el.dataset.sky = k; [].forEach.call(ctl.querySelectorAll('button[data-wx]'), function (o) { o.setAttribute('aria-pressed', String(o.dataset.wx === k)); }); sync(); if (!run()) cx.clearRect(0, 0, W, H); wake(); }
+    function set(k, auto) { if (!auto) mine = true; kind = k; P = []; drops = []; pops = []; nextBolt = 0; flash = 0; el.dataset.sky = k; [].forEach.call(ctl.querySelectorAll('button[data-wx]'), function (o) { o.setAttribute('aria-pressed', String(o.dataset.wx === k)); }); sync(); if (!run()) cx.clearRect(0, 0, W, H); wake(); }
     function setPage(on) { mine = true; page = on; dim = 0; cx.clearRect(0, 0, W, H); W = H = 0; P = []; drops = []; piles.clear(); S = []; if (on) { cv.classList.add('page'); document.body.appendChild(cv); if (kind === 'clear') set('snow'); } else { cv.classList.remove('page'); el.appendChild(cv); } sync(); wake(); }
     [].forEach.call(ctl.querySelectorAll('button[data-wx]'), function (b) { b.addEventListener('click', function () { set(b.dataset.wx); }); });
     [].forEach.call(ctl.querySelectorAll('button[data-whole]'), function (b) { b.addEventListener('click', function () { if ((b.dataset.whole === '1') !== page) setPage(!page); }); });
