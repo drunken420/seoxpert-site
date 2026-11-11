@@ -18,6 +18,9 @@ export const site = {
   ga4: 'GTM-WFQMRQWL',
   // Google Search Console check code (only needed if we verify with a tag instead of through the domain).
   googleVerify: '',
+  // Cloudflare Turnstile site key (public) for the spam check on the contact form. Empty = no check box.
+  // Its secret goes in the Cloudflare Pages settings as TURNSTILE_SECRET_KEY, never here.
+  turnstileSiteKey: '',
 };
 /** "Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia" */
 export const areaText = `${site.areas.join(', ')} and across ${site.country}`;
