@@ -15,7 +15,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 
 ## SEO wording (from Ubersuggest research, 2026-11)
 - People search "website design" and "website maintenance". Use those in titles, H1s, URLs and descriptions.
-- Menu labels (Suhen, 2026-11-11): Website building, XpertCare, XpertCore, Packages, XpertLab, Blog, About, FAQ. Suhen did not like "Monthly care" and "AI builder" in the menu.
+- Menu labels (Suhen, 2026-11-11): Website design, Website development, XpertCare, XpertCore, Packages, XpertLab, Blog, About. FAQ is in the footer, the phone menu and the chat. Suhen did not like "Monthly care", "AI builder" or "Website building" (it is not a third service).
 - Every page: one H1, title 20 to 65 characters, description 70 to 170, answer first copy, structured data that matches the visible text.
 
 ## Where things are
@@ -30,9 +30,9 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Chat helper (floating button, every page): markup in `Base.astro`, logic at the end of `public/js/ui.js`. It answers from the FAQ only. It is not an AI and sends nothing anywhere.
 - Contact choices are WhatsApp, email and chat: `src/components/Cta.astro`, `src/pages/contact.astro`.
 - Links between pages: `src/components/Related.astro` (keyword link text) plus links inside the copy. A new page needs adding there, in the menu and footer (`Base.astro`) and in `llms.txt.ts`.
-- Big screens: write sizes in px. The build turns px into rem (`scripts/fluid-px.mjs` for stylesheets, `scripts/fluid-html.mjs` for style attributes) and `html{font-size}` in `site.css` grows above 1920px wide. Breakpoints stay in px. The desktop menu switches to the phone menu at 1080px.
+- Big screens: write sizes in px. The build turns px into rem (`scripts/fluid-px.mjs` for stylesheets, `scripts/fluid-html.mjs` for style attributes) and `html{font-size}` in `site.css` grows above 1920px wide. Breakpoints stay in px. The desktop menu switches to the phone menu at 1200px.
 - Demos page: `src/pages/demos.astro` (list of demos and their markup), styles `src/styles/demos.css`, script `public/js/demos.js`. Each demo starts only when scrolled near and three.js loads on demand. No invented numbers in demo content.
-- Website development page (`/website-development/`, Suhen asked 2026-11-11): how sites are coded for SEO and AI from the ground up. Linked from the footer, Related and the Website design page, not in the top menu. Only claim what this site really does.
+- Website development page (`/website-development/`, Suhen asked 2026-11-11): how sites are coded for SEO and AI from the ground up. In the top menu next to Website design. Only claim what this site really does.
 - Blog (`/blog/`): guides live in `src/data/blog.ts` (add a new one at the TOP; prices come from packages.ts). List page `src/pages/blog/index.astro` shows the newest three as a magazine and older ones as cards (Suhen picked this, 2026-11-11); guide layout `src/pages/blog/[slug].astro`; pictures `src/components/BlogArt.astro`; styles `src/styles/blog.css`. Guides target the Malaysia keywords in the research file; never promise rankings.
 - Pictures (Suhen asked 2026-11-11): every main page has an "At a glance" picture (`src/components/Glance.astro`, words and alt text in `src/data/pictures.json`) and every guide has one made from its headings. `node scripts/make-pics.cjs` draws them into `public/img/` (webp, small webp, jpg for sharing); run it after changing pictures.json or a guide's title or headings. No prices inside pictures.
 - Share image: `node scripts/make-og.cjs` writes `public/og.png`

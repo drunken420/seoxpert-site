@@ -157,7 +157,10 @@
   demo('spot', function (el, kick) {
     var box = el.querySelector('.dmspot'), x = 0.5, y = 0.5, tx = 0.5, ty = 0.5, mine = false, api = { dirty: true };
     pointer(el, function (px, py) { mine = true; tx = px; ty = py; api.dirty = true; kick(); });
-    el.addEventListener('pointerleave', function () { mine = false; });
+    el.addEventListener('pointerleave', function (e) { if (e.pointerType === 'touch') mine = false; });
+    // a mouse keeps steering the light after it leaves the box, for as long as the box is on screen
+    window.addEventListener('pointermove', function (e) { if (e.pointerType === 'touch') return; var r = el.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > window.innerHeight) return;
+      mine = true; tx = (e.clientX - r.left) / r.width; ty = (e.clientY - r.top) / r.height; api.dirty = true; kick(); }, { passive: true });
     api.frame = function (t) { if (!mine && !still) { tx = 0.5 + Math.sin(t * 0.7) * 0.3; ty = 0.5 + Math.sin(t * 1.1) * 0.24; }
       x += (tx - x) * 0.14; y += (ty - y) * 0.14; box.style.setProperty('--x', (x * 100).toFixed(2) + '%'); box.style.setProperty('--y', (y * 100).toFixed(2) + '%'); api.dirty = Math.abs(tx - x) + Math.abs(ty - y) > 0.001; };
     return api;
@@ -214,8 +217,25 @@
       for (var i = 0; i < N; i++) { var y = 1 - (i / (N - 1)) * 2, rad = Math.sqrt(1 - y * y), th = ga * i; pos[i * 3] = Math.cos(th) * rad * 2; pos[i * 3 + 1] = y * 2; pos[i * 3 + 2] = Math.sin(th) * rad * 2; }
       var geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(pos, 3));
       g.add(new T.Points(geo, new T.PointsMaterial({ color: 0x7b18c1, size: 0.045, transparent: true, opacity: 0.85 })));
-      g.add(new T.Mesh(new T.SphereGeometry(1.96, 32, 24), new T.MeshBasicMaterial({ color: 0xf3e9fd, transparent: true, opacity: 0.86 })));
-      var pins = []; for (var k = 0; k < 7; k++) { var p = Math.floor(N * (0.12 + k * 0.115)), m = new T.Mesh(new T.SphereGeometry(0.075, 12, 12), new T.MeshBasicMaterial({ color: 0xb06cff })); m.position.set(pos[p * 3] * 1.02, pos[p * 3 + 1] * 1.02, pos[p * 3 + 2] * 1.02); g.add(m); pins.push(m); }
+      g.add(new T.Mesh(new T.SphereGeometry(1.96, 32, 24), new T.MeshBasicMaterial({ color: 0xf3e9fd, transparent: true, opacity: 0.95 })));
+      // little landmark models standing on the globe (simple shapes, not real places on a map)
+      var dark = new T.MeshBasicMaterial({ color: 0x2a0d47 }), mid = new T.MeshBasicMaterial({ color: 0x7b18c1 }), lite = new T.MeshBasicMaterial({ color: 0xb06cff });
+      function part(geo, mat, x, y, z) { var m = new T.Mesh(geo, mat); m.position.set(x || 0, y || 0, z || 0); return m; }
+      var makers = [
+        function (o) { [-0.08, 0.08].forEach(function (x) { o.add(part(new T.CylinderGeometry(0.035, 0.06, 0.5, 8), mid, x, 0.25)); o.add(part(new T.ConeGeometry(0.035, 0.16, 8), dark, x, 0.58)); }); o.add(part(new T.BoxGeometry(0.16, 0.025, 0.03), lite, 0, 0.3)); return 0.68; },
+        function (o) { o.add(part(new T.ConeGeometry(0.15, 0.2, 4), dark, 0, 0.1)); o.add(part(new T.ConeGeometry(0.085, 0.3, 4), mid, 0, 0.32)); o.add(part(new T.ConeGeometry(0.03, 0.3, 4), lite, 0, 0.6)); return 0.76; },
+        function (o) { o.add(part(new T.ConeGeometry(0.24, 0.3, 4), mid, 0, 0.15)); o.add(part(new T.ConeGeometry(0.14, 0.17, 4), lite, 0.26, 0.085, 0.1)); return 0.32; },
+        function (o) { o.add(part(new T.BoxGeometry(0.1, 0.5, 0.1), mid, 0, 0.25)); o.add(part(new T.BoxGeometry(0.13, 0.11, 0.13), dark, 0, 0.47)); o.add(part(new T.ConeGeometry(0.095, 0.16, 4), lite, 0, 0.6)); return 0.7; },
+        function (o) { o.add(part(new T.BoxGeometry(0.34, 0.12, 0.24), mid, 0, 0.06)); o.add(part(new T.SphereGeometry(0.12, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2), lite, 0, 0.12)); o.add(part(new T.ConeGeometry(0.012, 0.12, 6), dark, 0, 0.3)); return 0.38; },
+        function (o) { [[-0.11, 0.3], [0, 0.46], [0.1, 0.22], [0.02, 0.34]].forEach(function (b, n) { o.add(part(new T.BoxGeometry(0.085, b[1], 0.085), [mid, dark, lite, mid][n], b[0], b[1] / 2, n === 3 ? 0.1 : 0)); }); return 0.5; },
+        function (o) { var w = part(new T.TorusGeometry(0.17, 0.014, 8, 40), mid, 0, 0.24); o.add(w); for (var a = 0; a < 4; a++) { var sp = part(new T.BoxGeometry(0.34, 0.008, 0.008), lite, 0, 0.24); sp.rotation.z = a * Math.PI / 4; o.add(sp); } [-0.07, 0.07].forEach(function (x) { var leg = part(new T.BoxGeometry(0.014, 0.26, 0.014), dark, x, 0.12); leg.rotation.z = x > 0 ? 0.28 : -0.28; o.add(leg); }); return 0.44; }
+      ];
+      var upv = new T.Vector3(0, 1, 0), pins = [];
+      makers.forEach(function (make, k) {
+        var p = Math.floor(N * (0.2 + k * 0.095)), n = new T.Vector3(pos[p * 3], pos[p * 3 + 1], pos[p * 3 + 2]).normalize(), o = new T.Group(), top = make(o);
+        o.position.copy(n).multiplyScalar(1.97); o.quaternion.setFromUnitVectors(upv, n); o.scale.setScalar(1.4); g.add(o);
+        var m = part(new T.SphereGeometry(0.03, 10, 10), lite, 0, top + 0.05); o.add(m); pins.push(m);
+      });
       var rings = [2.5, 2.85].map(function (R, j) { var ring = new T.Mesh(new T.TorusGeometry(R, 0.012, 8, 120), new T.MeshBasicMaterial({ color: j ? 0xb06cff : 0x7b18c1, transparent: true, opacity: 0.55 })); ring.rotation.x = 1.2 + j * 0.5; ring.rotation.y = j * 0.7; sc.add(ring); return ring; });
       var vy = 0.004, vx = 0, down = false, lx = 0, ly = 0, api = {};
       el.addEventListener('pointerdown', function (e) { down = true; lx = e.clientX; ly = e.clientY; el.classList.add('drag'); try { el.setPointerCapture(e.pointerId); } catch (x) {} });
@@ -223,7 +243,7 @@
       var up = function () { down = false; el.classList.remove('drag'); }; el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
       api.frame = function (t) {
         g.rotation.y += vy; g.rotation.x = Math.max(-0.7, Math.min(0.7, g.rotation.x + vx)); vx *= 0.9; if (!down) vy += (0.004 - vy) * 0.03;
-        pins.forEach(function (m, j) { m.scale.setScalar(1 + 0.45 * Math.sin(t * 2.2 + j * 1.3)); });
+        pins.forEach(function (m, j) { m.scale.setScalar(1 + 0.5 * Math.sin(t * 2.2 + j * 1.3)); });
         rings[0].rotation.z = t * 0.2; rings[1].rotation.z = -t * 0.15;
         r.render(sc, cam); api.dirty = Math.abs(vy) > 0.0005 && still;
       };

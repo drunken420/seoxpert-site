@@ -27,7 +27,7 @@ const demos = [
   { id: 'magnet', kind: 'Interaction', title: 'Magnetic buttons', text: 'Buttons that lean toward the pointer, so the important click feels alive.', hint: 'Bring your pointer close to a button.', good: ['Contact buttons', 'Sign-up pages', 'Menus'] },
   { id: 'burst', kind: 'Animation', title: 'A button that celebrates', text: 'A burst of petals when someone sends a form or places an order.', hint: 'Press the button.', good: ['Contact forms', 'Checkouts', 'Sign-ups'] },
   { id: 'slide', kind: 'Interaction', title: 'Before and after slider', text: 'Drag the handle to compare two pictures. Works with a mouse, a finger or the keyboard.', hint: 'Drag the handle, or use the arrow keys.', good: ['Renovation', 'Clinics and salons', 'Redesigns'] },
-  { id: 'globe', kind: '3D', title: 'A globe you can spin', text: 'A 3D globe made of dots that turns by itself and spins when someone drags it.', hint: 'Drag to spin it.', good: ['Shipping and travel', 'Online shops', 'Company pages'] },
+  { id: 'globe', kind: '3D', title: 'A globe you can spin', text: 'A 3D globe with little landmarks on it that turns by itself and spins when someone drags it.', hint: 'Drag to spin it.', good: ['Shipping and travel', 'Online shops', 'Company pages'] },
   { id: 'scramble', kind: 'Animation', title: 'Headlines that decode', text: 'Letters shuffle like a code being cracked, then settle into your message.', hint: 'Press the button for the next line.', good: ['Homepage headlines', 'Tech and agencies', 'Launch pages'] },
   { id: 'draw', kind: 'Scroll', title: 'Charts that draw themselves', text: 'Lines and bars that draw as they scroll into view, so numbers feel alive.', hint: 'Press replay to watch again.', good: ['Reports', 'Case studies', 'About pages'] },
 ];
@@ -131,7 +131,7 @@ const demos = [
           </div>
         )}
         {d.id === 'globe' && (<>
-          <canvas aria-label="A globe made of dots that you can spin" role="img"></canvas>
+          <canvas aria-label="A globe with small landmark models that you can spin" role="img"></canvas>
           <div class="dmglobe" aria-hidden="true"><Fragment set:html={word} /><span class="xp">XpertForge</span></div>
         </>)}
         {d.id === 'scramble' && (
