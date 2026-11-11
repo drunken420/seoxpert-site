@@ -69,7 +69,7 @@ export const posts: Post[] = [
       { id: 'writing-included', h: '3. The writing is included', html: `<p>Many quotes leave the words to you. That is the slowest part of a new website, and thin writing is hard to find on Google. Ask who writes the pages. With us, copywriting is included in every package and our experts check every page.</p>` },
       { id: 'planned-for-search', h: '4. It is planned for Google and AI search', html: `<p>A website nobody can find does not help your business. Ask how each page is planned: which searches it answers, what the title and headings say, and how fast it loads on a phone.</p>
 <p>We plan every page for Google and AI search before it is designed, using <a href="/ai-website-builder/">XpertCore, our own AI website builder</a>.</p>` },
-      { id: 'after-launch', h: '5. Someone looks after it after launch', html: `<p>Ask who updates the website, who backs it up and what that costs each month. With us that is <a href="/website-maintenance/">XpertCare</a>, an optional monthly plan with hosting included, from ${fmt(basic)} a month.</p>` },
+      { id: 'after-launch', h: '5. Someone looks after it after launch', html: `<p>Ask who updates the website, who backs it up and what that costs each month. With us that is <a href="/website-maintenance/">XpertCare</a>, an optional monthly plan with high speed hosting included, from ${fmt(basic)} a month.</p>` },
       { id: 'do-you-need-to-meet', h: 'Do you need to meet in person?', html: `<p>No. We work with businesses in Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia, and the work starts with a conversation by email or chat. Tell us what you do, who you serve and what you want the website to achieve. A short chat is enough to start.</p>` },
     ],
     faqs: [
@@ -96,7 +96,7 @@ export const posts: Post[] = [
 <li><b>Up to 20 pages and a blog:</b> ${growth.name}. For many services or products, or several areas.</li></ul>
 <p>One clear topic per page is easier to find than one long page about everything, so it is worth giving each main service a page of its own.</p>` },
       { id: 'why-a-blog', h: 'Why the blog matters', html: `<p>${business.name} and ${growth.name} include a blog. A blog lets your website keep answering new questions your customers ask, which gives Google and AI tools more to find. Every package also comes with blog posts written at launch.</p>` },
-      { id: 'add-monthly-care', h: 'Adding monthly care', html: `<p>After launch you can add XpertCare, our optional monthly plan with hosting included.</p>${careTable}
+      { id: 'add-monthly-care', h: 'Adding monthly care', html: `<p>After launch you can add XpertCare, our optional monthly plan with high speed hosting included.</p>${careTable}
 <p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} needs Growth. Pay yearly and you get ${yearly.text}.</p>
 <p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p>` },
       { id: 'still-not-sure', h: 'Still not sure?', html: `<p><a href="/contact/">Tell us about your business</a> and we will say honestly which size fits. If a smaller package is enough, we will tell you.</p>` },
@@ -126,7 +126,7 @@ export const posts: Post[] = [
       { id: 'package-prices', h: 'Our website design package prices in Malaysia', html: `<p>Our website builds are called XpertForge. There are three sizes, and each one is a single price, paid once.</p>${buildTable}
 <p>Every package includes copywriting, full keyword research with XpertCore, Google SEO and AI search optimisation, and a WhatsApp button with a contact page. ${starter.name} has 2 revision rounds. ${business.name} and ${growth.name} have 3.</p>
 <p>You can compare them side by side on the <a href="/packages/">website design packages</a> page, where prices are shown in ringgit (RM) first, with US dollars as an option.</p>` },
-      { id: 'monthly-cost', h: 'What a website costs after launch', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertCare. It costs ${fmt(basic)} to ${fmt(pro)} a month and includes hosting, backups, security, fixes, new blog posts and a monthly Google and AI visibility report.</p>
+      { id: 'monthly-cost', h: 'What a website costs after launch', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertCare. It costs ${fmt(basic)} to ${fmt(pro)} a month and includes high speed hosting, backups, security, fixes, new blog posts and a monthly Google and AI visibility report.</p>
 <p>If you pay yearly you get ${yearly.text}. XpertCare is only for websites we build. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
       { id: 'which-package', h: 'Which package fits your business', html: `<ul><li><b>${starter.name}</b> suits a first website: who you are, what you do and how to reach you, in up to 5 pages.</li>
 <li><b>${business.name}</b> suits a growing business that needs a page for each service and a blog, in up to 10 pages.</li>
@@ -215,7 +215,7 @@ export const posts: Post[] = [
     title: 'Website Maintenance in Malaysia: Cost and What It Covers',
     description: `Website maintenance in Malaysia: the regular work that keeps a website safe, up to date and growing. See what it covers and costs, from ${fmt(basic)} a month.`,
     card: 'It is the regular work that keeps a website safe, up to date and growing after launch.',
-    short: `Website maintenance is the regular work that keeps a website safe, up to date and useful after it goes live: updates, backups, security, fixes and new content. With SEOXpert in Malaysia it is called XpertCare and costs ${fmt(basic)} to ${fmt(pro)} a month, with hosting included.`,
+    short: `Website maintenance is the regular work that keeps a website safe, up to date and useful after it goes live: updates, backups, security, fixes and new content. With SEOXpert in Malaysia it is called XpertCare and costs ${fmt(basic)} to ${fmt(pro)} a month, with high speed hosting included.`,
     sections: [
       { id: 'what-it-covers', h: 'What website maintenance covers', html: `<ul><li><b>Updates.</b> The website is kept up to date so it keeps working the way it should.</li>
 <li><b>Backups.</b> Regular copies are saved, so nothing is lost if something goes wrong.</li>
@@ -227,18 +227,18 @@ export const posts: Post[] = [
 <li><b>Reporting.</b> A Google and AI visibility report every month.</li></ul>` },
       { id: 'why-it-matters', h: 'Why a website needs it', html: `<p>A website is not finished on launch day. Things break quietly: a form stops sending, a page slows down, a price goes out of date. Visitors notice before you do.</p>
 <p>Search visibility also builds over time. A website that is looked after keeps its gains instead of losing them.</p>` },
-      { id: 'what-it-costs', h: 'What website maintenance costs in Malaysia', html: `<p>Website maintenance prices in Malaysia depend on what is included, so check the list before you compare. XpertCare has three plans. Hosting is included in every one.</p>${careTable}
+      { id: 'what-it-costs', h: 'What website maintenance costs in Malaysia', html: `<p>Website maintenance prices in Malaysia depend on what is included, so check the list before you compare. XpertCare has three plans. High speed hosting is included in every one.</p>${careTable}
 <p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>` },
       { id: 'who-it-is-for', h: 'Who XpertCare is for', html: `<p>XpertCare is only for websites we build with XpertForge, and we host them, so we know every part of what we care for. Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} needs Growth.</p>
 <p>See the plans on the <a href="/website-maintenance/">website maintenance</a> page.</p>` },
     ],
     faqs: [
-      { q: 'Is hosting included?', a: 'Yes. Hosting is included with every XpertCare plan.' },
+      { q: 'Is hosting included?', a: 'Yes. High speed hosting is included with every XpertCare plan.' },
       { q: 'Can you maintain a website that someone else built?', a: 'No. XpertCare is only for websites we build with XpertForge.' },
       { q: 'Can I pay for a year at once?', a: `Yes. Pay yearly and you get ${yearly.text}.` },
       { q: 'Does maintenance guarantee better rankings?', a: 'No. Nobody can promise rankings. Maintenance keeps your website healthy and improves the pages that are not ranking yet.' },
     ],
-    cta: { pill: 'XpertCare', title: `Monthly care from ${fmt(basic)}, hosting included`, href: '/website-maintenance/', label: 'See XpertCare plans' },
+    cta: { pill: 'XpertCare', title: `Monthly care from ${fmt(basic)}, high speed hosting included`, href: '/website-maintenance/', label: 'See XpertCare plans' },
   },
   {
     slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11',
@@ -256,7 +256,7 @@ export const posts: Post[] = [
       { id: 'ask-about-search', h: '3. Ask how they plan for search', html: `<p>A website nobody can find does not help your business. Ask how the company plans for Google and for AI tools. A good answer mentions keyword research, one clear topic per page, titles and descriptions, fast pages and structured data.</p>
 <p>If search is described as an extra to add later, expect to pay for it twice. Read more in our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a>.</p>` },
       { id: 'ask-what-happens-after', h: '4. Ask what happens after launch', html: `<p>Websites need updates, backups and fixes. Ask who does that work, what it costs, and how you ask for a change. Also ask where the website is hosted.</p>
-<p>With us, that is <a href="/website-maintenance/">XpertCare</a>, an optional monthly plan with hosting included.</p>` },
+<p>With us, that is <a href="/website-maintenance/">XpertCare</a>, an optional monthly plan with high speed hosting included.</p>` },
       { id: 'red-flags', h: 'Warning signs to watch for', html: `<ul><li><b>Promises of page 1.</b> Nobody controls Google or AI tools. Honest companies promise the work, not the ranking.</li>
 <li><b>No price until a call.</b> It usually means the price depends on what they think you can pay.</li>
 <li><b>Reviews you cannot check.</b> Look for names, links and real websites.</li>

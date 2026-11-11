@@ -12,7 +12,7 @@ const data = (t: Tier) => ({ 'data-name': t.name, 'data-rm': fmt(t, 'RM'), 'data
         {build.tiers.map((t, i) => <button type="button" aria-pressed={i === 1 ? 'true' : 'false'} data-i={i} {...data(t)}><b>{t.name}</b><span data-rm={fmt(t, 'RM')} data-usd={fmt(t, 'USD')}>{fmt(t)}</span><small>{t.short}</small></button>)}
       </div>
     </div>
-    <div class="pkstep rv"><h3>2. Add XpertCare monthly care</h3><p>Optional. Only for websites we build, with hosting included. Your care plan can be as big as your website, not bigger.</p>
+    <div class="pkstep rv"><h3>2. Add XpertCare monthly care</h3><p>Optional. Only for websites we build, with high speed hosting included. Your care plan can be as big as your website, not bigger.</p>
       <div class="pkseg pkbill" role="group" aria-label="How to pay" data-pk-bill><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>
       <div class="pkpick four" data-pick-set="care">
         <button type="button" aria-pressed="false" data-i="-1"><b>No care</b><span data-rm="RM0" data-usd="$0">RM0</span><small>I will look after it myself</small></button>
