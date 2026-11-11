@@ -22,7 +22,11 @@ h1,h2,h3,h4{text-wrap:balance;margin:0;font-family:var(--f-d);font-weight:700;le
 .btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
 .btn.sm{padding:11px 16px;font-size:14.5px;border-radius:11px;box-shadow:none}
 .btn.ghost{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn{text-align:center;justify-content:center}
+@media (max-width:520px){.btn{line-height:1.25}}
 @media (max-width:1200px){.menu{display:none}.site-head .btn{margin-left:auto}}
+@media (max-width:420px){.site-head .wrap{gap:8px}.site-head .btn{padding:11px 14px;font-size:14.5px;white-space:nowrap}.logo{height:30px}.burger{margin-left:0}}
+@media (max-width:340px){.logo{height:26px}.site-head .btn{padding:10px 12px;font-size:14px}}
 @media (max-width:900px){.logo{height:28px}}
 .kicker{display:inline-flex;align-items:center;gap:9px;font:600 13px/1 var(--f-b);color:var(--acc);background:var(--card);border-radius:999px;padding:9px 14px;box-shadow:inset 0 0 0 1px var(--line)}
 .kicker::before{content:"";width:12px;height:12px;background:var(--acc);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:spin 6s linear infinite}
