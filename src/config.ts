@@ -4,7 +4,7 @@ export const site = {
   url: 'https://seoxpert.my',
   tagline: 'Websites built to rank on Google and AI',
   description:
-    'SEOXpert is a website design company in Malaysia. We build websites with our own AI builder and look after them monthly, so they can be found on Google and AI search.',
+    'SEOXpert is a website development company in Malaysia with web design built in. Websites made with our own AI builder, optimised for Google and AI search.',
   // Where we work, shown in the footer, the Questions page and the structured data (Suhen, 2026-11-11).
   country: 'Malaysia',
   areas: ['Kuala Lumpur', 'Selangor', 'Petaling Jaya'],
