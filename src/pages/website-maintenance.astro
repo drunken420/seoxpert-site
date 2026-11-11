@@ -5,7 +5,7 @@ import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
 import Packages from '../components/Packages.astro';
-import { site, whatsappLink } from '../config';
+import { site, whatsappLink, talkLabel } from '../config';
 import { care, offersLd } from '../data/packages';
 const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, description: 'Monthly website maintenance: updates, backups, fixes and new content, so your website stays healthy and keeps growing.', offers: offersLd(care) }];
 ---
@@ -14,7 +14,7 @@ const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType:
 <PageHero kicker="Monthly care" crumb="Website maintenance">
   <Fragment slot="title">Website maintenance, <em>month after month</em>.</Fragment>
   <Fragment slot="lede">A website is not finished on launch day. We keep yours updated, backed up and growing, so you can get on with running your business.</Fragment>
-  <Fragment slot="cta"><a class="btn" href={whatsappLink}>WhatsApp us</a><a class="btn ghost" href="#xpertcare">See XpertCare plans</a></Fragment>
+  <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#xpertcare">See XpertCare plans</a></Fragment>
 </PageHero>
 
 <section id="what" class="solid band"><div class="wrap">

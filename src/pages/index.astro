@@ -7,7 +7,7 @@ import { site, whatsappLink } from '../config';
 import Cta from '../components/Cta.astro';
 import { faqLd } from '../lib/faq';
 import icon from '../fragments/icon.svg?raw';
-const html = (top + lower).replace('<canvas id="gl" aria-hidden="true"></canvas>', '<canvas id="gl" aria-hidden="true"></canvas><div class="poster" aria-hidden="true">' + icon + '<i></i><i></i><i></i><i></i><i></i><i></i></div>').replaceAll('href="#talk">WhatsApp us', `href="${whatsappLink}">WhatsApp us`);
+const html = (top + lower).replace('<canvas id="gl" aria-hidden="true"></canvas>', '<canvas id="gl" aria-hidden="true"></canvas><div class="poster" aria-hidden="true">' + icon + '<i></i><i></i><i></i><i></i><i></i><i></i></div>').replace('<a href="#talk">WhatsApp us</a>, <a href="/contact/">email us</a>', site.whatsapp ? `<a href="${whatsappLink}">WhatsApp us</a>, <a href="/contact/">email us</a>` : '<a href="/contact/">Email us</a>');
 const extraLd = [faqLd];
 ---
 <Base title="Website Design Built to Rank on Google and AI | SEOXpert" extraLd={extraLd}>

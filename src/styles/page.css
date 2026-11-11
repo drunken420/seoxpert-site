@@ -151,3 +151,5 @@ pre.codecard{margin:0;overflow-x:auto}
   .pkpick button{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:4px 10px}.pkpick button small{flex-basis:100%}
 }
 [data-pk-offer][hidden]{display:none}
+.contactways.two{grid-template-columns:repeat(2,1fr);max-width:860px}
+@media (max-width:900px){.contactways.two{grid-template-columns:1fr}}

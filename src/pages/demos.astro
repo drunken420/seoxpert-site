@@ -14,7 +14,7 @@ const paths = [...icon.matchAll(/ d="([^"]+)"/g)].map((m) => m[1]);
 const mark = icon.replace('<svg ', '<svg class="mark" aria-hidden="true" ').replace(/id="pg"/, 'id="pgd"').replace('url(#pg)', 'url(#pgd)');
 const word = logo.replace('role="img" aria-label="SEOxpert"', 'aria-hidden="true"');
 const tagline = site.tagline + '.';
-const ringPages = ['Home', 'Website building', 'Monthly care', 'AI builder', 'Packages', 'Demos'];
+const ringCards = [['XpertForge', 'Website build'], ['XpertCore', 'Our AI core'], ['XpertCare', 'Monthly care'], ['XpertForge', 'Starter, Business, Growth'], ['XpertCore', 'Plans and writes every page'], ['XpertCare', 'Basic, Plus, Pro']];
 const demos = [
   { id: 'spin', kind: '3D', title: '3D product you can spin', text: 'Let people turn your product around and try its colours before they buy.', hint: 'Drag to spin. Tap a colour.', good: ['Online shops', 'Product launches', 'Food and drink'] },
   { id: 'logo3d', kind: '3D', title: 'Your logo in 3D', text: 'Your logo as a solid object that floats, catches the light and follows the pointer.', hint: 'Move over it, or drag to turn it.', good: ['Homepage banners', 'Brand pages', 'Loading screens'] },
@@ -105,7 +105,7 @@ const demos = [
         )}
         {d.id === 'ring' && (<>
           <div class="dmring"><div class="ringin">
-            {ringPages.map((p, k) => <div class={'rc' + (k % 3 === 1 ? ' hot' : '')} style={`--i:${k}`}><Fragment set:html={mark} /><b>{p}</b><i></i><i></i><i></i></div>)}
+            {ringCards.map((c, k) => <div class={'rc' + (k % 3 === 1 ? ' hot' : '')} style={`--i:${k}`}><Fragment set:html={mark} /><b>{c[0]}</b><span>{c[1]}</span><i></i><i></i><i></i></div>)}
           </div></div>
           <div class="ringnav"><button type="button" data-dir="-1" aria-label="Previous card"></button><button type="button" data-dir="1" aria-label="Next card"></button></div>
         </>)}

@@ -23,7 +23,7 @@ Every XpertCare plan includes: ${care.all.join(', ')}.
 
 ## Company
 - [About](${site.url}/about/): Founder led, selective, white hat only. Clarity over complexity, transparency over buzzwords, strategy over shortcuts.
-- [Contact](${site.url}/contact/): WhatsApp, email or chat.
+- [Contact](${site.url}/contact/): ${site.whatsapp ? 'WhatsApp, email or chat' : 'Email or chat'}.
 - [Questions](${site.url}/faq/): Short, plain answers about websites, Google and AI search.
 `;
 export const GET = () => new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

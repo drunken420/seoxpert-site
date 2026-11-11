@@ -4,14 +4,14 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
-import { whatsappLink } from '../config';
+import { whatsappLink, talkLabel } from '../config';
 ---
 <Base title="About SEOXpert | A Founder Led Web Design Company" description="SEOXpert is a founder led web design company. We build websites that people, Google and AI search understand, and look after them every month." path="/about/" crumb="About">
 <main id="main">
 <PageHero kicker="About SEOXpert" crumb="About">
   <Fragment slot="title">A web design company built on <em>clarity</em>.</Fragment>
   <Fragment slot="lede">We bridge the gap between traditional search and the way people search today, by building websites that people, Google and AI all understand.</Fragment>
-  <Fragment slot="cta"><a class="btn" href={whatsappLink}>WhatsApp us</a></Fragment>
+  <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 
 <section class="solid band"><div class="wrap split">

@@ -4,14 +4,14 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
-import { whatsappLink } from '../config';
+import { whatsappLink, talkLabel } from '../config';
 ---
 <Base title="AI Website Builder With SEO Built In | SEOXpert" description="Our own AI website builder plans the pages, writes answer first copy and adds the setup Google and AI search need. Then a real person checks every page." path="/ai-website-builder/" crumb="AI website builder">
 <main id="main">
 <PageHero kicker="Our AI builder" crumb="AI website builder">
   <Fragment slot="title">An AI website builder with <em>search built in</em>.</Fragment>
   <Fragment slot="lede">Our own AI website builder lays the groundwork that Google and AI tools read. Then a real person checks and refines every page.</Fragment>
-  <Fragment slot="cta"><a class="btn" href={whatsappLink}>WhatsApp us</a><a class="btn ghost" href="/website-design/">See website design</a></Fragment>
+  <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="/website-design/">See website design</a></Fragment>
 </PageHero>
 
 <section class="solid band"><div class="wrap split">

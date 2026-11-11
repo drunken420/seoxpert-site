@@ -4,7 +4,7 @@ import '@fontsource-variable/sora/wght.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../styles/site.css';
 import logo from '../fragments/logo.svg?raw';
-import { site, whatsappLink, emailLink } from '../config';
+import { site, whatsappLink, talkLabel, emailLink } from '../config';
 import { faqs } from '../lib/faq';
 const chatData = { whatsapp: site.whatsapp ? whatsappLink : '', email: emailLink, faqs: faqs.map((f) => ({ q: f.q, a: f.text, ready: f.ready })) };
 
@@ -48,18 +48,18 @@ const ld = {
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-head band"><div class="wrap"><a class="brand" href="/" aria-label="SEOXpert home" set:html={logo}></a>
 <nav class="menu" aria-label="Main"><a href="/website-design/">Website building</a><a href="/website-maintenance/">Monthly care</a><a href="/ai-website-builder/">AI builder</a><a href="/packages/">Packages</a><a href="/demos/">Demos</a><a href="/about/">About</a><a href="/faq/">FAQ</a></nav>
-<a class="btn sm" href={whatsappLink}>WhatsApp us</a>
+<a class="btn sm" href={whatsappLink}>{talkLabel}</a>
 <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mmenu"><i></i><i></i><i></i></button></div>
 <nav class="mmenu" id="mmenu" aria-label="Main, phone" hidden><a href="/website-design/">Website building</a><a href="/website-maintenance/">Monthly care</a><a href="/ai-website-builder/">AI builder</a><a href="/packages/">Packages</a><a href="/demos/">Demos</a><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></nav></header>
 <slot />
 <footer class="foot band"><div class="wrap">
-  <div class="fbrand"><a class="brand" href="/" aria-label="SEOXpert home" set:html={logo}></a><p>{site.tagline}.</p><a class="btn sm" href={whatsappLink}>WhatsApp us</a></div>
+  <div class="fbrand"><a class="brand" href="/" aria-label="SEOXpert home" set:html={logo}></a><p>{site.tagline}.</p><a class="btn sm" href={whatsappLink}>{talkLabel}</a></div>
   <nav aria-label="Services"><b>What we do</b><a href="/website-design/">Website design</a><a href="/website-maintenance/">Website maintenance</a><a href="/ai-website-builder/">AI website builder</a><a href="/packages/">Website design packages</a><a href="/demos/">Interactive website demos</a></nav>
   <nav aria-label="Company"><b>SEOXpert</b><a href="/about/">About our web design company</a><a href="/faq/">Website design questions</a><a href="/contact/">Contact</a></nav>
 </div><div class="wrap fbar"><span>&copy; {new Date().getFullYear()} SEOXpert</span><a href="#">Back to top</a></div></footer>
 <button class="chatfab" type="button" data-chat-open aria-label="Open chat" aria-controls="chatpanel" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M9 11h6M9 14h4"/></svg></button>
 <div class="chatpanel" id="chatpanel" role="dialog" aria-label="Chat with SEOXpert" hidden>
-  <div class="cp-head"><span class="spark" aria-hidden="true"></span><div>SEOXpert quick answers<small>Instant answers. A real person replies on WhatsApp or email.</small></div><button class="cp-x" type="button" aria-label="Close chat">&times;</button></div>
+  <div class="cp-head"><span class="spark" aria-hidden="true"></span><div>SEOXpert quick answers<small>Instant answers. A real person replies {site.whatsapp ? 'on WhatsApp or email' : 'by email'}.</small></div><button class="cp-x" type="button" aria-label="Close chat">&times;</button></div>
   <div class="cp-log" aria-live="polite"></div>
   <div class="cp-chips"></div>
   <form class="cp-form" autocomplete="off"><input type="text" maxlength="200" placeholder="Type your question" aria-label="Your question"><button type="submit">Send</button></form>

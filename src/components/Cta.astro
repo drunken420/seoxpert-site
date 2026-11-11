@@ -1,16 +1,15 @@
 ---
-import { site, whatsappLink, emailLink } from '../config';
+import { site, whatsappLink, emailLink, ways } from '../config';
 interface Props { title?: string; text?: string }
-const { title = 'Tell us about your business. We will take it from there.', text = 'WhatsApp, email or chat. No pressure, just honest insight.' } = Astro.props;
+const { title = 'Tell us about your business. We will take it from there.', text = `${ways}. No pressure, just honest insight.` } = Astro.props;
 ---
 <section id="talk" class="talk band"><div class="wrap"><div class="frame rv">
   <i class="fl" style="--x:8%;--y:18%;--s:54px;--t:7s"></i><i class="fl" style="--x:86%;--y:22%;--s:38px;--t:9s"></i><i class="fl" style="--x:16%;--y:72%;--s:30px;--t:8s"></i><i class="fl" style="--x:78%;--y:70%;--s:60px;--t:10s"></i><i class="fl" style="--x:50%;--y:8%;--s:22px;--t:6s"></i>
   <h2>{title}</h2>
   <p>{text}</p>
   <div class="ways">
-    <a class="btn" href={whatsappLink}>WhatsApp us</a>
-    {emailLink ? <a class="btn line" href={emailLink}>Email us</a> : <a class="btn line" href="/contact/">Email us</a>}
+    {site.whatsapp && <a class="btn" href={whatsappLink}>WhatsApp us</a>}
+    {emailLink ? <a class={site.whatsapp ? 'btn line' : 'btn'} href={emailLink}>Email us</a> : <a class="btn line" href="/contact/">Email us</a>}
     <button class="btn line" type="button" data-chat-open>Chat now</button>
   </div>
-  {!site.whatsapp && <p class="ph">[PLACEHOLDER] Your WhatsApp number goes here.</p>}
 </div></div></section>
