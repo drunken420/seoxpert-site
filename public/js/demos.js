@@ -139,10 +139,18 @@
       var T = window.THREE, r = SX.renderer(el.querySelector('canvas')); if (!r) throw new Error('no 3D');
       r.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
       var sc = new T.Scene(), cam = new T.PerspectiveCamera(32, 1.6, 0.1, 100); cam.position.set(0, 0, 10); SX.lights(sc, 0xb06cff);
+      // lighting and background buttons
+      var L = sc.children.filter(function (o) { return o.isLight; }), amb = L[0], key = L[1], rim = L[2];
+      var looks = { soft: [0.78, 0xffffff, 0.85, [5, 8, 12], 0xb06cff, 0.4], studio: [0.3, 0xffffff, 1.45, [-7, 9, 9], 0xffffff, 0.75], neon: [0.3, 0xff7ad9, 1.05, [8, 2, 8], 0x4fd8ff, 1.2] };
+      [].forEach.call(el.querySelectorAll('.dmctl button'), function (b) { b.addEventListener('click', function () {
+        [].forEach.call(b.parentNode.querySelectorAll('button'), function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+        if (b.dataset.bg) el.dataset.bg = b.dataset.bg;
+        if (b.dataset.light) { var k = looks[b.dataset.light]; amb.intensity = k[0]; key.color.setHex(k[1]); key.intensity = k[2]; key.position.set(k[3][0], k[3][1], k[3][2]); rim.color.setHex(k[4]); rim.intensity = k[5]; }
+        api.dirty = true; kick(); }); });
       var G = SX.logo({}), box = new T.Box3().setFromObject(G), sz = box.getSize(new T.Vector3()), piv = new T.Group(); G.position.sub(box.getCenter(new T.Vector3())); piv.add(G); piv.scale.setScalar(3.5 / Math.max(sz.x, sz.y)); sc.add(piv);
       var tx = 0, ty = 0, rx = 0, ry = 0, spin = 0, vs = 0, down = false, lx = 0, api = { dirty: true };
       pointer(el, function (x, y) { tx = (x - 0.5) * 1.1; ty = (y - 0.5) * 0.8; api.dirty = true; kick(); });
-      el.addEventListener('pointerdown', function (e) { down = true; lx = e.clientX; });
+      el.addEventListener('pointerdown', function (e) { if (e.target.closest('.dmctl')) return; down = true; lx = e.clientX; });
       el.addEventListener('pointermove', function (e) { if (!down) return; vs = (e.clientX - lx) * 0.012; spin += vs; lx = e.clientX; });
       var up = function () { down = false; }; el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up); el.addEventListener('pointerleave', function () { tx = ty = 0; down = false; api.dirty = true; kick(); });
       api.frame = function (t) { rx += (ty - rx) * 0.08; ry += (tx - ry) * 0.08; if (!down) { spin += vs; vs *= 0.95; spin *= 0.985; }

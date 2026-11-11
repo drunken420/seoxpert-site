@@ -35,6 +35,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Website development page (`/website-development/`, Suhen asked 2026-11-11): how sites are coded for SEO and AI from the ground up. In the top menu next to Website design. Only claim what this site really does.
 - Blog (`/blog/`): guides live in `src/data/blog.ts` (add a new one at the TOP; prices come from packages.ts). List page `src/pages/blog/index.astro` shows the newest three as a magazine and older ones as cards (Suhen picked this, 2026-11-11); guide layout `src/pages/blog/[slug].astro`; pictures `src/components/BlogArt.astro`; styles `src/styles/blog.css`. Guides target the Malaysia keywords in the research file; never promise rankings.
 - Pictures (Suhen asked 2026-11-11): every main page has an "At a glance" picture (`src/components/Glance.astro`, words and alt text in `src/data/pictures.json`) and every guide has one made from its headings. `node scripts/make-pics.cjs` draws them into `public/img/` (webp, small webp, jpg for sharing); run it after changing pictures.json or a guide's title or headings. No prices inside pictures.
+- Our work frame: `public/work/cosmolinkos.jpg` is the picture; `cosmolinkos.webm` and `.mp4` are a silent 7 second loop recorded from the real CosmolinkOS banner (Suhen asked 2026-11-11), played over the picture by the last block of `public/js/ui.js` only while on screen.
 - Share image: `node scripts/make-og.cjs` writes `public/og.png`
 
 ## Speed rule

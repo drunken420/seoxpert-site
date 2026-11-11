@@ -78,3 +78,20 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { close(); if (fab) fab.focus(); } });
   form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value.trim(); if (!v) return; input.value = ''; ask(v); });
 })();
+
+/* Our work: play a short silent loop of the real website over its screenshot, only while it is on screen.
+   The screenshot stays as the picture for search engines, slow connections and people who prefer no motion. */
+(function () {
+  var shots = document.querySelectorAll('.workshot[data-vid]'); if (!shots.length || !window.IntersectionObserver) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (navigator.connection && navigator.connection.saveData) return;
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
+    var a = e.target, v = a.querySelector('video');
+    if (e.isIntersecting && !v) { var img = a.querySelector('img'), wrap = document.createElement('span'); wrap.className = 'shot'; img.parentNode.insertBefore(wrap, img); wrap.appendChild(img);
+      v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true'); v.preload = 'auto';
+      ['webm', 'mp4'].forEach(function (t) { var s = document.createElement('source'); s.src = a.dataset.vid + '.' + t; s.type = 'video/' + t; v.appendChild(s); });
+      v.addEventListener('playing', function () { v.classList.add('on'); }); wrap.appendChild(v); }
+    if (v) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); }
+  }); }, { rootMargin: '100px' });
+  [].forEach.call(shots, function (a) { io.observe(a); });
+})();
