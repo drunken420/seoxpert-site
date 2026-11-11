@@ -28,6 +28,9 @@
   function plain(h) { return h.replace(/<[^>]+>/g, ''); }
   function draw() {
     if (!box) return;
+    /* a care plan can be as big as the website, not bigger: Starter takes Basic, Business takes Basic or Plus, Growth takes any */
+    if (sel.care > sel.build) sel.care = sel.build;
+    all('[data-pick-set="care"] button', box).forEach(function (b) { var off = +b.dataset.i > sel.build; b.classList.toggle('off', off); b.setAttribute('aria-disabled', String(off)); if (off) b.setAttribute('tabindex', '-1'); else b.removeAttribute('tabindex'); var n = b.querySelector('em'); if (n) n.hidden = !off; });
     ['build', 'care'].forEach(function (set) { all('[data-pick-set="' + set + '"] button', box).forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.i === sel[set])); }); });
     var b = chosen('build'), c = sel.care < 0 ? null : chosen('care'), k = key();
     var bp = b.dataset[k], cp = c ? c.dataset[k] : '';
@@ -43,10 +46,10 @@
   if (box) {
     box.hidden = false;
     var sec = box.closest('section'); if (sec) sec.hidden = false;
-    box.addEventListener('click', function (e) { var b = e.target.closest('.pkpick button'); if (!b) return; sel[b.parentNode.getAttribute('data-pick-set')] = +b.dataset.i; draw(); });
+    box.addEventListener('click', function (e) { var b = e.target.closest('.pkpick button'); if (!b || b.classList.contains('off')) return; sel[b.parentNode.getAttribute('data-pick-set')] = +b.dataset.i; draw(); });
   }
   // "Choose ..." buttons on the cards fill in the picker
-  function pick(v) { var p = (v || '').split(':'); if (!box || !(p[0] in sel) || isNaN(+p[1])) return false; sel[p[0]] = +p[1]; draw(); return true; }
+  function pick(v) { var p = (v || '').split(':'); if (!box || !(p[0] in sel) || isNaN(+p[1])) return false; sel[p[0]] = +p[1]; if (p[0] === 'care' && sel.care > sel.build) sel.build = sel.care; draw(); return true; }
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[data-pick]'); if (!a || !box) return;
     if (pick(a.dataset.pick)) { e.preventDefault(); box.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
