@@ -35,8 +35,18 @@
     /* the resting cloud around the logo */
     var IDL = []; var r2 = X.rng(31);
     for (i = 0; i < N; i++) { var a = r2() * TAU, rad = 3.8 + Math.pow(r2(), 1.7) * 1.9; IDL.push({ a: a, r: rad, z: (r2() - 0.5) * 3.4, lite: r2() < 0.3 }); }
+    var txtScale = 0.046;
     function layout(nm) {
-      var txt = X.sample(function (g) { var fs = 44; do { g.font = '800 ' + fs + 'px "Sora Variable", "Inter Variable", sans-serif'; fs--; } while (g.measureText(nm).width > 184 && fs > 12); g.textBaseline = 'alphabetic'; g.fillText(nm, 30, 112); }, TN, G, SPAN, 7);
+      /* The business name: drawn large, then petals are placed on a neat grid inside the letters so the name reads sharply. */
+      var S = 4, GS = G * S, tc = document.createElement('canvas'); tc.width = GS; tc.height = 60 * S; var tg = tc.getContext('2d'), fs = 44;
+      do { tg.font = '800 ' + fs * S + 'px "Sora Variable", "Inter Variable", sans-serif'; fs--; } while (tg.measureText(nm).width > 184 * S && fs > 12);
+      tg.fillStyle = '#fff'; tg.textBaseline = 'alphabetic'; tg.fillText(nm, 30 * S, 44 * S);   /* baseline at y = 112 in the 240 grid (68 + 44) */
+      var td = tg.getImageData(0, 0, GS, 60 * S).data, TH = 60 * S;
+      function cells(c) { var out = [], x, y; for (y = c / 2; y < TH; y += c) for (x = c / 2; x < GS; x += c) if (td[((y | 0) * GS + (x | 0)) * 4 + 3] > 128) out.push(x, y); return out; }
+      var lo = 1.5, hi = 16, pick = null; for (var it = 0; it < 14; it++) { var mid = (lo + hi) / 2, cs = cells(mid); if (cs.length / 2 <= TN) { hi = mid; pick = cs; } else lo = mid; }
+      if (!pick || !pick.length) pick = cells(hi); if (!pick.length) pick = [GS / 2, TH / 2];
+      txtScale = Math.max(0.02, Math.min(0.07, hi / GS * SPAN * 1.02));
+      var txt = [], pn = pick.length / 2; for (var q = 0; q < TN; q++) { var k = (q % pn) * 2; txt.push({ x: (pick[k] / GS - 0.5) * SPAN, y: (0.5 - (pick[k + 1] / S + 68) / G) * SPAN, z: 0, c: 0 }); }
       var rest = X.sample(function (g) {
         g.strokeStyle = '#00ffff'; g.fillStyle = '#00ffff'; g.lineWidth = 8; X.rr(g, 12, 22, 216, 196, 18); g.stroke();
         g.lineWidth = 4; g.beginPath(); g.moveTo(12, 46); g.lineTo(228, 46); g.stroke();
@@ -46,7 +56,6 @@
         g.fillStyle = '#fff'; X.rr(g, 30, 160, 72, 24, 11); g.fill();
         g.fillStyle = '#00ffff'; [30, 92, 154].forEach(function (x) { X.rr(g, x, 194, 54, 14, 6); g.fill(); });
       }, N - TN, G, SPAN, 19);
-      txt.forEach(function (p) { p.z *= 0.15; });
       var L = txt.concat(rest); return L;
     }
     var L = layout(name), SLOT = { x: (34 / G - 0.5) * SPAN, y: (0.5 - 66 / G) * SPAN };
@@ -98,8 +107,8 @@
         if (built[i] !== b) { built[i] = b; col.setHex(b ? (Lp.c ? LITE[s.k2] : MAIN[s.k % 3 === 0 ? 4 : s.k]) : (I.lite ? LITE[s.k2] : MAIN[s.k])); mesh.setColorAt(i, col); mesh.instanceColor.needsUpdate = true; }
         var we = mode === 'L' ? e : 1 - e, rt = t * s.rs * motion + s.ph;
         dummy.position.set(cx[i] + ox[i], cy[i] + oy[i], cz[i] + oz[i]);
-        dummy.rotation.set(X.lerp(rt, 0, we) + push * 2, X.lerp(rt * 0.7, 0, we), X.lerp(rt * 0.5, s.rot, we));
-        var sc = X.lerp(s.sz * 0.15 * intro, i < TN ? 0.046 : Lp.c ? 0.075 : 0.088, we);   /* the business name uses finer petals so it is easy to read */ dummy.scale.set(sc, sc, sc);
+        dummy.rotation.set(X.lerp(rt, 0, we) + push * 2, X.lerp(rt * 0.7, 0, we), X.lerp(rt * 0.5, i < TN ? 0 : s.rot, we));
+        var sc = X.lerp(s.sz * 0.15 * intro, i < TN ? txtScale : Lp.c ? 0.075 : 0.088, we);   /* the business name uses finer petals so it is easy to read */ dummy.scale.set(sc, sc, sc);
         dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix);
       }
       mesh.instanceMatrix.needsUpdate = true;
