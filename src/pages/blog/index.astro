@@ -11,11 +11,11 @@ import { posts, postUrl } from '../../data/blog';
 const [lead, ...rest] = posts;
 const side = rest.slice(0, 2);
 const older = rest.slice(2);
-const extraLd = [{ '@type': 'Blog', name: 'SEOXpert blog', url: `${site.url}/blog/`, publisher: { '@id': `${site.url}/#org` }, blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.h1, url: site.url + postUrl(p), datePublished: p.date })) }];
+const extraLd = [{ '@type': 'Blog', name: 'XpertAdvice, the SEOXpert blog', url: `${site.url}/blog/`, publisher: { '@id': `${site.url}/#org` }, blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.h1, url: site.url + postUrl(p), datePublished: p.date })) }];
 ---
 <Base title="Website Design and SEO Guides for Malaysia | SEOXpert" description="Plain guides for businesses in Malaysia: website design prices and packages, SEO, local SEO, AI SEO and website maintenance." path="/blog/" crumb="Blog" extraLd={extraLd}>
 <main id="main">
-<PageHero kicker="Blog" brand="XpertCore" art="blog" crumb="Blog" word="Guides">
+<PageHero kicker="Guides" brand="XpertAdvice" art="blog" crumb="XpertAdvice" word="Guides">
   <Fragment slot="title">Website design and SEO guides, <em>in plain words</em>.</Fragment>
   <Fragment slot="lede">Short, honest guides for businesses in Malaysia. Each one answers the question first, then explains the detail.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#latest">Read the latest</a></Fragment>

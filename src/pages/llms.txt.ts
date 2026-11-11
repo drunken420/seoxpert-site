@@ -26,7 +26,7 @@ Every build includes: ${build.all.join(', ')}.
 ${care.tiers.map((t) => line(t, 'a month')).join('\n')}
 Every XpertCare plan includes: ${care.all.join(', ')}.
 
-## Guides
+## XpertAdvice: website design and SEO guides
 ${posts.map((p) => `- [${p.h1}](${site.url}${postUrl(p)}): ${p.card}`).join('\n')}
 
 ## Company

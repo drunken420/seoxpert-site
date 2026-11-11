@@ -15,7 +15,7 @@ const picAlt = `${post.h1} A summary of this guide in ${Math.min(post.sections.l
 const others = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
 const extraLd = [
   { '@type': 'BlogPosting', headline: post.h1, description: post.description, url, mainEntityOfPage: url, datePublished: post.date, dateModified: post.date, inLanguage: 'en', author: { '@id': `${site.url}/#org` }, publisher: { '@id': `${site.url}/#org` }, image: { '@type': 'ImageObject', url: `${site.url}${pic}.jpg`, width: 1200, height: 630 } },
-  { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' }, { '@type': 'ListItem', position: 2, name: 'Blog', item: site.url + '/blog/' }, { '@type': 'ListItem', position: 3, name: post.h1, item: url }] },
+  { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' }, { '@type': 'ListItem', position: 2, name: 'XpertAdvice', item: site.url + '/blog/' }, { '@type': 'ListItem', position: 3, name: post.h1, item: url }] },
   { '@type': 'FAQPage', mainEntity: post.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: strip(f.a) } })) },
 ];
 ---
@@ -23,7 +23,7 @@ const extraLd = [
 <main id="main">
 <article>
 <header class="bhead band"><div class="wrap">
-  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a><span aria-hidden="true">/</span><span aria-current="page">{post.tag}</span></nav>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">XpertAdvice</a><span aria-hidden="true">/</span><span aria-current="page">{post.tag}</span></nav>
   <div class="bmeta"><span class="btag">{post.tag}</span><time class="bdate" datetime={post.date}>{niceDate(post.date)}</time><span class="bdate">By SEOXpert</span></div>
   <h1>{post.h1}</h1>
   <div class="bshort"><b>Short answer</b><p>{post.short}</p></div>
