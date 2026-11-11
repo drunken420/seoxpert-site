@@ -40,46 +40,85 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
 })();
 
-/* Chat helper: instant answers from our own questions and answers. It is not an AI, and it sends nothing anywhere. */
+/* Chat helper: instant answers from our own questions and answers (fetched from /chat.json when the chat first opens).
+   It is not an AI, and it sends nothing anywhere: matching happens here in the browser. */
 (function () {
-  var panel = document.getElementById('chatpanel'), dataEl = document.getElementById('chatdata'); if (!panel || !dataEl) return;
-  var data = JSON.parse(dataEl.textContent), log = panel.querySelector('.cp-log'), chips = panel.querySelector('.cp-chips'), form = panel.querySelector('.cp-form'), input = form.querySelector('input'), fab = document.querySelector('.chatfab'), started = false;
-  var STOP = 'a an and are as at be by can do does for from how i in is it me my of on or our that the this to we what when who will with you your about have has'.split(' ');
-  var TOPICS = [[/maint|care|month|updat|backup|fix/, '/website-maintenance/', 'website maintenance'], [/pric|cost|packag|how much|fee|quot/, '/packages/', 'website design packages'], [/builder|ai\b|chatgpt|llm/, '/ai-website-builder/', 'our AI website builder'], [/design|build|new site|new website|redesign/, '/website-design/', 'website design']];
-  function words(t) { return t.toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').split(/\s+/).filter(function (w) { return w.length > 1 && STOP.indexOf(w) < 0; }); }
-  var index = data.faqs.map(function (f) { return { f: f, q: words(f.q), a: words(f.a) }; });
+  var panel = document.getElementById('chatpanel'); if (!panel) return;
+  var log = panel.querySelector('.cp-log'), chips = panel.querySelector('.cp-chips'), form = panel.querySelector('.cp-form'), input = form.querySelector('input'), fab = document.querySelector('.chatfab');
+  var data = null, loading = null, index = [], asked = {}, started = false, dq = {}, da = {};
+  function uniq(a) { return a.filter(function (w, i) { return a.indexOf(w) === i; }); }
+  var STOP = 'a an and are as at be by can do does for from how i in is it me my of on or our that the this to we what when who will with you your about have has get any there much myself offer offers provide sell need want also just like'.split(' ');
+  // words that mean the same thing for matching
+  var SAME = { price: 'cost', prices: 'cost', costs: 'cost', pricing: 'cost', fee: 'cost', fees: 'cost', charge: 'cost', rm: 'cost', ringgit: 'cost', cheap: 'cost', expensive: 'cost', budget: 'cost',
+    host: 'hosting', hosted: 'hosting', server: 'hosting', maintain: 'care', maintenance: 'care', xpertcare: 'care', support: 'care', looked: 'care', monthly: 'care', month: 'care',
+    rank: 'google', ranking: 'google', rankings: 'google', seo: 'google', search: 'google', chatgpt: 'ai', gemini: 'ai', perplexity: 'ai', llm: 'ai', builder: 'xpertcore',
+    redo: 'redesign', revamp: 'redesign',  revisions: 'revision', edit: 'revision', edits: 'revision', promise: 'guarantee', guaranteed: 'guarantee', mobile: 'phone', responsive: 'phone', schema: 'structured', markup: 'structured', update: 'change', updates: 'change',
+    animation: '3d', animations: '3d', effects: '3d', demos: '3d', xpertlab: '3d', usd: 'dollar', discount: 'yearly', annual: 'yearly', year: 'yearly',
+    portfolio: 'built', examples: 'built', site: 'website', sites: 'website', websites: 'website', webpage: 'page', pages: 'page', look: 'care', after: 'care',
+    another: 'else', other: 'else', someone: 'else', elsewhere: 'else', existing: 'else', agency: 'else', previous: 'else', team: 'founder', owner: 'founder', who: 'founder', blogs: 'blog', posts: 'blog', articles: 'blog', start: 'start', begin: 'start', process: 'start', steps: 'start' };
+  // a few questions people ask in many ways: these phrases go straight to their answer
+  var INTENT = [[/guarantee|promise|page (1|one)|first page|top of google|number one|#1/, 'Can you guarantee first page on Google?'], [/someone else|another (company|agency|developer|designer)|built elsewhere|wordpress|wix|shopify/, 'Can you look after a website built by someone else?']];
+  function words(t) { return t.toLowerCase().replace(/how much/g, 'cost').replace(/who (are|is) (you|seoxpert|behind)/g, 'founder').replace(/[^a-z0-9 ]+/g, ' ').split(/\s+/).filter(function (w) { return w.length > 1 && STOP.indexOf(w) < 0; }).map(function (w) { var b = w.length > 3 ? w.replace(/s$/, '') : w; return SAME[w] || SAME[b] || b; }); }
   function contact() {
     var parts = [];
-    if (data.whatsapp) parts.push('<a href="' + data.whatsapp + '">WhatsApp</a>');
-    if (data.email) parts.push('<a href="' + data.email + '">email</a>');
+    if (data && data.whatsapp) parts.push('<a href="' + data.whatsapp + '">WhatsApp</a>');
+    if (data && data.email) parts.push('<a href="' + data.email + '">email</a>');
     parts.push('<a href="/contact/">the contact page</a>');
     return parts.join(parts.length > 2 ? ', ' : ' or ').replace(/, ([^,]*)$/, ' or $1');
   }
   function bubble(cls, html) { var d = document.createElement('div'); d.className = 'bub ' + cls; d.innerHTML = html; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-  function answer(text) {
-    var t = text.toLowerCase(), w = words(text), best = null, score = 0;
-    index.forEach(function (it) { var s = 0; w.forEach(function (x) { if (it.q.indexOf(x) >= 0) s += 2; else if (it.a.indexOf(x) >= 0) s += 1; }); if (s > score) { score = s; best = it.f; } });
-    var more = ''; TOPICS.some(function (tp) { if (tp[0].test(t)) { more = ' <a href="' + tp[1] + '">Read more about ' + tp[2] + '</a>.'; return true; } return false; });
-    if (/^(hi|hello|hey|good (morning|afternoon|evening))\b/.test(t)) return 'Hello. Ask me about website design, website maintenance or how we work.';
-    if (/contact|whatsapp|email|call|phone|talk|speak|human|person/.test(t)) return 'You can reach us on ' + contact() + '.';
-    if (best && score >= 2) return (best.ready ? best.a : 'We are still finalising this answer. Message us on ' + contact() + ' and we will tell you directly.') + more;
-    if (more) return 'Here is the best place to start.' + more + ' Or message us on ' + contact() + '.';
-    return 'I do not have a ready answer for that. Message us on ' + contact() + ' and a real person will reply.';
+  function load() {
+    if (!loading) loading = fetch('/chat.json').then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (d) {
+      data = d; index = d.faqs.map(function (f) { return { f: f, q: words(f.q), a: words(f.t) }; });
+      // rare words count for more than common ones like "website"
+      index.forEach(function (it) { uniq(it.q).forEach(function (w) { dq[w] = (dq[w] || 0) + 1; }); uniq(it.a).forEach(function (w) { da[w] = (da[w] || 0) + 1; }); });
+    });
+    return loading;
   }
-  function ask(text) {
-    bubble('me', esc(text)); var ai = bubble('ai', '<span class="dots"><i></i><i></i><i></i></span>');
-    setTimeout(function () { ai.innerHTML = answer(text); log.scrollTop = log.scrollHeight; }, 450);
+  // the chips under the chat: questions, topics, and a link to every question
+  function chip(label, fn, cls) { var b = document.createElement('button'); b.type = 'button'; b.textContent = label; if (cls) b.className = cls; b.addEventListener('click', fn); chips.appendChild(b); }
+  function show(list, withTopics) {
+    chips.innerHTML = '';
+    list.forEach(function (f) { chip(f.q, function () { ask(f.q, f); }); });
+    if (withTopics) { var s = document.createElement('small'); s.textContent = 'Or pick a topic'; chips.appendChild(s); data.topics.forEach(function (t) { chip(t, function () { topic(t); }, 'tp'); }); }
+    else { chip('Other topics', function () { show([], true); }, 'tp'); var a = document.createElement('a'); a.href = '/faq/'; a.className = 'tp'; a.textContent = 'All questions'; chips.appendChild(a); }
+  }
+  function topic(t) {
+    bubble('me', esc(t)); var list = data.faqs.filter(function (f) { return f.topic === t; });
+    bubble('ai', '<b>' + esc(t) + '</b><br>Pick a question, or type your own.'); show(list.filter(function (f) { return !asked[f.q]; }).slice(0, 5), false);
+  }
+  function related(f) { return data.faqs.filter(function (o) { return o !== f && o.topic === f.topic && !asked[o.q]; }).slice(0, 3); }
+  function answer(text, pick) {
+    var t = text.toLowerCase(), w = words(text), best = pick || null, score = pick ? 9 : 0;
+    if (!pick) INTENT.some(function (it) { if (!it[0].test(t)) return false; best = data.faqs.filter(function (f) { return f.q === it[1]; })[0] || null; score = best ? 9 : 0; return !!best; });
+    if (!best) index.forEach(function (it) { var s = 0; uniq(w).forEach(function (x) { if (it.q.indexOf(x) >= 0) s += 2 / Math.sqrt(dq[x]); else if (it.a.indexOf(x) >= 0) s += 1 / Math.sqrt(da[x]); }); if (s > score) { score = s; best = it.f; } });
+    if (!pick && /^(hi|hello|hey|good (morning|afternoon|evening))\b/.test(t)) return ['Hello. Ask me about website design, prices, website maintenance or how we work.', null];
+    if (!pick && /\b(contact|whatsapp|call|talk|speak|human|person|reach)\b/.test(t) && score < 4) return ['You can reach us on ' + contact() + '. A real person reads every message.', null];
+    if (best && score >= 1.3) { asked[best.q] = 1; return [best.ready ? best.a : 'We are still finalising this answer. Message us on ' + contact() + ' and we will tell you directly.', best]; }
+    return ['I do not have a ready answer for that yet. Message us on ' + contact() + ' and a real person will reply, or pick a topic below.', null];
+  }
+  function ask(text, pick) {
+    bubble('me', esc(text)); var ai = bubble('ai', '<span class="dots"><i></i><i></i><i></i></span>'); chips.innerHTML = '';
+    load().then(function () {
+      setTimeout(function () { var r = answer(text, pick); ai.innerHTML = r[0]; if (r[1]) { var rel = related(r[1]); show(rel, !rel.length); } else show([], true); log.scrollTop = log.scrollHeight; }, 420);
+    }).catch(function () { ai.innerHTML = 'The answers did not load. Message us on ' + contact() + ' and a real person will reply.'; });
   }
   function open() {
     panel.hidden = false; if (fab) fab.setAttribute('aria-expanded', 'true');
     if (!started) {
-      started = true; bubble('ai', 'Hello. I can give you quick answers about SEOXpert. Pick a question or type your own.');
-      data.faqs.slice(0, 5).forEach(function (f) { var b = document.createElement('button'); b.type = 'button'; b.textContent = f.q; b.addEventListener('click', function () { ask(f.q); }); chips.appendChild(b); });
+      started = true; var hi = bubble('ai', '<span class="dots"><i></i><i></i><i></i></span>');
+      load().then(function () {
+        hi.innerHTML = 'Hello. I can give you quick answers about SEOXpert, from ' + data.faqs.length + ' questions people ask us. Pick one, choose a topic, or type your own.';
+        var pop = ['How much does a website cost?', 'How does a website project start?', 'Is hosting included?', 'Can you guarantee first page on Google?'];
+        show(pop.map(function (q) { return data.faqs.filter(function (f) { return f.q === q; })[0]; }).filter(Boolean), true);
+      }).catch(function () { hi.innerHTML = 'Hello. The quick answers did not load. Message us on ' + contact() + ' and a real person will reply.'; });
     }
     if (window.matchMedia('(min-width: 901px)').matches) input.focus();
   }
   function close() { panel.hidden = true; if (fab) { fab.setAttribute('aria-expanded', 'false'); } }
+  // load the answers early when someone shows interest in the chat button
+  if (fab) ['pointerenter', 'focus', 'touchstart'].forEach(function (ev) { fab.addEventListener(ev, function () { load().catch(function () {}); }, { passive: true, once: true }); });
   /* phones: keep the chat button out of the way while the homepage "Build it" box is on screen */
   var promptBox = document.getElementById('prompt');
   if (fab && promptBox && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { fab.classList.toggle('tuck', es[0].isIntersecting && window.matchMedia('(max-width: 900px)').matches && panel.hidden); }).observe(promptBox);

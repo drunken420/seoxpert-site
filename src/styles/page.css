@@ -351,3 +351,11 @@ pre.codecard{margin:0;overflow-x:auto}
 .cmail:hover{text-decoration:underline}
 @media (max-width:900px){.cpanel{grid-template-columns:1fr}.cpside{padding:28px 24px}.cpside h3{font-size:27px}}
 @media (max-width:560px){.cpanel{border-radius:22px}.cside{grid-template-columns:1fr}.cform{padding:22px 18px}.cf2{grid-template-columns:1fr}.cfoot .btn{width:100%}}
+
+/* Questions page: topic links and groups */
+.faqtopics{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.faqtopics a{display:inline-flex;align-items:center;gap:9px;padding:11px 15px;border-radius:99px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);font:600 14.5px/1.1 var(--f-b);text-decoration:none}
+.faqtopics a b{font:600 12px/1 var(--f-m);color:var(--acc)}
+.faqtopics a:hover{box-shadow:inset 0 0 0 1.5px var(--acc2)}
+.faqgroup{scroll-margin-top:calc(var(--head-h) + 16px);margin-top:44px}
+.faqgroup h2{font-size:clamp(24px,2.6vw,34px);margin:0 0 16px}

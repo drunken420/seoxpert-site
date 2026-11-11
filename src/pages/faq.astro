@@ -4,9 +4,10 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
-import { faqs, faqLd } from '../lib/faq';
+import { faqs, byTopic, faqLd } from '../lib/faq';
+const slug = (t: string) => t.toLowerCase().replace(/[^a-z]+/g, '-').replace(/-$/, '');
 ---
-<Base title="Website Design Questions and Answers | SEOXpert" description="Short, plain answers about website design, website maintenance, Google and AI search. How long results take, what makes a website easy for AI to quote, and more." path="/faq/" crumb="Questions" extraLd={[faqLd]}>
+<Base title="Website Design Questions and Answers | SEOXpert" description="Short, plain answers about website design, website maintenance, prices, Google and AI search. How long results take, what makes a website easy for AI to quote, and more." path="/faq/" crumb="Questions" extraLd={[faqLd]}>
 <main id="main">
 <PageHero kicker="Questions" art="faq" crumb="Questions" word="Answers">
   <Fragment slot="title">Website design questions, <em>answered plainly</em>.</Fragment>
@@ -14,9 +15,15 @@ import { faqs, faqLd } from '../lib/faq';
   <Fragment slot="cta"><button class="btn" type="button" data-chat-open>Ask in the chat</button><a class="btn ghost" href="/contact/">Contact us</a></Fragment>
 </PageHero>
 <section class="solid band"><div class="wrap">
-  <div class="acc">
-    {faqs.map((f, i) => <details class="rv" open={i === 0}><summary>{f.q}</summary><div class="ans"><p class={f.ready ? '' : 'ph'} set:html={f.html}></p></div></details>)}
-  </div>
+  <nav class="faqtopics rv" aria-label="Topics">{byTopic.map((g) => <a href={`#${slug(g.topic)}`}>{g.topic}<b>{g.items.length}</b></a>)}</nav>
+  {byTopic.map((g, k) => (
+    <div class="faqgroup" id={slug(g.topic)}>
+      <h2 class="rv">{g.topic}</h2>
+      <div class="acc">
+        {g.items.map((f, i) => <details class="rv" open={k === 0 && i === 0}><summary>{f.q}</summary><div class="ans"><p class={f.ready ? '' : 'ph'} set:html={f.html}></p></div></details>)}
+      </div>
+    </div>
+  ))}
   <p class="sub" style="margin-top:28px">Looking for details? See <a href="/website-design/">website design</a>, <a href="/website-maintenance/">website maintenance</a>, <a href="/packages/">website design packages</a> and <a href="/ai-website-builder/">our AI website builder</a>.</p>
 </div></section>
 <Related skip="/faq/" />

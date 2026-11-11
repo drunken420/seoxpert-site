@@ -15,7 +15,7 @@ Area: ${site.areas.join(', ')} and across ${site.country}.
 - [Website development](${site.url}/website-development/): How every XpertForge website is coded for Google and AI search from the ground up: clean structure, fast pages, structured data and llms.txt.
 - [Website maintenance](${site.url}/website-maintenance/): Monthly care, called XpertCare, only for websites built by SEOXpert, with high speed hosting included. It keeps a website updated, backed up and growing with new content.
 - [AI website builder](${site.url}/ai-website-builder/): How XpertCore, our own builder, plans pages, writes answer first copy and adds structured data and llms.txt.
-- [Interactive website demos](${site.url}/demos/): Live examples of 3D and animation we can build into a website: a 3D product to spin, moving backgrounds, particle text, tilt cards, a before and after slider and animated charts.
+- [Interactive website demos](${site.url}/demos/): Live examples of 3D and animation we can build into a website: a 3D product to spin, a 3D logo, weather over a page, a website on a laptop and phone, a globe with world landmarks, moving backgrounds, particle text, tilt cards, a before and after slider and animated charts.
 - [Website design packages](${site.url}/packages/): Prices, what every package includes, and a plan picker.
 
 ## Website design packages (one-time price)
@@ -32,6 +32,6 @@ ${posts.map((p) => `- [${p.h1}](${site.url}${postUrl(p)}): ${p.card}`).join('\n'
 ## Company
 - [About](${site.url}/about/): Founder led, selective, white hat only. Clarity over complexity, transparency over buzzwords, strategy over shortcuts.
 - [Contact](${site.url}/contact/): ${site.whatsapp ? 'WhatsApp, email or chat' : 'Email or chat'}.
-- [Questions](${site.url}/faq/): Short, plain answers about websites, Google and AI search.
+- [Questions](${site.url}/faq/): Short, plain answers about prices, websites, website maintenance, Google and AI search, grouped by topic.
 `;
 export const GET = () => new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
