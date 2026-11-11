@@ -4,15 +4,17 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
 const extraLd = [{ '@type': 'Service', name: 'Website development', serviceType: 'Website development', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-development/`, areaServed: areaLd, description: 'Website development in Malaysia: websites coded for Google and AI search from the ground up, with fast pages, structured data and an llms.txt file.' }];
 ---
-<Base title="Website Development Malaysia: Coded for SEO and AI | SEOXpert" description="Website development in Malaysia, coded for Google and AI search from the ground up: fast pages, clean structure, structured data and an llms.txt file." path="/website-development/" crumb="Website development" extraLd={extraLd}>
+<Base title="Website Development Malaysia: Coded for SEO and AI | SEOXpert" image={`/img/${pictures["website-development"].file}.jpg`} description="Website development in Malaysia, coded for Google and AI search from the ground up: fast pages, clean structure, structured data and an llms.txt file." path="/website-development/" crumb="Website development" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Website development" brand="XpertForge" art="core" crumb="Website development">
   <Fragment slot="title">Website development in Malaysia, <em>coded to be found</em>.</Fragment>
-  <Fragment slot="lede">Every XpertForge website is designed and coded with SEO and AI search in mind from the ground up. Nothing is bolted on afterwards.</Fragment>
+  <Fragment slot="lede">Every XpertForge website is designed and coded in house, with SEO and AI search in mind from the ground up. Nothing is bolted on afterwards.</Fragment>
   <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#code">See what goes into the code</a></Fragment>
 </PageHero>
 
@@ -70,6 +72,7 @@ const extraLd = [{ '@type': 'Service', name: 'Website development', serviceType:
     <p class="rv">We never promise rankings, because nobody controls Google or AI tools. What we promise is the work: a website that is clear, fast and easy for both to read. After launch, <a href="/website-maintenance/">XpertCare website maintenance</a> keeps it that way.</p>
   </div>
 </div></section>
+<Glance page="website-development" guides={['seo-malaysia-guide', 'ai-seo-malaysia']} tint />
 <Trio />
 <Related skip="/website-development/" />
 <Cta title="Need a website developed the right way from the start?" />

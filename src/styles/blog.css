@@ -65,7 +65,7 @@
 .bbox>b{font:600 13px/1 var(--f-m);color:var(--acc);letter-spacing:.04em;text-transform:uppercase}
 .bbox ol{margin:0;padding-left:20px;display:grid;gap:9px;font-size:15.5px}.bbox ol a{color:var(--soft);text-decoration:none}.bbox ol a:hover{color:var(--acc)}
 .bbox.dk{background:linear-gradient(160deg,#14081f,#2a0d47 70%,#3d0a66);color:#fff;border:0}.bbox.dk h3{font-size:21px;line-height:1.2;color:#fff}.bbox.dk .btn{width:fit-content}
-@media (max-width:980px){.bmag,.bart{grid-template-columns:1fr}.bart{gap:30px}.baside{position:static}.baside .toc{display:none}.bgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:980px){.bmag,.bart{grid-template-columns:minmax(0,1fr)}.bart{gap:30px}.baside{position:static}.baside .toc{display:none}.bgrid{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.bgrid{grid-template-columns:1fr}.bfeat h3{font-size:25px}.bpic.big{height:190px}.bpic.sm{width:92px;height:80px}.brow{padding:10px;gap:12px}.brow p{display:none}.bshort{padding:20px}.bshort p{font-size:17.5px}.bbody{font-size:17px}}
 @media (prefers-reduced-motion:reduce){.bpic i{animation:none!important}}
 .bcard.cta .xp{align-self:flex-start}.bbox.dk .xp{justify-self:start}
@@ -78,3 +78,5 @@
 .bpic .tier.on{background:linear-gradient(120deg,#7b18c1,#b06cff);animation:bfl 4s ease-in-out infinite}
 .bpic.big .pin{box-shadow:inset 0 0 0 9px #b06cff,inset 0 0 0 20px #14081f;background:#b06cff}
 @keyframes bping{0%{scale:.3;opacity:.9}100%{scale:1.2;opacity:0}}
+.bfig{margin:0 0 36px}
+.bbody{min-width:0}

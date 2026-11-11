@@ -3,13 +3,15 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Work from '../components/Work.astro';
 import { build, fmt } from '../data/packages';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
 const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Website design and building', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-design/`, areaServed: areaLd, description: 'Website design for businesses in Malaysia, planned for Google and AI search before it is designed, built with our own AI website builder and finished by hand.' }];
 ---
-<Base title="Website Design Malaysia for Google and AI Search | SEOXpert" description="Website design in Malaysia for businesses that want to be found. Planned for Google and AI search first, built with our own AI website builder and finished by hand." path="/website-design/" crumb="Website design" extraLd={extraLd}>
+<Base title="Website Design Malaysia for Google and AI Search | SEOXpert" image={`/img/${pictures["website-design"].file}.jpg`} description="Website design in Malaysia for businesses that want to be found. Planned for Google and AI search first, built with our own AI website builder and finished by hand." path="/website-design/" crumb="Website design" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Website building" brand="XpertForge" art="design" crumb="Website design">
   <Fragment slot="title">Website design in Malaysia, <em>built to be found</em>.</Fragment>
@@ -60,6 +62,7 @@ const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Web
   <h2 class="rv">Website design we have built.</h2>
   <Work />
 </div></section>
+<Glance page="website-design" guides={['website-design-price-malaysia', 'website-design-kuala-lumpur-selangor', 'choose-web-design-company-malaysia']} />
 <Related skip="/website-design/" />
 <Cta title="Ready for a website that gets found?" />
 </main>

@@ -4,10 +4,12 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { whatsappLink, talkLabel, areaText } from '../config';
 ---
-<Base title="About SEOXpert | A Web Design Company in Malaysia" description="SEOXpert is a founder led web design company in Malaysia. We build websites that people, Google and AI search understand, and look after them every month." path="/about/" crumb="About">
+<Base title="About SEOXpert | A Web Design Company in Malaysia" image={`/img/${pictures["about"].file}.jpg`} description="SEOXpert is a founder led web design company in Malaysia. We build websites that people, Google and AI search understand, and look after them every month." path="/about/" crumb="About">
 <main id="main">
 <PageHero kicker="About SEOXpert" art="about" crumb="About">
   <Fragment slot="title">A web design company in Malaysia, built on <em>clarity</em>.</Fragment>
@@ -25,6 +27,7 @@ import { whatsappLink, talkLabel, areaText } from '../config';
     <p class="rv">SEOXpert is intentionally focused and selective about the work we take on. Your website is personally planned and overseen. There is no outsourcing and no white labelling.</p>
     <p class="rv">Search is changing. People still use Google, and more and more of them ask AI tools for answers. Our <a href="/website-design/">website design</a> makes sure every website can be found in both places, using <a href="/ai-website-builder/">our own AI website builder</a> and finishing every page by hand.</p>
     <p class="rv">We use ethical methods that favour long term performance over short term tricks, and we tell you plainly what we are doing and why.</p>
+    <p class="rv">Everything with the Xpert name is developed in house: XpertForge, our website build, XpertCore, our AI core, XpertCare, our monthly care, and XpertLab, our demos.</p>
     <p class="rv">After more than 7 years of hands-on SEO, our founder built XpertCore so every website is ready for Google and AI from day one.</p>
   </div>
 </div></section>
@@ -42,6 +45,7 @@ import { whatsappLink, talkLabel, areaText } from '../config';
     <a class="fcard rv" href="/website-maintenance/" style="--d:1;text-decoration:none;color:inherit"><div class="pet" style="--r:90deg"></div><h3>Website maintenance</h3><p>XpertCare: monthly care for the websites we build, with hosting included.</p><span class="more">What is covered</span></a>
   </div>
 </div></section>
+<Glance page="about" guides={['choose-web-design-company-malaysia']} />
 <Trio />
 <Related skip="/about/" />
 <Cta />

@@ -3,13 +3,15 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Packages from '../components/Packages.astro';
 import { site, whatsappLink, talkLabel, areaLd } from '../config';
 import { care, offersLd } from '../data/packages';
 const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertCare monthly website maintenance for websites built by SEOXpert, with hosting included: updates, backups, fixes and new content.', offers: offersLd(care) }];
 ---
-<Base title="Website Maintenance Malaysia: Monthly Care | SEOXpert" description="XpertCare is monthly website maintenance in Malaysia for websites built by SEOXpert. We keep yours hosted, updated, backed up and growing with new content." path="/website-maintenance/" crumb="Website maintenance" extraLd={extraLd}>
+<Base title="Website Maintenance Malaysia: Monthly Care | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description="XpertCare is monthly website maintenance in Malaysia for websites built by SEOXpert. We keep yours hosted, updated, backed up and growing with new content." path="/website-maintenance/" crumb="Website maintenance" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Monthly care" brand="XpertCare" art="care" crumb="Website maintenance">
   <Fragment slot="title">Website maintenance in Malaysia, <em>month after month</em>.</Fragment>
@@ -20,7 +22,7 @@ const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType:
 <section id="what" class="solid band"><div class="wrap">
   <span class="eyebrow rv">What is website maintenance?</span>
   <h2 class="rv">The regular work that keeps a website healthy.</h2>
-  <p class="sub rv">Website maintenance means keeping your website up to date, safe and useful after it goes live. With XpertCare, our monthly care plan, that work is done for you.</p>
+  <p class="sub rv">Website maintenance means keeping your website up to date, safe and useful after it goes live. With XpertCare, our monthly care plan developed in house, that work is done for you by our own team.</p>
   <div class="grid3">
     <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Updates</h3><p>Your website is kept up to date, so it keeps working the way it should.</p></div>
     <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Backups</h3><p>Regular copies of your website are saved, so nothing is lost if something goes wrong.</p></div>
@@ -43,6 +45,7 @@ const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType:
   <span class="eyebrow rv">Why it matters</span>
   <p class="creed rv">Search visibility <em>builds over time</em>. A website that is looked after keeps its gains instead of losing them.</p>
 </div></section>
+<Glance page="website-maintenance" guides={['website-maintenance-malaysia', 'local-seo-malaysia']} />
 <Related skip="/website-maintenance/" />
 <Cta title="Let us look after your website." />
 </main>

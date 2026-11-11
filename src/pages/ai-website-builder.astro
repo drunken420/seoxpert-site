@@ -4,10 +4,12 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { whatsappLink, talkLabel } from '../config';
 ---
-<Base title="AI Website Builder With SEO Built In | SEOXpert" description="Our own AI website builder plans the pages, writes answer first copy and adds the setup Google and AI search need. Then our experts check every page." path="/ai-website-builder/" crumb="AI website builder">
+<Base title="AI Website Builder With SEO Built In | SEOXpert" image={`/img/${pictures["ai-website-builder"].file}.jpg`} description="Our own AI website builder plans the pages, writes answer first copy and adds the setup Google and AI search need. Then our experts check every page." path="/ai-website-builder/" crumb="AI website builder">
 <main id="main">
 <PageHero kicker="Our AI builder" brand="XpertCore" art="core" crumb="AI website builder">
   <Fragment slot="title">An AI website builder with <em>search built in</em>.</Fragment>
@@ -20,7 +22,7 @@ import { whatsappLink, talkLabel } from '../config';
     <span class="eyebrow rv">What it does</span>
     <h2 class="rv">Every page, planned for search before it is designed.</h2>
     <p class="sub rv">Most AI website builders make a page that looks finished. Ours starts with what people and search engines need to understand.</p>
-    <p class="sub rv">We call it XpertCore, and our team uses it for you. You tell us about your business, we build your website with XpertCore, and our experts check every page. There is no tool for you to learn.</p>
+    <p class="sub rv">We call it XpertCore. We developed it in house, and our team uses it for you. You tell us about your business, we build your website with XpertCore, and our experts check every page. There is no tool for you to learn.</p>
   </div>
   <ol class="nsteps">
     <li class="rv"><h3>Plans the pages</h3><p>One clear topic per page, so nothing competes with itself and every page has a job.</p></li>
@@ -58,6 +60,7 @@ import { whatsappLink, talkLabel } from '../config';
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Care after launch</h3><p><a href="/website-maintenance/">Website maintenance</a> keeps your pages updated, backed up and growing.</p></div>
   </div>
 </div></section>
+<Glance page="ai-website-builder" guides={['ai-seo-malaysia', 'seo-malaysia-guide']} tint />
 <Trio skip="/ai-website-builder/" />
 <Related skip="/ai-website-builder/" />
 <Cta title="Want to see what our builder would plan for you?" />

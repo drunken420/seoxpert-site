@@ -34,6 +34,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Demos page: `src/pages/demos.astro` (list of demos and their markup), styles `src/styles/demos.css`, script `public/js/demos.js`. Each demo starts only when scrolled near and three.js loads on demand. No invented numbers in demo content.
 - Website development page (`/website-development/`, Suhen asked 2026-11-11): how sites are coded for SEO and AI from the ground up. Linked from the footer, Related and the Website design page, not in the top menu. Only claim what this site really does.
 - Blog (`/blog/`): guides live in `src/data/blog.ts` (add a new one at the TOP; prices come from packages.ts). List page `src/pages/blog/index.astro` shows the newest three as a magazine and older ones as cards (Suhen picked this, 2026-11-11); guide layout `src/pages/blog/[slug].astro`; pictures `src/components/BlogArt.astro`; styles `src/styles/blog.css`. Guides target the Malaysia keywords in the research file; never promise rankings.
+- Pictures (Suhen asked 2026-11-11): every main page has an "At a glance" picture (`src/components/Glance.astro`, words and alt text in `src/data/pictures.json`) and every guide has one made from its headings. `node scripts/make-pics.cjs` draws them into `public/img/` (webp, small webp, jpg for sharing); run it after changing pictures.json or a guide's title or headings. No prices inside pictures.
 - Share image: `node scripts/make-og.cjs` writes `public/og.png`
 
 ## Speed rule

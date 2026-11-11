@@ -289,3 +289,9 @@ h1,h2,h3{overflow-wrap:break-word}
 .marquee.sm{padding-block:10px 12px;border-bottom:1px solid var(--line)}
 .marquee.sm span{font-size:clamp(26px,3.4vw,46px);-webkit-text-stroke:1.2px #cdb6ea}
 .marquee.sm .track{animation-duration:46s}
+/* summary pictures (Glance.astro and blog guides) */
+.pfig{margin:0;max-width:860px}
+.pfig img{display:block;width:100%;height:auto;border-radius:22px;border:1px solid var(--line);box-shadow:0 22px 50px rgba(74,14,120,.14)}
+.pfig figcaption{font-size:14.5px;color:var(--mute);margin-top:12px;max-width:60em}
+.glance h2{margin-bottom:26px}
+.gread{margin:22px 0 0;max-width:860px;color:var(--soft)}.gread a{color:var(--acc);font-weight:600;text-underline-offset:3px}

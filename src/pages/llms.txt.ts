@@ -7,6 +7,7 @@ const body = `# ${site.name}
 
 > ${site.tagline}. ${site.description}
 
+XpertForge (the website build), XpertCore (our AI core), XpertCare (monthly care) and XpertLab (live demos) were all developed in house by SEOXpert.
 Area: ${site.areas.join(', ')} and across ${site.country}.
 
 ## Services

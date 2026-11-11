@@ -1,2 +1,2 @@
 import { site } from '../config';
-export const GET = () => new Response(`User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap-index.xml\n`, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+export const GET = () => new Response(`User-agent: *\nAllow: /\n\n# AI search tools are welcome to read this website. A short summary is at /llms.txt\n${['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-SearchBot', 'PerplexityBot', 'Google-Extended', 'Applebot-Extended', 'CCBot'].map((b) => `User-agent: ${b}\nAllow: /\n`).join('\n')}\nSitemap: ${site.url}/sitemap-index.xml\n`, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
