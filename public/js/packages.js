@@ -6,6 +6,7 @@
   try { cur = localStorage.getItem('sx-cur') || (Intl.DateTimeFormat().resolvedOptions().timeZone === 'Asia/Kuala_Lumpur' ? 'RM' : 'USD'); } catch (e) {}
   if (cur !== 'USD') cur = 'RM';
   var key = function () { return cur === 'USD' ? 'usd' : 'rm'; };
+  var bill = 'month'; // XpertCare: pay monthly, or yearly with 2 months free
 
   // Launch offer: hide it by itself once the last day has passed.
   all('[data-pk-offer]').forEach(function (el) { if (new Date() >= new Date(new Date(el.getAttribute('data-pk-offer') + 'T00:00:00+08:00').getTime() + 864e5)) el.hidden = true; });
@@ -33,12 +34,13 @@
     all('[data-pick-set="care"] button', box).forEach(function (b) { var off = +b.dataset.i > sel.build; b.classList.toggle('off', off); b.setAttribute('aria-disabled', String(off)); if (off) b.setAttribute('tabindex', '-1'); else b.removeAttribute('tabindex'); var n = b.querySelector('em'); if (n) n.hidden = !off; });
     ['build', 'care'].forEach(function (set) { all('[data-pick-set="' + set + '"] button', box).forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.i === sel[set])); }); });
     var b = chosen('build'), c = sel.care < 0 ? null : chosen('care'), k = key();
-    var bp = b.dataset[k], cp = c ? c.dataset[k] : '';
+    var yr = bill === 'year', per = yr ? 'a year' : 'a month';
+    var bp = b.dataset[k], cp = c ? c.dataset[yr ? k + 'Y' : k] : '';
     sum('bn').textContent = b.dataset.name + ' website'; sum('bp').innerHTML = bp + ' <small>once</small>';
-    sum('cn').textContent = c ? c.dataset.name : 'No monthly care'; sum('cp').innerHTML = c ? cp + ' <small>a month</small>' : (cur === 'USD' ? '$0' : 'RM0');
-    var rows = (b.dataset.free ? ['<b>Launch offer:</b> ' + b.dataset.free] : []).concat(JSON.parse(b.dataset.rows)).concat(c ? JSON.parse(c.dataset.rows) : []).concat(JSON.parse(box.dataset.all)).concat(c ? ['Monthly Google + AI visibility report'] : []);
+    sum('cn').textContent = c ? c.dataset.name : 'No monthly care'; sum('cp').innerHTML = c ? cp + ' <small>' + per + '</small>' : (cur === 'USD' ? '$0' : 'RM0');
+    var rows = (b.dataset.free ? ['<b>Launch offer:</b> ' + b.dataset.free] : []).concat(JSON.parse(b.dataset.rows)).concat(c ? JSON.parse(c.dataset.rows) : []).concat(JSON.parse(box.dataset.all)).concat(c ? ['Monthly Google + AI visibility report'] : []).concat(c && yr ? ['<b>Paid yearly:</b> 2 months free'] : []);
     sum('list').innerHTML = rows.map(function (r) { return '<li>' + r + '</li>'; }).join('');
-    var msg = 'Hello SEOXpert, I would like this plan: ' + b.dataset.name + ' website (' + bp + ' once)' + (c ? ' with ' + c.dataset.name + ' (' + cp + ' a month).' : ', no monthly care.');
+    var msg = 'Hello SEOXpert, I would like this plan: ' + b.dataset.name + ' website (' + bp + ' once)' + (c ? ' with ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').' : ', no monthly care.');
     var a = sum('send');
     if (box.dataset.wa) { a.href = 'https://wa.me/' + box.dataset.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Send this plan on WhatsApp'; }
     else if (box.dataset.mail) { a.href = 'mailto:' + box.dataset.mail + '?subject=' + encodeURIComponent('My SEOXpert plan') + '&body=' + encodeURIComponent(msg); a.textContent = 'Send this plan by email'; }
@@ -62,11 +64,16 @@
   function setCur(c, save) {
     cur = c;
     curBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.c === c)); });
-    all('span[data-rm][data-usd]').forEach(function (el) { el.textContent = el.getAttribute('data-' + key()); });
+    all('span[data-rm][data-usd]').forEach(function (el) { el.textContent = el.getAttribute('data-' + key() + (bill === 'year' && el.hasAttribute('data-rm-y') ? '-y' : '')); });
+    all('[data-unit]').forEach(function (el) { el.textContent = bill === 'year' ? 'a year' : 'a month'; });
     draw();
     if (save) try { localStorage.setItem('sx-cur', c); } catch (e) {}
   }
   all('[data-pk-curbar]').forEach(function (el) { el.hidden = false; });
+  // Pay monthly or yearly (XpertCare)
+  var billBtns = all('[data-pk-bill] button');
+  all('[data-pk-bill]').forEach(function (el) { el.hidden = false; });
+  billBtns.forEach(function (b) { b.addEventListener('click', function () { bill = b.dataset.b; billBtns.forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.b === bill)); }); document.documentElement.classList.toggle('pk-yearly', bill === 'year'); setCur(cur); }); });
   curBtns.forEach(function (b) { b.addEventListener('click', function () { setCur(b.dataset.c, true); }); });
   setCur(cur, false);
 })();

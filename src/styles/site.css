@@ -92,9 +92,9 @@ h1 em{font-style:normal;color:var(--acc)}
 .marquee{position:relative;z-index:2;background:var(--bg2);overflow:hidden;padding-block:6px 30px}
 .marquee .track{display:flex;width:max-content;animation:slide 34s linear infinite}
 .marquee span{font:800 clamp(52px,8vw,110px)/1.1 var(--f-d);letter-spacing:-.045em;padding-right:.45em;color:transparent;-webkit-text-stroke:1.5px #cdb6ea;white-space:nowrap}
-.marquee span:nth-child(5n+2){color:var(--acc);-webkit-text-stroke:0}
-.marquee span:nth-child(5n+4){color:var(--ink);-webkit-text-stroke:0}
-.marquee span:nth-child(5n){-webkit-text-stroke-color:var(--ink)}
+/* colours go word by word: purple, black, outline (keep the word count a multiple of 6 so the loop joins cleanly) */
+.marquee span:nth-child(3n+1){color:var(--acc);-webkit-text-stroke:0}
+.marquee span:nth-child(3n+2){color:var(--ink);-webkit-text-stroke:0}
 
 /* FAQ as an AI chat */
 .faqbox{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;align-items:stretch}

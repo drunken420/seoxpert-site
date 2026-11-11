@@ -18,9 +18,13 @@ export const build = {
   ] as Tier[],
 };
 
+/** XpertCare paid yearly: 12 months for the price of 10 (Suhen, 2026-11-11). */
+export const yearly = { pay: 10, free: 2, text: '2 months free' };
+export const fmtYear = (t: Tier, cur: 'RM' | 'USD' = 'RM') => (cur === 'RM' ? 'RM' + (t.rm * yearly.pay).toLocaleString('en-US') : '$' + (t.usd * yearly.pay).toLocaleString('en-US'));
+
 export const care = {
   key: 'care', label: 'XpertCare monthly', unit: 'a month', allTitle: 'In every XpertCare plan',
-  all: ['Hosting included', 'Pay yearly, get 1 month free', 'Backups', 'Uptime watch', 'Security', 'Issue checks every few days, with fixes', 'Pages optimised for keywords not ranking yet', 'Google + AI visibility report every month'],
+  all: ['Hosting included', 'Pay yearly, get 2 months free', 'Backups', 'Uptime watch', 'Security', 'Issue checks every few days, with fixes', 'Pages optimised for keywords not ranking yet', 'Google + AI visibility report every month'],
   tiers: [
     { id: 'basic', name: 'XpertCare Basic', rm: 55, usd: 15, for: 'Keep it healthy', short: '3 text or photo changes, 1 new blog post a month, 5 keywords tracked weekly', rows: ['<b>3</b> text or photo changes', '<b>1</b> new blog post a month', '<b>5</b> keywords tracked weekly'] },
     { id: 'plus', name: 'XpertCare Plus', rm: 99, usd: 25, for: 'Keep it growing', hot: true, short: '10 text or photo changes, 2 new blog posts a month, 10 keywords tracked weekly', rows: ['<b>10</b> text or photo changes', '<b>2</b> new blog posts a month', '<b>10</b> keywords tracked weekly'] },
