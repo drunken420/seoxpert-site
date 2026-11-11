@@ -17,7 +17,7 @@ const tagline = site.tagline + '.';
 const ringCards = [['XpertForge', 'Website build'], ['XpertCore', 'Our AI core'], ['XpertCare', 'Monthly care'], ['XpertForge', 'Starter, Business, Growth'], ['XpertCore', 'Plans and writes every page'], ['XpertCare', 'Basic, Plus, Pro']];
 const demos = [
   { id: 'spin', kind: '3D', title: '3D product you can spin', text: 'Let people turn your product around and try its colours before they buy.', hint: 'Drag to spin. Tap a colour.', good: ['Online shops', 'Product launches', 'Food and drink'] },
-  { id: 'logo3d', kind: '3D', title: 'Your logo in 3D', text: 'Your logo as a solid object that floats, catches the light and follows the pointer. Visitors can change the lighting and the background.', hint: 'Move over it, drag to turn it, or try the buttons.', good: ['Homepage banners', 'Brand pages', 'Loading screens'] },
+  { id: 'logo3d', kind: '3D', title: 'Your logo in 3D', text: 'Your logo as a solid object that floats and catches the light. Visitors can turn it all the way round and change the lighting and the background.', hint: 'Move over it, drag to turn it, or try the buttons.', good: ['Homepage banners', 'Brand pages', 'Loading screens'] },
   { id: 'wave', kind: '3D', title: 'A living background', text: 'A calm 3D field that moves behind your headline and reacts to the pointer.', hint: 'Move your pointer or finger over it.', good: ['Homepage banners', 'Tech and agencies', 'Events'] },
   { id: 'name', kind: 'Animation', title: 'Your name in particles', text: 'Thousands of dots fly together to spell a word, then scatter when touched.', hint: 'Type a word. Then push the dots around.', good: ['Brand intros', 'Campaign pages', 'Portfolios'] },
   { id: 'spot', kind: 'Interaction', title: 'Spotlight reveal', text: 'A dark panel that only shows what the visitor shines a light on.', hint: 'Move your pointer or finger to shine the light.', good: ['Teasers', 'Launch countdowns', 'About pages'] },
@@ -70,8 +70,8 @@ const demos = [
           <canvas aria-label="The SEOXpert logo as a 3D object" role="img"></canvas>
           <div class="dmstill" aria-hidden="true" set:html={mark}></div>
           <div class="dmctl">
-            <div role="group" aria-label="Lighting"><b>Light</b><button type="button" data-light="soft" aria-pressed="true">Soft</button><button type="button" data-light="studio" aria-pressed="false">Studio</button><button type="button" data-light="neon" aria-pressed="false">Neon</button></div>
-            <div role="group" aria-label="Background"><b>Back</b><button type="button" data-bg="light" aria-pressed="true">Light</button><button type="button" data-bg="dark" aria-pressed="false">Dark</button><button type="button" data-bg="purple" aria-pressed="false">Purple</button></div>
+            <div role="group" aria-label="Lighting"><b>Light</b><button type="button" data-light="soft" aria-pressed="true">Soft</button><button type="button" data-light="studio" aria-pressed="false">Studio</button><button type="button" data-light="neon" aria-pressed="false">Neon</button><button type="button" data-light="sunset" aria-pressed="false">Sunset</button><button type="button" data-light="moon" aria-pressed="false">Moon</button><button type="button" data-light="gold" aria-pressed="false">Gold</button></div>
+            <div role="group" aria-label="Background"><b>Back</b><button type="button" data-bg="light" aria-pressed="true">Light</button><button type="button" data-bg="dark" aria-pressed="false">Dark</button><button type="button" data-bg="purple" aria-pressed="false">Purple</button><button type="button" data-bg="sunset" aria-pressed="false">Sunset</button><button type="button" data-bg="grid" aria-pressed="false">Grid</button></div>
           </div>
         </>)}
         {d.id === 'wave' && (<>

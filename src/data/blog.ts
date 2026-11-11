@@ -14,10 +14,10 @@ export interface Post {
 
 const [starter, business, growth] = build.tiers;
 const [basic, plus, pro] = care.tiers;
-const buildTable = `<div class="btable"><table><thead><tr><th>Package</th><th>Price, paid once</th><th>Pages</th><th>Blog posts at launch</th></tr></thead><tbody>
+const buildTable = `<div class="btable"><table><thead><tr><th>Package</th><th>Price, paid once</th><th>Pages</th><th>Blog posts at launch, on top</th></tr></thead><tbody>
 <tr><td>${starter.name}</td><td>${fmt(starter)}</td><td>Up to 5</td><td>2</td></tr>
-<tr><td>${business.name}</td><td>${fmt(business)}</td><td>Up to 10, plus a blog</td><td>5</td></tr>
-<tr><td>${growth.name}</td><td>${fmt(growth)}</td><td>Up to 20, plus a blog</td><td>10</td></tr>
+<tr><td>${business.name}</td><td>${fmt(business)}</td><td>Up to 10</td><td>5</td></tr>
+<tr><td>${growth.name}</td><td>${fmt(growth)}</td><td>Up to 20</td><td>10</td></tr>
 </tbody></table></div>`;
 const careTable = `<div class="btable"><table><thead><tr><th>Plan</th><th>Price a month</th><th>Paid yearly</th><th>What changes each month</th></tr></thead><tbody>
 <tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>3 text or photo changes, 1 new blog post, 5 keywords tracked weekly</td></tr>
@@ -86,16 +86,17 @@ export const posts: Post[] = [
     title: 'Website Design Packages in Malaysia: Which One Fits?',
     description: `Compare website design packages in Malaysia: Starter, Business and Growth, from ${fmt(starter)}. See what each includes and which one fits your business.`,
     card: 'Starter, Business or Growth? What each website design package includes and who it suits.',
-    short: `Choose a website design package by counting the pages you need. ${starter.name} (${fmt(starter)}) covers up to 5 pages, ${business.name} (${fmt(business)}) up to 10 pages and a blog, and ${growth.name} (${fmt(growth)}) up to 20 pages and a blog. Each is paid once, and copywriting and keyword research are included in all three.`,
+    short: `Choose a website design package by counting the pages you need. ${starter.name} (${fmt(starter)}) covers up to 5 pages, ${business.name} (${fmt(business)}) up to 10 pages, and ${growth.name} (${fmt(growth)}) up to 20 pages. Every package also has a blog, counted separately from the pages. Each is paid once, and copywriting and keyword research are included in all three.`,
     sections: [
       { id: 'side-by-side', h: 'The three packages side by side', html: `<p>Our website builds are called XpertForge. Prices are in ringgit and paid once.</p>${buildTable}
 <p>Every package includes copywriting, full keyword research with XpertCore, Google SEO and AI search optimisation, and a WhatsApp button with a contact page. ${starter.name} has 2 revision rounds. ${business.name} and ${growth.name} have 3.</p>` },
       { id: 'count-your-pages', h: 'Start by counting your pages', html: `<p>The simplest way to choose is to list the pages you need. Most businesses need a home page, an about page, a contact page and one page for each main service or product.</p>
 <ul><li><b>Up to 5 pages:</b> ${starter.name}. A first website that says who you are, what you do and how to reach you.</li>
-<li><b>Up to 10 pages and a blog:</b> ${business.name}. Room for a page per service, plus a blog to keep adding answers.</li>
-<li><b>Up to 20 pages and a blog:</b> ${growth.name}. For many services or products, or several areas.</li></ul>
+<li><b>Up to 10 pages:</b> ${business.name}. Room for a page for each service.</li>
+<li><b>Up to 20 pages:</b> ${growth.name}. For many services or products, or several areas.</li></ul>
+<p>Blog posts are not counted in these pages. Every package has a blog on top, with posts written at launch: 2 with Starter, 5 with Business and 10 with Growth.</p>
 <p>One clear topic per page is easier to find than one long page about everything, so it is worth giving each main service a page of its own.</p>` },
-      { id: 'why-a-blog', h: 'Why the blog matters', html: `<p>${business.name} and ${growth.name} include a blog. A blog lets your website keep answering new questions your customers ask, which gives Google and AI tools more to find. Every package also comes with blog posts written at launch.</p>` },
+      { id: 'why-a-blog', h: 'Why the blog matters', html: `<p>Every package includes a blog, counted separately from your pages. A blog lets your website keep answering new questions your customers ask, which gives Google and AI tools more to find. The posts written at launch give it a start, and an XpertCare plan adds new ones each month.</p>` },
       { id: 'add-monthly-care', h: 'Adding monthly care', html: `<p>After launch you can add XpertCare, our optional monthly plan with high speed hosting included.</p>${careTable}
 <p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} needs Growth. Pay yearly and you get ${yearly.text}.</p>
 <p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p>` },
@@ -129,7 +130,7 @@ export const posts: Post[] = [
       { id: 'monthly-cost', h: 'What a website costs after launch', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertCare. It costs ${fmt(basic)} to ${fmt(pro)} a month and includes high speed hosting, backups, security, fixes, new blog posts and a monthly Google and AI visibility report.</p>
 <p>If you pay yearly you get ${yearly.text}. XpertCare is only for websites we build. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
       { id: 'which-package', h: 'Which package fits your business', html: `<ul><li><b>${starter.name}</b> suits a first website: who you are, what you do and how to reach you, in up to 5 pages.</li>
-<li><b>${business.name}</b> suits a growing business that needs a page for each service and a blog, in up to 10 pages.</li>
+<li><b>${business.name}</b> suits a growing business that needs a page for each service, in up to 10 pages.</li>
 <li><b>${growth.name}</b> suits a bigger website with many services or products, in up to 20 pages.</li></ul>
 <p>Not sure? <a href="/contact/">Tell us about your business</a> and we will say honestly which size fits.</p>` },
     ],
