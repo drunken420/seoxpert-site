@@ -7,7 +7,7 @@ const work = [
 <div class="work">
   {work.map((w) => (
     <article class="workcard rv">
-      <a class="workshot" href={w.url} target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><span class="workbar"><i></i><i></i><i></i><b>{w.url.replace(/^https:\/\/|\/$/g, '')}</b></span><img src={w.img} alt="" width="1280" height="800" loading="lazy" decoding="async"></a>
+      <a class="workshot" href={w.url} target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><span class="workbar"><i></i><i></i><i></i><b>{w.url.replace(/^https:\/\/|\/$/g, '')}</b></span><img src={w.img} alt="" width="1280" height="853" loading="lazy" decoding="async"></a>
       <div class="workinfo"><span class="eyebrow">{w.kind}</span><h3>{w.name}</h3><p>{w.text}</p><a class="more" href={w.url} target="_blank" rel="noopener">Visit {w.url.replace(/^https:\/\/|\/$/g, '')}<span class="vh"> (opens in a new tab)</span></a></div>
     </article>
   ))}

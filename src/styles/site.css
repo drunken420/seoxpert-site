@@ -93,6 +93,8 @@ h1 em{font-style:normal;color:var(--acc)}
 .marquee .track{display:flex;width:max-content;animation:slide 34s linear infinite}
 .marquee span{font:800 clamp(52px,8vw,110px)/1.1 var(--f-d);letter-spacing:-.045em;padding-right:.45em;color:transparent;-webkit-text-stroke:1.5px #cdb6ea;white-space:nowrap}
 .marquee span:nth-child(5n+2){color:var(--acc);-webkit-text-stroke:0}
+.marquee span:nth-child(5n+4){color:var(--ink);-webkit-text-stroke:0}
+.marquee span:nth-child(5n){-webkit-text-stroke-color:var(--ink)}
 
 /* FAQ as an AI chat */
 .faqbox{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;align-items:stretch}

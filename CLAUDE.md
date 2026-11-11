@@ -15,7 +15,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 
 ## SEO wording (from Ubersuggest research, 2026-11)
 - People search "website design" and "website maintenance". Use those in titles, H1s, URLs and descriptions.
-- "Website building" and "Monthly care" are the friendly menu labels.
+- Menu labels (Suhen, 2026-11-11): Website building, XpertCare, XpertCore, Packages, Demos, About, FAQ. Suhen did not like "Monthly care" and "AI builder" in the menu.
 - Every page: one H1, title 20 to 65 characters, description 70 to 170, answer first copy, structured data that matches the visible text.
 
 ## Where things are
