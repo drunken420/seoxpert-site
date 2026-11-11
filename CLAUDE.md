@@ -32,6 +32,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Links between pages: `src/components/Related.astro` (keyword link text) plus links inside the copy. A new page needs adding there, in the menu and footer (`Base.astro`) and in `llms.txt.ts`.
 - Big screens: write sizes in px. The build turns px into rem (`scripts/fluid-px.mjs` for stylesheets, `scripts/fluid-html.mjs` for style attributes) and `html{font-size}` in `site.css` grows above 1920px wide. Breakpoints stay in px. The desktop menu switches to the phone menu at 1080px.
 - Demos page: `src/pages/demos.astro` (list of demos and their markup), styles `src/styles/demos.css`, script `public/js/demos.js`. Each demo starts only when scrolled near and three.js loads on demand. No invented numbers in demo content.
+- Website development page (`/website-development/`, Suhen asked 2026-11-11): how sites are coded for SEO and AI from the ground up. Linked from the footer, Related and the Website design page, not in the top menu. Only claim what this site really does.
 - Blog (`/blog/`): guides live in `src/data/blog.ts` (add a new one at the TOP; prices come from packages.ts). List page `src/pages/blog/index.astro` shows the newest three as a magazine and older ones as cards (Suhen picked this, 2026-11-11); guide layout `src/pages/blog/[slug].astro`; pictures `src/components/BlogArt.astro`; styles `src/styles/blog.css`. Guides target the Malaysia keywords in the research file; never promise rankings.
 - Share image: `node scripts/make-og.cjs` writes `public/og.png`
 

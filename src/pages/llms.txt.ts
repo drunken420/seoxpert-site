@@ -11,6 +11,7 @@ Area: ${site.areas.join(', ')} and across ${site.country}.
 
 ## Services
 - [Website design](${site.url}/website-design/): New websites planned for Google and AI search before they are designed, built as an XpertForge package with XpertCore, our own AI website builder, and finished by hand.
+- [Website development](${site.url}/website-development/): How every XpertForge website is coded for Google and AI search from the ground up: clean structure, fast pages, structured data and llms.txt.
 - [Website maintenance](${site.url}/website-maintenance/): Monthly care, called XpertCare, only for websites built by SEOXpert, with hosting included. It keeps a website updated, backed up and growing with new content.
 - [AI website builder](${site.url}/ai-website-builder/): How XpertCore, our own builder, plans pages, writes answer first copy and adds structured data and llms.txt.
 - [Interactive website demos](${site.url}/demos/): Live examples of 3D and animation we can build into a website: a 3D product to spin, moving backgrounds, particle text, tilt cards, a before and after slider and animated charts.

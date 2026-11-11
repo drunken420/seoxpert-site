@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Trio from '../components/Trio.astro';
+import Related from '../components/Related.astro';
+import '../styles/page.css';
+import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
+const extraLd = [{ '@type': 'Service', name: 'Website development', serviceType: 'Website development', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-development/`, areaServed: areaLd, description: 'Website development in Malaysia: websites coded for Google and AI search from the ground up, with fast pages, structured data and an llms.txt file.' }];
+---
+<Base title="Website Development Malaysia: Coded for SEO and AI | SEOXpert" description="Website development in Malaysia, coded for Google and AI search from the ground up: fast pages, clean structure, structured data and an llms.txt file." path="/website-development/" crumb="Website development" extraLd={extraLd}>
+<main id="main">
+<PageHero kicker="Website development" brand="XpertForge" art="core" crumb="Website development">
+  <Fragment slot="title">Website development in Malaysia, <em>coded to be found</em>.</Fragment>
+  <Fragment slot="lede">Every XpertForge website is designed and coded with SEO and AI search in mind from the ground up. Nothing is bolted on afterwards.</Fragment>
+  <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#code">See what goes into the code</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Design and development</span>
+  <h2 class="rv">Design is what people see. Development is what Google and AI read.</h2>
+  <p class="sub rv">Website development is the work of turning a design into working code. We are website developers for businesses in {areaText}, and we treat the code as part of your search plan, not a separate job.</p>
+  <div class="grid3">
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Website design</h3><p>The page plan, the words and the look. See how our <a href="/website-design/">website design</a> works.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Website development</h3><p>The code underneath: structure, speed and the labels machines read. That is this page.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>One team, one price</h3><p>Both are included in every <a href="/packages/">website design package</a>. You do not pay for development separately.</p></div>
+  </div>
+</div></section>
+
+<section id="code" class="solid tint band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">From the ground up</span>
+    <h2 class="rv">What goes into the code of every website.</h2>
+    <p class="sub rv">Six things are built in from the first line, with <a href="/ai-website-builder/">XpertCore, our AI website builder</a>, and checked by experts.</p>
+  </div>
+  <ol class="nsteps">
+    <li class="rv"><h3>Clean page structure</h3><p>One main heading per page and well ordered headings under it, so search engines and AI tools can follow the page the way a reader does.</p></li>
+    <li class="rv" style="--d:1"><h3>Fast, light pages</h3><p>Pages are kept light so they load quickly on phones, because most people will meet your business on a phone.</p></li>
+    <li class="rv" style="--d:2"><h3>Titles and descriptions</h3><p>Every page gets its own title and description, written for what people search for.</p></li>
+    <li class="rv" style="--d:3"><h3>Structured data</h3><p>Extra labels in the code that tell Google and AI tools the facts: your business, your services, your questions and answers.</p></li>
+    <li class="rv" style="--d:4"><h3>An llms.txt file</h3><p>A short, plain summary of your website for AI assistants, alongside the sitemap that search engines use.</p></li>
+    <li class="rv" style="--d:5"><h3>Effects that never get in the way</h3><p>Animation and 3D load only when they are needed, and the page is complete and readable without them. Try them in <a href="/demos/">XpertLab</a>.</p></li>
+  </ol>
+</div></section>
+
+<section class="dark band"><div class="wrap split">
+  <div>
+    <span class="eyebrow rv">What machines read</span>
+    <h2 class="rv">The facts about your business, written in code.</h2>
+    <p class="sub rv">This is the kind of structured data we add to a website, so search engines do not have to guess. The names here are examples only.</p>
+  </div>
+  <pre class="codecard rv" aria-label="Example of structured data"><span class="c">// structured data (example)</span>
+{
+  <span class="k">"@type"</span>: <span class="v">"LocalBusiness"</span>,
+  <span class="k">"name"</span>: <span class="v">"Your Business"</span>,
+  <span class="k">"description"</span>: <span class="v">"What you do, in one plain sentence."</span>,
+  <span class="k">"areaServed"</span>: <span class="v">"Where you work"</span>,
+  <span class="k">"url"</span>: <span class="v">"https://your-website"</span>
+}</pre>
+</div></section>
+
+<section class="solid band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">See it for yourself</span>
+    <h2 class="rv">This website is built the same way.</h2>
+  </div>
+  <div class="prose">
+    <p class="rv">You are looking at an example. This website has one main heading on every page, its own title and description on every page, structured data, a sitemap and an <a href="/llms.txt">llms.txt file</a> you can open.</p>
+    <p class="rv">The 3D logo on the home page and the effects in <a href="/demos/">XpertLab</a> load only when they are needed, so the pages stay quick on phones.</p>
+    <p class="rv">We never promise rankings, because nobody controls Google or AI tools. What we promise is the work: a website that is clear, fast and easy for both to read. After launch, <a href="/website-maintenance/">XpertCare website maintenance</a> keeps it that way.</p>
+  </div>
+</div></section>
+<Trio />
+<Related skip="/website-development/" />
+<Cta title="Need a website developed the right way from the start?" />
+</main>
+</Base>
