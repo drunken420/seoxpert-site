@@ -46,6 +46,7 @@
         g.fillStyle = '#fff'; X.rr(g, 30, 160, 72, 24, 11); g.fill();
         g.fillStyle = '#00ffff'; [30, 92, 154].forEach(function (x) { X.rr(g, x, 194, 54, 14, 6); g.fill(); });
       }, N - TN, G, SPAN, 19);
+      txt.forEach(function (p) { p.z *= 0.15; });
       var L = txt.concat(rest); return L;
     }
     var L = layout(name), SLOT = { x: (34 / G - 0.5) * SPAN, y: (0.5 - 66 / G) * SPAN };
@@ -98,7 +99,7 @@
         var we = mode === 'L' ? e : 1 - e, rt = t * s.rs * motion + s.ph;
         dummy.position.set(cx[i] + ox[i], cy[i] + oy[i], cz[i] + oz[i]);
         dummy.rotation.set(X.lerp(rt, 0, we) + push * 2, X.lerp(rt * 0.7, 0, we), X.lerp(rt * 0.5, s.rot, we));
-        var sc = X.lerp(s.sz * 0.15 * intro, Lp.c ? 0.075 : 0.088, we); dummy.scale.set(sc, sc, sc);
+        var sc = X.lerp(s.sz * 0.15 * intro, i < TN ? 0.046 : Lp.c ? 0.075 : 0.088, we);   /* the business name uses finer petals so it is easy to read */ dummy.scale.set(sc, sc, sc);
         dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix);
       }
       mesh.instanceMatrix.needsUpdate = true;
