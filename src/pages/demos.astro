@@ -1,22 +1,36 @@
 ---
-// Demos: live effects we can build into a client's website. Add a new one to the list below,
-// its markup in the matching stage, and its script in public/js/demos.js.
+// Demos: live effects we can build into a client's website, all shown in SEOXpert's own branding.
+// Add a new one to the list below, its markup in the matching stage, and its script in public/js/demos.js.
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import logo from '../fragments/logo.svg?raw';
+import icon from '../fragments/icon.svg?raw';
+import { site } from '../config';
 import '../styles/page.css';
 import '../styles/demos.css';
+const paths = [...icon.matchAll(/ d="([^"]+)"/g)].map((m) => m[1]);
+const mark = icon.replace('<svg ', '<svg class="mark" aria-hidden="true" ').replace(/id="pg"/, 'id="pgd"').replace('url(#pg)', 'url(#pgd)');
+const word = logo.replace('role="img" aria-label="SEOxpert"', 'aria-hidden="true"');
+const tagline = site.tagline + '.';
+const ringPages = ['Home', 'Website building', 'Monthly care', 'AI builder', 'Packages', 'Demos'];
 const demos = [
   { id: 'spin', kind: '3D', title: '3D product you can spin', text: 'Let people turn your product around and try its colours before they buy.', hint: 'Drag to spin. Tap a colour.', good: ['Online shops', 'Product launches', 'Food and drink'] },
+  { id: 'logo3d', kind: '3D', title: 'Your logo in 3D', text: 'Your logo as a solid object that floats, catches the light and follows the pointer.', hint: 'Move over it, or drag to turn it.', good: ['Homepage banners', 'Brand pages', 'Loading screens'] },
   { id: 'wave', kind: '3D', title: 'A living background', text: 'A calm 3D field that moves behind your headline and reacts to the pointer.', hint: 'Move your pointer or finger over it.', good: ['Homepage banners', 'Tech and agencies', 'Events'] },
   { id: 'name', kind: 'Animation', title: 'Your name in particles', text: 'Thousands of dots fly together to spell a word, then scatter when touched.', hint: 'Type a word. Then push the dots around.', good: ['Brand intros', 'Campaign pages', 'Portfolios'] },
+  { id: 'spot', kind: 'Interaction', title: 'Spotlight reveal', text: 'A dark panel that only shows what the visitor shines a light on.', hint: 'Move your pointer or finger to shine the light.', good: ['Teasers', 'Launch countdowns', 'About pages'] },
+  { id: 'theme', kind: 'Interaction', title: 'Light and dark switch', text: 'One tap swaps the whole website between light and dark, with a smooth ripple.', hint: 'Tap the round switch.', good: ['Any website', 'Apps and tech', 'Night-time readers'] },
   { id: 'tilt', kind: 'Interaction', title: 'Cards that tilt and shine', text: 'Service, menu or pricing cards that lean toward the pointer with a soft light.', hint: 'Move over a card, or touch one.', good: ['Services', 'Menus', 'Pricing'] },
+  { id: 'ring', kind: '3D', title: 'A carousel that turns in 3D', text: 'Pages, products or photos on a ring that visitors can swing around.', hint: 'Drag it, or use the arrows.', good: ['Portfolios', 'Product ranges', 'Photo galleries'] },
+  { id: 'magnet', kind: 'Interaction', title: 'Magnetic buttons', text: 'Buttons that lean toward the pointer, so the important click feels alive.', hint: 'Bring your pointer close to a button.', good: ['Contact buttons', 'Sign-up pages', 'Menus'] },
+  { id: 'burst', kind: 'Animation', title: 'A button that celebrates', text: 'A burst of petals when someone sends a form or places an order.', hint: 'Press the button.', good: ['Contact forms', 'Checkouts', 'Sign-ups'] },
   { id: 'slide', kind: 'Interaction', title: 'Before and after slider', text: 'Drag the handle to compare two pictures. Works with a mouse, a finger or the keyboard.', hint: 'Drag the handle, or use the arrow keys.', good: ['Renovation', 'Clinics and salons', 'Redesigns'] },
   { id: 'draw', kind: 'Scroll', title: 'Charts that draw themselves', text: 'Lines and bars that draw as they scroll into view, so numbers feel alive.', hint: 'Press replay to watch again.', good: ['Reports', 'Case studies', 'About pages'] },
 ];
 ---
-<Base title="Interactive Website Demos: 3D and Animation | SEOXpert" description="Live demos of what we can build into your website: 3D products you can spin, moving backgrounds, particle text, tilt cards, sliders and animated charts." path="/demos/" crumb="Demos">
+<Base title="Interactive Website Demos: 3D and Animation | SEOXpert" description="Twelve live demos of what we can build into your website: 3D products and logos, moving backgrounds, particle text, tilt cards, sliders and more." path="/demos/" crumb="Demos">
 <main id="main">
 <PageHero kicker="Demos" crumb="Demos">
   <Fragment slot="title">Website effects you can <em>touch</em>.</Fragment>
@@ -26,65 +40,110 @@ const demos = [
 
 <section class="solid band"><div class="wrap">
   <span class="eyebrow rv">Pick a demo</span>
-  <h2 class="rv">Six things your website could do.</h2>
+  <h2 class="rv">Twelve things your website could do.</h2>
+  <p class="sub rv">Every demo below wears our own branding. On your website it would wear yours.</p>
   <nav class="dmnav rv" aria-label="Demos">{demos.map((d, i) => <a href={`#${d.id}`}><b>{String(i + 1).padStart(2, '0')}</b>{d.title}</a>)}</nav>
 
+  <div class="dmgrid">
   {demos.map((d, i) => (
-    <article class={'dm' + (i % 2 ? ' flip' : '')} id={d.id}>
-      <div class="dmstage rv" data-demo={d.id}>
+    <article class="dm" id={d.id}>
+      <div class="dminfo rv">
+        <span class="eyebrow">{String(i + 1).padStart(2, '0')} · {d.kind}</span>
+        <h3>{d.title}</h3>
+        <p>{d.text}</p>
+        <p class="dmhint">{d.hint}</p>
+      </div>
+      <div class="dmstage rv" data-demo={d.id} data-d1={d.id === 'spin' ? paths[0] : undefined} data-d2={d.id === 'spin' ? paths[1] : undefined}>
         {d.id === 'spin' && (<>
-          <canvas aria-label="A 3D paper cup that you can drag to spin" role="img"></canvas>
+          <canvas aria-label="A 3D paper cup with the SEOXpert logo that you can drag to spin" role="img"></canvas>
           <div class="dmsw" role="group" aria-label="Cup colour">
             <button type="button" aria-pressed="true" aria-label="Purple" data-c="#7b18c1" style="--c:#7b18c1"></button>
+            <button type="button" aria-pressed="false" aria-label="Plum" data-c="#2a0d47" style="--c:#2a0d47"></button>
+            <button type="button" aria-pressed="false" aria-label="Lilac" data-c="#b06cff" style="--c:#b06cff"></button>
             <button type="button" aria-pressed="false" aria-label="Orange" data-c="#f08a24" style="--c:#f08a24"></button>
-            <button type="button" aria-pressed="false" aria-label="Green" data-c="#1f9d6b" style="--c:#1f9d6b"></button>
-            <button type="button" aria-pressed="false" aria-label="Black" data-c="#1a1026" style="--c:#1a1026"></button>
           </div>
           <div class="dmstill cup" aria-hidden="true"><i></i><b></b><u></u></div>
         </>)}
+        {d.id === 'logo3d' && (<>
+          <canvas aria-label="The SEOXpert logo as a 3D object" role="img"></canvas>
+          <div class="dmstill" aria-hidden="true" set:html={mark}></div>
+        </>)}
         {d.id === 'wave' && (<>
           <canvas aria-hidden="true"></canvas>
-          <div class="dmover"><span>Your business</span><strong>Your headline goes here.</strong><em>Your button</em></div>
+          <div class="dmover"><Fragment set:html={word} /><strong>{tagline}</strong><em>See packages</em></div>
         </>)}
         {d.id === 'name' && (<>
           <canvas aria-label="Dots that spell the word you type" role="img"></canvas>
-          <label class="dmfield"><span class="vh">Word to spell</span><input type="text" value="Hello" maxlength="12" autocomplete="off" spellcheck="false" enterkeyhint="done"></label>
+          <label class="dmfield"><span class="vh">Word to spell</span><input type="text" value="SEOXpert" maxlength="12" autocomplete="off" spellcheck="false" enterkeyhint="done"></label>
         </>)}
-        {d.id === 'tilt' && (
-          <div class="dmtilt">
-            <div class="tcard"><i></i><span>Design</span><b>A fresh look</b><p>Clear pages that feel like you.</p></div>
-            <div class="tcard hot"><i></i><span>Build</span><b>A fast website</b><p>Quick on every phone.</p></div>
-            <div class="tcard"><i></i><span>Care</span><b>Looked after</b><p>Updated month after month.</p></div>
+        {d.id === 'spot' && (
+          <div class="dmspot">
+            <div class="spotc dim" aria-hidden="true"><Fragment set:html={word} /><strong>{tagline}</strong><span>Forged by XpertCore, looked after by XpertCare.</span></div>
+            <div class="spotc lit"><Fragment set:html={word} /><strong>{tagline}</strong><span>Forged by XpertCore, looked after by XpertCare.</span></div>
           </div>
         )}
+        {d.id === 'theme' && (
+          <div class="dmtheme">
+            {['light', 'night'].map((t) => (
+              <div class={'tsite ' + t} aria-hidden={t === 'night' ? 'true' : undefined}>
+                <div class="tbar"><Fragment set:html={word} /><i></i><i></i><i></i></div>
+                <strong>{tagline}</strong>
+                <p>Website building and monthly website care.</p>
+                <em>See packages</em>
+                <div class="tcards"><b>XpertForge</b><b>XpertCore</b><b>XpertCare</b></div>
+              </div>
+            ))}
+            <button class="tsw" type="button" aria-pressed="false" aria-label="Dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="sun" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-5v3m0 14v3M2 12h3m14 0h3M4.9 4.9 7 7m10 10 2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/><path class="moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg></button>
+          </div>
+        )}
+        {d.id === 'tilt' && (
+          <div class="dmtilt">
+            <div class="tcard"><i></i><span>Build</span><b>XpertForge</b><p>Your website, built for search.</p></div>
+            <div class="tcard hot"><i></i><span>AI core</span><b>XpertCore</b><p>Plans and writes every page.</p></div>
+            <div class="tcard"><i></i><span>Care</span><b>XpertCare</b><p>Looked after every month.</p></div>
+          </div>
+        )}
+        {d.id === 'ring' && (<>
+          <div class="dmring"><div class="ringin">
+            {ringPages.map((p, k) => <div class={'rc' + (k % 3 === 1 ? ' hot' : '')} style={`--i:${k}`}><Fragment set:html={mark} /><b>{p}</b><i></i><i></i><i></i></div>)}
+          </div></div>
+          <div class="ringnav"><button type="button" data-dir="-1" aria-label="Previous card"></button><button type="button" data-dir="1" aria-label="Next card"></button></div>
+        </>)}
+        {d.id === 'magnet' && (
+          <div class="dmmag">
+            <span class="mg"><b>WhatsApp us</b></span>
+            <span class="mg ghost"><b>See packages</b></span>
+            <span class="mg round" aria-hidden="true"><b set:html={mark}></b></span>
+          </div>
+        )}
+        {d.id === 'burst' && (<>
+          <div class="dmburst"><Fragment set:html={word} /><button type="button" class="btn" data-a="Send message" data-b="Sent. Thank you!">Send message</button></div>
+          <canvas aria-hidden="true"></canvas>
+        </>)}
         {d.id === 'slide' && (
-          <div class="dmslide" style="--p:50%">
-            <div class="mock old" aria-hidden="true"><div class="mb"></div><div class="mh"></div><div class="ml"></div><div class="ml s"></div><div class="mg"><i></i><i></i><i></i></div><small>Before</small></div>
-            <div class="mock new" aria-hidden="true"><div class="mb"></div><div class="mh"></div><div class="ml"></div><div class="ml s"></div><div class="mg"><i></i><i></i><i></i></div><small>After</small></div>
+          <div class="dmslide" style="--p:35%">
+            <div class="mock old" aria-hidden="true"><div class="mb"></div><div class="mh"></div><div class="ml"></div><div class="ml s"></div><div class="mg3"><i></i><i></i><i></i></div><small>Before</small></div>
+            <div class="mock new" aria-hidden="true"><div class="mb" set:html={word}></div><strong>{tagline}</strong><div class="ml"></div><div class="ml s"></div><div class="mg3"><i></i><i></i><i></i></div><small>After, by SEOXpert</small></div>
             <div class="grip" aria-hidden="true"><i></i></div>
-            <input type="range" min="0" max="100" value="50" aria-label="Show more of the before or the after picture">
+            <input type="range" min="0" max="100" value="35" aria-label="Show more of the before or the after picture">
           </div>
         )}
         {d.id === 'draw' && (<>
-          <svg class="dmchart" viewBox="0 0 600 360" role="img" aria-label="An example line chart and bars that draw themselves">
-            <g class="grid"><path d="M40 60H580M40 130H580M40 200H580M40 270H580"/></g>
-            <g class="bars"><rect x="70" y="210" width="44" height="90" rx="8"/><rect x="160" y="180" width="44" height="120" rx="8"/><rect x="250" y="150" width="44" height="150" rx="8"/><rect x="340" y="120" width="44" height="180" rx="8"/><rect x="430" y="96" width="44" height="204" rx="8"/><rect x="520" y="70" width="44" height="230" rx="8"/></g>
-            <path class="line" pathLength="1" d="M92 190C140 176 150 150 182 150S240 120 272 116S330 92 362 84S420 60 452 56S510 36 542 30"/>
-            <g class="dots"><circle cx="92" cy="190" r="7"/><circle cx="182" cy="150" r="7"/><circle cx="272" cy="116" r="7"/><circle cx="362" cy="84" r="7"/><circle cx="452" cy="56" r="7"/><circle cx="542" cy="30" r="7"/></g>
+          <div class="dmchead" aria-hidden="true"><Fragment set:html={word} /><span>Example report</span></div>
+          <svg class="dmchart" viewBox="0 0 600 320" role="img" aria-label="An example line chart and bars that draw themselves">
+            <g class="grid"><path d="M40 40H580M40 110H580M40 180H580M40 250H580"/></g>
+            <g class="bars"><rect x="70" y="190" width="44" height="90" rx="8"/><rect x="160" y="160" width="44" height="120" rx="8"/><rect x="250" y="130" width="44" height="150" rx="8"/><rect x="340" y="100" width="44" height="180" rx="8"/><rect x="430" y="76" width="44" height="204" rx="8"/><rect x="520" y="50" width="44" height="230" rx="8"/></g>
+            <path class="line" pathLength="1" d="M92 170C140 156 150 130 182 130S240 100 272 96S330 72 362 64S420 40 452 36S510 16 542 12"/>
+            <g class="dots"><circle cx="92" cy="170" r="7"/><circle cx="182" cy="130" r="7"/><circle cx="272" cy="96" r="7"/><circle cx="362" cy="64" r="7"/><circle cx="452" cy="36" r="7"/><circle cx="542" cy="12" r="7"/></g>
           </svg>
           <button class="dmreplay" type="button">Replay</button>
           <small class="dmnote">Example shapes only, not real results.</small>
         </>)}
       </div>
-      <div class="dminfo rv" style="--d:1">
-        <span class="eyebrow">{String(i + 1).padStart(2, '0')} · {d.kind}</span>
-        <h3>{d.title}</h3>
-        <p>{d.text}</p>
-        <p class="dmhint">{d.hint}</p>
-        <ul class="dmgood" aria-label="Good for">{d.good.map((g) => <li>{g}</li>)}</ul>
-      </div>
+      <ul class="dmgood rv" aria-label="Good for">{d.good.map((g) => <li>{g}</li>)}</ul>
     </article>
   ))}
+  </div>
 </div></section>
 
 <section class="dark band"><div class="wrap">
