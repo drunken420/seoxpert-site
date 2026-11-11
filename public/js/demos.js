@@ -311,7 +311,7 @@
       if (!mine && !page) { if (!nextAuto) nextAuto = t + (kind === 'clear' ? 0.6 : 7); else if (t > nextAuto) { nextAuto = t + 7; set(cycle[ai++ % cycle.length], true); n = count(); } }
       surfaces(t); lastT = t;
       while (P.length < n) P.push(spawn({}, false)); P.length = n; cx.clearRect(0, 0, W, H);
-      dim += ((page && (kind === 'storm' || kind === 'fireflies') ? 0.42 : 0) - dim) * 0.04; if (dim > 0.005) { cx.fillStyle = 'rgba(16,8,28,' + dim.toFixed(3) + ')'; cx.fillRect(0, 0, W, H); } // a whole-page storm or night darkens the sky first
+      dim += ((page && kind === 'storm' ? 0.42 : 0) - dim) * 0.04; if (dim > 0.005) { cx.fillStyle = 'rgba(16,8,28,' + dim.toFixed(3) + ')'; cx.fillRect(0, 0, W, H); } // a whole-page storm darkens the sky first
       if (kind === 'rain' || kind === 'storm') {
         cx.strokeStyle = dark() || kind === 'storm' ? 'rgba(233,216,255,.72)' : 'rgba(123,24,193,.42)'; cx.lineWidth = kind === 'storm' ? 1.5 : 1.3; cx.beginPath();
         P.forEach(function (p) { var py = p.y; p.y += p.vy; p.x += wind; var s = hit(p, py); if (s) { splash(p.x, s.T); spawn(p, true); } else if (p.y > H + 20 || p.x < -60) spawn(p, true); cx.moveTo(p.x, p.y); cx.lineTo(p.x - wind * p.l / p.vy, p.y - p.l); }); cx.stroke();
@@ -327,11 +327,14 @@
           leaf(p, false);
         });
       } else if (kind === 'fireflies') {
-        if (!glow) { glow = document.createElement('canvas'); glow.width = glow.height = 64; var g = glow.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(250,255,190,1)'); gr.addColorStop(0.18, 'rgba(226,255,120,.9)'); gr.addColorStop(0.5, 'rgba(176,255,90,.22)'); gr.addColorStop(1, 'rgba(176,255,90,0)'); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); }
-        cx.save(); cx.globalCompositeOperation = 'lighter';
+        // at night they glow green; over a white page they are warm golden lights instead, so the page stays bright
+        function sprite(c) { var cvs = document.createElement('canvas'); cvs.width = cvs.height = 64; var g = cvs.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); c.forEach(function (st) { gr.addColorStop(st[0], st[1]); }); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return cvs; }
+        if (!glow) glow = { night: sprite([[0, 'rgba(250,255,190,1)'], [0.18, 'rgba(226,255,120,.9)'], [0.5, 'rgba(176,255,90,.22)'], [1, 'rgba(176,255,90,0)']]), day: sprite([[0, 'rgba(255,214,90,1)'], [0.14, 'rgba(255,170,20,.95)'], [0.42, 'rgba(255,160,40,.3)'], [1, 'rgba(255,160,40,0)']]) };
+        var spr = dark() ? glow.night : glow.day;
+        cx.save(); cx.globalCompositeOperation = dark() ? 'lighter' : 'source-over';
         P.forEach(function (p) { p.vx += Math.sin(t * 0.7 * p.sp + p.ph) * 0.03 + (Math.random() - 0.5) * 0.04; p.vy += Math.cos(t * 0.6 * p.sp + p.ph * 1.7) * 0.03 + (Math.random() - 0.5) * 0.04; p.vx *= 0.97; p.vy *= 0.97; p.x += p.vx; p.y += p.vy;
           if (p.x < -20) p.x = W + 20; if (p.x > W + 20) p.x = -20; if (p.y < H * 0.05) p.vy += 0.05; if (p.y > H) p.vy -= 0.05;
-          var b = Math.max(0, Math.sin(t * p.sp * 1.6 + p.ph)), a = 0.15 + 0.85 * b * b, sz = 18 + 16 * b; cx.globalAlpha = a; cx.drawImage(glow, p.x - sz / 2, p.y - sz / 2, sz, sz); });
+          var b = Math.max(0, Math.sin(t * p.sp * 1.6 + p.ph)), a = 0.15 + 0.85 * b * b, sz = 18 + 16 * b; cx.globalAlpha = a; cx.drawImage(spr, p.x - sz / 2, p.y - sz / 2, sz, sz); });
         cx.restore();
       }
       // splashes, then the snow piles (they melt away once the snow stops)
