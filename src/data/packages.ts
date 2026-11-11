@@ -9,12 +9,12 @@ export const offer = { ends: '2027-04-30', endsText: '30 April 2027', title: 'Fr
 export const offerOn = () => new Date() < new Date('2027-05-01T00:00:00+08:00');
 
 export const build = {
-  key: 'build', label: 'Website build', unit: 'once', allTitle: 'In every build',
+  key: 'build', label: 'XpertForge website build', unit: 'once', allTitle: 'In every XpertForge build',
   all: ['Copywriting included', 'Google SEO + AI search optimisation', 'Full keyword research with XpertCore', 'WhatsApp button + contact'],
   tiers: [
-    { id: 'starter', name: 'Starter', rm: 499, usd: 129, for: 'For a first website', short: 'Up to 5 pages, 2 blog posts', rows: ['Up to <b>5 pages</b>', '<b>2 blog posts</b> at launch', '<b>2</b> revision rounds'], free: '1 month of XpertCare Basic free' },
-    { id: 'business', name: 'Business', rm: 999, usd: 249, for: 'For a growing business', hot: true, short: 'Up to 10 pages + blog, 5 blog posts', rows: ['Up to <b>10 pages</b> + blog', '<b>5 blog posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertCare Plus free' },
-    { id: 'growth', name: 'Growth', rm: 1749, usd: 449, for: 'For a bigger website', short: 'Up to 20 pages + blog, 10 blog posts', rows: ['Up to <b>20 pages</b> + blog', '<b>10 blog posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertCare Pro free' },
+    { id: 'starter', name: 'XpertForge Starter', rm: 499, usd: 129, for: 'For a first website', short: 'Up to 5 pages, 2 blog posts', rows: ['Up to <b>5 pages</b>', '<b>2 blog posts</b> at launch', '<b>2</b> revision rounds'], free: '1 month of XpertCare Basic free' },
+    { id: 'business', name: 'XpertForge Business', rm: 999, usd: 249, for: 'For a growing business', hot: true, short: 'Up to 10 pages + blog, 5 blog posts', rows: ['Up to <b>10 pages</b> + blog', '<b>5 blog posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertCare Plus free' },
+    { id: 'growth', name: 'XpertForge Growth', rm: 1749, usd: 449, for: 'For a bigger website', short: 'Up to 20 pages + blog, 10 blog posts', rows: ['Up to <b>20 pages</b> + blog', '<b>10 blog posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertCare Pro free' },
   ] as Tier[],
 };
 
