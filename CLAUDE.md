@@ -39,6 +39,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Our work frame: `public/work/cosmolinkos.jpg` is the picture; `cosmolinkos.webm` and `.mp4` are a silent 7 second loop recorded from the real CosmolinkOS banner (Suhen asked 2026-11-11), played over the picture by the last block of `public/js/ui.js` only while on screen.
 - Homepage XpertLab teaser (`#lab` in `home-lower.html`, styles at the end of `home.css`): a flat-canvas dotted globe (`public/js/lab-teaser.js`, loaded with `public/js/land.js` by the last block of `ui.js` only when near) plus two CSS-only mini demos. `land.js` is the shared world land map, also used by the XpertLab globe.
 - Motion extras (Suhen picked 2026-11-11): `main h2.rv` headings reveal word by word (ui.js wraps the words), rows of `.grid3`/`.rgrid` cards fan in on computers, numbered steps (`.nsteps`) light up and join with a line, and pages fade into each other (`@view-transition` in `site.css`). Guides have a reading progress bar and a phone "In this guide" menu (`blog/[slug].astro`). The three-names block (`Trio.astro`) stays only on Home and About.
+- Fresh scripts: after the build, `scripts/version-js.mjs` adds `?v=<hash>` to every `/js/*.js` link (pages and our scripts), and `public/_headers` tells browsers to check `/js/` files each time. Keep writing plain `/js/name.js` in the source.
 - Share image: `node scripts/make-og.cjs` writes `public/og.png`
 
 ## Speed rule
