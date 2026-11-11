@@ -43,8 +43,7 @@
       cup.add(lath([[0, -1.25], [0.66, -1.25], [0.7, -1.2], [0.95, 1.1], [0.99, 1.13], [0.95, 1.16], [0.9, 1.12], [0.66, -1.16], [0, -1.16]], white));
       cup.add(lath([[0.775, -0.5], [0.79, -0.52], [0.905, 0.52], [0.89, 0.54], [0.775, -0.5]], band));
       cup.add(lath([[0, 1.33], [0.55, 1.33], [0.62, 1.3], [0.66, 1.2], [0.98, 1.2], [1.03, 1.16], [1.03, 1.08], [0.98, 1.06], [0.98, 1.1]], new T.MeshStandardMaterial({ color: 0x2a0d47, roughness: 0.4 })));
-      var petal = new T.Mesh(new T.CircleGeometry(0.22, 24, 0, Math.PI / 2), new T.MeshBasicMaterial({ color: 0xffffff })); petal.position.set(-0.1, -0.1, 0.86); petal.rotation.x = -0.11; cup.add(petal);
-      var petal2 = petal.clone(); petal2.rotation.z = Math.PI; petal2.position.set(0.1, 0.1, 0.875); cup.add(petal2);
+      var petal = new T.Mesh(new T.CircleGeometry(0.3, 32, 0, Math.PI / 2), new T.MeshBasicMaterial({ color: 0xffffff })); petal.position.set(-0.14, -0.15, 0.862); petal.rotation.x = -0.11; cup.add(petal);
       cup.rotation.x = 0.12;
       var ry = -0.5, vy = 0, down = false, lx = 0, api = { dirty: true };
       el.addEventListener('pointerdown', function (e) { if (e.target.closest('.dmsw')) return; down = true; lx = e.clientX; el.classList.add('drag'); try { el.setPointerCapture(e.pointerId); } catch (x) {} });
