@@ -1,0 +1,99 @@
+---
+// Demos: live effects we can build into a client's website. Add a new one to the list below,
+// its markup in the matching stage, and its script in public/js/demos.js.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import '../styles/page.css';
+import '../styles/demos.css';
+const demos = [
+  { id: 'spin', kind: '3D', title: '3D product you can spin', text: 'Let people turn your product around and try its colours before they buy.', hint: 'Drag to spin. Tap a colour.', good: ['Online shops', 'Product launches', 'Food and drink'] },
+  { id: 'wave', kind: '3D', title: 'A living background', text: 'A calm 3D field that moves behind your headline and reacts to the pointer.', hint: 'Move your pointer or finger over it.', good: ['Homepage banners', 'Tech and agencies', 'Events'] },
+  { id: 'name', kind: 'Animation', title: 'Your name in particles', text: 'Thousands of dots fly together to spell a word, then scatter when touched.', hint: 'Type a word. Then push the dots around.', good: ['Brand intros', 'Campaign pages', 'Portfolios'] },
+  { id: 'tilt', kind: 'Interaction', title: 'Cards that tilt and shine', text: 'Service, menu or pricing cards that lean toward the pointer with a soft light.', hint: 'Move over a card, or touch one.', good: ['Services', 'Menus', 'Pricing'] },
+  { id: 'slide', kind: 'Interaction', title: 'Before and after slider', text: 'Drag the handle to compare two pictures. Works with a mouse, a finger or the keyboard.', hint: 'Drag the handle, or use the arrow keys.', good: ['Renovation', 'Clinics and salons', 'Redesigns'] },
+  { id: 'draw', kind: 'Scroll', title: 'Charts that draw themselves', text: 'Lines and bars that draw as they scroll into view, so numbers feel alive.', hint: 'Press replay to watch again.', good: ['Reports', 'Case studies', 'About pages'] },
+];
+---
+<Base title="Interactive Website Demos: 3D and Animation | SEOXpert" description="Live demos of what we can build into your website: 3D products you can spin, moving backgrounds, particle text, tilt cards, sliders and animated charts." path="/demos/" crumb="Demos">
+<main id="main">
+<PageHero kicker="Demos" crumb="Demos">
+  <Fragment slot="title">Website effects you can <em>touch</em>.</Fragment>
+  <Fragment slot="lede">Live demos of 3D and animation we can build into your website design. Each one loads only when you reach it, so the page stays fast.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="#spin">Start playing</a><a class="btn ghost" href="/packages/">See packages</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Pick a demo</span>
+  <h2 class="rv">Six things your website could do.</h2>
+  <nav class="dmnav rv" aria-label="Demos">{demos.map((d, i) => <a href={`#${d.id}`}><b>{String(i + 1).padStart(2, '0')}</b>{d.title}</a>)}</nav>
+
+  {demos.map((d, i) => (
+    <article class={'dm' + (i % 2 ? ' flip' : '')} id={d.id}>
+      <div class="dmstage rv" data-demo={d.id}>
+        {d.id === 'spin' && (<>
+          <canvas aria-label="A 3D paper cup that you can drag to spin" role="img"></canvas>
+          <div class="dmsw" role="group" aria-label="Cup colour">
+            <button type="button" aria-pressed="true" aria-label="Purple" data-c="#7b18c1" style="--c:#7b18c1"></button>
+            <button type="button" aria-pressed="false" aria-label="Orange" data-c="#f08a24" style="--c:#f08a24"></button>
+            <button type="button" aria-pressed="false" aria-label="Green" data-c="#1f9d6b" style="--c:#1f9d6b"></button>
+            <button type="button" aria-pressed="false" aria-label="Black" data-c="#1a1026" style="--c:#1a1026"></button>
+          </div>
+          <div class="dmstill cup" aria-hidden="true"><i></i><b></b><u></u></div>
+        </>)}
+        {d.id === 'wave' && (<>
+          <canvas aria-hidden="true"></canvas>
+          <div class="dmover"><span>Your business</span><strong>Your headline goes here.</strong><em>Your button</em></div>
+        </>)}
+        {d.id === 'name' && (<>
+          <canvas aria-label="Dots that spell the word you type" role="img"></canvas>
+          <label class="dmfield"><span class="vh">Word to spell</span><input type="text" value="Hello" maxlength="12" autocomplete="off" spellcheck="false" enterkeyhint="done"></label>
+        </>)}
+        {d.id === 'tilt' && (
+          <div class="dmtilt">
+            <div class="tcard"><i></i><span>Design</span><b>A fresh look</b><p>Clear pages that feel like you.</p></div>
+            <div class="tcard hot"><i></i><span>Build</span><b>A fast website</b><p>Quick on every phone.</p></div>
+            <div class="tcard"><i></i><span>Care</span><b>Looked after</b><p>Updated month after month.</p></div>
+          </div>
+        )}
+        {d.id === 'slide' && (
+          <div class="dmslide" style="--p:50%">
+            <div class="mock old" aria-hidden="true"><div class="mb"></div><div class="mh"></div><div class="ml"></div><div class="ml s"></div><div class="mg"><i></i><i></i><i></i></div><small>Before</small></div>
+            <div class="mock new" aria-hidden="true"><div class="mb"></div><div class="mh"></div><div class="ml"></div><div class="ml s"></div><div class="mg"><i></i><i></i><i></i></div><small>After</small></div>
+            <div class="grip" aria-hidden="true"><i></i></div>
+            <input type="range" min="0" max="100" value="50" aria-label="Show more of the before or the after picture">
+          </div>
+        )}
+        {d.id === 'draw' && (<>
+          <svg class="dmchart" viewBox="0 0 600 360" role="img" aria-label="An example line chart and bars that draw themselves">
+            <g class="grid"><path d="M40 60H580M40 130H580M40 200H580M40 270H580"/></g>
+            <g class="bars"><rect x="70" y="210" width="44" height="90" rx="8"/><rect x="160" y="180" width="44" height="120" rx="8"/><rect x="250" y="150" width="44" height="150" rx="8"/><rect x="340" y="120" width="44" height="180" rx="8"/><rect x="430" y="96" width="44" height="204" rx="8"/><rect x="520" y="70" width="44" height="230" rx="8"/></g>
+            <path class="line" pathLength="1" d="M92 190C140 176 150 150 182 150S240 120 272 116S330 92 362 84S420 60 452 56S510 36 542 30"/>
+            <g class="dots"><circle cx="92" cy="190" r="7"/><circle cx="182" cy="150" r="7"/><circle cx="272" cy="116" r="7"/><circle cx="362" cy="84" r="7"/><circle cx="452" cy="56" r="7"/><circle cx="542" cy="30" r="7"/></g>
+          </svg>
+          <button class="dmreplay" type="button">Replay</button>
+          <small class="dmnote">Example shapes only, not real results.</small>
+        </>)}
+      </div>
+      <div class="dminfo rv" style="--d:1">
+        <span class="eyebrow">{String(i + 1).padStart(2, '0')} · {d.kind}</span>
+        <h3>{d.title}</h3>
+        <p>{d.text}</p>
+        <p class="dmhint">{d.hint}</p>
+        <ul class="dmgood" aria-label="Good for">{d.good.map((g) => <li>{g}</li>)}</ul>
+      </div>
+    </article>
+  ))}
+</div></section>
+
+<section class="dark band"><div class="wrap">
+  <span class="eyebrow rv">Fast first</span>
+  <p class="creed rv">Effects are an extra. Every website we build stays <em>fast and readable</em> without them, so Google and AI search still see everything.</p>
+  <p class="sub rv" style="margin-top:26px">Want one of these on your website? It can be added to any of our <a href="/packages/">website design packages</a>. Tell us which demo you liked and we will tell you honestly if it fits your business. See how <a href="/website-design/">website design</a> works with us.</p>
+</div></section>
+<Related skip="/demos/" />
+<Cta title="Seen something you like? Tell us which one." />
+</main>
+<script slot="scripts" src="/js/demos.js" defer></script>
+</Base>

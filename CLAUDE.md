@@ -31,6 +31,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Contact choices are WhatsApp, email and chat: `src/components/Cta.astro`, `src/pages/contact.astro`.
 - Links between pages: `src/components/Related.astro` (keyword link text) plus links inside the copy. A new page needs adding there, in the menu and footer (`Base.astro`) and in `llms.txt.ts`.
 - Big screens: write sizes in px. The build turns px into rem (`scripts/fluid-px.mjs` for stylesheets, `scripts/fluid-html.mjs` for style attributes) and `html{font-size}` in `site.css` grows above 1920px wide. Breakpoints stay in px. The desktop menu switches to the phone menu at 1080px.
+- Demos page: `src/pages/demos.astro` (list of demos and their markup), styles `src/styles/demos.css`, script `public/js/demos.js`. Each demo starts only when scrolled near and three.js loads on demand. No invented numbers in demo content.
 - Share image: `node scripts/make-og.cjs` writes `public/og.png`
 
 ## Speed rule
