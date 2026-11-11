@@ -2,7 +2,7 @@
 (function () {
   var X = SX, TAU = X.TAU, hero = document.getElementById('top'), cv = document.getElementById('gl');
   var form = document.getElementById('prompt'), input = document.getElementById('biz'), steps = [].slice.call(document.querySelectorAll('#steps li'));
-  var name = 'Your Business', demo = true, demoNames = ['Your Business', 'Bloom Bakery', 'City Dental', 'Harbour Physio'], di = 0, timers = [];
+  var name = 'Your Business', demo = true, demoNames = ['Sunny Bakery', 'Corner Cafe', 'Bright Smile Dental', 'Green Leaf Florist', 'Swift Movers', 'Paws Pet Shop', 'Maple Yoga Studio', 'Blue Wave Laundry', 'Peak Fitness Gym', 'Happy Kids Tuition', 'Urban Hair Studio', 'Fresh Bites Catering'], di = Math.floor(Math.random() * 12), timers = [];
   function later(f, ms) { timers.push(setTimeout(f, ms)); }
   function stopDemo() { demo = false; timers.forEach(clearTimeout); timers = []; }
   function setSteps(p, on) { steps.forEach(function (li, i) { var a = i * 0.21 + 0.04; li.className = !on ? '' : p >= a + 0.2 ? 'ok' : p > a ? 'go' : ''; }); }
