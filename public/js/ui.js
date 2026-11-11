@@ -25,7 +25,7 @@
 
 (function () {
   var b = document.querySelector('.burger'), m = document.getElementById('mmenu'); if (!b || !m) return;
-  function set(open) { b.setAttribute('aria-expanded', String(open)); m.hidden = !open; }
+  function set(open) { b.setAttribute('aria-expanded', String(open)); m.hidden = !open; document.documentElement.classList.toggle('menu-open', open); }
   b.addEventListener('click', function () { set(m.hidden); });
   m.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
