@@ -9,7 +9,8 @@
   var bill = 'month'; // XpertCare: pay monthly, or yearly with 2 months free
 
   // Launch offer: hide it by itself once the last day has passed.
-  all('[data-pk-offer]').forEach(function (el) { if (new Date() >= new Date(new Date(el.getAttribute('data-pk-offer') + 'T00:00:00+08:00').getTime() + 864e5)) el.hidden = true; });
+  all('[data-pk-offer]').forEach(function (el) { var end = new Date(el.getAttribute('data-pk-offer') + 'T00:00:00+08:00').getTime() + 864e5, left = Math.ceil((end - Date.now()) / 864e5); if (left <= 0) { el.hidden = true; return; }
+    var tag = el.querySelector('[data-pk-left]'); if (tag) { tag.textContent = left === 1 ? 'Last day' : left + ' days left'; tag.hidden = false; } });
 
   // Build / XpertCare switch (cards)
   all('[data-pk]').forEach(function (pk) {

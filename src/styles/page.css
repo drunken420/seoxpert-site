@@ -87,8 +87,20 @@ pre.codecard{margin:0;overflow-x:auto}
 .pkseg button[aria-pressed="true"]{background:var(--acc);color:#fff}
 .pkseg button:focus-visible,.pkpick button:focus-visible{outline:3px solid var(--acc2);outline-offset:2px}
 .pkcur{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--f-b);color:var(--soft)}
-.pkoffer{display:flex;gap:14px 18px;align-items:center;flex-wrap:wrap;border-radius:22px;padding:18px 22px;margin-bottom:30px;background:linear-gradient(135deg,#5b0f96,#7b18c1 55%,#a23df0);color:#fff;box-shadow:0 20px 44px rgba(90,20,160,.25)}
-.pkoffer p{margin:0;flex:1;min-width:240px}
+.pkoffer{position:relative;overflow:hidden;border-radius:28px;padding:30px 34px;margin-bottom:34px;background:linear-gradient(125deg,#3d0a66,#7b18c1 48%,#b06cff);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 28px 60px rgba(90,20,160,.36);display:grid;gap:14px}
+.pkoffer::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:linear-gradient(120deg,#fff,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,#d9b8ff);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.7;pointer-events:none}
+.pkoshine{position:absolute;top:-40%;bottom:-40%;left:-30%;width:26%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:rotate(12deg);animation:pkoshine 5s ease-in-out infinite;pointer-events:none}
+.pkopet{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);border-radius:0 100% 0 0;background:rgba(255,255,255,.2);animation:pkofl var(--t) ease-in-out infinite;pointer-events:none}
+.pkotop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:relative}
+.pkoleft{font:600 13px/1 var(--f-m);padding:8px 12px;border-radius:99px;background:rgba(20,8,31,.45);color:#fff;letter-spacing:.02em}
+.pkotitle{margin:0;font:700 clamp(24px,2.6vw,36px)/1.1 var(--f-d);letter-spacing:-.03em;max-width:22em;position:relative}
+.pkolist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px;position:relative}
+.pkolist li{display:grid;gap:3px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);font-size:15px;color:#f1e4fc}
+.pkolist b{font:700 12px/1 var(--f-m);text-transform:uppercase;letter-spacing:.06em;color:#fff}
+.pkoend{margin:0;font-weight:600;font-size:15px;color:#f1e4fc;position:relative}
+@keyframes pkoshine{0%,55%{left:-30%}100%{left:130%}}@keyframes pkofl{50%{transform:translateY(-10px) rotate(14deg)}}
+@media (max-width:640px){.pkoffer{padding:24px 20px;border-radius:22px}.pkolist li{flex:1 1 100%}}
+@media (prefers-reduced-motion:reduce){.pkoshine,.pkopet{animation:none}}
 .pkotag{font:700 12.5px/1 var(--f-b);letter-spacing:.06em;text-transform:uppercase;padding:9px 12px;border-radius:99px;background:#fff;color:#5b0f96}
 .pkset[hidden]{display:none}
 .pkset+.pkset{margin-top:44px}
@@ -241,3 +253,11 @@ pre.codecard{margin:0;overflow-x:auto}
 .pkbill em{font-style:normal;font-size:12px;font-weight:700;padding:3px 8px;border-radius:99px;background:#e9d8ff;color:#3d0a66;margin-left:6px}
 .pkyear{margin:-6px 0 0;font-size:14px;font-weight:600;color:var(--acc)}.pkcard.hot .pkyear{color:#d9b8ff}
 .pkyear .y,.pk-yearly .pkyear .m{display:none}.pk-yearly .pkyear .y{display:inline}
+.pkotag{display:inline-flex;align-items:center;gap:8px}
+.pkotag::before{content:"";width:9px;height:9px;border-radius:50%;background:#b06cff;box-shadow:0 0 0 0 rgba(176,108,255,.7);animation:pkopulse 1.8s ease-out infinite}
+@keyframes pkopulse{to{box-shadow:0 0 0 10px rgba(176,108,255,0)}}
+.pkgift{position:relative;padding-left:36px;box-shadow:inset 0 0 0 1.5px #d9b8ff}
+.pkgift::before{content:"";position:absolute;left:12px;top:50%;width:14px;height:14px;margin-top:-7px;background:var(--acc);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:pkospin 6s linear infinite}
+.pkcard.hot .pkgift{box-shadow:inset 0 0 0 1.5px rgba(217,184,255,.5)}.pkcard.hot .pkgift::before{background:#d9b8ff}
+@keyframes pkospin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.pkotag::before,.pkgift::before{animation:none}}
