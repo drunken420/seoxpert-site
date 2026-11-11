@@ -263,7 +263,7 @@
   (function () {
     var el = stage('weather'); if (!el) return;
     var ctl = el.parentNode.querySelector('.dmctl'), cv = document.createElement('canvas'), cx = cv.getContext('2d');
-    var kind = 'clear', page = false, near = false, mine = false, W = 0, H = 0, P = [], S = [], drops = [], raf = 0, flash = 0, nextBolt = 0, bolt = null, nextAuto = 0, ai = 0, lastT = 0;
+    var kind = 'clear', page = false, near = false, mine = false, W = 0, H = 0, P = [], S = [], drops = [], raf = 0, flash = 0, dim = 0, nextBolt = 0, bolt = null, nextAuto = 0, ai = 0, lastT = 0;
     var piles = new Map(), dirtyRects = true, rectAt = 0, glow = null;
     var PC = ['#7b18c1', '#9a35e8', '#b06cff', '#d9b8ff'], LC = ['#d9622b', '#e8a33d', '#b8452a', '#c9822f', '#a8572a'], cycle = ['snow', 'petals', 'rain', 'leaves', 'fireflies', 'storm'];
     var names = { rain: 'Rain', snow: 'Snow', petals: 'Petals', leaves: 'Leaves', fireflies: 'Fireflies', storm: 'Storm' };
@@ -311,9 +311,9 @@
       if (!mine && !page) { if (!nextAuto) nextAuto = t + (kind === 'clear' ? 0.6 : 7); else if (t > nextAuto) { nextAuto = t + 7; set(cycle[ai++ % cycle.length], true); n = count(); } }
       surfaces(t); lastT = t;
       while (P.length < n) P.push(spawn({}, false)); P.length = n; cx.clearRect(0, 0, W, H);
-      if (page && (kind === 'storm' || kind === 'fireflies')) { cx.fillStyle = kind === 'storm' ? 'rgba(20,8,31,.14)' : 'rgba(13,7,22,.34)'; cx.fillRect(0, 0, W, H); }
+      dim += ((page && (kind === 'storm' || kind === 'fireflies') ? 0.42 : 0) - dim) * 0.04; if (dim > 0.005) { cx.fillStyle = 'rgba(16,8,28,' + dim.toFixed(3) + ')'; cx.fillRect(0, 0, W, H); } // a whole-page storm or night darkens the sky first
       if (kind === 'rain' || kind === 'storm') {
-        cx.strokeStyle = dark() || kind === 'storm' ? 'rgba(217,184,255,.6)' : 'rgba(123,24,193,.34)'; cx.lineWidth = 1.3; cx.beginPath();
+        cx.strokeStyle = dark() || kind === 'storm' ? 'rgba(233,216,255,.72)' : 'rgba(123,24,193,.42)'; cx.lineWidth = kind === 'storm' ? 1.5 : 1.3; cx.beginPath();
         P.forEach(function (p) { var py = p.y; p.y += p.vy; p.x += wind; var s = hit(p, py); if (s) { splash(p.x, s.T); spawn(p, true); } else if (p.y > H + 20 || p.x < -60) spawn(p, true); cx.moveTo(p.x, p.y); cx.lineTo(p.x - wind * p.l / p.vy, p.y - p.l); }); cx.stroke();
       } else if (kind === 'snow') {
         cx.fillStyle = 'rgba(255,255,255,.95)'; cx.beginPath();
@@ -347,7 +347,7 @@
       if (kind === 'storm') {
         if (!nextBolt) nextBolt = t + 1.5; else if (t > nextBolt) { nextBolt = t + 3.5 + Math.random() * 4; strike(); }
         if (flash > 0.02) {
-          cx.fillStyle = 'rgba(255,255,255,' + (flash * (page ? 0.22 : 0.38)).toFixed(3) + ')'; cx.fillRect(0, 0, W, H);
+          cx.fillStyle = 'rgba(255,255,255,' + (flash * (page ? 0.32 : 0.38)).toFixed(3) + ')'; cx.fillRect(0, 0, W, H);
           if (bolt) { cx.save(); cx.strokeStyle = 'rgba(255,255,255,' + flash.toFixed(3) + ')'; cx.shadowColor = '#d9b8ff'; cx.shadowBlur = 18; cx.lineWidth = 2.6; cx.beginPath(); bolt.forEach(function (q, k) { if (k) cx.lineTo(q[0], q[1]); else cx.moveTo(q[0], q[1]); }); cx.stroke(); cx.restore(); }
           flash *= 0.88;
         }
@@ -357,7 +357,7 @@
     function wake() { if (!raf && run()) raf = requestAnimationFrame(frame); }
     function sync() { chip.hidden = !(page && kind !== 'clear'); chip.firstChild.textContent = 'Weather: ' + (names[kind] || ''); [].forEach.call(ctl.querySelectorAll('button[data-whole]'), function (o) { o.setAttribute('aria-pressed', String((o.dataset.whole === '1') === page)); }); }
     function set(k, auto) { if (!auto) mine = true; kind = k; P = []; drops = []; nextBolt = 0; flash = 0; el.dataset.sky = k; [].forEach.call(ctl.querySelectorAll('button[data-wx]'), function (o) { o.setAttribute('aria-pressed', String(o.dataset.wx === k)); }); sync(); if (!run()) cx.clearRect(0, 0, W, H); wake(); }
-    function setPage(on) { mine = true; page = on; cx.clearRect(0, 0, W, H); W = H = 0; P = []; drops = []; piles.clear(); S = []; if (on) { cv.classList.add('page'); document.body.appendChild(cv); if (kind === 'clear') set('snow'); } else { cv.classList.remove('page'); el.appendChild(cv); } sync(); wake(); }
+    function setPage(on) { mine = true; page = on; dim = 0; cx.clearRect(0, 0, W, H); W = H = 0; P = []; drops = []; piles.clear(); S = []; if (on) { cv.classList.add('page'); document.body.appendChild(cv); if (kind === 'clear') set('snow'); } else { cv.classList.remove('page'); el.appendChild(cv); } sync(); wake(); }
     [].forEach.call(ctl.querySelectorAll('button[data-wx]'), function (b) { b.addEventListener('click', function () { set(b.dataset.wx); }); });
     [].forEach.call(ctl.querySelectorAll('button[data-whole]'), function (b) { b.addEventListener('click', function () { if ((b.dataset.whole === '1') !== page) setPage(!page); }); });
     chip.querySelector('button').addEventListener('click', function () { setPage(false); set('clear'); });
