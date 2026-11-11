@@ -10,26 +10,46 @@ import { site, whatsappLink, emailLink, ways } from '../config';
 <PageHero kicker="Contact" art="contact" crumb="Contact" word="Hello">
   <Fragment slot="title">Start with a <em>conversation</em>.</Fragment>
   <Fragment slot="lede">Tell us about your business and what you want your website to do. No pressure, just honest insight.</Fragment>
-  <Fragment slot="cta"><a class="btn" href="#ways">Choose how to reach us</a></Fragment>
+  <Fragment slot="cta"><a class="btn" href="#ways">Send us a message</a></Fragment>
 </PageHero>
 <section id="ways" class="solid band"><div class="wrap">
-  <span class="eyebrow rv">{site.whatsapp ? 'Three' : 'Two'} ways to reach us</span>
-  <h2 class="rv">{ways}.</h2>
-  <div class={site.whatsapp ? 'contactways' : 'contactways two'}>
-    {site.whatsapp && <div class="way rv"><h3>WhatsApp</h3><p>The quickest way to start a conversation with a real person.</p><a class="btn" href={whatsappLink}>WhatsApp us</a></div>}
-    <div class="way rv" style="--d:1"><h3>Email</h3><p>Best for longer briefs, documents and anything you want in writing.</p>{emailLink ? <a class="btn" href={emailLink}>{site.email}</a> : <p class="ph">[PLACEHOLDER] Your email address goes here.</p>}</div>
-    <div class="way rv" style="--d:2"><h3>Chat</h3><p>Instant answers to common questions about website design and website maintenance.</p><button class="btn" type="button" data-chat-open>Open the chat</button></div>
+  <span class="eyebrow rv">Write to us</span>
+  <h2 class="rv">Send us a message.</h2>
+  <div class="cgrid">
+    <div class="cpanel rv">
+      <div class="cpside"><i class="cppet" aria-hidden="true"></i><i class="cppet p2" aria-hidden="true"></i>
+        <h3>Let's talk about your website.</h3><p>No pressure, just honest insight.</p>
+        <ol><li><div><b>You message us</b><span>Tell us what your business does and what you need.</span></div></li><li><div><b>We ask a few questions</b><span>Enough to understand your goals and whether we are the right fit.</span></div></li><li><div><b>You get a clear plan</b><span>What we would build, how it works and what it costs, in plain language.</span></div></li></ol>
+        {emailLink && <a class="cpmail" href={emailLink}>{site.email}</a>}
+      </div>
+    <form class="cform" id="cform" method="post" action="/api/contact" novalidate>
+      <div class="cf2">
+        <label class="cf"><span>Your name</span><input name="name" autocomplete="name" required maxlength="80"></label>
+        <label class="cf"><span>Your email</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label>
+      </div>
+      <label class="cf"><span>Your website <small>(if you have one)</small></span><input name="site" type="text" inputmode="url" autocomplete="url" maxlength="200" placeholder="yourbusiness.com.my"></label>
+      <fieldset class="cf cneed"><legend>What do you need?</legend>
+        <label><input type="radio" name="need" value="Website design" checked><span>A new website</span></label>
+        <label><input type="radio" name="need" value="Website redesign"><span>A redesign</span></label>
+        <label><input type="radio" name="need" value="XpertCare"><span>XpertCare</span></label>
+        <label><input type="radio" name="need" value="Not sure yet"><span>Not sure yet</span></label>
+      </fieldset>
+      <label class="cf"><span>Your message</span><textarea name="message" rows="5" required maxlength="3000" placeholder="What does your business do, and what should your website help with?"></textarea></label>
+      <label class="hp" aria-hidden="true">Leave this empty<input name="company" tabindex="-1" autocomplete="off"></label>
+      {site.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-size="flexible"></div>}
+      <div class="cfoot"><button class="btn" type="submit">Send message<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><p class="cnote">A real person reads every message and replies by email.</p></div>
+      <p class="cstatus" role="status" aria-live="polite"></p>
+    </form>
+    </div>
+    <div class="cside">
+      <div class="way rv" style="--d:1"><h3>Email</h3><p>Prefer your own email app? Write to us directly.</p>{emailLink ? <a class="cmail" href={emailLink}>{site.email}</a> : <p class="ph">[PLACEHOLDER] Your email address goes here.</p>}</div>
+      {site.whatsapp && <div class="way rv"><h3>WhatsApp</h3><p>The quickest way to start a conversation with a real person.</p><a class="btn" href={whatsappLink}>WhatsApp us</a></div>}
+      <div class="way rv" style="--d:2"><h3>Chat</h3><p>Instant answers to common questions about website design and website maintenance.</p><button class="btn ghost" type="button" data-chat-open>Open the chat</button></div>
+    </div>
   </div>
-</div></section>
-<section class="solid tint band"><div class="wrap">
-  <span class="eyebrow rv">What happens next</span>
-  <h2 class="rv">Three simple steps.</h2>
-  <ol class="nsteps" style="max-width:760px">
-    <li class="rv"><h3>You message us</h3><p>Tell us what your business does and what you need.</p></li>
-    <li class="rv" style="--d:1"><h3>We ask a few questions</h3><p>Enough to understand your goals and whether we are the right fit.</p></li>
-    <li class="rv" style="--d:2"><h3>You get a clear plan</h3><p>What we would build, how it works and what it costs, in plain language.</p></li>
-  </ol>
 </div></section>
 <Related skip="/contact/" />
 </main>
+{site.turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+<script is:inline src="/js/contact.js" defer></script>
 </Base>
