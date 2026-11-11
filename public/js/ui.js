@@ -4,6 +4,8 @@
   var head = document.querySelector('.site-head');
   function hh() { document.documentElement.style.setProperty('--head-h', head.offsetHeight + 'px'); }
   hh(); window.addEventListener('resize', hh);
+  /* cards: a soft light follows the pointer */
+  document.addEventListener('pointermove', function (e) { var c = e.target.closest && e.target.closest('.fcard,.rcard,.way'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); }, { passive: true });
   /* FAQ chat */
   var log = document.getElementById('chatlog'), src = [].slice.call(document.querySelectorAll('#faqsrc p')), btns = [].slice.call(document.querySelectorAll('.qlist button')), tmr = 0;
   function ask(i, instant) {

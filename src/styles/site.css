@@ -266,3 +266,24 @@ h1,h2,h3{overflow-wrap:break-word}
 .trio3 .mid p{color:#cbbbe2}.trio3 .mid .more{color:#e9d8ff}
 .trio3 .more{margin-top:auto;padding-top:8px}
 @media (max-width:900px){.trio3{grid-template-columns:1fr;gap:16px}.trio3::before{display:none}}
+
+/* the page you are on lights up in the menus */
+.menu a{position:relative;transition:color .2s ease,background .2s ease}
+.menu a:hover{background:rgba(123,24,193,.06)}
+.menu a[aria-current]{color:var(--acc);font-weight:600;background:rgba(123,24,193,.1)}
+.menu a[aria-current]::after{content:"";position:absolute;left:50%;bottom:-13px;width:22px;height:3px;margin-left:-11px;border-radius:3px 3px 0 0;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.mmenu a[aria-current]{color:var(--acc);background:rgba(123,24,193,.1);box-shadow:inset 3px 0 0 var(--acc)}
+.foot nav a[aria-current]{color:var(--acc);font-weight:600}
+/* thin bar under the header that fills as you scroll (browsers without scroll timelines simply do not show it) */
+.prog{display:none}
+@supports (animation-timeline:scroll()){.prog{display:block;position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--acc),var(--acc2));transform-origin:left;transform:scaleX(0);animation:prog linear both;animation-timeline:scroll(root)}}
+@keyframes prog{to{transform:scaleX(1)}}
+/* a soft light follows the pointer over cards (set by public/js/ui.js) */
+.fcard,.rcard,.way{position:relative;overflow:hidden}
+.fcard::before,.rcard::before,.way::before{content:"";position:absolute;inset:0;background:radial-gradient(200px circle at var(--mx,-300px) var(--my,-300px),rgba(176,108,255,.24),transparent 70%);opacity:0;transition:opacity .3s ease;pointer-events:none}
+.fcard:hover::before,.rcard:hover::before,.way:hover::before{opacity:1}
+.fcard>*,.rcard>*,.way>*{position:relative}
+/* small marquee under inner page banners */
+.marquee.sm{padding-block:10px 12px;border-bottom:1px solid var(--line)}
+.marquee.sm span{font-size:clamp(26px,3.4vw,46px);-webkit-text-stroke:1.2px #cdb6ea}
+.marquee.sm .track{animation-duration:46s}

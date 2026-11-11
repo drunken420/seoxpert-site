@@ -27,10 +27,12 @@ const demos = [
   { id: 'magnet', kind: 'Interaction', title: 'Magnetic buttons', text: 'Buttons that lean toward the pointer, so the important click feels alive.', hint: 'Bring your pointer close to a button.', good: ['Contact buttons', 'Sign-up pages', 'Menus'] },
   { id: 'burst', kind: 'Animation', title: 'A button that celebrates', text: 'A burst of petals when someone sends a form or places an order.', hint: 'Press the button.', good: ['Contact forms', 'Checkouts', 'Sign-ups'] },
   { id: 'slide', kind: 'Interaction', title: 'Before and after slider', text: 'Drag the handle to compare two pictures. Works with a mouse, a finger or the keyboard.', hint: 'Drag the handle, or use the arrow keys.', good: ['Renovation', 'Clinics and salons', 'Redesigns'] },
+  { id: 'globe', kind: '3D', title: 'A globe you can spin', text: 'A 3D globe made of dots that turns by itself and spins when someone drags it.', hint: 'Drag to spin it.', good: ['Shipping and travel', 'Online shops', 'Company pages'] },
+  { id: 'scramble', kind: 'Animation', title: 'Headlines that decode', text: 'Letters shuffle like a code being cracked, then settle into your message.', hint: 'Press the button for the next line.', good: ['Homepage headlines', 'Tech and agencies', 'Launch pages'] },
   { id: 'draw', kind: 'Scroll', title: 'Charts that draw themselves', text: 'Lines and bars that draw as they scroll into view, so numbers feel alive.', hint: 'Press replay to watch again.', good: ['Reports', 'Case studies', 'About pages'] },
 ];
 ---
-<Base title="Interactive Website Demos: 3D and Animation | SEOXpert" description="Twelve live demos of what we can build into your website: 3D products and logos, moving backgrounds, particle text, tilt cards, sliders and more." path="/demos/" crumb="Demos">
+<Base title="Interactive Website Demos: 3D and Animation | SEOXpert" description="Fourteen live demos of what we can build into your website: 3D products and logos, moving backgrounds, particle text, tilt cards, sliders and more." path="/demos/" crumb="Demos">
 <main id="main">
 <PageHero kicker="Demos" art="demos" crumb="Demos">
   <Fragment slot="title">Website effects you can <em>touch</em>.</Fragment>
@@ -40,7 +42,7 @@ const demos = [
 
 <section class="solid band"><div class="wrap">
   <span class="eyebrow rv">Pick a demo</span>
-  <h2 class="rv">Twelve things your website could do.</h2>
+  <h2 class="rv">Fourteen things your website could do.</h2>
   <p class="sub rv">Every demo below wears our own branding. On your website it would wear yours.</p>
   <nav class="dmnav rv" aria-label="Demos">{demos.map((d, i) => <a href={`#${d.id}`}><b>{String(i + 1).padStart(2, '0')}</b>{d.title}</a>)}</nav>
 
@@ -127,6 +129,13 @@ const demos = [
             <div class="grip" aria-hidden="true"><i></i></div>
             <input type="range" min="0" max="100" value="35" aria-label="Show more of the before or the after picture">
           </div>
+        )}
+        {d.id === 'globe' && (<>
+          <canvas aria-label="A globe made of dots that you can spin" role="img"></canvas>
+          <div class="dmglobe" aria-hidden="true"><Fragment set:html={word} /><span class="xp">XpertForge</span></div>
+        </>)}
+        {d.id === 'scramble' && (
+          <div class="dmscr"><span class="xp lt">XpertCore</span><strong aria-live="polite" data-lines="Built with XpertForge|Powered by XpertCore|Looked after by XpertCare">Built with XpertForge</strong><button type="button" class="btn">Next line</button></div>
         )}
         {d.id === 'draw' && (<>
           <div class="dmchead" aria-hidden="true"><Fragment set:html={word} /><span>Example report</span></div>

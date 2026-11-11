@@ -44,7 +44,7 @@ const short = (n: string) => n.replace('XpertForge ', '');
       <div class="rows"><span style="--n:0">Plan the pages</span><span style="--n:1">Write the answers</span><span style="--n:2">Structured data</span><span style="--n:3">llms.txt</span></div>
     </div>
     <span class="xp lt hfl" style={at(58, 0, '--t:7s')}>XpertCore</span>
-    <span class="hchip hfl" style={at(-3, 40, '--t:8s;--dl:-2s')}>Checked by a person</span>
+    <span class="hchip hfl" style={at(-3, 40, '--t:8s;--dl:-2s')}>Checked by experts</span>
     <i class="hpet hfl" style={at(90, 60, '--s:46px;--r:180deg;--t:9s')}></i>
   </>}
 
@@ -60,10 +60,10 @@ const short = (n: string) => n.replace('XpertForge ', '');
   </>}
 
   {kind === 'demos' && <>
-    <div class="hscene"><div class="hcube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="hscene"><div class="hcube"><em></em><i style="--f:rotateY(0deg)"><b><Fragment set:html={icon} /></b></i><i style="--f:rotateY(180deg)"><b><Fragment set:html={icon} /></b></i><i style="--f:rotateY(90deg)"><b><s></s></b></i><i style="--f:rotateY(-90deg)"><b><s></s></b></i><i style="--f:rotateX(90deg)"><b><u></u></b></i><i style="--f:rotateX(-90deg)"><b><u></u></b></i></div></div>
     <i class="hball hfl" style={at(8, 12, '--t:6s')}></i>
     <i class="htor" style={at(66, 58)}></i>
-    <span class="hchip plain hfl" style={at(62, 6, '--t:7s;--dl:-2s')}>3D</span>
+    <span class="hchip plain hfl" style={at(62, 6, '--t:7s;--dl:-2s')}>Tap the cube</span>
     <span class="hchip plain hfl" style={at(0, 70, '--t:8s;--dl:-4s')}>Animation</span>
     <span class="hchip plain hfl" style={at(40, 90, '--t:7.5s;--dl:-1s')}>Loads on demand</span>
     <i class="hpet hfl" style={at(86, 24, '--s:48px;--r:90deg;--t:9s')}></i>

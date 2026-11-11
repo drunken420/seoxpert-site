@@ -7,7 +7,7 @@ import '../styles/page.css';
 import Packages from '../components/Packages.astro';
 import PlanPicker from '../components/PlanPicker.astro';
 import { site } from '../config';
-import { build, care, offersLd } from '../data/packages';
+import { build, care, offersLd, fmt } from '../data/packages';
 const extraLd = [
   { '@type': 'Service', name: 'Website design packages', serviceType: 'Website design', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/packages/`, offers: offersLd(build) },
   { '@type': 'Service', name: 'XpertCare monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
@@ -17,14 +17,14 @@ const extraLd = [
 <main id="main">
 <PageHero kicker="Packages" brand="XpertForge" art="packages" crumb="Packages">
   <Fragment slot="title">Website design packages, <em>in plain language</em>.</Fragment>
-  <Fragment slot="lede">How much does website design cost? From RM499, one time, with the writing included. Monthly care with XpertCare starts at RM55.</Fragment>
+  <Fragment slot="lede">How much does website design cost? From <span data-rm={fmt(build.tiers[0], 'RM')} data-usd={fmt(build.tiers[0], 'USD')}>{fmt(build.tiers[0])}</span>, one time, with the writing included. Monthly care with XpertCare starts at <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span>.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#prices">See the packages</a><a class="btn ghost" href="#plan" data-pk-planlink>Build your plan</a></Fragment>
 </PageHero>
 
 <section id="prices" class="solid band"><div class="wrap">
   <span class="eyebrow rv">Packages and prices</span>
   <h2 class="rv">Choose the size that fits your business.</h2>
-  <p class="sub rv">XpertForge is our website build: one price, paid once. XpertCare is the optional plan to look after it every month, with hosting included. It is only for websites we build. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by a real person.</p>
+  <p class="sub rv">XpertForge is our website build: one price, paid once. XpertCare is the optional plan to look after it every month, with hosting included. It is only for websites we build. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by experts.</p>
   <Packages pickHref="#plan" />
 </div></section>
 
@@ -39,7 +39,7 @@ const extraLd = [
   <h2 class="rv">What you get with every website design package.</h2>
   <ul class="ticks rv">
     <li>Pages planned for search with <a href="/ai-website-builder/">our AI website builder</a></li>
-    <li>Copywriting included: answer first writing, checked by a real person</li>
+    <li>Copywriting included: answer first writing, checked by experts</li>
     <li>Full keyword research with XpertCore, before anything is designed</li>
     <li>A fast website that works well on phones</li>
     <li>Titles, descriptions and structured data for Google</li>

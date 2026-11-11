@@ -204,4 +204,63 @@
       btn.textContent = btn.dataset.b; clearTimeout(back); back = setTimeout(function () { btn.textContent = btn.dataset.a; }, 2200); if (!raf && P.length) raf = requestAnimationFrame(tick);
     });
   })();
+  // 13 A globe of dots you can spin
+  demo('globe', function (el, kick) {
+    return three().then(function (T) {
+      var cv = el.querySelector('canvas'), r = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); r.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+      var sc = new T.Scene(), cam = new T.PerspectiveCamera(36, 1.6, 0.1, 50); cam.position.set(0, 0, 7.2);
+      var g = new T.Group(); g.rotation.z = 0.32; sc.add(g);
+      var N = 2200, pos = new Float32Array(N * 3), ga = Math.PI * (3 - Math.sqrt(5));
+      for (var i = 0; i < N; i++) { var y = 1 - (i / (N - 1)) * 2, rad = Math.sqrt(1 - y * y), th = ga * i; pos[i * 3] = Math.cos(th) * rad * 2; pos[i * 3 + 1] = y * 2; pos[i * 3 + 2] = Math.sin(th) * rad * 2; }
+      var geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(pos, 3));
+      g.add(new T.Points(geo, new T.PointsMaterial({ color: 0x7b18c1, size: 0.045, transparent: true, opacity: 0.85 })));
+      g.add(new T.Mesh(new T.SphereGeometry(1.96, 32, 24), new T.MeshBasicMaterial({ color: 0xf3e9fd, transparent: true, opacity: 0.86 })));
+      var pins = []; for (var k = 0; k < 7; k++) { var p = Math.floor(N * (0.12 + k * 0.115)), m = new T.Mesh(new T.SphereGeometry(0.075, 12, 12), new T.MeshBasicMaterial({ color: 0xb06cff })); m.position.set(pos[p * 3] * 1.02, pos[p * 3 + 1] * 1.02, pos[p * 3 + 2] * 1.02); g.add(m); pins.push(m); }
+      var rings = [2.5, 2.85].map(function (R, j) { var ring = new T.Mesh(new T.TorusGeometry(R, 0.012, 8, 120), new T.MeshBasicMaterial({ color: j ? 0xb06cff : 0x7b18c1, transparent: true, opacity: 0.55 })); ring.rotation.x = 1.2 + j * 0.5; ring.rotation.y = j * 0.7; sc.add(ring); return ring; });
+      var vy = 0.004, vx = 0, down = false, lx = 0, ly = 0, api = {};
+      el.addEventListener('pointerdown', function (e) { down = true; lx = e.clientX; ly = e.clientY; el.classList.add('drag'); try { el.setPointerCapture(e.pointerId); } catch (x) {} });
+      el.addEventListener('pointermove', function (e) { if (!down) return; vy = (e.clientX - lx) * 0.006; vx = (e.clientY - ly) * 0.004; lx = e.clientX; ly = e.clientY; api.dirty = true; kick(); });
+      var up = function () { down = false; el.classList.remove('drag'); }; el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+      api.frame = function (t) {
+        g.rotation.y += vy; g.rotation.x = Math.max(-0.7, Math.min(0.7, g.rotation.x + vx)); vx *= 0.9; if (!down) vy += (0.004 - vy) * 0.03;
+        pins.forEach(function (m, j) { m.scale.setScalar(1 + 0.45 * Math.sin(t * 2.2 + j * 1.3)); });
+        rings[0].rotation.z = t * 0.2; rings[1].rotation.z = -t * 0.15;
+        r.render(sc, cam); api.dirty = Math.abs(vy) > 0.0005 && still;
+      };
+      api.resize = function (w, h) { r.setSize(w, h, false); cam.aspect = w / h; cam.position.z = w / h < 1.3 ? 9 : 7.2; cam.updateProjectionMatrix(); api.dirty = true; };
+      return api;
+    });
+  });
+
+  // 14 A headline that decodes
+  (function () {
+    var el = stage('scramble'); if (!el) return; var out = el.querySelector('strong'), btn = el.querySelector('button'), lines = out.dataset.lines.split('|'), n = 0, raf = 0, tmr = 0, seen = false;
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*+=<>';
+    function show(text) {
+      cancelAnimationFrame(raf); if (still) { out.textContent = text; return; }
+      var f = 0, total = text.length * 3 + 14;
+      (function step() {
+        var done = Math.floor((f - 10) / 3), h = '';
+        for (var i = 0; i < text.length; i++) h += i < done || text[i] === ' ' ? text[i] : '<i>' + chars[Math.floor(Math.random() * chars.length)] + '</i>';
+        out.innerHTML = h; f++; if (f <= total) raf = requestAnimationFrame(step); else out.textContent = text;
+      })();
+    }
+    function next() { n = (n + 1) % lines.length; show(lines[n]); clearInterval(tmr); if (seen && !still) tmr = setInterval(next, 4200); }
+    btn.addEventListener('click', next);
+    new IntersectionObserver(function (es) { seen = es[0].isIntersecting; clearInterval(tmr); if (seen) { show(lines[n]); if (!still) tmr = setInterval(next, 4200); } }, { threshold: 0.4 }).observe(el);
+  })();
+
+  // The cube in the banner: it follows the pointer, and a tap pops it open and changes its colour
+  (function () {
+    var art = document.querySelector('.hart[data-art="demos"]'), cube = art && art.querySelector('.hcube'); if (!cube || still) return;
+    var cols = [['#b06cff', '#7b18c1'], ['#e58cff', '#9a35e8'], ['#8f7bff', '#3d0a66'], ['#d9b8ff', '#6a12ad']], c = 0, rx = -24, ry = 0, tx = -24, vy = 0.5, on = false, raf = 0, back = 0;
+    cube.classList.add('js');
+    function boom(turn) { cube.classList.add('boom'); if (turn) { c = (c + 1) % cols.length; cube.style.setProperty('--c1', cols[c][0]); cube.style.setProperty('--c2', cols[c][1]); vy = 9; } clearTimeout(back); back = setTimeout(function () { cube.classList.remove('boom'); }, 900); }
+    function frame() { raf = 0; if (!on) return; rx += (tx - rx) * 0.08; vy += ((vy < 0 ? -0.5 : 0.5) - vy) * 0.03; ry += vy; cube.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)'; raf = requestAnimationFrame(frame); }
+    art.addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; var r = art.getBoundingClientRect(); tx = -24 - ((e.clientY - r.top) / r.height - 0.5) * 60; vy = ((e.clientX - r.left) / r.width - 0.5) * 5; });
+    art.addEventListener('pointerleave', function () { tx = -24; });
+    art.addEventListener('click', function () { boom(true); });
+    setInterval(function () { if (on && !document.hidden) boom(false); }, 6500);
+    new IntersectionObserver(function (es) { on = es[0].isIntersecting; if (on && !raf) raf = requestAnimationFrame(frame); }).observe(art);
+  })();
 })();
