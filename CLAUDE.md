@@ -22,7 +22,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Settings (name, tagline, WhatsApp number, email): `src/config.ts`
 - Header, phone menu, footer, SEO tags, shared structured data: `src/layouts/Base.astro`
 - Homepage: `src/pages/index.astro` + `src/fragments/home-top.html`, `home-lower.html`; styles `src/styles/home.css`
-- Inner pages: `src/pages/*.astro` using `src/components/PageHero.astro` and `Cta.astro`; styles `src/styles/page.css`
+- Inner pages: `src/pages/*.astro` using `src/components/PageHero.astro` and `Cta.astro`; styles `src/styles/page.css`. Each banner has its own picture (`art`, in `HeroArt.astro`) and a big drifting outline word (`word`); the picture tilts towards the mouse (end of `public/js/ui.js`)
 - Shared styles: `src/styles/site.css`
 - Scripts: `public/js/ui.js` (menu, reveal, FAQ chat), `public/js/sx.js` + `home.js` (3D hero, loaded lazily by the inline loader in `index.astro`), three.js r128 in `public/vendor/`
 - `src/pages/llms.txt.ts`, `robots.txt.ts`; sitemap from @astrojs/sitemap

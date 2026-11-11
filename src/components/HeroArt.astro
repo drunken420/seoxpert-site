@@ -48,6 +48,27 @@ const short = (n: string) => n.replace('XpertForge ', '');
     <i class="hpet hfl" style={at(90, 60, '--s:46px;--r:180deg;--t:9s')}></i>
   </>}
 
+  {kind === 'code' && <>
+    <div class="hc dk hcode">
+      <div class="bar"><i></i><i></i><i></i><span>index.html</span></div>
+      <pre>{[['<title>', 'Website design', '</title>'], ['<h1>', 'One clear topic', '</h1>'], ['<meta', ' description', '>'], ['<script', ' ld+json', '>'], ['<a', ' href="/packages/"', '>'], ['llms.txt', '', '']].map((l, i) => <span style={`--n:${i}`}><b>{l[0]}</b>{l[1]}<b>{l[2]}</b></span>)}<i class="car"></i></pre>
+    </div>
+    <span class="xp hfl" style={at(60, 0, '--t:7s')}>XpertForge</span>
+    <span class="hchip hfl" style={at(-6, 60, '--t:8s;--dl:-2s')}>Clean structure</span>
+    <span class="hchip hfl" style={at(62, 40, '--t:7s;--dl:-3s')}>Fast, light pages</span>
+    <span class="hchip hfl" style={at(22, 88, '--t:6.5s;--dl:-4s')}>Structured data</span>
+    <i class="hpet hfl" style={at(90, 22, '--s:46px;--r:90deg;--t:9s')}></i>
+  </>}
+
+  {kind === 'blog' && <>
+    {['Local SEO', 'AI search', 'Website prices'].map((t, i) => (
+      <div class="hc hpost hfl" style={`--i:${i};--t:${7 + i}s;--dl:${-i * 2}s`}><u></u><span class="xp sm">Guide</span><b>{t}</b><i></i><i></i><i></i></div>
+    ))}
+    <span class="hchip hfl" style={at(-2, 6, '--t:8s;--dl:-1s')}>Answer first</span>
+    <span class="hchip plain hfl" style={at(52, 90, '--t:7s;--dl:-3s')}>In plain words</span>
+    <i class="hpet hfl" style={at(90, 8, '--s:44px;--r:90deg;--t:9s')}></i>
+  </>}
+
   {kind === 'packages' && <>
     {build.tiers.map((t, i) => (
       <div class={'hc hpk hfl' + (t.hot ? ' dk' : '')} style={`--i:${i};--t:${7 + i}s;--dl:${-i * 2}s`}>

@@ -1,11 +1,18 @@
 ---
 // Banner at the top of every inner page: text on the left, an animated picture on the right.
-// brand = which product name to show as a pill next to the kicker; art = which picture (see HeroArt.astro).
+// brand = which product name to show as a pill next to the kicker; art = which picture (see HeroArt.astro);
+// word = the big outlined word that drifts behind the banner (decoration only).
 import HeroArt from './HeroArt.astro';
-interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertCare' | 'XpertLab'; art?: string }
-const { kicker, crumb, brand, art } = Astro.props;
+interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertCare' | 'XpertLab'; art?: string; word?: string }
+const { kicker, crumb, brand, art, word } = Astro.props;
 ---
-<section class="phero band"><div class="wrap">
+<section class="phero band" data-phero>
+  <div class="phfx" aria-hidden="true">
+    <i class="phaur"></i><i class="phaur b"></i><i class="phspot"></i>
+    {word && <b class="phword">{word}</b>}
+    {[0, 1, 2, 3, 4, 5, 6].map((i) => <i class="phpet" style={`--i:${i}`}></i>)}
+  </div>
+  <div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{crumb}</span></nav>
   <div class="pgrid">
     <div class="ptext">

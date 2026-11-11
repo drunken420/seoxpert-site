@@ -95,3 +95,15 @@
   }); }, { rootMargin: '100px' });
   [].forEach.call(shots, function (a) { io.observe(a); });
 })();
+
+/* Inner page banners: a soft glow follows the pointer and the picture tilts towards it. Mouse only; decoration. */
+(function () {
+  var h = document.querySelector('[data-phero]'); if (!h || !window.matchMedia) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !matchMedia('(hover: hover)').matches) return;
+  var art = h.querySelector('.hart'), raf = 0, ev = null;
+  function run() { raf = 0; var r = h.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
+    h.style.setProperty('--mx', x + 'px'); h.style.setProperty('--my', y + 'px'); h.style.setProperty('--on', '1');
+    if (art) { art.style.setProperty('--px', (x / r.width * 2 - 1).toFixed(3)); art.style.setProperty('--py', (y / r.height * 2 - 1).toFixed(3)); } }
+  h.addEventListener('pointermove', function (e) { if (e.pointerType === 'touch') return; ev = e; if (!raf) raf = requestAnimationFrame(run); }, { passive: true });
+  h.addEventListener('pointerleave', function () { h.style.setProperty('--on', '0'); if (art) { art.style.setProperty('--px', '0'); art.style.setProperty('--py', '0'); } });
+})();
