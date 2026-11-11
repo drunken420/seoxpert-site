@@ -13,6 +13,10 @@ export const site = {
   whatsapp: '',
   // Contact email address (forwarded to Suhen's inbox with Cloudflare Email Routing).
   email: 'contact@seoxpert.my',
+  // Google Analytics measurement ID (looks like G-XXXXXXXXXX). Empty = no analytics is loaded at all.
+  ga4: '',
+  // Google Search Console check code (only needed if we verify with a tag instead of through the domain).
+  googleVerify: '',
 };
 /** "Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia" */
 export const areaText = `${site.areas.join(', ')} and across ${site.country}`;
