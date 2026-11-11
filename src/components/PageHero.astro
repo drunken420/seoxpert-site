@@ -2,7 +2,7 @@
 // Banner at the top of every inner page: text on the left, an animated picture on the right.
 // brand = which product name to show as a pill next to the kicker; art = which picture (see HeroArt.astro).
 import HeroArt from './HeroArt.astro';
-interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertCare'; art?: string }
+interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertCare' | 'XpertLab'; art?: string }
 const { kicker, crumb, brand, art } = Astro.props;
 ---
 <section class="phero band"><div class="wrap">

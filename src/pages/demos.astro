@@ -34,7 +34,7 @@ const demos = [
 ---
 <Base title="Interactive Website Demos: 3D and Animation | SEOXpert" description="Fourteen live demos of what we can build into your website: 3D products and logos, moving backgrounds, particle text, tilt cards, sliders and more." path="/demos/" crumb="Demos">
 <main id="main">
-<PageHero kicker="Demos" art="demos" crumb="Demos">
+<PageHero kicker="Live demos" brand="XpertLab" art="demos" crumb="Demos">
   <Fragment slot="title">Website effects you can <em>touch</em>.</Fragment>
   <Fragment slot="lede">Live demos of 3D and animation we can build into your website design. Each one loads only when you reach it, so the page stays fast.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#spin">Start playing</a><a class="btn ghost" href="/packages/">See packages</a></Fragment>
@@ -43,7 +43,7 @@ const demos = [
 <section class="solid band"><div class="wrap">
   <span class="eyebrow rv">Pick a demo</span>
   <h2 class="rv">Fourteen things your website could do.</h2>
-  <p class="sub rv">Every demo below wears our own branding. On your website it would wear yours.</p>
+  <p class="sub rv">Welcome to XpertLab, where we try out what a website can do. Every demo below wears our own branding. On your website it would wear yours.</p>
   <nav class="dmnav rv" aria-label="Demos">{demos.map((d, i) => <a href={`#${d.id}`}><b>{String(i + 1).padStart(2, '0')}</b>{d.title}</a>)}</nav>
 
   <div class="dmgrid">
