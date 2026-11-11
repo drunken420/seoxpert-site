@@ -1,10 +1,13 @@
 import { site } from '../config';
 import { build, care, fmt } from '../data/packages';
+import { posts, postUrl } from '../data/blog';
 const line = (t: any, unit: string) => `- ${t.name}: ${fmt(t)} (${fmt(t, 'USD')}) ${unit}. ${t.short}.`;
 // A short, plain summary of the site for AI tools (see llmstxt.org).
 const body = `# ${site.name}
 
 > ${site.tagline}. ${site.description}
+
+Area: ${site.areas.join(', ')} and across ${site.country}.
 
 ## Services
 - [Website design](${site.url}/website-design/): New websites planned for Google and AI search before they are designed, built as an XpertForge package with XpertCore, our own AI website builder, and finished by hand.
@@ -20,6 +23,9 @@ Every build includes: ${build.all.join(', ')}.
 ## XpertCare monthly website maintenance
 ${care.tiers.map((t) => line(t, 'a month')).join('\n')}
 Every XpertCare plan includes: ${care.all.join(', ')}.
+
+## Guides
+${posts.map((p) => `- [${p.h1}](${site.url}${postUrl(p)}): ${p.card}`).join('\n')}
 
 ## Company
 - [About](${site.url}/about/): Founder led, selective, white hat only. Clarity over complexity, transparency over buzzwords, strategy over shortcuts.

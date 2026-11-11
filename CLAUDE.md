@@ -8,14 +8,14 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - We do NOT sell hosting on its own. Hosting may only be mentioned as included with XpertCare plans and the launch offer (Suhen, 2026-11).
 - Packages and prices live in `src/data/packages.ts` (cards `src/components/Packages.astro`, plan picker `PlanPicker.astro`, script `public/js/packages.js`). Never change a price without asking Suhen. The HTML shows RM; the script offers a RM or USD switch. The launch offer hides itself after 30 April 2027. XpertCare paid yearly = 12 months for the price of 10 (`yearly` in packages.ts; Suhen, 2026-11-11).
 - Names: XpertCore is our AI core, XpertForge is the website build (Starter, Business, Growth), XpertCare is the monthly care plan (Basic, Plus, Pro), XpertLab is the demos page (`/demos/`, name picked by Suhen 2026-11-11). Our team uses XpertCore for the customer; customers never use it themselves (Suhen, 2026-11). XpertCare is only for websites we build (XpertForge), with hosting included; we do not maintain websites built elsewhere (Suhen, 2026-11-11). A care plan can be as big as the website, not bigger: Starter takes Basic; Business takes Basic or Plus; Growth takes any (the plan picker enforces this). Use the three product names often in copy, kickers and visuals. Never promise rankings or page 1.
-- No location names in site copy (no country, state or city) unless Suhen changes this rule.
+- Location names (Suhen, 2026-11-11): "Malaysia" is used in titles, H1s and copy, plus Kuala Lumpur, Selangor and Petaling Jaya as the areas we work in (`country` and `areas` in `src/config.ts`). No other place names, no invented office address. Prices show RM first.
 - English only.
 - Show Suhen a preview and get a yes before new designs or big changes. Every change goes through a pull request; `npm test` must pass.
 - Brand: purple #7B18C1, the enhanced original tree and arrow logo (`src/fragments/logo.svg`, `icon.svg`). Do not redraw the logo.
 
 ## SEO wording (from Ubersuggest research, 2026-11)
 - People search "website design" and "website maintenance". Use those in titles, H1s, URLs and descriptions.
-- Menu labels (Suhen, 2026-11-11): Website building, XpertCare, XpertCore, Packages, XpertLab, About, FAQ. Suhen did not like "Monthly care" and "AI builder" in the menu.
+- Menu labels (Suhen, 2026-11-11): Website building, XpertCare, XpertCore, Packages, XpertLab, Blog, About, FAQ. Suhen did not like "Monthly care" and "AI builder" in the menu.
 - Every page: one H1, title 20 to 65 characters, description 70 to 170, answer first copy, structured data that matches the visible text.
 
 ## Where things are
@@ -32,6 +32,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Links between pages: `src/components/Related.astro` (keyword link text) plus links inside the copy. A new page needs adding there, in the menu and footer (`Base.astro`) and in `llms.txt.ts`.
 - Big screens: write sizes in px. The build turns px into rem (`scripts/fluid-px.mjs` for stylesheets, `scripts/fluid-html.mjs` for style attributes) and `html{font-size}` in `site.css` grows above 1920px wide. Breakpoints stay in px. The desktop menu switches to the phone menu at 1080px.
 - Demos page: `src/pages/demos.astro` (list of demos and their markup), styles `src/styles/demos.css`, script `public/js/demos.js`. Each demo starts only when scrolled near and three.js loads on demand. No invented numbers in demo content.
+- Blog (`/blog/`): guides live in `src/data/blog.ts` (add a new one at the TOP; prices come from packages.ts). List page `src/pages/blog/index.astro` shows the newest three as a magazine and older ones as cards (Suhen picked this, 2026-11-11); guide layout `src/pages/blog/[slug].astro`; pictures `src/components/BlogArt.astro`; styles `src/styles/blog.css`. Guides target the Malaysia keywords in the research file; never promise rankings.
 - Share image: `node scripts/make-og.cjs` writes `public/og.png`
 
 ## Speed rule

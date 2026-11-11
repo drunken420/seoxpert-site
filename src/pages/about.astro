@@ -5,12 +5,12 @@ import Cta from '../components/Cta.astro';
 import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
-import { whatsappLink, talkLabel } from '../config';
+import { whatsappLink, talkLabel, areaText } from '../config';
 ---
-<Base title="About SEOXpert | A Founder Led Web Design Company" description="SEOXpert is a founder led web design company. We build websites that people, Google and AI search understand, and look after them every month." path="/about/" crumb="About">
+<Base title="About SEOXpert | A Web Design Company in Malaysia" description="SEOXpert is a founder led web design company in Malaysia. We build websites that people, Google and AI search understand, and look after them every month." path="/about/" crumb="About">
 <main id="main">
 <PageHero kicker="About SEOXpert" art="about" crumb="About">
-  <Fragment slot="title">A web design company built on <em>clarity</em>.</Fragment>
+  <Fragment slot="title">A web design company in Malaysia, built on <em>clarity</em>.</Fragment>
   <Fragment slot="lede">We bridge the gap between traditional search and the way people search today, by building websites that people, Google and AI all understand.</Fragment>
   <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
@@ -21,6 +21,7 @@ import { whatsappLink, talkLabel } from '../config';
     <h2 class="rv">Focused, selective and founder led.</h2>
   </div>
   <div class="prose">
+    <p class="rv">SEOXpert is a web design company in Malaysia. We work with businesses in {areaText}.</p>
     <p class="rv">SEOXpert is intentionally focused and selective about the work we take on. Your website is personally planned and overseen. There is no outsourcing and no white labelling.</p>
     <p class="rv">Search is changing. People still use Google, and more and more of them ask AI tools for answers. Our <a href="/website-design/">website design</a> makes sure every website can be found in both places, using <a href="/ai-website-builder/">our own AI website builder</a> and finishing every page by hand.</p>
     <p class="rv">We use ethical methods that favour long term performance over short term tricks, and we tell you plainly what we are doing and why.</p>

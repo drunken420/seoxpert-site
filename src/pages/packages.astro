@@ -13,11 +13,11 @@ const extraLd = [
   { '@type': 'Service', name: 'XpertCare monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
 ];
 ---
-<Base title="Website Design Packages and Prices | SEOXpert" description="Website design packages from RM499, with copywriting and keyword research included. XpertCare monthly website maintenance from RM55 a month." path="/packages/" crumb="Packages" extraLd={extraLd}>
+<Base title="Website Design Packages and Prices in Malaysia | SEOXpert" description="Website design packages in Malaysia from RM499, with copywriting and keyword research included. XpertCare monthly website maintenance from RM55 a month." path="/packages/" crumb="Packages" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Packages" brand="XpertForge" art="packages" crumb="Packages">
-  <Fragment slot="title">Website design packages, <em>in plain language</em>.</Fragment>
-  <Fragment slot="lede">How much does website design cost? From <span data-rm={fmt(build.tiers[0], 'RM')} data-usd={fmt(build.tiers[0], 'USD')}>{fmt(build.tiers[0])}</span>, one time, with the writing included. Monthly care with XpertCare starts at <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span>.</Fragment>
+  <Fragment slot="title">Website design packages in Malaysia, <em>in plain language</em>.</Fragment>
+  <Fragment slot="lede">How much does website design cost in Malaysia? From <span data-rm={fmt(build.tiers[0], 'RM')} data-usd={fmt(build.tiers[0], 'USD')}>{fmt(build.tiers[0])}</span>, one time, with the writing included. Monthly care with XpertCare starts at <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span>.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#prices">See the packages</a><a class="btn ghost" href="#plan" data-pk-planlink>Build your plan</a></Fragment>
 </PageHero>
 

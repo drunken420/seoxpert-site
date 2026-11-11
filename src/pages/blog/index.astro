@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Cta from '../../components/Cta.astro';
+import BlogArt from '../../components/BlogArt.astro';
+import '../../styles/page.css';
+import '../../styles/blog.css';
+import { site } from '../../config';
+import { posts, postUrl } from '../../data/blog';
+// Newest three as a magazine; older guides as a card grid.
+const [lead, ...rest] = posts;
+const side = rest.slice(0, 2);
+const older = rest.slice(2);
+const extraLd = [{ '@type': 'Blog', name: 'SEOXpert blog', url: `${site.url}/blog/`, publisher: { '@id': `${site.url}/#org` }, blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.h1, url: site.url + postUrl(p), datePublished: p.date })) }];
+---
+<Base title="Website Design and SEO Guides for Malaysia | SEOXpert" description="Plain guides for businesses in Malaysia: website design prices, SEO, AI SEO, website maintenance and how to choose a web design company." path="/blog/" crumb="Blog" extraLd={extraLd}>
+<main id="main">
+<PageHero kicker="Blog" brand="XpertCore" art="faq" crumb="Blog">
+  <Fragment slot="title">Website design and SEO guides, <em>in plain words</em>.</Fragment>
+  <Fragment slot="lede">Short, honest guides for businesses in Malaysia. Each one answers the question first, then explains the detail.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="#latest">Read the latest</a></Fragment>
+</PageHero>
+
+<section id="latest" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Latest guides</span>
+  <h2 class="rv">New this month.</h2>
+  <div class="bmag">
+    <a class="bfeat rv" href={postUrl(lead)}><BlogArt kind={lead.art} size="big" /><span class="btag lt">{lead.tag}</span><h3>{lead.h1}</h3><p>{lead.card}</p><span class="bmore lt">Read the guide</span></a>
+    <div class="bside">
+      {side.map((p, i) => <a class="brow rv" style={`--d:${i + 1}`} href={postUrl(p)}><BlogArt kind={p.art} size="sm" /><div><span class="btag">{p.tag}</span><h3>{p.h1}</h3><p>{p.card}</p></div></a>)}
+    </div>
+  </div>
+</div></section>
+
+<section class="solid tint band"><div class="wrap">
+  <span class="eyebrow rv">More guides</span>
+  <h2 class="rv">Keep reading.</h2>
+  <div class="bgrid">
+    {older.map((p, i) => <a class="bcard rv" style={`--d:${i}`} href={postUrl(p)}><BlogArt kind={p.art} /><div class="cb"><span class="btag">{p.tag}</span><h3>{p.h1}</h3><p>{p.card}</p><span class="bmore">Read the guide</span></div></a>)}
+    <a class="bcard cta rv" style={`--d:${older.length}`} href="/packages/"><span class="xp lt">XpertForge</span><h3>Ready for a website of your own?</h3><p>See what each website design package includes and what it costs.</p><b>See packages</b></a>
+  </div>
+</div></section>
+<Cta title="Have a question we have not answered yet?" />
+</main>
+</Base>
