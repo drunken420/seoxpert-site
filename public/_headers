@@ -1,6 +1,8 @@
 # Cloudflare Pages reads this file. Fingerprinted files can be kept for a year; everything gets basic safety headers.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+/js/*
+  Cache-Control: public, max-age=0, must-revalidate
 /vendor/*
   Cache-Control: public, max-age=2592000
 /*

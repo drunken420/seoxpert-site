@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/fluid-html.mjs",
+    "build": "astro build && node scripts/fluid-html.mjs && node scripts/version-js.mjs",
     "preview": "astro preview",
     "test": "npm run build && node scripts/check-site.mjs"
   },
