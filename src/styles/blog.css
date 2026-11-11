@@ -69,3 +69,12 @@
 @media (max-width:640px){.bgrid{grid-template-columns:1fr}.bfeat h3{font-size:25px}.bpic.big{height:190px}.bpic.sm{width:92px;height:80px}.brow{padding:10px;gap:12px}.brow p{display:none}.bshort{padding:20px}.bshort p{font-size:17.5px}.bbody{font-size:17px}}
 @media (prefers-reduced-motion:reduce){.bpic i{animation:none!important}}
 .bcard.cta .xp{align-self:flex-start}.bbox.dk .xp{justify-self:start}
+/* pictures for the newer guides */
+.bpic .pin{left:50%;top:46%;width:34px;height:34px;margin:-26px -17px;border-radius:50% 50% 50% 0;rotate:-45deg;background:#7b18c1;box-shadow:inset 0 0 0 9px #7b18c1,inset 0 0 0 20px #fff;animation:bfl 4s ease-in-out infinite}
+.bpic .mring{left:50%;top:64%;width:110px;height:36px;margin:-18px -55px;border-radius:50%;border:2px solid #9a35e8;opacity:.7;animation:bping 3.2s ease-out infinite}.bpic .mring.b{animation-delay:-1.6s}
+.bpic .twr{left:var(--x);bottom:16%;width:12%;height:var(--h);border-radius:6px 6px 2px 2px;background:#fff;box-shadow:0 8px 18px rgba(74,14,120,.16);transform-origin:bottom;animation:brise 6s ease-in-out infinite}
+.bpic .twr.on{background:linear-gradient(180deg,#b06cff,#7b18c1)}
+.bpic .tier{left:50%;top:var(--y);width:var(--w);height:14%;translate:-50% 0;border-radius:10px;background:#fff;box-shadow:0 8px 18px rgba(74,14,120,.16)}
+.bpic .tier.on{background:linear-gradient(120deg,#7b18c1,#b06cff);animation:bfl 4s ease-in-out infinite}
+.bpic.big .pin{box-shadow:inset 0 0 0 9px #b06cff,inset 0 0 0 20px #14081f;background:#b06cff}
+@keyframes bping{0%{scale:.3;opacity:.9}100%{scale:1.2;opacity:0}}

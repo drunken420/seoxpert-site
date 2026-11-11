@@ -1,6 +1,6 @@
 ---
 // Small animated picture for a blog guide, drawn with CSS only (styles in src/styles/blog.css).
-interface Props { kind: 'cost' | 'care' | 'ai' | 'seo' | 'pick'; size?: 'big' | 'sm' | '' }
+interface Props { kind: 'cost' | 'care' | 'ai' | 'seo' | 'pick' | 'map' | 'city' | 'stack'; size?: 'big' | 'sm' | '' }
 const { kind, size = '' } = Astro.props;
 ---
 <div class={`bpic ${kind} ${size}`} aria-hidden="true">
@@ -9,5 +9,8 @@ const { kind, size = '' } = Astro.props;
   {kind === 'ai' && <><i class="orb" style="--s:120px"></i><i class="orb" style="--s:76px"></i><i class="star"></i></>}
   {kind === 'seo' && <><i class="glass"></i><i class="ln" style="--w:46%;--y:34%"></i><i class="ln" style="--w:34%;--y:50%"></i><i class="ln" style="--w:40%;--y:66%"></i></>}
   {kind === 'pick' && <><i class="cardm" style="--x:18%;--r:-8deg"></i><i class="cardm on" style="--x:40%;--r:0deg"></i><i class="cardm" style="--x:62%;--r:8deg"></i></>}
+  {kind === 'map' && <><i class="mring"></i><i class="mring b"></i><i class="pin"></i></>}
+  {kind === 'city' && <><i class="twr" style="--x:22%;--h:38%"></i><i class="twr" style="--x:38%;--h:66%"></i><i class="twr on" style="--x:54%;--h:50%"></i><i class="twr" style="--x:70%;--h:30%"></i></>}
+  {kind === 'stack' && <><i class="tier" style="--y:60%;--w:56%"></i><i class="tier" style="--y:42%;--w:42%"></i><i class="tier on" style="--y:24%;--w:28%"></i></>}
   <i class="pet"></i>
 </div>

@@ -4,7 +4,7 @@
 import { build, care, fmt, fmtYear, yearly } from './packages';
 
 export interface Post {
-  slug: string; tag: string; art: 'cost' | 'care' | 'ai' | 'seo' | 'pick';
+  slug: string; tag: string; art: 'cost' | 'care' | 'ai' | 'seo' | 'pick' | 'map' | 'city' | 'stack';
   h1: string; title: string; description: string; date: string;
   short: string; card: string;
   sections: { id: string; h: string; html: string }[];
@@ -26,6 +26,89 @@ const careTable = `<div class="btable"><table><thead><tr><th>Plan</th><th>Price 
 </tbody></table></div>`;
 
 export const posts: Post[] = [
+  {
+    slug: 'local-seo-malaysia', tag: 'Local SEO', art: 'map', date: '2026-11-11',
+    h1: 'Local SEO in Malaysia: how to be found in your area',
+    title: 'Local SEO in Malaysia: How to Be Found in Your Area',
+    description: 'Local SEO in Malaysia in plain steps: say where you work, set up a Google Business Profile, keep your details the same everywhere and make contact easy.',
+    card: 'Plain steps to help people near you find your business on Google and Google Maps.',
+    short: 'Local SEO is the work of helping people near you find your business when they search with a place in mind, such as a service in Kuala Lumpur, Selangor or Petaling Jaya. For a business in Malaysia it comes down to four things: say clearly where you work, set up a Google Business Profile, keep your details the same everywhere, and make it easy to get in touch.',
+    sections: [
+      { id: 'what-is-local-seo', h: 'What local SEO means', html: `<p>Some searches are about a topic. Others are about a place: a service followed by a town, or the words "near me". Local SEO is the work that helps your business show up for the second kind, both in the normal results and on Google Maps.</p>
+<p>It builds on normal SEO. If you are new to that, start with our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a>.</p>` },
+      { id: 'say-where-you-work', h: '1. Say clearly where you work', html: `<p>Google cannot guess your area. Write it on your website in plain words: the towns, states or parts of Malaysia you serve. Put it where people and search engines will see it, such as the main service page, the footer and the contact page.</p>
+<p>Only name places you really serve. A long list of towns you never visit helps nobody.</p>` },
+      { id: 'google-business-profile', h: '2. Set up a Google Business Profile', html: `<p>A Google Business Profile is the box with your business name, opening hours, phone number and reviews that appears on Google and Google Maps. It is free from Google.</p>
+<ul><li>Fill in every part: category, hours, phone number, website and service area.</li>
+<li>Add real photos of your work or your place.</li>
+<li>Keep it up to date when your hours or details change.</li></ul>` },
+      { id: 'same-details-everywhere', h: '3. Keep your details the same everywhere', html: `<p>Your business name, phone number and address should match on your website, your Google Business Profile and anywhere else you are listed. Small differences, such as an old phone number on one listing, make it harder for Google to trust that they are all the same business.</p>` },
+      { id: 'real-reviews', h: '4. Ask happy customers for real reviews', html: `<p>Reviews help people choose, and they are part of what Google shows for local searches. Ask customers you have really served, and reply to what they write. Never buy reviews or write your own: it is against Google's rules and customers can tell.</p>` },
+      { id: 'make-contact-easy', h: '5. Make contact easy', html: `<p>A local search often ends with a message or a call. A WhatsApp button, a phone number people can tap and a clear contact page turn a search into a customer.</p>
+<p>Every website we build includes a WhatsApp button and a contact page. See <a href="/website-design/">website design in Malaysia</a>.</p>` },
+    ],
+    faqs: [
+      { q: 'Is a Google Business Profile free?', a: 'Yes. Google does not charge for a Business Profile.' },
+      { q: 'Do I need a website for local SEO?', a: 'A Google Business Profile can work alone, but a clear website gives Google and customers far more to go on: what you do, where you work and how to reach you.' },
+      { q: 'Should I list every town on my website?', a: 'No. Name the places you really serve. A long list of towns with nothing useful to say about them does not help.' },
+      { q: 'Can you promise I will show first on Google Maps?', a: 'No. Nobody controls Google. We build a clear website that says where you work and makes contact easy, which gives you the best chance.' },
+    ],
+    cta: { pill: 'XpertForge', title: 'A website that says clearly where you work', href: '/website-design/', label: 'Website design in Malaysia' },
+  },
+  {
+    slug: 'website-design-kuala-lumpur-selangor', tag: 'Website design', art: 'city', date: '2026-11-11',
+    h1: 'Website design in Kuala Lumpur and Selangor: a checklist',
+    title: 'Website Design in Kuala Lumpur and Selangor: A Checklist',
+    description: 'Getting a website designed for a business in Kuala Lumpur, Selangor or Petaling Jaya? Use this plain checklist before you choose and before you pay.',
+    card: 'A plain checklist for businesses in Kuala Lumpur, Selangor and Petaling Jaya before they pay for a website.',
+    short: `Before you pay for website design in Kuala Lumpur, Selangor or Petaling Jaya, check five things: the website says where you work, the price is clear and in ringgit, the writing is included, it is planned for Google and AI search, and someone looks after it after launch. With SEOXpert a website costs from ${fmt(starter)}, paid once.`,
+    sections: [
+      { id: 'say-where-you-work', h: '1. The website says where you work', html: `<p>People search with a place in mind: a service in Kuala Lumpur, in Selangor or in Petaling Jaya. Your website should name the areas you serve in plain words, so both customers and Google know you are a match. More on this in <a href="/blog/local-seo-malaysia/">local SEO in Malaysia</a>.</p>` },
+      { id: 'clear-price', h: '2. The price is clear, and in ringgit', html: `<p>You should know the full price before you agree to anything. Our website builds are called XpertForge, and each one is a single price, paid once.</p>${buildTable}
+<p>See what each one includes on the <a href="/packages/">website design packages</a> page, or read <a href="/blog/website-design-price-malaysia/">website design price in Malaysia</a>.</p>` },
+      { id: 'writing-included', h: '3. The writing is included', html: `<p>Many quotes leave the words to you. That is the slowest part of a new website, and thin writing is hard to find on Google. Ask who writes the pages. With us, copywriting is included in every package and our experts check every page.</p>` },
+      { id: 'planned-for-search', h: '4. It is planned for Google and AI search', html: `<p>A website nobody can find does not help your business. Ask how each page is planned: which searches it answers, what the title and headings say, and how fast it loads on a phone.</p>
+<p>We plan every page for Google and AI search before it is designed, using <a href="/ai-website-builder/">XpertCore, our own AI website builder</a>.</p>` },
+      { id: 'after-launch', h: '5. Someone looks after it after launch', html: `<p>Ask who updates the website, who backs it up and what that costs each month. With us that is <a href="/website-maintenance/">XpertCare</a>, an optional monthly plan with hosting included, from ${fmt(basic)} a month.</p>` },
+      { id: 'do-you-need-to-meet', h: 'Do you need to meet in person?', html: `<p>No. We work with businesses in Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia, and the work starts with a conversation by email or chat. Tell us what you do, who you serve and what you want the website to achieve. A short chat is enough to start.</p>` },
+    ],
+    faqs: [
+      { q: 'How much does website design cost in Kuala Lumpur?', a: `With SEOXpert it costs ${fmt(starter)} to ${fmt(growth)}, paid once, wherever you are in Malaysia. The price depends mostly on how many pages you need.` },
+      { q: 'Do you only work with businesses in Kuala Lumpur and Selangor?', a: 'No. We work with businesses in Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia.' },
+      { q: 'Is the writing included?', a: 'Yes. Copywriting is included in every XpertForge package.' },
+      { q: 'How do I start?', a: 'Send us a message. Tell us what you do and who you serve, and we will say honestly which package fits.' },
+    ],
+    cta: { pill: 'XpertForge', title: `Website design from ${fmt(starter)}, paid once`, href: '/packages/', label: 'See packages' },
+  },
+  {
+    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11',
+    h1: 'Website design packages in Malaysia: which one fits?',
+    title: 'Website Design Packages in Malaysia: Which One Fits?',
+    description: `Compare website design packages in Malaysia: Starter, Business and Growth, from ${fmt(starter)}. See what each includes and which one fits your business.`,
+    card: 'Starter, Business or Growth? What each website design package includes and who it suits.',
+    short: `Choose a website design package by counting the pages you need. ${starter.name} (${fmt(starter)}) covers up to 5 pages, ${business.name} (${fmt(business)}) up to 10 pages and a blog, and ${growth.name} (${fmt(growth)}) up to 20 pages and a blog. Each is paid once, and copywriting and keyword research are included in all three.`,
+    sections: [
+      { id: 'side-by-side', h: 'The three packages side by side', html: `<p>Our website builds are called XpertForge. Prices are in ringgit and paid once.</p>${buildTable}
+<p>Every package includes copywriting, full keyword research with XpertCore, Google SEO and AI search optimisation, and a WhatsApp button with a contact page. ${starter.name} has 2 revision rounds. ${business.name} and ${growth.name} have 3.</p>` },
+      { id: 'count-your-pages', h: 'Start by counting your pages', html: `<p>The simplest way to choose is to list the pages you need. Most businesses need a home page, an about page, a contact page and one page for each main service or product.</p>
+<ul><li><b>Up to 5 pages:</b> ${starter.name}. A first website that says who you are, what you do and how to reach you.</li>
+<li><b>Up to 10 pages and a blog:</b> ${business.name}. Room for a page per service, plus a blog to keep adding answers.</li>
+<li><b>Up to 20 pages and a blog:</b> ${growth.name}. For many services or products, or several areas.</li></ul>
+<p>One clear topic per page is easier to find than one long page about everything, so it is worth giving each main service a page of its own.</p>` },
+      { id: 'why-a-blog', h: 'Why the blog matters', html: `<p>${business.name} and ${growth.name} include a blog. A blog lets your website keep answering new questions your customers ask, which gives Google and AI tools more to find. Every package also comes with blog posts written at launch.</p>` },
+      { id: 'add-monthly-care', h: 'Adding monthly care', html: `<p>After launch you can add XpertCare, our optional monthly plan with hosting included.</p>${careTable}
+<p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} needs Growth. Pay yearly and you get ${yearly.text}.</p>
+<p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p>` },
+      { id: 'still-not-sure', h: 'Still not sure?', html: `<p><a href="/contact/">Tell us about your business</a> and we will say honestly which size fits. If a smaller package is enough, we will tell you.</p>` },
+    ],
+    faqs: [
+      { q: 'What is the cheapest website design package?', a: `${starter.name} at ${fmt(starter)}, paid once, for up to 5 pages.` },
+      { q: 'Is the price paid once or every month?', a: `The website build is paid once. Monthly care with XpertCare is separate and optional, from ${fmt(basic)} a month.` },
+      { q: 'Do all packages include the writing?', a: 'Yes. Copywriting and keyword research are included in every XpertForge package.' },
+      { q: 'Can I take a small website with the biggest care plan?', a: `No. A care plan can be as big as the website, not bigger. ${starter.name} takes ${basic.name}.` },
+    ],
+    cta: { pill: 'XpertForge', title: 'Compare the packages and build your plan', href: '/packages/', label: 'See packages' },
+  },
   {
     slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11',
     h1: 'Website design price in Malaysia: what does it cost?',
