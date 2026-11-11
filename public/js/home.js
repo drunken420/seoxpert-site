@@ -130,13 +130,13 @@
 })();
 /* the builder window types out what the AI builder produces */
 (function () {
-  var body = document.getElementById('bbody'), tabs = [].slice.call(document.querySelectorAll('#btabs u')), stages = [].slice.call(document.querySelectorAll('#stages li')), bname = document.getElementById('bname'), bstat = document.getElementById('bstat');
+  var body = document.getElementById('bbody'), tabs = [].slice.call(document.querySelectorAll('#btabs button')), stages = [].slice.call(document.querySelectorAll('#stages li')), bname = document.getElementById('bname'), bstat = document.getElementById('bstat');
   var nm = 'Your Business', cur = 0, chars = 0, docs, live = false, hold = 0;
   function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '') || 'yourbusiness'; }
   function make() {
     var u = 'https://' + slug(nm) + '.com';
     docs = [
-      [['c', '# site plan for ' + nm + '\n\n'], ['k', '/                  '], ['', 'Home\n'], ['k', '/website-building  '], ['', 'Website building\n'], ['k', '/monthly-care      '], ['', 'Monthly care\n'], ['k', '/packages          '], ['', 'Packages\n'], ['k', '/blog              '], ['', 'Blog\n'], ['k', '/faq               '], ['', 'FAQ\n'], ['k', '/contact           '], ['', 'Contact\n\n'], ['v', '✓ one topic per page\n✓ one H1, headings in order\n✓ unique title and description']],
+      [['c', '# site plan for ' + nm + '\n\n'], ['k', '/                  '], ['', 'Home\n'], ['k', '/services          '], ['', 'Services\n'], ['k', '/prices            '], ['', 'Prices\n'], ['k', '/about             '], ['', 'About\n'], ['k', '/blog              '], ['', 'Blog\n'], ['k', '/faq               '], ['', 'FAQ\n'], ['k', '/contact           '], ['', 'Contact\n\n'], ['v', '✓ one topic per page\n✓ one H1, headings in order\n✓ unique title and description']],
       [['k', '<h1>'], ['h', nm + ': [what you do]'], ['k', '</h1>\n\n'], ['k', '<p class="answer">\n'], ['', '  ' + nm + ' helps [who] with [what].\n  Open [hours]. WhatsApp [number].\n'], ['k', '</p>\n\n'], ['c', '<!-- the first answer is the one AI tools quote -->\n\n'], ['k', '<h2>'], ['h', 'Services'], ['k', '</h2>\n'], ['k', '<h2>'], ['h', 'Questions people ask'], ['k', '</h2>']],
       [['', '{\n'], ['k', '  "@context"'], ['', ': '], ['v', '"https://schema.org"'], ['', ',\n'], ['k', '  "@type"'], ['', ': '], ['v', '"LocalBusiness"'], ['', ',\n'], ['k', '  "name"'], ['', ': '], ['v', '"' + nm + '"'], ['', ',\n'], ['k', '  "url"'], ['', ': '], ['v', '"' + u + '"'], ['', ',\n'], ['k', '  "openingHours"'], ['', ': '], ['v', '"[hours]"'], ['', ',\n'], ['k', '  "telephone"'], ['', ': '], ['v', '"[number]"'], ['', '\n}']],
       [['h', '# ' + nm + '\n\n'], ['', '> ' + nm + ' is a [type of business].\n> This file tells AI tools what we do.\n\n'], ['h', '## Pages\n'], ['', '- Services: '], ['k', u + '/services\n'], ['', '- FAQ: '], ['k', u + '/faq\n'], ['', '- Contact: '], ['k', u + '/contact']]
@@ -148,8 +148,9 @@
     for (var i = 0; i < doc.length; i++) { total += doc[i][1].length; if (left <= 0) continue; var piece = doc[i][1].slice(0, left); left -= piece.length; h += doc[i][0] ? '<span class="' + doc[i][0] + '">' + esc(piece) + '</span>' : esc(piece); }
     body.innerHTML = h + '<span class="cur"></span>'; return total;
   }
-  function go(k) { cur = k; chars = 0; hold = 0; tabs.forEach(function (t, i) { t.classList.toggle('on', i === k); }); stages.forEach(function (s, i) { s.classList.toggle('on', i === k); }); bstat.textContent = 'building'; }
+  function go(k) { cur = k; chars = 0; hold = 0; tabs.forEach(function (t, i) { t.classList.toggle('on', i === k); t.setAttribute('aria-pressed', String(i === k)); }); stages.forEach(function (s, i) { s.classList.toggle('on', i === k); }); bstat.textContent = 'building'; }
   stages.forEach(function (s, i) { s.addEventListener('click', function () { go(i); }); });
+  tabs.forEach(function (t, i) { t.addEventListener('click', function () { go(i); }); });
   window.addEventListener('bizname', function (e) { nm = e.detail; bname.textContent = nm; make(); paint(); });
   make();
   if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { live = es[0].isIntersecting; }, { threshold: 0.3 }).observe(body); else live = true;
