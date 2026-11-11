@@ -17,13 +17,18 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Every page: one H1, title 20 to 65 characters, description 70 to 170, answer first copy, structured data that matches the visible text.
 
 ## Where things are
-- Settings (name, tagline, WhatsApp number): `src/config.ts`
+- Settings (name, tagline, WhatsApp number, email): `src/config.ts`
 - Header, phone menu, footer, SEO tags, shared structured data: `src/layouts/Base.astro`
 - Homepage: `src/pages/index.astro` + `src/fragments/home-top.html`, `home-lower.html`; styles `src/styles/home.css`
 - Inner pages: `src/pages/*.astro` using `src/components/PageHero.astro` and `Cta.astro`; styles `src/styles/page.css`
 - Shared styles: `src/styles/site.css`
 - Scripts: `public/js/ui.js` (menu, reveal, FAQ chat), `public/js/sx.js` + `home.js` (3D hero, loaded lazily by the inline loader in `index.astro`), three.js r128 in `public/vendor/`
 - `src/pages/llms.txt.ts`, `robots.txt.ts`; sitemap from @astrojs/sitemap
+- Questions and answers live once, in the homepage FAQ (`home-lower.html`); `src/lib/faq.ts` feeds the Questions page, the chat helper and the FAQ structured data. Only finished answers reach the structured data.
+- Chat helper (floating button, every page): markup in `Base.astro`, logic at the end of `public/js/ui.js`. It answers from the FAQ only. It is not an AI and sends nothing anywhere.
+- Contact choices are WhatsApp, email and chat: `src/components/Cta.astro`, `src/pages/contact.astro`.
+- Links between pages: `src/components/Related.astro` (keyword link text) plus links inside the copy. A new page needs adding there, in the menu and footer (`Base.astro`) and in `llms.txt.ts`.
+- Big screens: write sizes in px. The build turns px into rem (`scripts/fluid-px.mjs` for stylesheets, `scripts/fluid-html.mjs` for style attributes) and `html{font-size}` in `site.css` grows above 1920px wide. Breakpoints stay in px. The desktop menu switches to the phone menu at 1080px.
 - Share image: `node scripts/make-og.cjs` writes `public/og.png`
 
 ## Speed rule

@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import '../styles/page.css';
+import { whatsappLink } from '../config';
+---
+<Base title="Website Design Packages and Prices | SEOXpert" description="Website design packages from SEOXpert. See what every package includes, how website design cost is worked out, and how monthly website maintenance fits in." path="/packages/" crumb="Packages">
+<main id="main">
+<PageHero kicker="Packages" crumb="Packages">
+  <Fragment slot="title">Website design packages, <em>in plain language</em>.</Fragment>
+  <Fragment slot="lede">How much does website design cost? It depends on how many pages you need and how much we write for you. Here is how our packages work.</Fragment>
+  <Fragment slot="cta"><a class="btn" href={whatsappLink}>Ask for a quote</a><a class="btn ghost" href="#included">See what is included</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Packages and prices</span>
+  <h2 class="rv">Choose the size that fits your business.</h2>
+  <div class="plans">
+    <div class="plan rv"><h3>Package one</h3><p class="price ph">[PLACEHOLDER]</p><p class="ph">[PLACEHOLDER] Name, price and what this package includes.</p></div>
+    <div class="plan mid rv" style="--d:1"><h3>Package two</h3><p class="price ph">[PLACEHOLDER]</p><p class="ph">[PLACEHOLDER] Name, price and what this package includes.</p></div>
+    <div class="plan rv" style="--d:2"><h3>Package three</h3><p class="price ph">[PLACEHOLDER]</p><p class="ph">[PLACEHOLDER] Name, price and what this package includes.</p></div>
+  </div>
+</div></section>
+
+<section id="included" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">In every package</span>
+  <h2 class="rv">What every website design package includes.</h2>
+  <ul class="ticks rv">
+    <li>Pages planned for search with <a href="/ai-website-builder/">our AI website builder</a></li>
+    <li>Answer first writing, checked by a real person</li>
+    <li>A fast website that works well on phones</li>
+    <li>Titles, descriptions and structured data for Google</li>
+    <li>An llms.txt summary for AI search tools</li>
+    <li>The option of monthly <a href="/website-maintenance/">website maintenance</a></li>
+  </ul>
+</div></section>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Monthly care</span>
+  <h2 class="rv">Website maintenance cost.</h2>
+  <p class="sub rv">Monthly care is a separate, ongoing plan that keeps your website updated, backed up and growing. <a href="/website-maintenance/">See what website maintenance covers</a>.</p>
+  <div class="note rv"><h3>Monthly plan price</h3><p class="ph">[PLACEHOLDER] Your monthly care price goes here.</p></div>
+</div></section>
+<Related skip="/packages/" />
+<Cta title="Not sure which package fits? Ask us." />
+</main>
+</Base>

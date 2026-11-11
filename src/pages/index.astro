@@ -5,14 +5,10 @@ import top from '../fragments/home-top.html?raw';
 import lower from '../fragments/home-lower.html?raw';
 import { site, whatsappLink } from '../config';
 import Cta from '../components/Cta.astro';
+import { faqLd } from '../lib/faq';
 import icon from '../fragments/icon.svg?raw';
 const html = (top + lower).replace('<canvas id="gl" aria-hidden="true"></canvas>', '<canvas id="gl" aria-hidden="true"></canvas><div class="poster" aria-hidden="true">' + icon + '<i></i><i></i><i></i><i></i><i></i><i></i></div>').replaceAll('href="#talk">WhatsApp us', `href="${whatsappLink}">WhatsApp us`);
-// FAQ structured data: only finished answers (no placeholders or drafts) are shown to Google and AI tools.
-const strip = (t: string) => t.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-const qs = [...lower.matchAll(/<button[^>]*data-q="\d+"><b>\d+<\/b>([^<]+)<\/button>/g)].map((m) => m[1]);
-const as = [...lower.split('id="faqsrc"')[1].matchAll(/<p( class="ph")?>([\s\S]*?)<\/p>/g)];
-const faq = qs.map((q, i) => ({ q, a: as[i] })).filter((x) => x.a && !x.a[1] && !/\[(DRAFT|PLACEHOLDER)\]/.test(x.a[2]));
-const extraLd = [{ '@type': 'FAQPage', mainEntity: faq.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: strip(x.a[2]) } })) }];
+const extraLd = [faqLd];
 ---
 <Base title="Website Design Built to Rank on Google and AI | SEOXpert" extraLd={extraLd}>
   <main id="main">

@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
 import '../styles/page.css';
 import { site, whatsappLink } from '../config';
 const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, description: 'Monthly website maintenance: updates, backups, fixes and new content, so your website stays healthy and keeps growing.' }];
@@ -22,10 +23,11 @@ const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType:
     <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Updates</h3><p>Your website is kept up to date, so it keeps working the way it should.</p></div>
     <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Backups</h3><p>Regular copies of your website are saved, so nothing is lost if something goes wrong.</p></div>
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Fixes</h3><p>When something breaks or looks off, we put it right.</p></div>
-    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>New content</h3><p>Fresh pages and answers, so your website keeps growing instead of standing still.</p></div>
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>New content</h3><p>Fresh pages and answers, so your website keeps growing instead of standing still, built the same way as our <a href="/website-design/">website design</a>.</p></div>
     <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>Search health</h3><p>We watch how your pages do on Google and AI search and adjust what needs adjusting.</p></div>
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Clear reporting</h3><p>Visual reports from real data, so you always know where you stand and what we are working on.</p></div>
   </div>
+  <p class="sub rv" style="margin-top:28px">Wondering about website maintenance cost? It is listed with our <a href="/packages/">website design packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
   <div class="note rv"><h3>Your monthly plan</h3><p class="ph">[PLACEHOLDER] Exactly what your monthly plan includes, and its price, go here.</p></div>
 </div></section>
 
@@ -33,6 +35,7 @@ const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType:
   <span class="eyebrow rv">Why it matters</span>
   <p class="creed rv">Search visibility <em>builds over time</em>. A website that is looked after keeps its gains instead of losing them.</p>
 </div></section>
+<Related skip="/website-maintenance/" />
 <Cta title="Let us look after your website." />
 </main>
 </Base>
