@@ -5,7 +5,9 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 
 ## Hard rules
 - NEVER invent clients, reviews, testimonials, results, stats or prices. Use a clearly marked `[PLACEHOLDER]` (or `[DRAFT]`) and ask Suhen.
-- We do NOT sell hosting. Never mention hosting as a service.
+- We do NOT sell hosting on its own. Hosting may only be mentioned as included with XpertCare plans and the launch offer (Suhen, 2026-11).
+- Packages and prices live in `src/data/packages.ts` (cards `src/components/Packages.astro`, plan picker `PlanPicker.astro`, script `public/js/packages.js`). Never change a price without asking Suhen. The HTML shows RM; the script offers a RM or USD switch. The launch offer hides itself after 30 April 2027.
+- Names: XpertCore is our AI core, XpertCare is the monthly care plan (Basic, Plus, Pro). Never promise rankings or page 1.
 - No location names in site copy (no country, state or city) unless Suhen changes this rule.
 - English only.
 - Show Suhen a preview and get a yes before new designs or big changes. Every change goes through a pull request; `npm test` must pass.

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const dist = 'dist';
-const banned = [/klang valley/i, /malaysia/i, /\bhosting\b/i, /lorem ipsum/i];
+const banned = [/klang valley/i, /malaysia/i, /web hosting (plans?|packages?|services?)/i, /lorem ipsum/i];
 const pages = [];
 (function walk(d) { for (const f of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, f.name); if (f.isDirectory()) walk(p); else if (p.endsWith('.html')) pages.push(p); } })(dist);
 

@@ -4,15 +4,17 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
+import Packages from '../components/Packages.astro';
 import { site, whatsappLink } from '../config';
-const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, description: 'Monthly website maintenance: updates, backups, fixes and new content, so your website stays healthy and keeps growing.' }];
+import { care, offersLd } from '../data/packages';
+const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, description: 'Monthly website maintenance: updates, backups, fixes and new content, so your website stays healthy and keeps growing.', offers: offersLd(care) }];
 ---
 <Base title="Website Maintenance and Monthly Care | SEOXpert" description="Monthly website maintenance from SEOXpert. We keep your website updated, backed up and growing with new content, so you can get on with running your business." path="/website-maintenance/" crumb="Website maintenance" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Monthly care" crumb="Website maintenance">
   <Fragment slot="title">Website maintenance, <em>month after month</em>.</Fragment>
   <Fragment slot="lede">A website is not finished on launch day. We keep yours updated, backed up and growing, so you can get on with running your business.</Fragment>
-  <Fragment slot="cta"><a class="btn" href={whatsappLink}>WhatsApp us</a><a class="btn ghost" href="#what">See what is covered</a></Fragment>
+  <Fragment slot="cta"><a class="btn" href={whatsappLink}>WhatsApp us</a><a class="btn ghost" href="#xpertcare">See XpertCare plans</a></Fragment>
 </PageHero>
 
 <section id="what" class="solid band"><div class="wrap">
@@ -27,8 +29,13 @@ const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType:
     <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>Search health</h3><p>We watch how your pages do on Google and AI search and adjust what needs adjusting.</p></div>
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Clear reporting</h3><p>Visual reports from real data, so you always know where you stand and what we are working on.</p></div>
   </div>
-  <p class="sub rv" style="margin-top:28px">Wondering about website maintenance cost? It is listed with our <a href="/packages/">website design packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
-  <div class="note rv"><h3>Your monthly plan</h3><p class="ph">[PLACEHOLDER] Exactly what your monthly plan includes, and its price, go here.</p></div>
+</div></section>
+
+<section id="xpertcare" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">XpertCare plans</span>
+  <h2 class="rv">Website maintenance cost, month by month.</h2>
+  <p class="sub rv">XpertCare is our monthly care plan. Pick the size that fits how often your website changes. Hosting is included with every plan, and you can add a plan to any of our <a href="/packages/">website design packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
+  <Packages show="care" pickHref="/packages/#plan" />
 </div></section>
 
 <section class="dark band"><div class="wrap">
@@ -38,4 +45,5 @@ const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType:
 <Related skip="/website-maintenance/" />
 <Cta title="Let us look after your website." />
 </main>
+<script slot="scripts" src="/js/packages.js" defer></script>
 </Base>

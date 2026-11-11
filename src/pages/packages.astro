@@ -4,46 +4,53 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
-import { whatsappLink } from '../config';
+import Packages from '../components/Packages.astro';
+import PlanPicker from '../components/PlanPicker.astro';
+import { site } from '../config';
+import { build, care, offersLd } from '../data/packages';
+const extraLd = [
+  { '@type': 'Service', name: 'Website design packages', serviceType: 'Website design', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/packages/`, offers: offersLd(build) },
+  { '@type': 'Service', name: 'XpertCare monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
+];
 ---
-<Base title="Website Design Packages and Prices | SEOXpert" description="Website design packages from SEOXpert. See what every package includes, how website design cost is worked out, and how monthly website maintenance fits in." path="/packages/" crumb="Packages">
+<Base title="Website Design Packages and Prices | SEOXpert" description="Website design packages from RM499, with copywriting and keyword research included. XpertCare monthly website maintenance from RM55 a month." path="/packages/" crumb="Packages" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Packages" crumb="Packages">
   <Fragment slot="title">Website design packages, <em>in plain language</em>.</Fragment>
-  <Fragment slot="lede">How much does website design cost? It depends on how many pages you need and how much we write for you. Here is how our packages work.</Fragment>
-  <Fragment slot="cta"><a class="btn" href={whatsappLink}>Ask for a quote</a><a class="btn ghost" href="#included">See what is included</a></Fragment>
+  <Fragment slot="lede">How much does website design cost? From RM499, one time, with the writing included. Monthly care with XpertCare starts at RM55.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="#prices">See the packages</a><a class="btn ghost" href="#plan" data-pk-planlink>Build your plan</a></Fragment>
 </PageHero>
 
-<section class="solid band"><div class="wrap">
+<section id="prices" class="solid band"><div class="wrap">
   <span class="eyebrow rv">Packages and prices</span>
   <h2 class="rv">Choose the size that fits your business.</h2>
-  <div class="plans">
-    <div class="plan rv"><h3>Package one</h3><p class="price ph">[PLACEHOLDER]</p><p class="ph">[PLACEHOLDER] Name, price and what this package includes.</p></div>
-    <div class="plan mid rv" style="--d:1"><h3>Package two</h3><p class="price ph">[PLACEHOLDER]</p><p class="ph">[PLACEHOLDER] Name, price and what this package includes.</p></div>
-    <div class="plan rv" style="--d:2"><h3>Package three</h3><p class="price ph">[PLACEHOLDER]</p><p class="ph">[PLACEHOLDER] Name, price and what this package includes.</p></div>
-  </div>
+  <p class="sub rv">One price to build your website, and an optional XpertCare plan to look after it every month. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by a real person.</p>
+  <Packages pickHref="#plan" />
+</div></section>
+
+<section id="plan" class="solid band" hidden><div class="wrap">
+  <span class="eyebrow rv">Build your plan</span>
+  <h2 class="rv">Pick a website and a care plan. See your total.</h2>
+  <PlanPicker />
 </div></section>
 
 <section id="included" class="solid band"><div class="wrap">
-  <span class="eyebrow rv">In every package</span>
-  <h2 class="rv">What every website design package includes.</h2>
+  <span class="eyebrow rv">How it works</span>
+  <h2 class="rv">What you get with every website design package.</h2>
   <ul class="ticks rv">
     <li>Pages planned for search with <a href="/ai-website-builder/">our AI website builder</a></li>
-    <li>Answer first writing, checked by a real person</li>
+    <li>Copywriting included: answer first writing, checked by a real person</li>
+    <li>Full keyword research with XpertCore, before anything is designed</li>
     <li>A fast website that works well on phones</li>
     <li>Titles, descriptions and structured data for Google</li>
     <li>An llms.txt summary for AI search tools</li>
-    <li>The option of monthly <a href="/website-maintenance/">website maintenance</a></li>
+    <li>A WhatsApp button and contact page, so customers can reach you</li>
+    <li>Monthly <a href="/website-maintenance/">website maintenance</a> with XpertCare, if you want it</li>
   </ul>
-</div></section>
-
-<section class="solid band"><div class="wrap">
-  <span class="eyebrow rv">Monthly care</span>
-  <h2 class="rv">Website maintenance cost.</h2>
-  <p class="sub rv">Monthly care is a separate, ongoing plan that keeps your website updated, backed up and growing. <a href="/website-maintenance/">See what website maintenance covers</a>.</p>
-  <div class="note rv"><h3>Monthly plan price</h3><p class="ph">[PLACEHOLDER] Your monthly care price goes here.</p></div>
+  <p class="sub rv" style="margin-top:28px">Built by XpertCore, looked after by XpertCare. <a href="/website-maintenance/">See what website maintenance covers</a>, or read more about <a href="/website-design/">website design</a>.</p>
 </div></section>
 <Related skip="/packages/" />
 <Cta title="Not sure which package fits? Ask us." />
 </main>
+<script slot="scripts" src="/js/packages.js" defer></script>
 </Base>

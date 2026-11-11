@@ -4,6 +4,7 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
+import { build, fmt } from '../data/packages';
 import { site, whatsappLink } from '../config';
 const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Website design and building', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-design/`, description: 'Website design for businesses, planned for Google and AI search before it is designed, built with our own AI website builder and finished by hand.' }];
 ---
@@ -46,8 +47,11 @@ const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Web
 <section id="packages" class="solid band"><div class="wrap">
   <span class="eyebrow rv">Packages</span>
   <h2 class="rv">Website design packages.</h2>
-  <p class="sub rv">How much does website design cost? See our <a href="/packages/">website design packages</a> for what is included.</p>
-  <div class="note rv"><h3>Packages and prices</h3><p class="ph">[PLACEHOLDER] Your website design packages and prices go here.</p></div>
+  <p class="sub rv">How much does website design cost? Our <a href="/packages/">website design packages</a> start at RM499, one time, with copywriting and keyword research included.</p>
+  <div class="grid3">
+    {build.tiers.map((t, i) => <div class="fcard rv" style={`--d:${i}`}><h3>{t.name}</h3><p><b>{fmt(t)}</b> once. {t.short} at launch.</p></div>)}
+  </div>
+  <p class="sub rv" style="margin-top:28px"><a href="/packages/">Compare the packages and build your plan</a>.</p>
   <div class="note rv"><h3>Portfolio</h3><p class="ph">[PLACEHOLDER] Your past website design work goes here.</p></div>
 </div></section>
 <Related skip="/website-design/" />
