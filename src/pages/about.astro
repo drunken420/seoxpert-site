@@ -2,13 +2,14 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
+import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
 import { whatsappLink, talkLabel } from '../config';
 ---
 <Base title="About SEOXpert | A Founder Led Web Design Company" description="SEOXpert is a founder led web design company. We build websites that people, Google and AI search understand, and look after them every month." path="/about/" crumb="About">
 <main id="main">
-<PageHero kicker="About SEOXpert" crumb="About">
+<PageHero kicker="About SEOXpert" art="about" crumb="About">
   <Fragment slot="title">A web design company built on <em>clarity</em>.</Fragment>
   <Fragment slot="lede">We bridge the gap between traditional search and the way people search today, by building websites that people, Google and AI all understand.</Fragment>
   <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a></Fragment>
@@ -36,10 +37,11 @@ import { whatsappLink, talkLabel } from '../config';
   <span class="eyebrow rv">What we do</span>
   <h2 class="rv">Two things, done properly.</h2>
   <div class="grid3 two">
-    <a class="fcard rv" href="/website-design/" style="text-decoration:none;color:inherit"><div class="pet"></div><h3>Website design</h3><p>A new website for your business, planned for Google and AI search before it is designed.</p><span class="more">How it works</span></a>
-    <a class="fcard rv" href="/website-maintenance/" style="--d:1;text-decoration:none;color:inherit"><div class="pet" style="--r:90deg"></div><h3>Website maintenance</h3><p>Monthly care that keeps your website updated, backed up and growing.</p><span class="more">What is covered</span></a>
+    <a class="fcard rv" href="/website-design/" style="text-decoration:none;color:inherit"><div class="pet"></div><h3>Website design</h3><p>XpertForge: a new website for your business, planned for Google and AI search before it is designed.</p><span class="more">How it works</span></a>
+    <a class="fcard rv" href="/website-maintenance/" style="--d:1;text-decoration:none;color:inherit"><div class="pet" style="--r:90deg"></div><h3>Website maintenance</h3><p>XpertCare: monthly care for the websites we build, with hosting included.</p><span class="more">What is covered</span></a>
   </div>
 </div></section>
+<Trio />
 <Related skip="/about/" />
 <Cta />
 </main>

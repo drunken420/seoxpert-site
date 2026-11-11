@@ -2,15 +2,16 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
+import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
 import { whatsappLink, talkLabel } from '../config';
 ---
 <Base title="AI Website Builder With SEO Built In | SEOXpert" description="Our own AI website builder plans the pages, writes answer first copy and adds the setup Google and AI search need. Then a real person checks every page." path="/ai-website-builder/" crumb="AI website builder">
 <main id="main">
-<PageHero kicker="Our AI builder" crumb="AI website builder">
+<PageHero kicker="Our AI builder" brand="XpertCore" art="core" crumb="AI website builder">
   <Fragment slot="title">An AI website builder with <em>search built in</em>.</Fragment>
-  <Fragment slot="lede">Our own AI website builder lays the groundwork that Google and AI tools read. Then a real person checks and refines every page.</Fragment>
+  <Fragment slot="lede">XpertCore, our own AI website builder, lays the groundwork that Google and AI tools read. Then a real person checks and refines every page.</Fragment>
   <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="/website-design/">See website design</a></Fragment>
 </PageHero>
 
@@ -57,6 +58,7 @@ import { whatsappLink, talkLabel } from '../config';
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Care after launch</h3><p><a href="/website-maintenance/">Website maintenance</a> keeps your pages updated, backed up and growing.</p></div>
   </div>
 </div></section>
+<Trio skip="/ai-website-builder/" />
 <Related skip="/ai-website-builder/" />
 <Cta title="Want to see what our builder would plan for you?" />
 </main>

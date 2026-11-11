@@ -42,6 +42,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           </article>
         ))}
       </div>
+      {S.key === 'care' && <p class="pknote rv"><span class="xp sm">XpertCare</span> is only for websites we build with XpertForge. Hosting is included.</p>}
       <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
     </div>
   ))}

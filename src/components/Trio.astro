@@ -1,0 +1,27 @@
+---
+// The three product names side by side: XpertForge builds it, XpertCore powers it, XpertCare looks after it.
+// Styles: "product trio" at the end of src/styles/site.css.
+interface Props { skip?: string }
+const { skip } = Astro.props;
+const items = [
+  { name: 'XpertForge', role: 'The website build', text: 'A new website at one price, paid once. Pick Starter, Business or Growth.', href: '/packages/', more: 'See website design packages' },
+  { name: 'XpertCore', role: 'Our AI core', text: 'Our team uses it to plan your pages, write answer first copy and add the setup Google and AI need.', href: '/ai-website-builder/', more: 'How our AI website builder works' },
+  { name: 'XpertCare', role: 'Monthly care', text: 'Hosting, backups, fixes and new content, only for the websites we build.', href: '/website-maintenance/', more: 'What website maintenance covers' },
+];
+---
+<section class="solid tint band trio"><div class="wrap">
+  <span class="eyebrow rv">Three names to know</span>
+  <h2 class="rv">Forged by XpertCore, looked after by XpertCare.</h2>
+  <p class="sub rv">Every SEOXpert website follows the same path. We build it, our AI core powers it, and we keep looking after it.</p>
+  <ol class="trio3">
+    {items.map((it, i) => (
+      <li class={'rv' + (i === 1 ? ' mid' : '')} style={`--d:${i}`}>
+        <b class="n" aria-hidden="true">{'0' + (i + 1)}</b>
+        <span class="xp">{it.name}</span>
+        <h3>{it.role}</h3>
+        <p>{it.text}</p>
+        {it.href !== skip && <a class="more" href={it.href}>{it.more}</a>}
+      </li>
+    ))}
+  </ol>
+</div></section>

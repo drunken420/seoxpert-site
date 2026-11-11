@@ -238,3 +238,31 @@ h1,h2,h3{overflow-wrap:break-word}
 .minip li.hot{background:linear-gradient(135deg,var(--plum),var(--plum2));color:#e9d8ff}
 .minip li.hot b{color:#fff}
 .minip li.care{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}
+
+/* product name pill: XpertForge, XpertCore, XpertCare */
+.xp{display:inline-flex;align-items:center;gap:8px;font:600 13px/1 var(--f-m);padding:9px 13px;border-radius:99px;background:linear-gradient(120deg,var(--plum),var(--plum2));color:#e9d8ff;white-space:nowrap;vertical-align:middle;box-shadow:0 8px 20px rgba(40,6,70,.28)}
+.xp::before{content:"";width:11px;height:11px;background:var(--acc2);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:spin 6s linear infinite}
+.xp.sm{font-size:11px;padding:6px 9px;gap:6px;box-shadow:none}.xp.sm::before{width:9px;height:9px}
+.xp.lt,.dk .xp,.dark .xp{background:#fff;color:#3d0a66}.xp.lt::before,.dk .xp::before,.dark .xp::before{background:var(--acc)}
+/* tinted sections, so a page is not white from top to bottom */
+.solid.tint{background:linear-gradient(180deg,#f6eefd,#fbf8ff);overflow:hidden}
+.solid.tint::after{content:"";position:absolute;right:-70px;top:-70px;width:280px;height:280px;border-radius:0 0 0 100%;background:linear-gradient(225deg,rgba(176,108,255,.28),rgba(176,108,255,0) 70%);pointer-events:none}
+.solid.tint>.wrap{position:relative;z-index:1}
+.tint .fcard,.tint .nsteps li,.tint .way{background:#fff}
+.dark{overflow:hidden}
+.dark::after{content:"";position:absolute;left:-60px;bottom:-60px;width:240px;height:240px;border-radius:0 100% 0 0;background:linear-gradient(45deg,rgba(176,108,255,.32),rgba(176,108,255,0) 70%);pointer-events:none;animation:float 12s ease-in-out infinite}
+.dark>.wrap{position:relative;z-index:1}
+/* product trio (src/components/Trio.astro) */
+.trio3{list-style:none;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:34px;position:relative}
+.trio3::before{content:"";position:absolute;left:8%;right:8%;top:58px;height:2px;background:repeating-linear-gradient(90deg,var(--acc2) 0 10px,transparent 10px 20px);background-size:200% 100%;animation:trioflow 30s linear infinite}
+@keyframes trioflow{to{background-position:-400px 0}}
+.trio3 li{position:relative;background:#fff;border-radius:26px;padding:28px 26px 26px;box-shadow:inset 0 0 0 1px var(--line),0 18px 40px rgba(74,14,120,.08);display:flex;flex-direction:column;align-items:flex-start;gap:10px;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease}
+.trio3 li:hover{transform:translateY(-6px);box-shadow:inset 0 0 0 1.5px var(--acc2),0 26px 50px rgba(74,14,120,.16)}
+.trio3 li.mid{background:linear-gradient(160deg,var(--plum),var(--plum2) 70%,#3d0a66);color:#fff;box-shadow:0 22px 50px rgba(40,6,70,.35)}
+.trio3 .n{position:absolute;right:18px;top:6px;font:700 84px/1 var(--f-d);letter-spacing:-.05em;color:var(--acc);opacity:.08}
+.trio3 .mid .n{color:#fff;opacity:.1}
+.trio3 h3{font-size:24px;line-height:1.15;margin-top:8px}
+.trio3 p{margin:0;color:var(--soft);font-size:16px}
+.trio3 .mid p{color:#cbbbe2}.trio3 .mid .more{color:#e9d8ff}
+.trio3 .more{margin-top:auto;padding-top:8px}
+@media (max-width:900px){.trio3{grid-template-columns:1fr;gap:16px}.trio3::before{display:none}}

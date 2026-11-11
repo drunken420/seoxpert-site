@@ -1,12 +1,19 @@
 ---
-interface Props { kicker: string; crumb: string }
-const { kicker, crumb } = Astro.props;
+// Banner at the top of every inner page: text on the left, an animated picture on the right.
+// brand = which product name to show as a pill next to the kicker; art = which picture (see HeroArt.astro).
+import HeroArt from './HeroArt.astro';
+interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertCare'; art?: string }
+const { kicker, crumb, brand, art } = Astro.props;
 ---
 <section class="phero band"><div class="wrap">
-  <i class="pp" style="--x:72%;--y:14%;--s:120px;--r:0deg;--t:9s"></i><i class="pp" style="--x:86%;--y:46%;--s:70px;--r:90deg;--t:7s"></i><i class="pp" style="--x:64%;--y:62%;--s:44px;--r:200deg;--t:8s"></i><i class="pp" style="--x:92%;--y:8%;--s:34px;--r:270deg;--t:10s"></i>
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{crumb}</span></nav>
-  <span class="kicker">{kicker}</span>
-  <h1><slot name="title" /></h1>
-  <p class="lede"><slot name="lede" /></p>
-  <div class="cta-row"><slot name="cta" /></div>
+  <div class="pgrid">
+    <div class="ptext">
+      <p class="krow">{brand && <span class="xp">{brand}</span>}<span class="kicker">{kicker}</span></p>
+      <h1><slot name="title" /></h1>
+      <p class="lede"><slot name="lede" /></p>
+      <div class="cta-row"><slot name="cta" /></div>
+    </div>
+    {art && <HeroArt kind={art} />}
+  </div>
 </div></section>
