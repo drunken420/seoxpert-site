@@ -143,6 +143,34 @@ h1 em{font-style:normal;color:var(--acc)}
   .fbar{flex-direction:column;gap:10px;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 }
 @media (max-width:560px){.grid4{grid-template-columns:1fr}}
+/* headings that reveal word by word (words wrapped by ui.js) */
+.rv.wr{opacity:1;transform:none}
+.wr .w{display:inline-block;opacity:0;transform:translateY(.45em) rotate(3deg);transform-origin:0 100%;transition:opacity .5s ease,transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--d,0)*110ms + var(--i)*55ms)}
+.wr.in .w{opacity:1;transform:none}
+/* cards in a row of three fan in from the sides */
+@media (min-width:901px){
+  .grid3>.rv:nth-child(3n+1),.rgrid>.rv:nth-child(4n+1){transform:translate(-36px,34px) rotate(-4deg)}
+  .grid3>.rv:nth-child(3n+2),.rgrid>.rv:nth-child(4n+2){transform:translateY(48px) scale(.94)}
+  .grid3>.rv:nth-child(3n),.rgrid>.rv:nth-child(4n+3){transform:translate(36px,34px) rotate(4deg)}
+  .rgrid>.rv:nth-child(4n){transform:translate(48px,30px) rotate(5deg)}
+  .grid3>.rv.in,.rgrid>.rv.in{transform:none}
+}
+/* numbered steps: each number lights up and a short line joins it to the next step */
+.nsteps li{position:relative}
+.nsteps li::before{transition:background .45s ease,color .45s ease,box-shadow .45s ease;transition-delay:calc(var(--d,0)*110ms + .45s)}
+.nsteps li.in::before{background:var(--acc);color:#fff;box-shadow:0 8px 18px rgba(123,24,193,.3)}
+.nsteps li:not(:last-child)::after{content:"";position:absolute;left:calc(24px + 26px);top:100%;width:2px;height:14px;background:var(--acc2);transform:scaleY(0);transform-origin:50% 0;transition:transform .35s ease;transition-delay:calc(var(--d,0)*110ms + .8s)}
+.nsteps li.in::after{transform:scaleY(1)}
+@media (max-width:900px){.nsteps li:not(:last-child)::after{left:calc(18px + 21px)}}
+/* page changes fade and slide into each other where the browser supports it */
+@view-transition{navigation:auto}
+.site-head{view-transition-name:sitehead}
+.chatfab{view-transition-name:chatfab}
+::view-transition-old(root){animation:vtout .22s ease both}
+::view-transition-new(root){animation:vtin .38s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vtout{to{opacity:0;transform:translateY(-10px)}}
+@keyframes vtin{from{opacity:0;transform:translateY(16px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}.wr .w{opacity:1;transform:none;transition:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
