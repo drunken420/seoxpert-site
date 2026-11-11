@@ -58,6 +58,13 @@ const ld = {
 <meta name="theme-color" content="#7b18c1">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+{site.googleVerify && <meta name="google-site-verification" content={site.googleVerify} />}
+{site.ga4 && <script is:inline define:vars={{ ga: site.ga4 }}>
+// Google Analytics, fetched only after the page has shown, so it never slows the first view.
+window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', ga);
+(function () { var go = function () { var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga; document.head.appendChild(s); };
+  if (document.readyState === 'complete') setTimeout(go, 1500); else addEventListener('load', function () { setTimeout(go, 1500); }); })();
+</script>}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content={site.name}>
 <meta property="og:title" content={title}>

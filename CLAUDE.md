@@ -19,7 +19,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 - Every page: one H1, title 20 to 65 characters, description 70 to 170, answer first copy, structured data that matches the visible text.
 
 ## Where things are
-- Settings (name, tagline, WhatsApp number, email): `src/config.ts`
+- Settings (name, tagline, WhatsApp number, email, Google Analytics ID `ga4`, Search Console code `googleVerify`): `src/config.ts`. WhatsApp is hidden everywhere while the number is empty (Suhen 2026-11-11: off until ready). Analytics loads only when `ga4` is set, after the page has shown (snippet in `Base.astro`)
 - Header, phone menu, footer, SEO tags, shared structured data: `src/layouts/Base.astro`
 - Homepage: `src/pages/index.astro` + `src/fragments/home-top.html`, `home-lower.html`; styles `src/styles/home.css`
 - Inner pages: `src/pages/*.astro` using `src/components/PageHero.astro` and `Cta.astro`; styles `src/styles/page.css`. Each banner has its own picture (`art`, in `HeroArt.astro`) and a big drifting outline word (`word`); the picture tilts towards the mouse (end of `public/js/ui.js`)
