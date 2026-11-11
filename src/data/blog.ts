@@ -14,12 +14,12 @@ export interface Post {
 
 const [starter, business, growth] = build.tiers;
 const [basic, plus, pro] = care.tiers;
-const buildTable = `<div class="btable"><table><thead><tr><th>Package</th><th>Price, paid once</th><th>Pages</th><th>Blog posts at launch, on top</th></tr></thead><tbody>
+const buildTable = `<div class="btable" tabindex="0" role="region" aria-label="XpertForge packages table"><table><thead><tr><th>Package</th><th>Price, paid once</th><th>Pages</th><th>Blog posts at launch, on top</th></tr></thead><tbody>
 <tr><td>${starter.name}</td><td>${fmt(starter)}</td><td>Up to 5</td><td>2</td></tr>
 <tr><td>${business.name}</td><td>${fmt(business)}</td><td>Up to 10</td><td>5</td></tr>
 <tr><td>${growth.name}</td><td>${fmt(growth)}</td><td>Up to 20</td><td>10</td></tr>
 </tbody></table></div>`;
-const careTable = `<div class="btable"><table><thead><tr><th>Plan</th><th>Price a month</th><th>Paid yearly</th><th>What changes each month</th></tr></thead><tbody>
+const careTable = `<div class="btable" tabindex="0" role="region" aria-label="XpertCare plans table"><table><thead><tr><th>Plan</th><th>Price a month</th><th>Paid yearly</th><th>What changes each month</th></tr></thead><tbody>
 <tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>3 text or photo changes, 1 new blog post, 5 keywords tracked weekly</td></tr>
 <tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>10 text or photo changes, 2 new blog posts, 10 keywords tracked weekly</td></tr>
 <tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>Up to 20 small changes, 4 new blog posts, 20 keywords tracked weekly</td></tr>

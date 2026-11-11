@@ -20,11 +20,11 @@ const data = (t: Tier) => ({ 'data-name': t.name, 'data-rm': fmt(t, 'RM'), 'data
       </div>
     </div>
   </div>
-  <aside class="pksum rv" aria-live="polite"><h3>Your plan</h3>
+  <div class="pksum rv" role="status" aria-live="polite"><h3>Your plan</h3>
     <div class="row"><span data-sum="bn"></span><b data-sum="bp"></b></div>
     <div class="row"><span data-sum="cn"></span><b data-sum="cp"></b></div>
     <ul class="pktick" data-sum="list"></ul>
     <a class="btn" href="/contact/" data-sum="send">Send this plan</a>
     <p class="pknote">Nothing is ordered yet. This sends us your choice so we can talk it through.</p>
-  </aside>
+  </div>
 </div>
