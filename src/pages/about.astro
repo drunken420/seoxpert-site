@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import '../styles/page.css';
+import { whatsappLink } from '../config';
+---
+<Base title="About SEOXpert | A Founder Led Web Design Company" description="SEOXpert is a founder led web design company. We build websites that people, Google and AI search understand, and look after them every month." path="/about/" crumb="About">
+<main id="main">
+<PageHero kicker="About SEOXpert" crumb="About">
+  <Fragment slot="title">A web design company built on <em>clarity</em>.</Fragment>
+  <Fragment slot="lede">We bridge the gap between traditional search and the way people search today, by building websites that people, Google and AI all understand.</Fragment>
+  <Fragment slot="cta"><a class="btn" href={whatsappLink}>WhatsApp us</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">Who we are</span>
+    <h2 class="rv">Focused, selective and founder led.</h2>
+  </div>
+  <div class="prose">
+    <p class="rv">SEOXpert is intentionally focused and selective about the work we take on. Your website is personally planned and overseen. There is no outsourcing and no white labelling.</p>
+    <p class="rv">Search is changing. People still use Google, and more and more of them ask AI tools for answers. Our <a href="/website-design/">website design</a> makes sure every website can be found in both places, using <a href="/ai-website-builder/">our own AI website builder</a> and finishing every page by hand.</p>
+    <p class="rv">We use ethical methods that favour long term performance over short term tricks, and we tell you plainly what we are doing and why.</p>
+    <p class="rv ph">[DRAFT] Founder experience from your old site ("7+ years of hands on experience") can go here once you confirm the wording.</p>
+  </div>
+</div></section>
+
+<section class="dark band"><div class="wrap">
+  <span class="eyebrow rv">What we believe</span>
+  <p class="creed rv">Clarity over <em>complexity</em>. Transparency over <em>buzzwords</em>. Strategy over <em>shortcuts</em>.</p>
+</div></section>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">What we do</span>
+  <h2 class="rv">Two things, done properly.</h2>
+  <div class="grid3 two">
+    <a class="fcard rv" href="/website-design/" style="text-decoration:none;color:inherit"><div class="pet"></div><h3>Website design</h3><p>A new website for your business, planned for Google and AI search before it is designed.</p><span class="more">How it works</span></a>
+    <a class="fcard rv" href="/website-maintenance/" style="--d:1;text-decoration:none;color:inherit"><div class="pet" style="--r:90deg"></div><h3>Website maintenance</h3><p>Monthly care that keeps your website updated, backed up and growing.</p><span class="more">What is covered</span></a>
+  </div>
+</div></section>
+<Related skip="/about/" />
+<Cta />
+</main>
+</Base>

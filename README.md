@@ -16,6 +16,6 @@ Websites built to rank on Google and AI. Built with Astro (plain HTML output, ve
 
 ## Rules
 - Never invent clients, reviews, results or prices. Use `[PLACEHOLDER]` and ask Suhen.
-- No mention of hosting as a service, and no location names in the copy.
+- Hosting is only mentioned as included with XpertCare plans, and no location names in the copy.
 - The 3D scene is an extra: the page must be complete and fast without it.
 - `STRICT=1 npm test` fails while any `[PLACEHOLDER]` or `[DRAFT]` is left. Run it before going live.

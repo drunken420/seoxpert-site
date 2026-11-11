@@ -1,0 +1,48 @@
+---
+// Package cards (website build and XpertCare), the RM or USD switch and the launch offer.
+// show="both" adds the Build / XpertCare switch; show="care" shows the care plans only.
+import { build, care, offer, offerOn, fmt, type Tier } from '../data/packages';
+interface Props { show?: 'both' | 'care'; pickHref?: string }
+const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
+const sets = show === 'care' ? [care] : [build, care];
+const on = offerOn();
+const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD') });
+---
+<div class="pk" data-pk>
+  <div class="pkbar rv">
+    {show === 'both' && (
+      <div class="pkseg" role="group" aria-label="Package type" data-pk-kind hidden>
+        <button type="button" aria-pressed="true" data-k="build">XpertForge build</button>
+        <button type="button" aria-pressed="false" data-k="care">XpertCare monthly</button>
+      </div>
+    )}
+    <div class="pkcur" hidden data-pk-curbar><span>Show prices in</span>
+      <div class="pkseg sm" role="group" aria-label="Currency" data-pk-cur>
+        <button type="button" aria-pressed="true" data-c="RM">RM</button>
+        <button type="button" aria-pressed="false" data-c="USD">USD</button>
+      </div>
+    </div>
+  </div>
+  {on && (
+    <div class="pkoffer rv" data-pk-offer={offer.ends}><span class="pkotag">Launch offer</span><p><b>{offer.title}</b> {offer.text} Until {offer.endsText}.</p></div>
+  )}
+  {sets.map((S) => (
+    <div class="pkset" data-set={S.key}>
+      {show === 'both' && <h3 class="pksetname">{S.label}</h3>}
+      <div class="pkcards">
+        {S.tiers.map((t, i) => (
+          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i}`}>
+            {t.hot && <span class="pkbadge">Recommended</span>}
+            <h3>{t.name}</h3>
+            <p class="pkfor">{t.for}</p>
+            <p class="pkprice"><span {...price(t)}>{fmt(t)}</span><small>{S.unit}</small></p>
+            <ul class="pktick">{t.rows.map((r) => <li set:html={r} />)}</ul>
+            {on && t.free && <p class="pkgift" data-pk-offer={offer.ends}>Launch offer: {t.free}</p>}
+            <a class="btn" href={pickHref} data-pick={`${S.key}:${i}`}>Choose {t.name}</a>
+          </article>
+        ))}
+      </div>
+      <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
+    </div>
+  ))}
+</div>

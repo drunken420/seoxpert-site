@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/fluid-html.mjs",
     "preview": "astro preview",
-    "test": "astro build && node scripts/check-site.mjs"
+    "test": "npm run build && node scripts/check-site.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

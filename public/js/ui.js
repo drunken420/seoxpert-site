@@ -8,6 +8,10 @@
   var log = document.getElementById('chatlog'), src = [].slice.call(document.querySelectorAll('#faqsrc p')), btns = [].slice.call(document.querySelectorAll('.qlist button')), tmr = 0;
   function ask(i, instant) {
     btns.forEach(function (b, j) { b.setAttribute('aria-pressed', String(j === i)); });
+    /* phones: the answer opens right under the question, and a second tap closes it */
+    var old = document.querySelector('.qlist .qa'), was = old && old.previousElementSibling === btns[i]; if (old) old.remove();
+    if (was && !instant) { btns[i].setAttribute('aria-pressed', 'false'); return; }
+    var qa = document.createElement('div'); qa.className = 'qa'; qa.innerHTML = src[i].classList.contains('ph') ? '<span class="ph">' + src[i].innerHTML + '</span>' : src[i].innerHTML; btns[i].after(qa);
     clearTimeout(tmr); log.innerHTML = '';
     var me = document.createElement('div'); me.className = 'bub me'; me.textContent = btns[i].textContent.replace(/^\d+/, ''); log.appendChild(me);
     var ai = document.createElement('div'); ai.className = 'bub ai'; ai.innerHTML = '<span class="dots"><i></i><i></i><i></i></span>'; log.appendChild(ai);
@@ -23,4 +27,52 @@
   b.addEventListener('click', function () { set(m.hidden); });
   m.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+})();
+
+/* Chat helper: instant answers from our own questions and answers. It is not an AI, and it sends nothing anywhere. */
+(function () {
+  var panel = document.getElementById('chatpanel'), dataEl = document.getElementById('chatdata'); if (!panel || !dataEl) return;
+  var data = JSON.parse(dataEl.textContent), log = panel.querySelector('.cp-log'), chips = panel.querySelector('.cp-chips'), form = panel.querySelector('.cp-form'), input = form.querySelector('input'), fab = document.querySelector('.chatfab'), started = false;
+  var STOP = 'a an and are as at be by can do does for from how i in is it me my of on or our that the this to we what when who will with you your about have has'.split(' ');
+  var TOPICS = [[/maint|care|month|updat|backup|fix/, '/website-maintenance/', 'website maintenance'], [/pric|cost|packag|how much|fee|quot/, '/packages/', 'website design packages'], [/builder|ai\b|chatgpt|llm/, '/ai-website-builder/', 'our AI website builder'], [/design|build|new site|new website|redesign/, '/website-design/', 'website design']];
+  function words(t) { return t.toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').split(/\s+/).filter(function (w) { return w.length > 1 && STOP.indexOf(w) < 0; }); }
+  var index = data.faqs.map(function (f) { return { f: f, q: words(f.q), a: words(f.a) }; });
+  function contact() {
+    var parts = [];
+    if (data.whatsapp) parts.push('<a href="' + data.whatsapp + '">WhatsApp</a>');
+    if (data.email) parts.push('<a href="' + data.email + '">email</a>');
+    parts.push('<a href="/contact/">the contact page</a>');
+    return parts.join(parts.length > 2 ? ', ' : ' or ').replace(/, ([^,]*)$/, ' or $1');
+  }
+  function bubble(cls, html) { var d = document.createElement('div'); d.className = 'bub ' + cls; d.innerHTML = html; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  function answer(text) {
+    var t = text.toLowerCase(), w = words(text), best = null, score = 0;
+    index.forEach(function (it) { var s = 0; w.forEach(function (x) { if (it.q.indexOf(x) >= 0) s += 2; else if (it.a.indexOf(x) >= 0) s += 1; }); if (s > score) { score = s; best = it.f; } });
+    var more = ''; TOPICS.some(function (tp) { if (tp[0].test(t)) { more = ' <a href="' + tp[1] + '">Read more about ' + tp[2] + '</a>.'; return true; } return false; });
+    if (/^(hi|hello|hey|good (morning|afternoon|evening))\b/.test(t)) return 'Hello. Ask me about website design, website maintenance or how we work.';
+    if (/contact|whatsapp|email|call|phone|talk|speak|human|person/.test(t)) return 'You can reach us on ' + contact() + '.';
+    if (best && score >= 2) return (best.ready ? best.a : 'We are still finalising this answer. Message us on ' + contact() + ' and we will tell you directly.') + more;
+    if (more) return 'Here is the best place to start.' + more + ' Or message us on ' + contact() + '.';
+    return 'I do not have a ready answer for that. Message us on ' + contact() + ' and a real person will reply.';
+  }
+  function ask(text) {
+    bubble('me', esc(text)); var ai = bubble('ai', '<span class="dots"><i></i><i></i><i></i></span>');
+    setTimeout(function () { ai.innerHTML = answer(text); log.scrollTop = log.scrollHeight; }, 450);
+  }
+  function open() {
+    panel.hidden = false; if (fab) fab.setAttribute('aria-expanded', 'true');
+    if (!started) {
+      started = true; bubble('ai', 'Hello. I can give you quick answers about SEOXpert. Pick a question or type your own.');
+      data.faqs.slice(0, 5).forEach(function (f) { var b = document.createElement('button'); b.type = 'button'; b.textContent = f.q; b.addEventListener('click', function () { ask(f.q); }); chips.appendChild(b); });
+    }
+    if (window.matchMedia('(min-width: 901px)').matches) input.focus();
+  }
+  function close() { panel.hidden = true; if (fab) { fab.setAttribute('aria-expanded', 'false'); } }
+  /* phones: keep the chat button out of the way while the homepage "Build it" box is on screen */
+  var promptBox = document.getElementById('prompt');
+  if (fab && promptBox && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { fab.classList.toggle('tuck', es[0].isIntersecting && window.matchMedia('(max-width: 900px)').matches && panel.hidden); }).observe(promptBox);
+  document.addEventListener('click', function (e) { var o = e.target.closest('[data-chat-open]'); if (o) { e.preventDefault(); if (panel.hidden) open(); else if (o === fab) close(); } else if (e.target.closest('.cp-x')) { close(); if (fab) fab.focus(); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { close(); if (fab) fab.focus(); } });
+  form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value.trim(); if (!v) return; input.value = ''; ask(v); });
 })();

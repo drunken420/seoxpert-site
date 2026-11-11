@@ -1,6 +1,11 @@
 :root{--bg:#f7f2fc;--bg2:#ffffff;--card:#ffffff;--line:#e6dcf2;--ink:#1a1026;--soft:#51465f;--mute:#786c88;--acc:#7b18c1;--acc2:#b06cff;--plum:#14081f;--plum2:#2a0d47;--logo-a:#9a35e8;--logo-b:#6a12ad;--logo-c:#b06cff;--f-d:'Sora Variable','Inter Variable',system-ui,sans-serif;--f-b:'Inter Variable',system-ui,-apple-system,'Segoe UI',sans-serif;--f-m:'JetBrains Mono Variable',ui-monospace,Consolas,monospace;color-scheme:light;--gl:max(16px,env(safe-area-inset-left,0px));--gr:max(16px,env(safe-area-inset-right,0px));--head-h:64px}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+/* Big screens (2K, 4K, ultrawide). Up to 1920px wide the root is 16px and nothing changes.
+   Wider than that the root grows with the screen, and because the build turns every px size into rem
+   (scripts/fluid-px.mjs), the whole page grows with it instead of sitting small in the middle. */
+html{font-size:16px}
+@media (min-width:1921px){html{font-size:max(16px,min(calc(100vw / 120),calc(100vh / 58.75)))}}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:17px;line-height:1.6;overflow-x:hidden}
 h1,h2,h3,h4{text-wrap:balance;margin:0;font-family:var(--f-d);font-weight:700;letter-spacing:-.035em}
 :focus-visible{outline:3px solid var(--acc);outline-offset:3px}
@@ -17,7 +22,8 @@ h1,h2,h3,h4{text-wrap:balance;margin:0;font-family:var(--f-d);font-weight:700;le
 .btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
 .btn.sm{padding:11px 16px;font-size:14.5px;border-radius:11px;box-shadow:none}
 .btn.ghost{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
-@media (max-width:900px){.menu{display:none}.site-head .btn{margin-left:auto}.logo{height:28px}}
+@media (max-width:1080px){.menu{display:none}.site-head .btn{margin-left:auto}}
+@media (max-width:900px){.logo{height:28px}}
 .kicker{display:inline-flex;align-items:center;gap:9px;font:600 13px/1 var(--f-b);color:var(--acc);background:var(--card);border-radius:999px;padding:9px 14px;box-shadow:inset 0 0 0 1px var(--line)}
 .kicker::before{content:"";width:12px;height:12px;background:var(--acc);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:spin 6s linear infinite}
 h1{font-size:clamp(40px,5.3vw,78px);line-height:1;margin:22px 0 20px}
@@ -143,8 +149,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .mmenu[hidden]{display:none}
 .mmenu a{padding:14px 12px;border-radius:12px;color:var(--ink);text-decoration:none;font:600 17px/1.2 var(--f-d)}
 .mmenu a:active{background:var(--bg)}
-@media (max-width:900px){.burger{display:grid}}
-@media (min-width:901px){.mmenu{display:none}}
+@media (max-width:1080px){.burger{display:grid}}
+@media (min-width:1081px){.mmenu{display:none}}
 :focus-visible{outline:2.5px solid var(--acc);outline-offset:3px;border-radius:6px}
 .foot{background:var(--bg2);border-top:1px solid var(--line);padding-block:54px 0;color:var(--soft);position:relative;z-index:2}
 .foot>.wrap:first-child{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:36px 48px;padding-bottom:44px}
@@ -157,3 +163,54 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .fbar a{color:var(--mute);text-decoration:none}
 @media (max-width:700px){.foot>.wrap:first-child{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}}
 .mmenu{position:absolute;left:0;right:0;top:100%}
+.svc h3 a{color:inherit;text-decoration:none}
+.more{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-weight:600;color:var(--acc);text-decoration:none}
+.more::after{content:"";width:8px;height:8px;border-top:2px solid;border-right:2px solid;rotate:45deg;transition:translate .2s ease}
+.more:hover::after{translate:4px 0}
+
+/* questions on phones: answers open right under the question */
+.qa{display:none}
+@media (max-width:900px){
+  .chatwin{display:none}
+  .qa{display:block;margin:-2px 0 6px;padding:16px 18px;border-radius:16px;background:linear-gradient(160deg,var(--plum),var(--plum2));color:#fff;font-size:16px;line-height:1.55;animation:bubin .35s ease}
+  .qa .ph{color:#cbb8ea}
+  .qlist button{box-sizing:border-box;width:100%}
+  .qlist button:hover{transform:none}
+}
+/* contact choices */
+.ways{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;position:relative}
+.talk .btn.line{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55)}
+.talk .btn.line:hover{background:rgba(255,255,255,.12)}
+button.btn{font-family:var(--f-b)}
+/* chat helper */
+.chatfab{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:40;width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,#9a35e8,#6a12ad);box-shadow:0 14px 34px rgba(90,20,160,.4);display:grid;place-items:center;transition:transform .2s ease}
+.chatfab:hover{transform:translateY(-2px) scale(1.04)}
+.chatfab svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.chatpanel{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:calc(max(18px,env(safe-area-inset-bottom)) + 72px);z-index:41;width:min(380px,calc(100vw - 36px));max-height:min(600px,calc(100svh - 120px));display:flex;flex-direction:column;border-radius:24px;overflow:hidden;background:linear-gradient(160deg,var(--plum),var(--plum2));color:#fff;box-shadow:0 30px 70px rgba(30,5,60,.45);transform-origin:bottom right;animation:panelin .25s cubic-bezier(.2,.9,.3,1.2)}
+.chatpanel[hidden]{display:none}
+@keyframes panelin{from{opacity:0;transform:scale(.9) translateY(10px)}}
+.cp-head{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.1);font:600 15px/1.2 var(--f-b)}
+.cp-head small{display:block;font-weight:500;color:#bba9d6;font-size:12.5px;margin-top:3px}
+.cp-head .spark{width:18px;height:18px;flex:none}
+.cp-x{margin-left:auto;width:36px;height:36px;border:0;border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font-size:20px;line-height:1;cursor:pointer}
+.cp-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:180px;overscroll-behavior:contain}
+.cp-log .bub{font-size:15px;max-width:90%}
+.cp-log .bub a{color:#e9d8ff;font-weight:600}
+.cp-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}
+.cp-chips button{border:0;cursor:pointer;font:600 13px/1.2 var(--f-b);padding:8px 11px;border-radius:99px;background:rgba(255,255,255,.1);color:#fff;text-align:left}
+.cp-chips button:hover{background:rgba(255,255,255,.2)}
+.cp-form{display:flex;gap:8px;padding:10px 12px 12px;border-top:1px solid rgba(255,255,255,.1)}
+.cp-form input{flex:1;min-width:0;border:0;outline:0;border-radius:12px;padding:12px 14px;background:rgba(255,255,255,.1);color:#fff;font:500 16px/1.2 var(--f-b)}
+.cp-form input::placeholder{color:#bba9d6}
+.cp-form input:focus-visible{box-shadow:0 0 0 2px var(--acc2)}
+.cp-form button{border:0;border-radius:12px;padding:0 16px;background:var(--acc2);color:#1a0b2e;font:700 14px/1 var(--f-b);cursor:pointer}
+.spark{display:inline-block;background:var(--acc2);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+@media print{.chatfab,.chatpanel{display:none}}
+.dark .sub a,.lnk{color:#e9d8ff;font-weight:600}
+.sub a,.alt a,.slot h3 a{color:var(--acc);font-weight:600;text-underline-offset:3px}
+.slot h3 a{font-weight:inherit;text-decoration:none}
+.dark .sub a{color:#e9d8ff}
+.ticks a{color:var(--acc);font-weight:600}
+h1,h2,h3{overflow-wrap:break-word}
+.chatfab.tuck{transform:scale(0);pointer-events:none}
+@media (max-width:900px){.chatfab{width:54px;height:54px}}

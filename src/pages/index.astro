@@ -4,11 +4,17 @@ import '../styles/home.css';
 import top from '../fragments/home-top.html?raw';
 import lower from '../fragments/home-lower.html?raw';
 import { site, whatsappLink } from '../config';
+import Cta from '../components/Cta.astro';
+import { faqLd } from '../lib/faq';
 import icon from '../fragments/icon.svg?raw';
 const html = (top + lower).replace('<canvas id="gl" aria-hidden="true"></canvas>', '<canvas id="gl" aria-hidden="true"></canvas><div class="poster" aria-hidden="true">' + icon + '<i></i><i></i><i></i><i></i><i></i><i></i></div>').replaceAll('href="#talk">WhatsApp us', `href="${whatsappLink}">WhatsApp us`);
+const extraLd = [faqLd];
 ---
-<Base title={`${site.name} | ${site.tagline}`}>
+<Base title="Website Design Built to Rank on Google and AI | SEOXpert" extraLd={extraLd}>
+  <main id="main">
   <Fragment set:html={html} />
+  <Cta />
+  </main>
   <script slot="scripts" is:inline>
   /* The 3D scene is extra: the page is complete without it.
      Big screens: load it when the browser is idle. Phones: load it at the first touch or scroll, so the first paint stays fast. */

@@ -61,3 +61,11 @@ body{background:radial-gradient(50vw 62vh at 74% 40%,rgba(176,108,255,.26),trans
 .gl-on .poster{opacity:0;scale:.8}
 @media (max-width:900px){.poster{left:50%;top:23svh;width:min(40vw,170px)}}
 @media (prefers-reduced-motion:reduce){.poster svg,.poster i{animation:none}}
+
+/* keep the words readable when purple petals drift behind them */
+.copy::before{content:"";position:absolute;z-index:-1;inset:-36px -90px -30px -60px;background:radial-gradient(closest-side,rgba(247,242,252,.96) 55%,rgba(247,242,252,.7) 78%,transparent);pointer-events:none}
+.hero h1{text-shadow:0 0 22px var(--bg),0 0 10px var(--bg),0 0 3px var(--bg)}
+.hero h1 em{color:#6a12ad}
+.hero .lede{text-shadow:0 0 12px var(--bg),0 0 4px var(--bg)}
+@media (max-width:900px){.copy::before{inset:44svh -16px -20px;background:linear-gradient(rgba(247,242,252,0),rgba(247,242,252,.92) 60px)}}
+.badge3d{right:calc(var(--gr) + 78px)}
