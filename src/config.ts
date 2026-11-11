@@ -4,11 +4,21 @@ export const site = {
   url: 'https://seoxpert.my',
   tagline: 'Websites built to rank on Google and AI',
   description:
-    'SEOXpert builds websites with its own AI website builder, finished by hand, and looks after them every month so they can be found on Google and AI search.',
-  // [PLACEHOLDER] WhatsApp number in international format, digits only. Empty = button scrolls to the contact section.
+    'SEOXpert is a website design company in Malaysia. We build websites with our own AI builder and look after them monthly, so they can be found on Google and AI search.',
+  // Where we work, shown in the footer, the Questions page and the structured data (Suhen, 2026-11-11).
+  country: 'Malaysia',
+  areas: ['Kuala Lumpur', 'Selangor', 'Petaling Jaya'],
+  // WhatsApp number in international format, digits only (for example 60123456789). While it is empty the site
+  // hides WhatsApp and its buttons say "Contact us"; add the number and WhatsApp comes back everywhere.
   whatsapp: '',
   // Contact email address (forwarded to Suhen's inbox with Cloudflare Email Routing).
   email: 'contact@seoxpert.my',
 };
-export const whatsappLink = site.whatsapp ? `https://wa.me/${site.whatsapp}` : '#talk';
+/** "Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia" */
+export const areaText = `${site.areas.join(', ')} and across ${site.country}`;
+export const areaLd = [{ '@type': 'Country', name: site.country }, ...site.areas.map((name) => ({ '@type': 'AdministrativeArea', name }))];
+export const whatsappLink = site.whatsapp ? `https://wa.me/${site.whatsapp}` : '/contact/';
+/** Words for the main contact button and for lists of ways to reach us. */
+export const talkLabel = site.whatsapp ? 'WhatsApp us' : 'Contact us';
+export const ways = site.whatsapp ? 'WhatsApp, email or chat' : 'Email or chat';
 export const emailLink = site.email ? `mailto:${site.email}` : '';

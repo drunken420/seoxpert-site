@@ -3,43 +3,46 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Packages from '../components/Packages.astro';
 import PlanPicker from '../components/PlanPicker.astro';
 import { site } from '../config';
-import { build, care, offersLd } from '../data/packages';
+import { build, care, offersLd, fmt } from '../data/packages';
 const extraLd = [
   { '@type': 'Service', name: 'Website design packages', serviceType: 'Website design', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/packages/`, offers: offersLd(build) },
   { '@type': 'Service', name: 'XpertCare monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
 ];
 ---
-<Base title="Website Design Packages and Prices | SEOXpert" description="Website design packages from RM499, with copywriting and keyword research included. XpertCare monthly website maintenance from RM55 a month." path="/packages/" crumb="Packages" extraLd={extraLd}>
+<Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description="Website design packages in Malaysia from RM499, with copywriting and keyword research included. XpertCare monthly website maintenance from RM55 a month." path="/packages/" crumb="Packages" extraLd={extraLd}>
 <main id="main">
-<PageHero kicker="Packages" crumb="Packages">
-  <Fragment slot="title">Website design packages, <em>in plain language</em>.</Fragment>
-  <Fragment slot="lede">How much does website design cost? From RM499, one time, with the writing included. Monthly care with XpertCare starts at RM55.</Fragment>
+<PageHero kicker="Packages" brand="XpertForge" art="packages" crumb="Packages" word="Packages">
+  <Fragment slot="title">Website design packages in Malaysia, <em>in plain language</em>.</Fragment>
+  <Fragment slot="lede">How much does website design cost in Malaysia? From <span data-rm={fmt(build.tiers[0], 'RM')} data-usd={fmt(build.tiers[0], 'USD')}>{fmt(build.tiers[0])}</span>, one time, with the writing included. Monthly care with XpertCare starts at <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span>.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#prices">See the packages</a><a class="btn ghost" href="#plan" data-pk-planlink>Build your plan</a></Fragment>
 </PageHero>
 
 <section id="prices" class="solid band"><div class="wrap">
   <span class="eyebrow rv">Packages and prices</span>
   <h2 class="rv">Choose the size that fits your business.</h2>
-  <p class="sub rv">XpertForge is our website build: one price, paid once. XpertCare is the optional plan to look after it every month. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by a real person.</p>
+  <p class="sub rv">XpertForge is our website build: one price, paid once. XpertCare is the optional plan to look after it every month, with high speed hosting included. It is only for websites we build. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by experts.</p>
   <Packages pickHref="#plan" />
 </div></section>
 
 <section id="plan" class="solid band" hidden><div class="wrap">
   <span class="eyebrow rv">Build your plan</span>
   <h2 class="rv">Pick a website and a care plan. See your total.</h2>
+  <div class="pkbar rv"><div class="pkcur" hidden data-pk-curbar><span>Show prices in</span><div class="pkseg sm" role="group" aria-label="Currency" data-pk-cur><button type="button" aria-pressed="true" data-c="RM">RM</button><button type="button" aria-pressed="false" data-c="USD">USD</button></div></div></div>
   <PlanPicker />
 </div></section>
 
-<section id="included" class="solid band"><div class="wrap">
+<section id="included" class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">How it works</span>
   <h2 class="rv">What you get with every website design package.</h2>
   <ul class="ticks rv">
     <li>Pages planned for search with <a href="/ai-website-builder/">our AI website builder</a></li>
-    <li>Copywriting included: answer first writing, checked by a real person</li>
+    <li>Copywriting included: answer first writing, checked by experts</li>
     <li>Full keyword research with XpertCore, before anything is designed</li>
     <li>A fast website that works well on phones</li>
     <li>Titles, descriptions and structured data for Google</li>
@@ -49,6 +52,7 @@ const extraLd = [
   </ul>
   <p class="sub rv" style="margin-top:28px">Forged by XpertCore, looked after by XpertCare. <a href="/website-maintenance/">See what website maintenance covers</a>, or read more about <a href="/website-design/">website design</a>.</p>
 </div></section>
+<Glance page="packages" guides={['website-design-packages-malaysia', 'website-design-price-malaysia']} />
 <Related skip="/packages/" />
 <Cta title="Not sure which package fits? Ask us." />
 </main>

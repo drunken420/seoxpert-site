@@ -22,7 +22,7 @@ h1,h2,h3,h4{text-wrap:balance;margin:0;font-family:var(--f-d);font-weight:700;le
 .btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
 .btn.sm{padding:11px 16px;font-size:14.5px;border-radius:11px;box-shadow:none}
 .btn.ghost{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
-@media (max-width:1080px){.menu{display:none}.site-head .btn{margin-left:auto}}
+@media (max-width:1200px){.menu{display:none}.site-head .btn{margin-left:auto}}
 @media (max-width:900px){.logo{height:28px}}
 .kicker{display:inline-flex;align-items:center;gap:9px;font:600 13px/1 var(--f-b);color:var(--acc);background:var(--card);border-radius:999px;padding:9px 14px;box-shadow:inset 0 0 0 1px var(--line)}
 .kicker::before{content:"";width:12px;height:12px;background:var(--acc);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:spin 6s linear infinite}
@@ -92,7 +92,9 @@ h1 em{font-style:normal;color:var(--acc)}
 .marquee{position:relative;z-index:2;background:var(--bg2);overflow:hidden;padding-block:6px 30px}
 .marquee .track{display:flex;width:max-content;animation:slide 34s linear infinite}
 .marquee span{font:800 clamp(52px,8vw,110px)/1.1 var(--f-d);letter-spacing:-.045em;padding-right:.45em;color:transparent;-webkit-text-stroke:1.5px #cdb6ea;white-space:nowrap}
-.marquee span:nth-child(5n+2){color:var(--acc);-webkit-text-stroke:0}
+/* colours go word by word: purple, black, outline (keep the word count a multiple of 6 so the loop joins cleanly) */
+.marquee span:nth-child(3n+1){color:var(--acc);-webkit-text-stroke:0}
+.marquee span:nth-child(3n+2){color:var(--ink);-webkit-text-stroke:0}
 
 /* FAQ as an AI chat */
 .faqbox{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;align-items:stretch}
@@ -141,7 +143,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .skip{position:absolute;left:12px;top:-60px;z-index:50;background:var(--ink);color:#fff;padding:10px 14px;border-radius:10px;font-weight:600;transition:top .15s ease}
 .skip:focus{top:12px}
 
-.burger{display:none;width:44px;height:44px;border:0;border-radius:12px;background:transparent;cursor:pointer;place-items:center;gap:0;padding:0;margin-left:6px;position:relative}
+.burger{display:none;flex:none;width:44px;height:44px;border:0;border-radius:12px;background:transparent;cursor:pointer;place-items:center;gap:0;padding:0;margin-left:6px;position:relative}
 .burger i{position:absolute;left:11px;right:11px;height:2px;border-radius:2px;background:var(--ink);transition:transform .25s ease,opacity .2s ease}
 .burger i:nth-child(1){top:15px}.burger i:nth-child(2){top:21px}.burger i:nth-child(3){top:27px}
 .burger[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}.burger[aria-expanded="true"] i:nth-child(2){opacity:0}.burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
@@ -149,8 +151,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .mmenu[hidden]{display:none}
 .mmenu a{padding:14px 12px;border-radius:12px;color:var(--ink);text-decoration:none;font:600 17px/1.2 var(--f-d)}
 .mmenu a:active{background:var(--bg)}
-@media (max-width:1080px){.burger{display:grid}}
-@media (min-width:1081px){.mmenu{display:none}}
+@media (max-width:1200px){.burger{display:grid}}
+@media (min-width:1201px){.mmenu{display:none}}
 :focus-visible{outline:2.5px solid var(--acc);outline-offset:3px;border-radius:6px}
 .foot{background:var(--bg2);border-top:1px solid var(--line);padding-block:54px 0;color:var(--soft);position:relative;z-index:2}
 .foot>.wrap:first-child{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:36px 48px;padding-bottom:44px}
@@ -214,3 +216,102 @@ button.btn{font-family:var(--f-b)}
 h1,h2,h3{overflow-wrap:break-word}
 .chatfab.tuck{transform:scale(0);pointer-events:none}
 @media (max-width:900px){.chatfab{width:54px;height:54px}}
+
+/* Portfolio */
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.work{display:grid;gap:22px;margin-top:28px}
+.workcard{display:grid;grid-template-columns:1.25fr 1fr;gap:34px;align-items:center;background:#fff;border-radius:28px;padding:22px;box-shadow:inset 0 0 0 1px var(--line)}
+.workshot{display:block;border-radius:16px;overflow:hidden;background:#14081f;box-shadow:0 24px 50px rgba(60,10,110,.22);transition:transform .3s ease}
+.workshot:hover{transform:translateY(-4px)}
+.workshot img{display:block;width:100%;height:auto}
+.workshot .shot{display:block;position:relative}.workshot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease}.workshot video.on{opacity:1}
+.workbar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#231233}
+.workbar i{width:9px;height:9px;border-radius:50%;background:#5b3f7c}
+.workbar b{margin-left:8px;font:500 12px/1 var(--f-m);color:#cbb8ea}
+.workinfo{padding:6px 12px 6px 0;min-width:0}
+.workinfo h3{font-size:clamp(26px,2.6vw,36px);margin:12px 0 10px}
+.workinfo p{color:var(--soft);margin:0 0 16px}
+.panel .workshot{margin-bottom:18px;box-shadow:none}
+@media (max-width:900px){.workcard{grid-template-columns:1fr;gap:18px;padding:16px}.workinfo{padding:0 6px 8px}}
+.panel h3 a{color:inherit;text-decoration:none}
+.panel h3 a:hover{color:var(--acc)}
+.minip{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px}
+.minip li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:15px 18px;border-radius:14px;background:var(--bg);color:var(--soft);font-weight:500}
+.minip li b{font:700 20px/1 var(--f-d);letter-spacing:-.03em;color:var(--acc);white-space:nowrap}
+.minip li.hot{background:linear-gradient(135deg,var(--plum),var(--plum2));color:#e9d8ff}
+.minip li.hot b{color:#fff}
+.minip li.care{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}
+
+/* product name pill: XpertForge, XpertCore, XpertCare */
+.xp{display:inline-flex;align-items:center;gap:8px;font:600 13px/1 var(--f-m);padding:9px 13px;border-radius:99px;background:linear-gradient(120deg,var(--plum),var(--plum2));color:#e9d8ff;white-space:nowrap;vertical-align:middle;box-shadow:0 8px 20px rgba(40,6,70,.28)}
+.xp::before{content:"";width:11px;height:11px;background:var(--acc2);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:spin 6s linear infinite}
+.xp.sm{font-size:11px;padding:6px 9px;gap:6px;box-shadow:none}.xp.sm::before{width:9px;height:9px}
+.xp.lt,.dk .xp,.dark .xp{background:#fff;color:#3d0a66}.xp.lt::before,.dk .xp::before,.dark .xp::before{background:var(--acc)}
+/* tinted sections, so a page is not white from top to bottom */
+.solid.tint{background:linear-gradient(180deg,#f6eefd,#fbf8ff);overflow:hidden}
+.solid.tint::after{content:"";position:absolute;right:-70px;top:-70px;width:280px;height:280px;border-radius:0 0 0 100%;background:linear-gradient(225deg,rgba(176,108,255,.28),rgba(176,108,255,0) 70%);pointer-events:none}
+.solid.tint>.wrap{position:relative;z-index:1}
+.tint .fcard,.tint .nsteps li,.tint .way{background:#fff}
+.dark{overflow:hidden}
+.dark::after{content:"";position:absolute;left:-60px;bottom:-60px;width:240px;height:240px;border-radius:0 100% 0 0;background:linear-gradient(45deg,rgba(176,108,255,.32),rgba(176,108,255,0) 70%);pointer-events:none;animation:float 12s ease-in-out infinite}
+.dark>.wrap{position:relative;z-index:1}
+/* product trio (src/components/Trio.astro) */
+.trio3{list-style:none;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:34px;position:relative}
+.trio3::before{content:"";position:absolute;left:8%;right:8%;top:58px;height:2px;background:repeating-linear-gradient(90deg,var(--acc2) 0 10px,transparent 10px 20px);background-size:200% 100%;animation:trioflow 30s linear infinite}
+@keyframes trioflow{to{background-position:-400px 0}}
+.trio3 li{position:relative;background:#fff;border-radius:26px;padding:28px 26px 26px;box-shadow:inset 0 0 0 1px var(--line),0 18px 40px rgba(74,14,120,.08);display:flex;flex-direction:column;align-items:flex-start;gap:10px;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease}
+.trio3 li:hover{transform:translateY(-6px);box-shadow:inset 0 0 0 1.5px var(--acc2),0 26px 50px rgba(74,14,120,.16)}
+.trio3 li.mid{background:linear-gradient(160deg,var(--plum),var(--plum2) 70%,#3d0a66);color:#fff;box-shadow:0 22px 50px rgba(40,6,70,.35)}
+.trio3 .n{position:absolute;right:18px;top:6px;font:700 84px/1 var(--f-d);letter-spacing:-.05em;color:var(--acc);opacity:.08}
+.trio3 .mid .n{color:#fff;opacity:.1}
+.trio3 h3{font-size:24px;line-height:1.15;margin-top:8px}
+.trio3 p{margin:0;color:var(--soft);font-size:16px}
+.trio3 .mid p{color:#cbbbe2}.trio3 .mid .more{color:#e9d8ff}
+.trio3 .more{margin-top:auto;padding-top:8px}
+@media (max-width:900px){.trio3{grid-template-columns:1fr;gap:16px}.trio3::before{display:none}}
+
+/* the page you are on lights up in the menus */
+.menu a{position:relative;transition:color .2s ease,background .2s ease}
+.menu a:hover{background:rgba(123,24,193,.06)}
+.menu a[aria-current]{color:var(--acc);font-weight:600;background:rgba(123,24,193,.1)}
+.menu a[aria-current]::after{content:"";position:absolute;left:50%;bottom:-13px;width:22px;height:3px;margin-left:-11px;border-radius:3px 3px 0 0;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.mmenu a[aria-current]{color:var(--acc);background:rgba(123,24,193,.1);box-shadow:inset 3px 0 0 var(--acc)}
+.foot nav a[aria-current]{color:var(--acc);font-weight:600}
+/* thin bar under the header that fills as you scroll (browsers without scroll timelines simply do not show it) */
+.prog{display:none}
+@supports (animation-timeline:scroll()){.prog{display:block;position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--acc),var(--acc2));transform-origin:left;transform:scaleX(0);animation:prog linear both;animation-timeline:scroll(root)}}
+@keyframes prog{to{transform:scaleX(1)}}
+/* a soft light follows the pointer over cards (set by public/js/ui.js) */
+.fcard,.rcard,.way{position:relative;overflow:hidden}
+.fcard::before,.rcard::before,.way::before{content:"";position:absolute;inset:0;background:radial-gradient(200px circle at var(--mx,-300px) var(--my,-300px),rgba(176,108,255,.24),transparent 70%);opacity:0;transition:opacity .3s ease;pointer-events:none}
+.fcard:hover::before,.rcard:hover::before,.way:hover::before{opacity:1}
+.fcard>*,.rcard>*,.way>*{position:relative}
+/* small marquee under inner page banners */
+.marquee.sm{padding-block:10px 12px;border-bottom:1px solid var(--line)}
+.marquee.sm span{font-size:clamp(26px,3.4vw,46px);-webkit-text-stroke:1.2px #cdb6ea}
+.marquee.sm .track{animation-duration:46s}
+/* summary pictures (Glance.astro and blog guides) */
+.pfig{margin:0;max-width:860px}
+.pfig img{display:block;width:100%;height:auto;border-radius:22px;border:1px solid var(--line);box-shadow:0 22px 50px rgba(74,14,120,.14)}
+.pfig figcaption{font-size:14.5px;color:var(--mute);margin-top:12px;max-width:60em}
+.glance h2{margin-bottom:26px}
+.gread{margin:22px 0 0;max-width:860px;color:var(--soft)}.gread a{color:var(--acc);font-weight:600;text-underline-offset:3px}
+
+/* Services dropdown in the top menu (opens on hover, focus or click; script at the end of public/js/ui.js) */
+.menu{gap:6px;align-items:center}
+.mdrop{position:relative}
+.mdrop>button{display:flex;align-items:center;gap:6px;font:inherit;font-weight:500;color:var(--soft);background:transparent;border:0;padding:8px 11px;border-radius:8px;cursor:pointer;transition:color .2s ease,background .2s ease}
+.mdrop>button svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease}
+.mdrop>button:hover,.mdrop:hover>button,.mdrop>button[aria-expanded="true"]{color:var(--ink);background:rgba(123,24,193,.06)}
+.mdrop>button.cur{color:var(--acc);font-weight:600;background:rgba(123,24,193,.1)}
+.mdrop:hover>button svg,.mdrop>button[aria-expanded="true"] svg{transform:rotate(180deg)}
+.mpanel{position:absolute;left:-10px;top:100%;padding-top:14px;width:330px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease,visibility .18s}
+.mpanel::before{content:"";position:absolute;inset:14px 0 0;border-radius:18px;background:#fff;box-shadow:0 24px 50px rgba(74,14,120,.18),inset 0 0 0 1px var(--line)}
+.mdrop:hover .mpanel,.mdrop:focus-within .mpanel,.mdrop>button[aria-expanded="true"]+.mpanel{opacity:1;visibility:visible;transform:none}
+.mdrop.shut .mpanel{opacity:0;visibility:hidden}
+.menu .mpanel a{display:grid;gap:3px;padding:11px 14px;margin:0 8px;border-radius:12px;white-space:normal}
+.menu .mpanel a:first-child{margin-top:8px}.menu .mpanel a:last-child{margin-bottom:8px}
+.mpanel a b{font-weight:600;color:var(--ink)}
+.mpanel a span{font-size:13.5px;color:var(--soft);font-weight:400}
+.menu .mpanel a[aria-current]::after{display:none}
+.menu .mpanel a[aria-current] b{color:var(--acc)}

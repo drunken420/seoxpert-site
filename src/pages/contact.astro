@@ -3,25 +3,25 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
-import { site, whatsappLink, emailLink } from '../config';
+import { site, whatsappLink, emailLink, ways } from '../config';
 ---
-<Base title="Contact SEOXpert | Start With a Conversation" description="Talk to SEOXpert about a new website or monthly website care. Reach us by WhatsApp, email or chat. No pressure, just honest insight." path="/contact/" crumb="Contact">
+<Base title="Contact SEOXpert | Start With a Conversation" description="Talk to SEOXpert about a new website or monthly website care. Reach us by email, chat or WhatsApp. No pressure, just honest insight, always." path="/contact/" crumb="Contact">
 <main id="main">
-<PageHero kicker="Contact" crumb="Contact">
+<PageHero kicker="Contact" art="contact" crumb="Contact" word="Hello">
   <Fragment slot="title">Start with a <em>conversation</em>.</Fragment>
   <Fragment slot="lede">Tell us about your business and what you want your website to do. No pressure, just honest insight.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#ways">Choose how to reach us</a></Fragment>
 </PageHero>
 <section id="ways" class="solid band"><div class="wrap">
-  <span class="eyebrow rv">Three ways to reach us</span>
-  <h2 class="rv">WhatsApp, email or chat.</h2>
-  <div class="contactways">
-    <div class="way rv"><h3>WhatsApp</h3><p>The quickest way to start a conversation with a real person.</p><a class="btn" href={whatsappLink}>WhatsApp us</a>{!site.whatsapp && <p class="ph">[PLACEHOLDER] Your WhatsApp number goes here.</p>}</div>
+  <span class="eyebrow rv">{site.whatsapp ? 'Three' : 'Two'} ways to reach us</span>
+  <h2 class="rv">{ways}.</h2>
+  <div class={site.whatsapp ? 'contactways' : 'contactways two'}>
+    {site.whatsapp && <div class="way rv"><h3>WhatsApp</h3><p>The quickest way to start a conversation with a real person.</p><a class="btn" href={whatsappLink}>WhatsApp us</a></div>}
     <div class="way rv" style="--d:1"><h3>Email</h3><p>Best for longer briefs, documents and anything you want in writing.</p>{emailLink ? <a class="btn" href={emailLink}>{site.email}</a> : <p class="ph">[PLACEHOLDER] Your email address goes here.</p>}</div>
     <div class="way rv" style="--d:2"><h3>Chat</h3><p>Instant answers to common questions about website design and website maintenance.</p><button class="btn" type="button" data-chat-open>Open the chat</button></div>
   </div>
 </div></section>
-<section class="solid band"><div class="wrap">
+<section class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">What happens next</span>
   <h2 class="rv">Three simple steps.</h2>
   <ol class="nsteps" style="max-width:760px">

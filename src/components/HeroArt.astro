@@ -1,0 +1,118 @@
+---
+// The animated picture in an inner page banner. Pure CSS (styles: "banner art" in src/styles/page.css).
+// It is decoration only, so it is hidden from screen readers. Never put invented numbers in it.
+import icon from '../fragments/icon.svg?raw';
+import { build, fmt } from '../data/packages';
+interface Props { kind: string }
+const { kind } = Astro.props;
+const at = (x: number, y: number, extra = '') => `--x:${x}%;--y:${y}%;${extra}`;
+const short = (n: string) => n.replace('XpertForge ', '');
+---
+<div class="hart" data-art={kind} aria-hidden="true">
+  <i class="hglow"></i><i class="hring" style="--s:92%"></i><i class="hring b" style="--s:66%"></i>
+
+  {kind === 'design' && <>
+    <div class="hc hwin">
+      <div class="bar"><i></i><i></i><i></i><span>your-business</span></div>
+      <div class="body">
+        <b class="g h" style="--w:64%;--n:0"></b><b class="g l" style="--w:88%;--n:1"></b><b class="g l" style="--w:72%;--n:2"></b>
+        <div class="cols"><u style="--n:3"></u><u style="--n:4"></u><u style="--n:5"></u></div>
+        <em class="cta"></em>
+      </div>
+    </div>
+    <span class="xp hfl" style={at(60, 2, '--t:7s')}>XpertForge</span>
+    <span class="hchip hfl" style={at(-2, 62, '--t:8s;--dl:-2s')}>Planned for Google</span>
+    <span class="hchip hfl" style={at(54, 84, '--t:6.5s;--dl:-4s')}>Ready for AI search</span>
+    <i class="hpet hfl" style={at(88, 30, '--s:54px;--r:90deg;--t:9s')}></i><i class="hpet hfl" style={at(4, 6, '--s:34px;--r:270deg;--t:7s;--dl:-3s')}></i>
+  </>}
+
+  {kind === 'care' && <>
+    <i class="hpulse"></i><i class="hpulse" style="--dl:-1.6s"></i>
+    <div class="hc dk hdisc"><svg viewBox="0 0 48 48"><path d="M24 5 8 11v11c0 10 6.6 17.6 16 21 9.4-3.4 16-11 16-21V11L24 5Z"/><path class="ck" d="m16.5 24.5 5.5 5.5 10-11"/></svg></div>
+    <span class="xp hfl" style={at(36, 0, '--t:7s')}>XpertCare</span>
+    <span class="hchip seq hfl" style={at(0, 22, '--n:0;--t:8s')}>High speed hosting</span>
+    <span class="hchip seq hfl" style={at(66, 26, '--n:1;--t:7s;--dl:-2s')}>Backups</span>
+    <span class="hchip seq hfl" style={at(2, 68, '--n:2;--t:9s;--dl:-4s')}>Security</span>
+    <span class="hchip seq hfl" style={at(60, 72, '--n:3;--t:7.5s;--dl:-1s')}>Fixes and updates</span>
+    <span class="hchip seq hfl" style={at(30, 90, '--n:4;--t:8.5s;--dl:-3s')}>Monthly report</span>
+  </>}
+
+  {kind === 'core' && <>
+    <div class="hc dk hcorebox">
+      <i class="orb" style="--s:210px;--t:16s"></i><i class="orb" style="--s:150px;--t:11s;--rv:reverse"></i><i class="orb" style="--s:92px;--t:7s"></i>
+      <i class="star"></i>
+      <div class="rows"><span style="--n:0">Plan the pages</span><span style="--n:1">Write the answers</span><span style="--n:2">Structured data</span><span style="--n:3">llms.txt</span></div>
+    </div>
+    <span class="xp lt hfl" style={at(58, 0, '--t:7s')}>XpertCore</span>
+    <span class="hchip hfl" style={at(-3, 40, '--t:8s;--dl:-2s')}>Checked by experts</span>
+    <i class="hpet hfl" style={at(90, 60, '--s:46px;--r:180deg;--t:9s')}></i>
+  </>}
+
+  {kind === 'code' && <>
+    <div class="hc dk hcode">
+      <div class="bar"><i></i><i></i><i></i><span>index.html</span></div>
+      <pre>{[['<title>', 'Website design', '</title>'], ['<h1>', 'One clear topic', '</h1>'], ['<meta', ' description', '>'], ['<script', ' ld+json', '>'], ['<a', ' href="/packages/"', '>'], ['llms.txt', '', '']].map((l, i) => <span style={`--n:${i}`}><b>{l[0]}</b>{l[1]}<b>{l[2]}</b></span>)}<i class="car"></i></pre>
+    </div>
+    <span class="xp hfl" style={at(60, 0, '--t:7s')}>XpertForge</span>
+    <span class="hchip hfl" style={at(-6, 60, '--t:8s;--dl:-2s')}>Clean structure</span>
+    <span class="hchip hfl" style={at(62, 40, '--t:7s;--dl:-3s')}>Fast, light pages</span>
+    <span class="hchip hfl" style={at(22, 88, '--t:6.5s;--dl:-4s')}>Structured data</span>
+    <i class="hpet hfl" style={at(90, 22, '--s:46px;--r:90deg;--t:9s')}></i>
+  </>}
+
+  {kind === 'blog' && <>
+    {['Local SEO', 'AI search', 'Website prices'].map((t, i) => (
+      <div class="hc hpost hfl" style={`--i:${i};--t:${7 + i}s;--dl:${-i * 2}s`}><u></u><span class="xp sm">Guide</span><b>{t}</b><i></i><i></i><i></i></div>
+    ))}
+    <span class="hchip hfl" style={at(-2, 6, '--t:8s;--dl:-1s')}>Answer first</span>
+    <span class="hchip plain hfl" style={at(52, 90, '--t:7s;--dl:-3s')}>In plain words</span>
+    <i class="hpet hfl" style={at(90, 8, '--s:44px;--r:90deg;--t:9s')}></i>
+  </>}
+
+  {kind === 'packages' && <>
+    {build.tiers.map((t, i) => (
+      <div class={'hc hpk hfl' + (t.hot ? ' dk' : '')} style={`--i:${i};--t:${7 + i}s;--dl:${-i * 2}s`}>
+        <span class="xp sm">XpertForge</span><b>{short(t.name)}</b>
+        <span class="pr" data-rm={fmt(t, 'RM')} data-usd={fmt(t, 'USD')}>{fmt(t)}</span>
+        <i></i><i></i><i></i>
+      </div>
+    ))}
+    <span class="hchip plus hfl" style={at(26, 88, '--t:8s;--dl:-3s')}>Add XpertCare monthly</span>
+  </>}
+
+  {kind === 'demos' && <>
+    <div class="hscene"><div class="hcube"><em></em><i style="--f:rotateY(0deg)"><b><Fragment set:html={icon} /></b></i><i style="--f:rotateY(180deg)"><b><Fragment set:html={icon} /></b></i><i style="--f:rotateY(90deg)"><b><s></s></b></i><i style="--f:rotateY(-90deg)"><b><s></s></b></i><i style="--f:rotateX(90deg)"><b><u></u></b></i><i style="--f:rotateX(-90deg)"><b><u></u></b></i></div></div>
+    <i class="hball hfl" style={at(8, 12, '--t:6s')}></i>
+    <i class="htor" style={at(66, 58)}></i>
+    <span class="hchip plain hfl" style={at(62, 6, '--t:7s;--dl:-2s')}>Tap the cube</span>
+    <span class="hchip plain hfl" style={at(0, 70, '--t:8s;--dl:-4s')}>Animation</span>
+    <span class="hchip plain hfl" style={at(40, 90, '--t:7.5s;--dl:-1s')}>Loads on demand</span>
+    <i class="hpet hfl" style={at(86, 24, '--s:48px;--r:90deg;--t:9s')}></i>
+  </>}
+
+  {kind === 'about' && <>
+    <div class="hc hlogo hfl" style="--t:8s" set:html={icon}></div>
+    <span class="xp hfl" style={at(2, 10, '--t:7s')}>XpertForge</span>
+    <span class="xp hfl" style={at(66, 4, '--t:8s;--dl:-2s')}>XpertCore</span>
+    <span class="xp hfl" style={at(68, 78, '--t:7.5s;--dl:-4s')}>XpertCare</span>
+    <span class="hchip plain hfl" style={at(-2, 76, '--t:9s;--dl:-1s')}>7+ years of hands-on SEO</span>
+    <i class="hpet hfl" style={at(90, 42, '--s:44px;--r:90deg;--t:9s')}></i><i class="hpet hfl" style={at(2, 44, '--s:30px;--r:270deg;--t:7s;--dl:-3s')}></i>
+  </>}
+
+  {kind === 'faq' && <>
+    <div class="hbub q hfl" style={at(22, 8, '--t:8s')}>How long until I see results?</div>
+    <div class="hc hbub a hfl" style={at(0, 36, '--t:9s;--dl:-2s')}><b class="xp sm">SEOXpert</b>Most people begin to see results after eight to twelve weeks.</div>
+    <div class="hbub q hfl" style={at(34, 72, '--t:7s;--dl:-4s')}>What does monthly care include?</div>
+    <div class="hc hbub dots" style={at(4, 88)}><i></i><i></i><i></i></div>
+    <i class="hpet hfl" style={at(88, 34, '--s:44px;--r:90deg;--t:9s')}></i>
+  </>}
+
+  {kind === 'contact' && <>
+    <div class="hc hmail hfl" style="--t:8s"><svg viewBox="0 0 120 84"><rect x="3" y="3" width="114" height="78" rx="14"/><path d="m8 12 52 38 52-38"/></svg><i class="seal"></i></div>
+    <div class="hbub q hfl" style={at(52, 4, '--t:7s;--dl:-2s')}>Hello!</div>
+    <span class="hchip plain hfl" style={at(0, 78, '--t:8s;--dl:-4s')}>Email</span>
+    <span class="hchip plain hfl" style={at(56, 88, '--t:7.5s;--dl:-1s')}>Chat</span>
+    <div class="hc hbub dots" style={at(74, 62)}><i></i><i></i><i></i></div>
+    <i class="hpet hfl" style={at(4, 14, '--s:40px;--r:270deg;--t:9s')}></i>
+  </>}
+</div>

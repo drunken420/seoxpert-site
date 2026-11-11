@@ -4,6 +4,8 @@
   var head = document.querySelector('.site-head');
   function hh() { document.documentElement.style.setProperty('--head-h', head.offsetHeight + 'px'); }
   hh(); window.addEventListener('resize', hh);
+  /* cards: a soft light follows the pointer */
+  document.addEventListener('pointermove', function (e) { var c = e.target.closest && e.target.closest('.fcard,.rcard,.way'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); }, { passive: true });
   /* FAQ chat */
   var log = document.getElementById('chatlog'), src = [].slice.call(document.querySelectorAll('#faqsrc p')), btns = [].slice.call(document.querySelectorAll('.qlist button')), tmr = 0;
   function ask(i, instant) {
@@ -75,4 +77,43 @@
   document.addEventListener('click', function (e) { var o = e.target.closest('[data-chat-open]'); if (o) { e.preventDefault(); if (panel.hidden) open(); else if (o === fab) close(); } else if (e.target.closest('.cp-x')) { close(); if (fab) fab.focus(); } });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { close(); if (fab) fab.focus(); } });
   form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value.trim(); if (!v) return; input.value = ''; ask(v); });
+})();
+
+/* Our work: play a short silent loop of the real website over its screenshot, only while it is on screen.
+   The screenshot stays as the picture for search engines, slow connections and people who prefer no motion. */
+(function () {
+  var shots = document.querySelectorAll('.workshot[data-vid]'); if (!shots.length || !window.IntersectionObserver) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (navigator.connection && navigator.connection.saveData) return;
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
+    var a = e.target, v = a.querySelector('video');
+    if (e.isIntersecting && !v) { var img = a.querySelector('img'), wrap = document.createElement('span'); wrap.className = 'shot'; img.parentNode.insertBefore(wrap, img); wrap.appendChild(img);
+      v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true'); v.preload = 'auto';
+      ['webm', 'mp4'].forEach(function (t) { var s = document.createElement('source'); s.src = a.dataset.vid + '.' + t; s.type = 'video/' + t; v.appendChild(s); });
+      v.addEventListener('playing', function () { v.classList.add('on'); }); wrap.appendChild(v); }
+    if (v) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); }
+  }); }, { rootMargin: '100px' });
+  [].forEach.call(shots, function (a) { io.observe(a); });
+})();
+
+/* Inner page banners: a soft glow follows the pointer and the picture tilts towards it. Mouse only; decoration. */
+(function () {
+  var h = document.querySelector('[data-phero]'); if (!h || !window.matchMedia) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !matchMedia('(hover: hover)').matches) return;
+  var art = h.querySelector('.hart'), raf = 0, ev = null;
+  function run() { raf = 0; var r = h.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
+    h.style.setProperty('--mx', x + 'px'); h.style.setProperty('--my', y + 'px'); h.style.setProperty('--on', '1');
+    if (art) { art.style.setProperty('--px', (x / r.width * 2 - 1).toFixed(3)); art.style.setProperty('--py', (y / r.height * 2 - 1).toFixed(3)); } }
+  h.addEventListener('pointermove', function (e) { if (e.pointerType === 'touch') return; ev = e; if (!raf) raf = requestAnimationFrame(run); }, { passive: true });
+  h.addEventListener('pointerleave', function () { h.style.setProperty('--on', '0'); if (art) { art.style.setProperty('--px', '0'); art.style.setProperty('--py', '0'); } });
+})();
+
+/* Services dropdown in the top menu: click or keyboard opens it, Escape or a click elsewhere closes it. Hover works without this. */
+(function () {
+  var d = document.querySelector('.mdrop'); if (!d) return; var b = d.querySelector('button');
+  function set(on) { b.setAttribute('aria-expanded', String(on)); d.classList.toggle('shut', !on && d.matches(':hover')); }
+  b.addEventListener('click', function () { set(b.getAttribute('aria-expanded') !== 'true'); });
+  d.addEventListener('mouseleave', function () { d.classList.remove('shut'); });
+  document.addEventListener('click', function (e) { if (!d.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && b.getAttribute('aria-expanded') === 'true') { set(false); b.focus(); } });
 })();

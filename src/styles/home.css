@@ -40,8 +40,10 @@ body{background:radial-gradient(50vw 62vh at 74% 40%,rgba(176,108,255,.26),trans
 .bbar{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
 .bbar i{width:10px;height:10px;border-radius:50%;background:#3a2a52}.bbar i:first-child{background:#b06cff}
 .btabs{display:flex;gap:4px;margin-left:12px;flex-wrap:wrap}
-.btabs u{text-decoration:none;font:600 12px/1 var(--f-b);padding:7px 10px;border-radius:8px;color:#9c88bd}
-.btabs u.on{background:rgba(176,108,255,.18);color:#fff}
+.btabs button{font:600 12px/1 var(--f-b);padding:7px 10px;border-radius:8px;color:#9c88bd;background:none;border:0;cursor:pointer;transition:background .2s,color .2s}
+.btabs button:hover{color:#fff;background:rgba(176,108,255,.1)}
+.btabs button.on{background:rgba(176,108,255,.18);color:#fff}
+.btabs button:focus-visible{outline:2px solid var(--acc2);outline-offset:2px}
 .bbody{flex:1;padding:22px 24px;position:relative;white-space:pre-wrap;word-break:break-word}
 .bbody .k{color:#d9b8ff}.bbody .v{color:#9ef0c4}.bbody .c{color:#7d6a99}.bbody .h{color:#fff;font-weight:700}
 .bbody .cur{display:inline-block;width:8px;height:17px;background:#d9b8ff;vertical-align:-3px;animation:blink 1s steps(1) infinite}
