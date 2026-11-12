@@ -9,6 +9,10 @@
   var bill = 'month'; // XpertCare: pay monthly, or yearly with 2 months free
 
   // Launch offer: hide it by itself once the last day has passed.
+  // After the offer, the new price (kept under the launch price) takes its place, until the site is next rebuilt.
+  all('.pkwas[data-pk-offer]').forEach(function (el) { var end = new Date(el.getAttribute('data-pk-offer') + 'T00:00:00+08:00').getTime() + 864e5; if (Date.now() < end) return;
+    var n = el.querySelector('span[data-rm]'), p = el.parentNode.querySelector('.pkprice span[data-rm]'); if (!n || !p) return;
+    ['data-rm', 'data-usd', 'data-rm-y', 'data-usd-y'].forEach(function (a) { if (n.hasAttribute(a)) p.setAttribute(a, n.getAttribute(a)); }); p.textContent = n.textContent; n.removeAttribute('data-rm'); });
   all('[data-pk-offer]').forEach(function (el) { var end = new Date(el.getAttribute('data-pk-offer') + 'T00:00:00+08:00').getTime() + 864e5, left = Math.ceil((end - Date.now()) / 864e5); if (left <= 0) { el.hidden = true; return; }
     var tag = el.querySelector('[data-pk-left]'); if (tag) { tag.textContent = left === 1 ? 'Last day' : left + ' days left'; tag.hidden = false; } });
 
