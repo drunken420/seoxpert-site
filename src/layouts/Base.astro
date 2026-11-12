@@ -8,8 +8,6 @@ import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.
 import '../styles/site.css';
 import logo from '../fragments/logo.svg?raw';
 import { site, whatsappLink, talkLabel, emailLink, areaText, areaLd } from '../config';
-import { faqs } from '../lib/faq';
-const chatData = { whatsapp: site.whatsapp ? whatsappLink : '', email: emailLink, faqs: faqs.map((f) => ({ q: f.q, a: f.text, ready: f.ready })) };
 
 interface Props { title: string; description?: string; path?: string; crumb?: string; extraLd?: object[]; noindex?: boolean; image?: string }
 const { title, description = site.description, path = '/', crumb, extraLd = [], noindex = false, image = '/og.png' } = Astro.props;
@@ -106,7 +104,6 @@ window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(argu
   <div class="cp-chips"></div>
   <form class="cp-form" autocomplete="off"><input type="text" maxlength="200" placeholder="Type your question" aria-label="Your question"><button type="submit">Send</button></form>
 </div>
-<script type="application/json" id="chatdata" set:html={JSON.stringify(chatData).replace(/</g, '\\u003c')}></script>
 <script src="/js/ui.js" defer></script>
 <slot name="scripts" />
 </body>

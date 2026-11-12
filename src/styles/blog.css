@@ -50,6 +50,12 @@
 .bbody h2{font-size:clamp(24px,2.6vw,32px);line-height:1.15;color:var(--ink);margin:44px 0 14px;scroll-margin-top:calc(var(--head-h,70px) + 20px)}
 .bbody section:first-child h2{margin-top:0}
 .bbody p{margin:0 0 18px}.bbody ul{margin:0 0 18px;padding-left:22px;display:grid;gap:10px}.bbody li::marker{color:var(--acc)}
+.bbody h3{font-size:20px;line-height:1.25;color:var(--ink);margin:26px 0 8px}
+.bbody ol{margin:0 0 18px;padding-left:24px;display:grid;gap:10px}.bbody ol li::marker{font-weight:600}
+.btip{border-left:4px solid var(--acc);background:#f7f2fc;border-radius:0 16px 16px 0;padding:16px 20px;margin:0 0 20px;color:var(--ink);font-size:17px}
+.btip>b:first-child{display:block;font:600 12.5px/1 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+.bbody ul.bcheck{list-style:none;padding-left:0}.bcheck li{position:relative;padding-left:32px}
+.bcheck li::before{content:"\2713";position:absolute;left:0;top:.15em;width:21px;height:21px;border-radius:7px;background:var(--acc);color:#fff;font:700 13px/21px var(--f-b);text-align:center}
 .bbody b{color:var(--ink)}.bbody a{color:var(--acc);font-weight:600;text-underline-offset:3px}
 .btable{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:16px}
 .btable table{border-collapse:collapse;width:100%;min-width:520px;font-size:16px}

@@ -15,25 +15,29 @@ const mark = icon.replace('<svg ', '<svg class="mark" aria-hidden="true" ').repl
 const word = logo.replace('role="img" aria-label="SEOxpert"', 'aria-hidden="true"');
 const tagline = site.tagline + '.';
 const tiltCards = [['Build', 'XpertForge', 'Your website, built for search.'], ['AI core', 'XpertCore', 'Plans and writes every page.'], ['Care', 'XpertCare', 'Looked after every month.']];
+const scenes = [['light', 'soft', '#f3e9fd', 'Light scene'], ['dark', 'studio', '#1d1326', 'Dark studio'], ['purple', 'neon', 'linear-gradient(150deg,#5a0f93,#b06cff)', 'Purple neon'], ['sunset', 'sunset', 'linear-gradient(180deg,#2b1a5e,#ff7a45 60%,#ffd27a)', 'Sunset'], ['space', 'moon', 'radial-gradient(circle at 60% 30%,#2a1660,#06040c)', 'Space'], ['aurora', 'aurora', 'linear-gradient(150deg,#2fd6a0,#9a35e8)', 'Aurora']];
+const globePlaces = ['Kuala Lumpur', 'Tokyo', 'Sydney', 'Dubai', 'Paris', 'London', 'New York', 'Giza', 'Agra', 'Beijing', 'Rio'];
 const ringCards = [['XpertForge', 'Website build'], ['XpertCore', 'Our AI core'], ['XpertCare', 'Monthly care'], ['XpertForge', 'Starter, Business, Growth'], ['XpertCore', 'Plans and writes every page'], ['XpertCare', 'Basic, Plus, Pro']];
 const demos = [
   { id: 'spin', kind: '3D', title: '3D product you can spin', text: 'Let people turn your product around and try its colours before they buy. Here it is a cup, a bottle, a can, a box and a candle.', hint: 'Pick a product, tap a colour, drag to spin.', good: ['Online shops', 'Product launches', 'Food and drink'] },
-  { id: 'logo3d', kind: '3D', title: 'Your logo in 3D', text: 'Your logo as a solid object that floats and catches the light. Try chrome, gold or glass, change the light and the background, or let it rain, snow or storm over the whole page.', hint: 'Drag to turn it, then try the buttons below it.', good: ['Homepage banners', 'Brand pages', 'Loading screens'] },
-  { id: 'wave', kind: '3D', title: 'A living background', text: 'A calm 3D field that moves behind your headline and reacts to the pointer.', hint: 'Move your pointer or finger over it.', good: ['Homepage banners', 'Tech and agencies', 'Events'] },
+  { id: 'logo3d', kind: '3D', title: 'Your logo in 3D', text: 'Your logo as a solid object that floats and catches the light. Try chrome, gold or glass, then pick a scene to change the light and the background.', hint: 'Drag to turn it. Pick a finish and a scene.', good: ['Homepage banners', 'Brand pages', 'Loading screens'] },
+  { id: 'weather', kind: 'Animation', wide: true, isNew: true, title: 'Weather on your website', text: 'Rain, snow, petals, bubbles, fireflies or a full thunderstorm over your page. Snow settles on the buttons, rain splashes off them, petals come to rest and bubbles pop against them, then it all melts away. Turn it on for a season, a sale or a launch.', hint: 'Pick the weather, or let it change by itself. Try it over the whole page.', good: ['Seasonal sales', 'Festive greetings', 'Event pages'] },
+  { id: 'wave', kind: '3D', title: 'A living background', text: 'A calm 3D field that moves behind your headline, reacts to the pointer and ripples when tapped. The colour follows the height of every wave.', hint: 'Move over it, tap for ripples, pick a colour.', good: ['Homepage banners', 'Tech and agencies', 'Events'] },
   { id: 'name', kind: 'Animation', title: 'Your name in particles', text: 'Thousands of dots fly together to spell a word, then scatter when touched. It changes words by itself until you type one.', hint: 'Type your own word. Then push the dots around.', good: ['Brand intros', 'Campaign pages', 'Portfolios'] },
   { id: 'spot', kind: 'Interaction', title: 'Spotlight reveal', text: 'A dark panel that only shows what the visitor shines a light on.', hint: 'Move your pointer or finger to shine the light.', good: ['Teasers', 'Launch countdowns', 'About pages'] },
   { id: 'theme', kind: 'Interaction', title: 'Light and dark switch', text: 'One tap swaps the whole website between light and dark, with a smooth ripple. Here it flips by itself every few seconds.', hint: 'Tap the round switch to take over.', good: ['Any website', 'Apps and tech', 'Night-time readers'] },
+  { id: 'devices', kind: '3D', wide: true, flip: true, isNew: true, title: 'Your website on a laptop and phone', text: 'Show your new website the way people will use it. The laptop opens, both screens scroll through the real pages, and visitors can turn them around or switch the website to dark mode.', hint: 'Drag to turn them. Pick a device for a closer look.', good: ['Launch announcements', 'Apps and software', 'Portfolios'] },
   { id: 'tilt', kind: 'Interaction', title: 'Cards that tilt and shine', text: 'Service, menu or pricing cards with a shiny foil that lean toward the pointer, lift in layers and turn over to show their back.', hint: 'Move over a card, then press it to turn it over.', good: ['Services', 'Menus', 'Pricing'] },
   { id: 'ring', kind: '3D', title: 'A carousel that turns in 3D', text: 'Pages, products or photos on a ring that visitors can swing around, or fold flat into a tidy gallery.', hint: 'Drag it, use the arrows, or fold it into a gallery.', good: ['Portfolios', 'Product ranges', 'Photo galleries'] },
   { id: 'magnet', kind: 'Interaction', title: 'Magnetic buttons', text: 'Buttons that lean toward the pointer, so the important click feels alive. On phones a glowing finger shows the effect by itself.', hint: 'Bring your pointer or finger close to a button.', good: ['Contact buttons', 'Sign-up pages', 'Menus'] },
   { id: 'burst', kind: 'Animation', title: 'A button that celebrates', text: 'A happy burst when someone sends a form or places an order: petals, confetti, fireworks, stars or hearts.', hint: 'Pick an effect, or press the button.', good: ['Contact forms', 'Checkouts', 'Sign-ups'] },
   { id: 'slide', kind: 'Interaction', title: 'Before and after slider', text: 'Compare two pictures with a handle that sweeps by itself until someone grabs it. Works with a mouse, a finger or the keyboard.', hint: 'Drag the handle, or use the arrow keys.', good: ['Renovation', 'Clinics and salons', 'Redesigns'] },
-  { id: 'globe', kind: '3D', title: 'A globe you can spin', text: 'A 3D globe drawn in dots from a real world map. Malaysia is marked, and routes fly out from it while the globe turns.', hint: 'Drag to spin it.', good: ['Shipping and travel', 'Online shops', 'Company pages'] },
+  { id: 'globe', kind: '3D', title: 'A globe you can spin', text: 'A 3D globe drawn in dots from a real world map. Routes fly out from Malaysia to famous landmarks, and the globe flies to each one so you can see it standing on the map.', hint: 'Drag to spin it, or pick a place to fly there.', good: ['Shipping and travel', 'Online shops', 'Company pages'] },
   { id: 'scramble', kind: 'Animation', title: 'Headlines that decode', text: 'Letters shuffle like a code being cracked, then settle into your message.', hint: 'Press the button for the next line.', good: ['Homepage headlines', 'Tech and agencies', 'Launch pages'] },
   { id: 'draw', kind: 'Scroll', title: 'Charts that draw themselves', text: 'Lines and bars that draw as they scroll into view, then play again every few seconds, so numbers feel alive.', hint: 'Watch it replay, or press Replay.', good: ['Reports', 'Case studies', 'About pages'] },
 ];
 ---
-<Base title="Interactive Website Demos: 3D and Animation | SEOXpert" description="Fourteen live demos of what we can build into your website: 3D products and logos, moving backgrounds, particle text, tilt cards, sliders and more." path="/demos/" crumb="Demos">
+<Base title="Interactive Website Demos: 3D and Animation | SEOXpert" description="Sixteen live demos of what we can build into your website: 3D products and logos, weather, a laptop and phone, particle text, tilt cards and more." path="/demos/" crumb="Demos">
 <main id="main">
 <PageHero kicker="Live demos" brand="XpertLab" art="demos" crumb="Demos" word="XpertLab">
   <Fragment slot="title">Website effects you can <em>touch</em>.</Fragment>
@@ -43,20 +47,21 @@ const demos = [
 
 <section class="solid band"><div class="wrap">
   <span class="eyebrow rv">Pick a demo</span>
-  <h2 class="rv">Fourteen things your website could do.</h2>
+  <h2 class="rv">Sixteen things your website could do.</h2>
   <p class="sub rv">Welcome to XpertLab, where we try out what a website can do. Every demo below wears our own branding. On your website it would wear yours.</p>
-  <nav class="dmnav rv" aria-label="Demos">{demos.map((d, i) => <a href={`#${d.id}`}><b>{String(i + 1).padStart(2, '0')}</b>{d.title}</a>)}</nav>
+  <nav class="dmnav rv" aria-label="Demos">{demos.map((d, i) => <a href={`#${d.id}`}><b>{String(i + 1).padStart(2, '0')}</b>{d.title}{d.isNew && <em>New</em>}</a>)}</nav>
+  <div class="dmbar rv"><p>Everything here moves by itself until you take over.</p><button type="button" class="dmpause" aria-pressed="false">Pause all motion</button></div>
 
   <div class="dmgrid">
   {demos.map((d, i) => (
-    <article class="dm" id={d.id}>
+    <article class={'dm' + (d.wide ? ' wide' : '') + (d.flip ? ' flip' : '')} id={d.id}>
       <div class="dminfo rv">
-        <span class="eyebrow">{String(i + 1).padStart(2, '0')} · {d.kind}</span>
+        <span class="eyebrow">{String(i + 1).padStart(2, '0')} · {d.kind}{d.isNew && <em class="dmnew">New</em>}</span>
         <h3>{d.title}</h3>
         <p>{d.text}</p>
         <p class="dmhint">{d.hint}</p>
       </div>
-      <div class="dmstage rv" data-demo={d.id} data-d1={d.id === 'spin' ? paths[0] : undefined} data-d2={d.id === 'spin' ? paths[1] : undefined}>
+      <div class="dmstage rv" data-demo={d.id} data-d1={d.id === 'spin' || d.id === 'devices' ? paths[0] : undefined} data-d2={d.id === 'spin' || d.id === 'devices' ? paths[1] : undefined} data-tag={d.id === 'devices' ? tagline : undefined}>
         {d.id === 'spin' && (<>
           <canvas aria-label="A 3D product with the SEOXpert logo that you can drag to spin" role="img"></canvas>
           <div class="dmprod" role="group" aria-label="Product">{[['cup', 'Cup'], ['bottle', 'Bottle'], ['can', 'Can'], ['box', 'Box'], ['jar', 'Candle']].map((p, k) => <button type="button" data-p={p[0]} aria-pressed={k === 0 ? 'true' : 'false'}>{p[1]}</button>)}</div>
@@ -71,10 +76,27 @@ const demos = [
         {d.id === 'logo3d' && (<>
           <canvas aria-label="The SEOXpert logo as a 3D object" role="img"></canvas>
           <div class="dmstill" aria-hidden="true" set:html={mark}></div>
+          <div class="dmprod" role="group" aria-label="Finish">{[['purple', 'Purple'], ['chrome', 'Chrome'], ['gold', 'Gold'], ['glass', 'Glass'], ['holo', 'Rainbow']].map((o, k) => <button type="button" data-fin={o[0]} aria-pressed={k === 0 ? 'true' : 'false'}>{o[1]}</button>)}</div>
+          <div class="dmsw" role="group" aria-label="Scene">{scenes.map((o, k) => <button type="button" data-bg={o[0]} data-light={o[1]} aria-label={o[3]} aria-pressed={k === 0 ? 'true' : 'false'} style={`--c:${o[2]}`}></button>)}</div>
+        </>)}
+        {d.id === 'weather' && (
+          <div class="wxsite" aria-hidden="true">
+            <div class="tbar"><Fragment set:html={word} /><i></i><i></i><i></i><span class="wxbtn">Contact us</span></div>
+            <div class="wxhero">
+              <div><span class="xp wxland">Made with XpertCore</span><strong>{tagline}</strong><p>Website design for businesses in Malaysia.</p><span class="wxbtn wxland">See packages</span></div>
+              <div class="wxmark" set:html={mark}></div>
+            </div>
+            <div class="wxcards"><b class="wxland">XpertForge<small>Website build</small></b><b class="wxland">XpertCore<small>Our AI core</small></b><b class="wxland">XpertCare<small>Monthly care</small></b></div>
+          </div>
+        )}
+        {d.id === 'devices' && (<>
+          <canvas aria-label="A laptop and a phone showing the SEOXpert website, that you can drag to turn" role="img"></canvas>
+          <div class="dmstill devs" aria-hidden="true"><i class="lap"></i><i class="ph"></i></div>
         </>)}
         {d.id === 'wave' && (<>
           <canvas aria-hidden="true"></canvas>
           <div class="dmover"><Fragment set:html={word} /><strong>{tagline}</strong><em>See packages</em></div>
+          <div class="dmsw" role="group" aria-label="Wave colour">{[['purple', '#9a35e8', 'Purple'], ['sunset', 'linear-gradient(135deg,#c2185b,#ffd27a)', 'Sunset'], ['ocean', 'linear-gradient(135deg,#1f5fff,#8ff6ff)', 'Ocean'], ['mint', 'linear-gradient(135deg,#0f8f6f,#d6ffe9)', 'Mint']].map((o, k) => <button type="button" data-c={o[0]} aria-label={o[2]} aria-pressed={k === 0 ? 'true' : 'false'} style={`--c:${o[1]}`}></button>)}</div>
         </>)}
         {d.id === 'name' && (<>
           <canvas aria-label="Dots that spell the word you type" role="img"></canvas>
@@ -140,8 +162,10 @@ const demos = [
           </div>
         )}
         {d.id === 'globe' && (<>
-          <canvas aria-label="A dotted globe of the world with Malaysia marked, that you can spin" role="img"></canvas>
+          <canvas aria-label="A dotted globe of the world with famous landmarks and routes from Malaysia, that you can spin" role="img"></canvas>
           <span class="gpin" aria-hidden="true">Malaysia</span>
+          <span class="gpin gcity" aria-live="polite"></span>
+          <div class="gfly dmprod" role="group" aria-label="Fly to">{globePlaces.map((c, k) => <button type="button" aria-pressed="false" data-i={k}>{c}</button>)}</div>
           <div class="dmglobe" aria-hidden="true"><Fragment set:html={word} /><span class="xp">XpertForge</span></div>
         </>)}
         {d.id === 'scramble' && (
@@ -156,15 +180,18 @@ const demos = [
             <g class="dots"><circle cx="92" cy="170" r="7"/><circle cx="182" cy="130" r="7"/><circle cx="272" cy="96" r="7"/><circle cx="362" cy="64" r="7"/><circle cx="452" cy="36" r="7"/><circle cx="542" cy="12" r="7"/></g>
           </svg>
           <button class="dmreplay" type="button">Replay</button>
-          <small class="dmnote">Example shapes only, not real results.</small>
         </>)}
       </div>
-      {d.id === 'logo3d' && (
+      {d.id === 'weather' && (
         <div class="dmctl rv">
-          <div role="group" aria-label="Finish"><b>Finish</b>{[['purple', 'Purple'], ['chrome', 'Chrome'], ['gold', 'Gold'], ['glass', 'Glass'], ['holo', 'Rainbow']].map((o, k) => <button type="button" data-fin={o[0]} aria-pressed={k === 0 ? 'true' : 'false'}>{o[1]}</button>)}</div>
-          <div role="group" aria-label="Light"><b>Light</b>{[['soft', 'Soft'], ['studio', 'Studio'], ['neon', 'Neon'], ['sunset', 'Sunset'], ['moon', 'Moon'], ['gold', 'Gold'], ['disco', 'Disco'], ['aurora', 'Aurora'], ['fire', 'Fire']].map((o, k) => <button type="button" data-light={o[0]} aria-pressed={k === 0 ? 'true' : 'false'}>{o[1]}</button>)}</div>
-          <div role="group" aria-label="Background"><b>Back</b>{[['light', 'Light'], ['dark', 'Dark'], ['purple', 'Purple'], ['sunset', 'Sunset'], ['grid', 'Grid'], ['space', 'Space'], ['aurora', 'Aurora']].map((o, k) => <button type="button" data-bg={o[0]} aria-pressed={k === 0 ? 'true' : 'false'}>{o[1]}</button>)}</div>
-          <div role="group" aria-label="Weather"><b>Weather</b>{[['clear', 'Clear'], ['rain', 'Rain'], ['snow', 'Snow'], ['petals', 'Petals'], ['storm', 'Storm']].map((o, k) => <button type="button" data-wx={o[0]} aria-pressed={k === 0 ? 'true' : 'false'}>{o[1]}</button>)}<button type="button" class="wxwhole" data-whole aria-pressed="false">Whole page</button></div>
+          <div role="group" aria-label="Weather"><b>Weather</b>{[['clear', 'Clear'], ['rain', 'Rain'], ['snow', 'Snow'], ['petals', 'Petals'], ['bubbles', 'Bubbles'], ['fireflies', 'Fireflies'], ['storm', 'Storm']].map((o, k) => <button type="button" data-wx={o[0]} aria-pressed={k === 0 ? 'true' : 'false'}>{o[1]}</button>)}</div>
+          <div role="group" aria-label="Where"><b>Where</b><button type="button" data-whole="0" aria-pressed="true">In the box</button><button type="button" data-whole="1" aria-pressed="false">Whole page</button></div>
+        </div>
+      )}
+      {d.id === 'devices' && (
+        <div class="dmctl rv">
+          <div role="group" aria-label="Device"><b>View</b>{[['both', 'Both'], ['laptop', 'Laptop'], ['phone', 'Phone']].map((o, k) => <button type="button" data-view={o[0]} aria-pressed={k === 0 ? 'true' : 'false'}>{o[1]}</button>)}</div>
+          <div role="group" aria-label="Website"><b>Website</b><button type="button" data-mode="light" aria-pressed="true">Light</button><button type="button" data-mode="dark" aria-pressed="false">Dark</button><button type="button" class="dmtog" data-lid aria-pressed="false">Close the lid</button></div>
         </div>
       )}
       <ul class="dmgood rv" aria-label="Good for">{d.good.map((g) => <li>{g}</li>)}</ul>

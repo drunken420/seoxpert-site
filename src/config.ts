@@ -22,8 +22,8 @@ export const site = {
   // Its secret goes in the Cloudflare Pages settings as TURNSTILE_SECRET_KEY, never here.
   turnstileSiteKey: '',
 };
-/** "Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia" */
-export const areaText = `${site.areas.join(', ')} and across ${site.country}`;
+/** "Kuala Lumpur, Selangor, Petaling Jaya, across Malaysia and around the world" (we work remotely; Suhen 2026-11-12) */
+export const areaText = `${site.areas.join(', ')}, across ${site.country} and around the world`;
 export const areaLd = [{ '@type': 'Country', name: site.country }, ...site.areas.map((name) => ({ '@type': 'AdministrativeArea', name }))];
 export const whatsappLink = site.whatsapp ? `https://wa.me/${site.whatsapp}` : '/contact/';
 /** Words for the main contact button and for lists of ways to reach us. */
