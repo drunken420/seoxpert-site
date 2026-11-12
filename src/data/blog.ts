@@ -70,13 +70,13 @@ export const posts: Post[] = [
       { id: 'planned-for-search', h: '4. It is planned for Google and AI search', html: `<p>A website nobody can find does not help your business. Ask how each page is planned: which searches it answers, what the title and headings say, and how fast it loads on a phone.</p>
 <p>We plan every page for Google and AI search before it is designed, using <a href="/ai-website-builder/">XpertCore, our own AI website builder</a>.</p>` },
       { id: 'after-launch', h: '5. Someone looks after it after launch', html: `<p>Ask who updates the website, who backs it up and what that costs each month. With us that is <a href="/website-maintenance/">XpertCare</a>, an optional monthly plan with high speed hosting included, from ${fmt(basic)} a month.</p>` },
-      { id: 'do-you-need-to-meet', h: 'Do you need to meet in person?', html: `<p>No. We work with businesses in Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia, and the work starts with a conversation by email or chat. Tell us what you do, who you serve and what you want the website to achieve. A short chat is enough to start.</p>` },
+      { id: 'do-you-need-to-meet', h: 'Do you need to meet in person?', html: `<p>No. We work remotely, with businesses in Kuala Lumpur, Selangor, Petaling Jaya, across Malaysia and all around the world. Everything starts with a friendly conversation by email or chat: tell us a little about your business and what you would love your website to do, and we take it from there.</p>` },
     ],
     faqs: [
       { q: 'How much does website design cost in Kuala Lumpur?', a: `With SEOXpert it costs ${fmt(starter)} to ${fmt(growth)}, paid once, wherever you are in Malaysia. The price depends mostly on how many pages you need.` },
-      { q: 'Do you only work with businesses in Kuala Lumpur and Selangor?', a: 'No. We work with businesses in Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia.' },
-      { q: 'Is the writing included?', a: 'Yes. Copywriting is included in every XpertForge package.' },
-      { q: 'How do I start?', a: 'Send us a message. Tell us what you do and who you serve, and we will say honestly which package fits.' },
+      { q: 'Do you only work with businesses in Kuala Lumpur and Selangor?', a: 'No. We work remotely, so we work with businesses across Malaysia and all around the world.' },
+      { q: 'Is the writing included?', a: 'Yes. Every XpertForge package includes highly rankable content, written for you from keyword research and checked by our experts.' },
+      { q: 'How do I start?', a: 'Just send us a message. Tell us a little about your business and what you would love your website to do, and we will happily suggest the package that fits you best.' },
     ],
     cta: { pill: 'XpertForge', title: `Website design from ${fmt(starter)}, paid once`, href: '/packages/', label: 'See packages' },
   },
@@ -105,7 +105,7 @@ export const posts: Post[] = [
     faqs: [
       { q: 'What is the cheapest website design package?', a: `${starter.name} at ${fmt(starter)}, paid once, for up to 5 pages.` },
       { q: 'Is the price paid once or every month?', a: `The website build is paid once. Monthly care with XpertCare is separate and optional, from ${fmt(basic)} a month.` },
-      { q: 'Do all packages include the writing?', a: 'Yes. Copywriting and keyword research are included in every XpertForge package.' },
+      { q: 'Do all packages include the writing?', a: 'Yes. Highly rankable content and full keyword research are included in every XpertForge package.' },
       { q: 'Can I take a small website with the biggest care plan?', a: `No. A care plan can be as big as the website, not bigger. ${starter.name} takes ${basic.name}.` },
     ],
     cta: { pill: 'XpertForge', title: 'Compare the packages and build your plan', href: '/packages/', label: 'See packages' },
@@ -136,7 +136,7 @@ export const posts: Post[] = [
     ],
     faqs: [
       { q: 'Is the price paid once or every month?', a: `The website build is paid once. Monthly care with XpertCare is separate and optional, from ${fmt(basic)} a month.` },
-      { q: 'Is the writing included in the price?', a: 'Yes. Copywriting is included in every XpertForge package. We write answer first copy for each page and our experts check it.' },
+      { q: 'Is the writing included in the price?', a: 'Yes. Highly rankable content is included in every XpertForge package. We write answer first copy for each page and our experts check it.' },
       { q: 'Do I have to take a monthly plan?', a: 'No. XpertCare is optional. You can look after the website yourself after launch.' },
       { q: 'Are the prices in ringgit?', a: 'Yes. Prices are shown in RM first. The packages page also has a switch to US dollars.' },
     ],
@@ -221,7 +221,7 @@ export const posts: Post[] = [
       { id: 'what-it-covers', h: 'What website maintenance covers', html: `<ul><li><b>Updates.</b> The website is kept up to date so it keeps working the way it should.</li>
 <li><b>Backups.</b> Regular copies are saved, so nothing is lost if something goes wrong.</li>
 <li><b>Uptime watch and security.</b> Someone notices when the website is down or at risk.</li>
-<li><b>Fixes.</b> We check for issues every few days and fix what we find.</li>
+<li><b>Active checks.</b> We check the website every few days, fix what we find, and make SEO and AI search (LLM) improvements when they are needed.</li>
 <li><b>Changes.</b> New prices, new photos, new opening hours.</li>
 <li><b>New content.</b> Fresh blog posts and answers, so the website keeps growing.</li>
 <li><b>Search health.</b> Keywords are tracked every week, and pages that are not ranking yet are improved.</li>
@@ -265,7 +265,7 @@ export const posts: Post[] = [
     ],
     faqs: [
       { q: 'Should I choose the cheapest quote?', a: 'Not by price alone. Compare what is included: the writing, the number of pages, the search setup and the care after launch.' },
-      { q: 'What should I prepare before I contact a web design company?', a: 'What you do, who you serve and what you want the website to achieve. A short chat is enough to start.' },
+      { q: 'What should I prepare before I contact a web design company?', a: 'A little about your business and what you would love your website to do. A short, friendly chat is all it takes to begin.' },
       { q: 'Can a web design company guarantee I will rank first?', a: 'No. Nobody can promise a ranking. A good company builds a clear, fast, well structured website and looks after it over time.' },
     ],
     cta: { pill: 'XpertForge', title: 'See what we build, and what it costs', href: '/website-design/', label: 'Website design in Malaysia' },
