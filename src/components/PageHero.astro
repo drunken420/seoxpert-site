@@ -3,7 +3,7 @@
 // brand = which product name to show as a pill next to the kicker; art = which picture (see HeroArt.astro);
 // word = the big outlined word that drifts behind the banner (decoration only).
 import HeroArt from './HeroArt.astro';
-interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertCare' | 'XpertLab' | 'XpertAdvice'; art?: string; word?: string }
+interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertCare' | 'XpertLab' | 'XpertAdvice' | 'XpertInsight'; art?: string; word?: string }
 const { kicker, crumb, brand, art, word } = Astro.props;
 ---
 <section class="phero band" data-phero>

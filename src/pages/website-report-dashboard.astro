@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import Glance from '../components/Glance.astro';
+import InsightDemo from '../components/InsightDemo.astro';
+import { care } from '../data/packages';
+import '../styles/page.css';
+import '../styles/insight.css';
+import { site, whatsappLink, talkLabel } from '../config';
+// XpertInsight is included with every XpertCare plan and is not sold on its own (Suhen, 2026-11-12).
+const kw = care.tiers.map((t) => [t.name, t.rows.join(' ').match(/<b>(\d+)<\/b> keywords/)?.[1]]);
+const views = [
+  ['Overview', 'Your Xpert score out of 100, made from visits, leads, rankings, AI mentions and site health, plus insights from our experts in plain words.'],
+  ['Visitors', 'Visits by day compared with the period before, where they came from, phone or computer, and your top pages on Google.'],
+  ['Leads', 'WhatsApp clicks, form messages and call clicks, week by week, and the pages that bring them.'],
+  ['Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and how you compare with competitors.'],
+  ['AI answers', 'Whether ChatGPT, Gemini, Perplexity and Google AI Overviews name your business, and the visits AI tools send you.'],
+  ['Site health', 'Broken links, pages on Google, security certificate, speed on phones and uptime for the last 30 days.'],
+  ['Care plan', 'What your XpertCare plan includes this month, the work our team has done and what comes next.'],
+  ['Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
+];
+const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertCare plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
+---
+<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share.jpg" description="XpertInsight is the live website report dashboard included with XpertCare: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={extraLd}>
+<main id="main">
+<PageHero kicker="Website report dashboard" brand="XpertInsight" art="insight" crumb="Website report dashboard" word="Insight">
+  <Fragment slot="title">See how your website is doing, <em>any time</em>.</Fragment>
+  <Fragment slot="lede">XpertInsight is our own live website report dashboard, included with every XpertCare plan. Log in to see your visitors, leads, keywords, AI answers and site health in plain words, and download your monthly XpertRecap as a PDF.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="#inside">Look inside</a><a class="btn ghost" href="/website-maintenance/#xpertcare">See XpertCare plans</a></Fragment>
+</PageHero>
+
+<section id="inside" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Inside XpertInsight</span>
+  <h2 class="rv">Your website's numbers, in one clear place.</h2>
+  <p class="sub rv">Pick a view on the left, or watch it go through them. This is a working sample with a made-up bakery, so every number is pretend. Yours shows your own website.</p>
+  <InsightDemo />
+</div></section>
+
+<section class="solid tint band"><div class="wrap">
+  <span class="eyebrow rv">Eight views, one login</span>
+  <h2 class="rv">Everything we track for you.</h2>
+  <div class="grid3">
+    {views.map(([h, p], i) => <div class="fcard rv" style={`--d:${i % 3}`}><div class="pet" style={`--r:${(i * 90) % 360}deg`}></div><h3>{h}</h3><p>{p}</p></div>)}
+  </div>
+</div></section>
+
+<section class="solid band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">The real dashboard</span>
+    <h2 class="rv">Made for phones too.</h2>
+    <p class="sub rv">XpertInsight works on any phone, tablet or computer. Choose 7 days, 28 days or 3 months, and every chart and number follows.</p>
+    <p class="sub rv">These pictures are the real XpertInsight, filled with the same made-up sample bakery.</p>
+  </div>
+  <div>
+    <figure class="xiphone rv"><img src="/img/xpertinsight-phone.webp" srcset="/img/xpertinsight-phone-390.webp 390w, /img/xpertinsight-phone.webp 780w" sizes="330px" width="780" height="1328" loading="lazy" decoding="async" alt="XpertInsight on a phone, showing the overview with the Xpert score for a made-up sample bakery" /></figure>
+  </div>
+</div></section>
+
+<section class="solid band" style="padding-top:0"><div class="wrap">
+  <figure class="pfig rv"><img src="/img/xpertinsight-overview.webp" srcset="/img/xpertinsight-overview-900.webp 900w, /img/xpertinsight-overview.webp 1440w" sizes="(max-width: 1200px) 100vw, 1140px" width="1440" height="900" loading="lazy" decoding="async" alt="The XpertInsight overview on a computer for a made-up sample bakery: Xpert score, visitors, leads, Google clicks, page 1 keywords, AI visits, uptime and insights from our experts" /><figcaption>The XpertInsight overview on a computer. Sample client, made-up numbers.</figcaption></figure>
+</div></section>
+
+<section class="dark band"><div class="wrap split">
+  <div>
+    <span class="eyebrow rv">XpertRecap</span>
+    <h2 class="rv">A monthly report you can save and share.</h2>
+    <p class="sub rv">One tap on Download PDF saves the month as an XpertRecap: six pages covering the overview, visitors, leads, keywords, AI answers with site health, and your care plan. It is easy to forward to a partner or keep with your records.</p>
+    <p class="rv"><a class="btn" href="/xpertrecap-sample.pdf" target="_blank" rel="noopener">See a sample XpertRecap (PDF)</a></p>
+  </div>
+  <ul class="xisrc">
+    <li class="rv"><b>Updated every week</b>From Google Search Console, Google Analytics, PageSpeed Insights and uptime monitoring.</li>
+    <li class="rv" style="--d:1"><b>Checked by our team</b>Keywords are tracked every week, and each month we ask AI tools the questions your customers ask.</li>
+    <li class="rv" style="--d:2"><b>Private to you</b>You log in with a code sent to your email, and you only ever see your own website.</li>
+    <li class="rv" style="--d:3"><b>Explained in plain words</b>Insights from our experts say what changed, what it means and what we will do next.</li>
+  </ul>
+</div></section>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Included with XpertCare</span>
+  <h2 class="rv">No extra fee. It comes with your care plan.</h2>
+  <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertCare</a> plan. It is not sold on its own. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
+</div></section>
+
+<Glance page="website-report-dashboard" guides={['website-maintenance-malaysia', 'ai-seo-malaysia']} tint />
+<Related skip="/website-report-dashboard/" />
+<Cta title="Want XpertInsight for your website?" />
+</main>
+<script slot="scripts" src="/js/insight.js" defer></script>
+</Base>
