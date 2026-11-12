@@ -13,7 +13,7 @@ for (const [page, pic] of Object.entries(pictures)) extras[`${SITE}/${page}/`] =
 export default defineConfig({
   site: SITE,
   integrations: [sitemap({ filter: (page) => !page.includes('/404'), serialize: (item) => ({ ...item, ...extras[item.url] }) })],
-  build: { inlineStylesheets: 'always' },
+  build: { inlineStylesheets: 'always', assets: 'f' },
   // px sizes become rem so the pages can grow on screens wider than 1920px (see scripts/fluid-px.mjs)
   vite: { css: { postcss: { plugins: [fluidPx()] } } },
 });
