@@ -14,8 +14,9 @@ const slug = (t: string) => t.toLowerCase().replace(/[^a-z]+/g, '-').replace(/-$
   <Fragment slot="lede">Short answers first, the same way AI search answers people. Ask in the chat if yours is not here.</Fragment>
   <Fragment slot="cta"><button class="btn" type="button" data-chat-open>Ask in the chat</button><a class="btn ghost" href="/contact/">Contact us</a></Fragment>
 </PageHero>
-<section class="solid band"><div class="wrap">
+<section class="solid band"><div class="wrap faqlay">
   <nav class="faqtopics rv" aria-label="Topics">{byTopic.map((g) => <a href={`#${slug(g.topic)}`}>{g.topic}<b>{g.items.length}</b></a>)}</nav>
+  <div class="faqmain">
   {byTopic.map((g, k) => (
     <div class="faqgroup" id={slug(g.topic)}>
       <h2 class="rv">{g.topic}</h2>
@@ -25,6 +26,7 @@ const slug = (t: string) => t.toLowerCase().replace(/[^a-z]+/g, '-').replace(/-$
     </div>
   ))}
   <p class="sub" style="margin-top:28px">Looking for details? See <a href="/website-design/">website design</a>, <a href="/website-maintenance/">website maintenance</a>, <a href="/packages/">website design packages</a> and <a href="/ai-website-builder/">our AI website builder</a>.</p>
+  </div>
 </div></section>
 <Related skip="/faq/" />
 <Cta />

@@ -36,7 +36,7 @@
 .big404{font:800 clamp(90px,18vw,220px)/.9 var(--f-d);letter-spacing:-.06em;color:transparent;-webkit-text-stroke:2px var(--acc2);margin:0}
 @media (max-width:900px){.phero{padding-block:36px 60px}.split{grid-template-columns:1fr;gap:26px}.split .stick{position:static}.grid3{grid-template-columns:1fr}.pp{opacity:.22}.nsteps li{grid-template-columns:44px 1fr;padding:18px}.nsteps li::before{width:44px;height:44px;border-radius:13px}}
 @media (prefers-reduced-motion:reduce){.pp{animation:none}}
-.prose a,.nsteps a,.fcard p a{color:var(--acc);font-weight:600;text-underline-offset:3px}
+.prose a,.nsteps a,.fcard p a,.note a,.acc .ans a{color:var(--acc);font-weight:600;text-underline-offset:3px}
 .rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .rcard{display:flex;flex-direction:column;background:var(--bg);border-radius:22px;padding:24px;box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:inherit;transition:transform .3s ease,box-shadow .3s ease}
 .rcard:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1.5px var(--acc2),0 20px 40px rgba(123,24,193,.12)}
@@ -389,3 +389,12 @@ pre.codecard{margin:0;overflow-x:auto}
 .pklater{margin:16px 0 0;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);font-size:13.5px;color:#cbbbe2;line-height:1.55}.pklater s{color:#fff;text-decoration-color:#d9b8ff;text-decoration-thickness:2px}
 .pkpick button .pkn span{display:inline;font:inherit;color:inherit;letter-spacing:0;margin:0}
 .pksum .pknote{color:#bfaed8;font-size:14px}
+
+/* Questions page on computers: topics stay in a side column, answers fill the rest */
+@media (min-width:1001px){
+  .faqlay{display:grid;grid-template-columns:250px minmax(0,1fr);gap:56px;align-items:start}
+  .faqlay .faqtopics{position:sticky;top:calc(var(--head-h) + 24px);flex-direction:column;flex-wrap:nowrap;gap:6px;margin:0}
+  .faqlay .faqtopics a{justify-content:space-between;border-radius:14px;padding:13px 16px;font-size:15px}
+  .faqlay .faqgroup:first-child{margin-top:0}
+  .faqlay .acc{max-width:none}
+}

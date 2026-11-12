@@ -24,13 +24,16 @@
     t.addEventListener('keydown', function (e) { var d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (d) { e.preventDefault(); mine = true; clearInterval(tmr); show(cur + d, true); } });
   });
   // keep the box as tall as the tallest view, so the page never jumps when the view changes
+  var small = matchMedia('(max-width:700px)');
   function fit() {
+    // on phones the views sit in one column and differ a lot in height: let each be its own height
+    if (small.matches) { views.forEach(function (v) { v.style.minHeight = ''; }); return; }
     var keep = views.map(function (v) { v.style.minHeight = ''; return v.hidden; }), h = 0;
     views.forEach(function (v) { views.forEach(function (o) { o.hidden = o !== v; }); h = Math.max(h, v.offsetHeight); });
     views.forEach(function (v, k) { v.hidden = keep[k]; v.style.minHeight = h / 16 + 'rem'; });
   }
   var rt = 0; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(fit, 150); }); fit();
-  function tour() { clearInterval(tmr); if (!mine && seen && !calm) tmr = setInterval(function () { if (!document.hidden && !document.documentElement.classList.contains('dmpaused')) show(cur + 1); }, 4800); }
+  function tour() { clearInterval(tmr); if (!mine && seen && !calm && !small.matches) tmr = setInterval(function () { if (!document.hidden && !document.documentElement.classList.contains('dmpaused')) show(cur + 1); }, 4800); }
   new IntersectionObserver(function (es) { var was = seen; seen = es[0].isIntersecting; if (seen && !was) { show(cur); } tour(); }, { threshold: 0.35 }).observe(el);
 })();
 /* "A closer look at every view": 8 tabs and one big screen. Arrows, swipe and the keyboard move between views;

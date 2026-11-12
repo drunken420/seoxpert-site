@@ -12,9 +12,14 @@ const p = pictures[page];
 <section class={`solid band glance${tint ? ' tint' : ''}`}><div class="wrap">
   <span class="eyebrow rv">At a glance</span>
   <h2 class="rv">{p.title}.</h2>
-  <figure class="pfig rv">
-    <img src={`/img/${p.file}.webp`} srcset={`/img/${p.file}-640.webp 640w, /img/${p.file}-900.webp 900w, /img/${p.file}.webp 1200w`} sizes="(max-width: 900px) 100vw, 860px" width="1200" height="630" alt={p.alt} loading="lazy" decoding="async">
-    <figcaption>{p.alt}</figcaption>
-  </figure>
-  {read.length > 0 && <p class="gread rv"><b>Read next:</b> {read.map((g, i) => <>{i > 0 && ', '}<a href={postUrl(g!)}>{g!.h1}</a></>)}</p>}
+  <div class="ggrid">
+    <figure class="pfig rv">
+      <img src={`/img/${p.file}.webp`} srcset={`/img/${p.file}-640.webp 640w, /img/${p.file}-900.webp 900w, /img/${p.file}.webp 1200w`} sizes="(max-width: 1000px) 100vw, 800px" width="1200" height="630" alt={p.alt} loading="lazy" decoding="async">
+      <figcaption>{p.alt}</figcaption>
+    </figure>
+    {read.length > 0 && <aside class="gread rv" aria-label="Read next">
+      <b>Read next</b>
+      <ul>{read.map((g) => <li><a href={postUrl(g!)}><span>{g!.h1}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a></li>)}</ul>
+    </aside>}
+  </div>
 </div></section>
