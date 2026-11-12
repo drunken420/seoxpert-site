@@ -31,7 +31,7 @@ export const more: MoreFaq[] = [
   // Your website
   { topic: 'Your website', q: 'How does a website project start?', a: 'With a short chat. You tell us about your business, XpertCore drafts the page plan and answer first copy, we design and refine every page by hand, and then your website goes live with the Google and AI setup in place. <a href="/website-design/">See how website design works</a>.' },
   { topic: 'Your website', q: 'Do I need to use the AI builder myself?', a: 'No. XpertCore is our own AI core, and our team uses it for you. There is no tool for you to learn.' },
-  { topic: 'Your website', q: 'Does my website come with a blog?', a: `Yes. Every XpertForge website has a blog on top of its pages, with ${posts(starter)}, ${posts(business)} or ${posts(growth)} posts written at launch, depending on the package.` },
+  { topic: 'Your website', q: 'Does my website come with a blog?', a: `Yes. Every XpertForge website comes with its own blog, and blog posts do not count towards your pages. It starts with ${posts(starter)}, ${posts(business)} or ${posts(growth)} posts written at launch, depending on the package.` },
   { topic: 'Your website', q: 'Will my website work well on phones?', a: 'Yes. We keep pages light so they load quickly on phones, because most people will meet your business on a phone.' },
   { topic: 'Your website', q: 'Can customers contact me from the website?', a: 'Yes. Every package includes a contact page and a WhatsApp button, so customers can reach you.' },
   { topic: 'Your website', q: 'Can you redesign my current website?', a: 'Yes. We start by checking what your current website does well and what is missing, then build a new one with XpertForge on a solid foundation.' },
