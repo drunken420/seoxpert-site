@@ -5,8 +5,8 @@ export interface Tier { id: string; name: string; rm: number; usd: number; for: 
 export const fmt = (t: Tier, cur: 'RM' | 'USD' = 'RM') => (cur === 'RM' ? 'RM' + t.rm.toLocaleString('en-US') : '$' + t.usd.toLocaleString('en-US'));
 
 /** Launch offer: free hosting and XpertCare with every build, until this date (inclusive). */
-export const offer = { ends: '2027-04-30', endsText: '30 April 2027', title: 'Free high speed hosting and XpertCare with every website.', text: '1 month with Starter, 2 with Business, 4 with Growth.' };
-export const offerOn = () => new Date() < new Date('2027-05-01T00:00:00+08:00');
+export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free high speed hosting and XpertCare with every website.', text: '1 month with Starter, 2 with Business, 4 with Growth.' };
+export const offerOn = () => new Date() < new Date('2027-02-01T00:00:00+08:00');
 
 export const build = {
   key: 'build', label: 'XpertForge website build', unit: 'once', allTitle: 'In every XpertForge build',
