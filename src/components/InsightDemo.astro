@@ -59,9 +59,9 @@ const uptime = Array.from({ length: 28 }, (_, i) => (i === 13 || i === 25 ? 'w' 
 
       <section class="xiv" id="xiv2" role="tabpanel" aria-labelledby="xit2" hidden>
         <div class="xik">
-          <div style="--n:0"><small>WhatsApp</small><b data-n="33">33</b><em>clicks</em></div>
-          <div style="--n:1"><small>Form messages</small><b data-n="22">22</b><em>sent</em></div>
-          <div style="--n:2"><small>Call clicks</small><b data-n="3">3</b><em>taps</em></div>
+          <div style="--n:0"><small>WhatsApp</small><b data-n="33">33</b><em>▲ 14% vs before</em></div>
+          <div style="--n:1"><small>Form messages</small><b data-n="22">22</b><em>▲ 38% vs before</em></div>
+          <div style="--n:2"><small>Call clicks</small><b data-n="3">3</b><em class="flat">Same as before</em></div>
         </div>
         <div class="xi2">
           <div class="xicard" style="--n:3"><b>Leads by week</b><div class="xicols">{[17, 13, 16, 12].map((v, i) => <span style={`--h:${v * 5}%`}><b>{v}</b><em>Week {i + 1}</em></span>)}</div></div>
@@ -80,7 +80,7 @@ const uptime = Array.from({ length: 28 }, (_, i) => (i === 13 || i === 25 ? 'w' 
           <div class="xiai">{[['ChatGPT', true], ['Gemini', false], ['Perplexity', false], ['AI Overviews', true]].map(([k, y], i) => <span style={`--n:${i + 1}`}><em>{k}</em><i class={y ? 'xip ok' : 'xip no'}>{y ? 'Named' : 'Not yet'}</i></span>)}</div></div>
         <div class="xi2">
           <div class="xicard" style="--n:2"><b>Visits sent by AI tools</b><div class="xibars">{[['ChatGPT', 33], ['Perplexity', 12], ['Gemini', 7], ['Copilot', 2]].map(([k, v]) => <span><em>{k}</em><b>{v}</b><i style={`--w:${Number(v) * 2.8}%`}></i></span>)}</div></div>
-          <div class="xicard xibig" style="--n:3"><b data-n="3">3</b><span>of 20 answers name you</span><em>▲ 2 vs last month</em></div>
+          <div class="xicard xibig" style="--n:3"><b class="xit">Named in AI answers</b><div class="xibigrow"><b data-n="3">3</b><span>of 20 answers<br />name you</span></div><div class="xidots20" aria-hidden="true">{Array.from({ length: 20 }, (_, i) => <i class={i < 3 ? 'y' : ''} style={`--k:${i}`}></i>)}</div><em>▲ 2 vs last month</em></div>
         </div>
       </section>
 
@@ -103,7 +103,7 @@ const uptime = Array.from({ length: 28 }, (_, i) => (i === 13 || i === 25 ? 'w' 
 
       <section class="xiv" id="xiv7" role="tabpanel" aria-labelledby="xit7" hidden>
         <div class="xi2">
-          <div class="xipages" style="--n:0" aria-hidden="true">{['Overview', 'Visitors', 'Leads', 'Keywords', 'AI answers', 'Care plan'].map((p, i) => <div style={`--i:${i}`}><b>XpertRecap</b><em>{p}</em><i></i><i></i><i class="s"></i></div>)}</div>
+          <div class="xipages" style="--n:0" aria-hidden="true">{['Overview', 'Visitors', 'Leads', 'Keywords', 'AI answers', 'Care plan'].map((p, i) => <div style={`--i:${i}`}><span>{i + 1}</span><em>{p}</em><i></i><i></i><i class="s"></i></div>)}</div>
           <div class="xicard" style="--n:1"><b>XpertRecap, your monthly PDF</b><p>Six pages: the overview, visitors, leads, keywords, AI answers with site health, and your care plan: what we did and what comes next.</p><span class="xipdf in">Download PDF</span></div>
         </div>
       </section>
