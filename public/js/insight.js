@@ -33,23 +33,41 @@
   function tour() { clearInterval(tmr); if (!mine && seen && !calm) tmr = setInterval(function () { if (!document.hidden && !document.documentElement.classList.contains('dmpaused')) show(cur + 1); }, 4800); }
   new IntersectionObserver(function (es) { var was = seen; seen = es[0].isIntersecting; if (seen && !was) { show(cur); } tour(); }, { threshold: 0.35 }).observe(el);
 })();
-/* "A closer look at every view": the screen on the right follows the step being read (computers only) */
+/* "A closer look at every view": the stack of screens on the right follows the group being read (computers only) */
 (function () {
   var s = document.querySelector('[data-xistory]'); if (!s) return;
-  var steps = [].slice.call(s.querySelectorAll('.xistep')), shots = [].slice.call(s.querySelectorAll('.xishots img')),
-    dots = [].slice.call(s.querySelectorAll('.xidots i')), url = s.querySelector('[data-xiurl]'), cur = -1;
+  var steps = [].slice.call(s.querySelectorAll('.xistep')), grps = [].slice.call(s.querySelectorAll('.xigrp')),
+    dots = [].slice.call(s.querySelectorAll('.xidots i')), cur = -1;
   function go(i) {
-    if (i === cur) return; cur = i;
-    steps.forEach(function (x, k) { x.classList.toggle('on', k === i); });
-    shots.forEach(function (x, k) { x.classList.toggle('on', k === i); });
-    dots.forEach(function (x, k) { x.classList.toggle('on', k === i); });
-    if (url && shots[i]) url.textContent = shots[i].dataset.f;
+    if (i === cur || i < 0) return; cur = i;
+    [steps, grps, dots].forEach(function (l) { l.forEach(function (x, k) { x.classList.toggle('on', k === i); }); });
   }
   go(0);
-  // load every screen once the story is near, so switching never shows a blank frame
-  new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { shots.forEach(function (x) { x.loading = 'eager'; }); o.disconnect(); } }, { rootMargin: '600px 0px' }).observe(s);
+  // load every screen once the story is near, so switching never shows an empty frame
+  new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { s.querySelectorAll('.xiscreen img').forEach(function (x) { x.loading = 'eager'; }); o.disconnect(); } }, { rootMargin: '600px 0px' }).observe(s);
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) go(steps.indexOf(e.target)); }); }, { rootMargin: '-45% 0px -45% 0px' });
   steps.forEach(function (x) { io.observe(x); });
+})();
+/* "Made for phones too": the range switch really changes the three phones (real screens for 7 days, 28 days and 3 months).
+   It also steps through the ranges by itself while on screen, until the visitor picks one. */
+(function () {
+  var seg = document.querySelector('.xiseg'); if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button')), imgs = [].slice.call(document.querySelectorAll('[data-xiph] img[data-v]')),
+    calm = matchMedia('(prefers-reduced-motion: reduce)').matches, mine = false, seen = false, tmr = 0, warm = false;
+  function src(v, r, w) { return '/img/xi-phone-' + v + '-' + r + (w ? '-360' : '') + '.webp'; }
+  function preload() { if (warm) return; warm = true; [7, 90].forEach(function (r) { imgs.forEach(function (im) { var i = new Image(); i.srcset = src(im.dataset.v, r, 1) + ' 360w, ' + src(im.dataset.v, r) + ' 640w'; i.sizes = im.sizes; }); }); }
+  function pick(r) {
+    seg.dataset.r = r;
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.r === String(r))); });
+    imgs.forEach(function (im, k) {
+      im.classList.add('swap');
+      setTimeout(function () { im.srcset = src(im.dataset.v, r, 1) + ' 360w, ' + src(im.dataset.v, r) + ' 640w'; im.src = src(im.dataset.v, r); im.classList.remove('swap'); }, 160 + k * 60);
+    });
+  }
+  btns.forEach(function (b) { b.addEventListener('click', function () { mine = true; clearInterval(tmr); preload(); pick(b.dataset.r); }); });
+  var order = ['7', '28', '90'];
+  function tour() { clearInterval(tmr); if (!mine && seen && !calm) tmr = setInterval(function () { if (!document.hidden) pick(order[(order.indexOf(seg.dataset.r) + 1) % 3]); }, 3400); }
+  new IntersectionObserver(function (es) { seen = es[0].isIntersecting; if (seen) preload(); tour(); }, { threshold: 0.4 }).observe(seg.parentNode);
 })();
 /* "Made for phones too": the side phones fan open while the section scrolls into view */
 (function () {

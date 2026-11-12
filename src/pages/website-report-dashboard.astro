@@ -21,6 +21,13 @@ const views = [
   ['care-plan', 'Care plan', 'What your XpertCare plan includes this month, the work our team has done and what comes next.'],
   ['reports', 'Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
 ];
+const vmap = Object.fromEntries(views.map(([f, h, p]) => [f, [h, p]]));
+const groups = [
+  ['Visits and leads', 'See how many people find your website, and how many of them get in touch.', ['overview', 'visitors', 'leads']],
+  ['Google and AI search', 'See where you show up on Google, and whether AI tools name your business.', ['keywords', 'ai-answers']],
+  ['Health and care', 'See that your website is healthy, what our team did this month, and your reports.', ['health', 'care-plan', 'reports']],
+];
+const stack = (fs: string[], big: boolean) => fs.map((f, i) => ({ f, h: vmap[f][0], i, n: fs.length, big }));
 const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertCare plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
 ---
 <Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertCare: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={extraLd}>
@@ -41,21 +48,19 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
 <section class="solid tint band xistoryb"><div class="wrap">
   <span class="eyebrow rv">Eight views, one login</span>
   <h2 class="rv">A closer look at every view.</h2>
-  <p class="sub rv">This is what you see when you log in to XpertInsight on a computer. <span class="xihint-pc">Scroll down and the screen follows along.</span><span class="xihint-ph">Swipe to see each view.</span></p>
+  <p class="sub rv">Eight views in three groups, just as you see them on a computer. <span class="xihint-pc">Scroll down and the screens follow along.</span><span class="xihint-ph">Swipe to see each group.</span></p>
   <div class="xistory" data-xistory>
     <ol class="xisteps">
-      {views.map(([f, h, p], i) => <li class="xistep" data-i={i}>
-        <span class="xinum">{String(i + 1).padStart(2, '0')}</span>
-        <h3>{h}</h3><p>{p}</p>
-        <figure class="xim"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my</span></div><img src={`/img/xi-view-${f}-720.webp`} width="720" height="450" loading="lazy" decoding="async" alt={`The ${h} view of XpertInsight on a computer`} /></figure>
+      {groups.map(([t, p, fs], g) => <li class="xistep" data-i={g}>
+        <span class="xinum">{String(g + 1).padStart(2, '0')} / {String(groups.length).padStart(2, '0')}</span>
+        <h3>{t}</h3><p>{p}</p>
+        <ul class="xivl">{(fs as string[]).map((f) => <li><b>{vmap[f][0]}</b>{vmap[f][1]}</li>)}</ul>
+        <div class="xim xistack3" data-n={(fs as string[]).length}>{stack(fs as string[], false).map(({ f, h, i }) => <figure class="xisw" style={`--k:${i}`}><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>{f}</b></span></div><img src={`/img/xi-view-${f}-720.webp`} width="720" height="450" loading="lazy" decoding="async" alt={`The ${h} view of XpertInsight on a computer`} /></figure>)}</div>
       </li>)}
     </ol>
     <div class="xiscreen" aria-hidden="true">
-      <div class="xisw">
-        <div class="xiwbar"><i></i><i></i><i></i><span>insight.seoxpert.my/<b data-xiurl>overview</b></span></div>
-        <div class="xishots">{views.map(([f], i) => <img class={i ? '' : 'on'} src={`/img/xi-view-${f}.webp`} srcset={`/img/xi-view-${f}-720.webp 720w, /img/xi-view-${f}.webp 1200w`} sizes="(max-width: 1300px) 60vw, 760px" width="1200" height="750" loading="lazy" decoding="async" alt="" data-f={f} />)}</div>
-      </div>
-      <div class="xidots">{views.map(([, h], i) => <i class={i ? '' : 'on'} title={h}></i>)}</div>
+      {groups.map(([, , fs], g) => <div class={`xistack3 xigrp${g ? '' : ' on'}`} data-n={(fs as string[]).length}>{stack(fs as string[], true).map(({ f, i }) => <div class="xisw" style={`--k:${i}`}><div class="xiwbar"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>{f}</b></span></div><img src={`/img/xi-view-${f}.webp`} srcset={`/img/xi-view-${f}-720.webp 720w, /img/xi-view-${f}.webp 1200w`} sizes="(max-width: 1300px) 50vw, 640px" width="1200" height="750" loading="lazy" decoding="async" alt="" /></div>)}</div>)}
+      <div class="xidots">{groups.map(([t], g) => <i class={g ? '' : 'on'} title={t}></i>)}</div>
     </div>
   </div>
 </div></section>
@@ -73,10 +78,10 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
   </div>
   <div class="xiph rv" data-xiph>
     <i class="xiorb"></i><i class="xiorb b"></i><i class="xiglow"></i>
-    <img class="p1" src="/img/xi-phone-leads.webp" srcset="/img/xi-phone-leads-360.webp 360w, /img/xi-phone-leads.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Leads view on a phone" />
-    <img class="p3" src="/img/xi-phone-health.webp" srcset="/img/xi-phone-health-360.webp 360w, /img/xi-phone-health.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Site health view on a phone" />
-    <img class="p2" src="/img/xi-phone-overview.webp" srcset="/img/xi-phone-overview-360.webp 360w, /img/xi-phone-overview.webp 640w" sizes="250px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Overview with the Xpert score on a phone" />
-    <div class="xiseg" aria-hidden="true"><i></i><span>7 days</span><span>28 days</span><span>3 months</span></div>
+    <img class="p1" data-v="leads" src="/img/xi-phone-leads-28.webp" srcset="/img/xi-phone-leads-28-360.webp 360w, /img/xi-phone-leads-28.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Leads view on a phone" />
+    <img class="p3" data-v="health" src="/img/xi-phone-health-28.webp" srcset="/img/xi-phone-health-28-360.webp 360w, /img/xi-phone-health-28.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Site health view on a phone" />
+    <img class="p2" data-v="overview" src="/img/xi-phone-overview-28.webp" srcset="/img/xi-phone-overview-28-360.webp 360w, /img/xi-phone-overview-28.webp 640w" sizes="250px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Overview with the Xpert score on a phone" />
+    <div class="xiseg" role="group" aria-label="Pick a range to see the phones change" data-r="28"><i></i><button type="button" data-r="7" aria-pressed="false">7 days</button><button type="button" data-r="28" aria-pressed="true">28 days</button><button type="button" data-r="90" aria-pressed="false">3 months</button></div>
     <span class="hchip xic1" aria-hidden="true">Code sent to your email</span>
     <span class="hchip plus xic2" aria-hidden="true">Download PDF</span>
   </div>
@@ -97,10 +102,21 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
   </ul>
 </div></section>
 
-<section class="solid band"><div class="wrap">
-  <span class="eyebrow rv">Included with XpertCare</span>
-  <h2 class="rv">No extra fee. It comes with your care plan.</h2>
-  <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertCare</a> plan. It is not sold on its own. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
+<section class="solid band"><div class="wrap split xiinc">
+  <div>
+    <span class="eyebrow rv">Included with XpertCare</span>
+    <h2 class="rv">No extra fee. It comes with your care plan.</h2>
+    <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertCare</a> plan. It is not sold on its own. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
+    <p class="rv"><a class="btn" href="/website-maintenance/#xpertcare">Compare XpertCare plans</a></p>
+  </div>
+  <div class="xiplans">
+    {kw.map(([n, k], i) => <div class="xiplan rv" style={`--d:${i};--w:${Math.round(Number(k) / Number(kw[kw.length - 1][1]) * 100)}%`}>
+      <div class="xiph1"><b>{n}</b></div>
+      <div class="xikw"><strong>{k}</strong><small>keywords tracked every week</small></div>
+      <div class="xikwbar"><i></i></div>
+      <ul><li>XpertInsight dashboard</li><li>Monthly XpertRecap PDF</li></ul>
+    </div>)}
+  </div>
 </div></section>
 
 <Glance page="website-report-dashboard" guides={['website-maintenance-malaysia', 'ai-seo-malaysia']} tint />

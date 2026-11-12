@@ -105,33 +105,45 @@
 .xisrc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .xisrc li{background:#fff;border-radius:18px;padding:16px 18px;box-shadow:inset 0 0 0 1px var(--line);font-size:15px;color:var(--soft)}.xisrc b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
 @media (max-width:640px){.xisrc{grid-template-columns:1fr}}
-/* "A closer look at every view": on computers a scroll story (text on the left, a sticky screen that follows);
-   on tablets and phones a row of cards to swipe. Script: public/js/insight.js */
+/* "A closer look at every view": three groups of 2 or 3 screens. On computers a scroll story (text on the left,
+   a sticky stack of screens that follows); below 1000px a row of cards to swipe. Script: public/js/insight.js */
 .solid.tint.xistoryb{overflow:clip}
-.xistory{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.5fr);gap:56px;margin-top:20px;counter-reset:x}
-.xisteps{list-style:none;margin:0;padding:0}
 .xihint-ph{display:none}
-.xistep{min-height:54vh;display:flex;flex-direction:column;justify-content:center;padding-block:20px;opacity:.3;transition:opacity .45s}
+.xistory{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.45fr);gap:64px;margin-top:20px}
+.xisteps{list-style:none;margin:0;padding:0}
+.xistep{min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding-block:24px;opacity:.28;transition:opacity .5s}
 .xistep.on{opacity:1}
-.xistep:first-child{min-height:44vh;justify-content:flex-start;padding-top:12vh}
-.xistep:last-child{min-height:72vh}
-.xinum{font:700 15px/1 var(--f-m);color:var(--acc);display:inline-flex;align-items:center;gap:10px}
+.xistep:first-child{min-height:62vh;justify-content:flex-start;padding-top:14vh}
+.xistep:last-child{min-height:86vh}
+.xinum{font:600 14px/1 var(--f-m);color:var(--acc);display:inline-flex;align-items:center;gap:10px;letter-spacing:.04em}
 .xinum::after{content:"";width:46px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--acc),transparent);transform-origin:left;transform:scaleX(.3);transition:transform .5s}
 .xistep.on .xinum::after{transform:scaleX(1)}
-.xistep h3{font:700 clamp(24px,2.4vw,32px)/1.1 var(--f-d);margin:14px 0 10px}
-.xistep p{margin:0;color:var(--soft);max-width:30em}
+.xistep h3{font:700 clamp(26px,2.6vw,36px)/1.08 var(--f-d);margin:14px 0 10px}
+.xistep>p{margin:0;color:var(--soft);max-width:30em;font-size:17px}
+.xivl{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:10px;max-width:30em}
+.xivl li{position:relative;padding:12px 14px 12px 16px;border-radius:14px;background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1px var(--line);font-size:14.5px;line-height:1.5;color:var(--soft);transform:translateX(-10px);opacity:0;transition:transform .5s,opacity .5s}
+.xivl li::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:linear-gradient(var(--acc2),var(--acc))}
+.xivl b{display:block;color:var(--ink);font:700 15px/1.3 var(--f-d);margin-bottom:2px}
+.xistep.on .xivl li{transform:none;opacity:1}
+.xistep.on .xivl li:nth-child(2){transition-delay:.1s}.xistep.on .xivl li:nth-child(3){transition-delay:.2s}
 .xim{display:none}
-.xiscreen{position:sticky;top:calc(var(--head-h,64px) + (100vh - var(--head-h,64px)) / 2 - 250px);align-self:start;height:500px;display:flex;flex-direction:column;justify-content:center}
-.xisw{position:relative;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 50px 100px -40px rgba(61,10,102,.55),0 0 0 1px rgba(123,24,193,.14);transform:perspective(1600px) rotateY(-5deg) rotateX(2deg);transition:transform .6s}
-.xiscreen:hover .xisw{transform:none}
-.xiwbar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#fbf8fe;border-bottom:1px solid var(--line)}
-.xiwbar i{width:9px;height:9px;border-radius:50%;background:#e6dcf2}.xiwbar i:first-child{background:#f3b3c4}.xiwbar i:nth-child(2){background:#f6d98b}
-.xiwbar span{margin-left:10px;font:500 12px/1 var(--f-m);color:var(--mute);background:var(--bg);padding:6px 12px;border-radius:8px}
+.xiscreen{position:sticky;top:calc(var(--head-h,64px) + (100vh - var(--head-h,64px)) / 2 - 270px);align-self:start;height:540px}
+/* a fanned stack of 2 or 3 browser windows */
+.xistack3{position:relative;aspect-ratio:16/12}
+.xistack3 .xisw{position:absolute;width:80%;left:calc(var(--k) * 10%);top:calc((var(--n) - 1 - var(--k)) * 12%);z-index:calc(5 - var(--k));--n:3}
+.xistack3[data-n="2"] .xisw{--n:2;width:84%;left:calc(var(--k) * 16%);top:calc((1 - var(--k)) * 18%)}
+.xisw{border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 40px 80px -36px rgba(61,10,102,.55),0 0 0 1px rgba(123,24,193,.14);margin:0}
+.xisw img{display:block;width:100%;height:auto}
+.xiwbar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#fbf8fe;border-bottom:1px solid var(--line)}
+.xiwbar i{width:8px;height:8px;border-radius:50%;background:#e6dcf2}.xiwbar i:first-child{background:#f3b3c4}.xiwbar i:nth-child(2){background:#f6d98b}
+.xiwbar span{margin-left:8px;font:500 11px/1 var(--f-m);color:var(--mute);background:var(--bg);padding:5px 10px;border-radius:7px}
 .xiwbar b{font-weight:600;color:var(--acc)}
-.xishots{position:relative;aspect-ratio:16/10;background:#f6f1fc}
-.xishots img{position:absolute;inset:0;width:100%;height:100%;opacity:0;transform:scale(1.025);transition:opacity .55s ease,transform .8s ease}
-.xishots img.on{opacity:1;transform:none}
-.xidots{display:flex;gap:8px;justify-content:center;margin-top:22px}
+.xigrp{position:absolute;inset:0;pointer-events:none}
+.xigrp .xisw{opacity:0;transform:translateY(40px) scale(.96);transition:opacity .5s ease,transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:calc((2 - var(--k)) * .08s)}
+.xigrp.on{pointer-events:auto}
+.xigrp.on .xisw{opacity:1;transform:none}
+.xigrp.on .xisw:hover{transform:translateY(-8px);z-index:9}
+.xidots{position:absolute;left:0;right:0;bottom:-34px;display:flex;gap:8px;justify-content:center}
 .xidots i{width:8px;height:8px;border-radius:99px;background:#d9c9ec;transition:width .4s,background .4s}
 .xidots i.on{width:28px;background:var(--acc)}
 @media (max-width:1000px){
@@ -140,12 +152,13 @@
   .xiscreen{display:none}
   .xisteps{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px var(--gl) 26px;scrollbar-width:none}
   .xisteps::-webkit-scrollbar{display:none}
-  .xistep,.xistep:first-child,.xistep:last-child{flex:0 0 min(84%,560px);min-height:0;padding:0;opacity:1;scroll-snap-align:center;justify-content:flex-start;display:flex;flex-direction:column}
-  .xistep h3{font-size:22px;margin:10px 0 6px}.xistep p{font-size:15px}
+  .xistep,.xistep:first-child,.xistep:last-child{flex:0 0 min(86%,560px);min-height:0;padding:20px;border-radius:24px;background:#fff;box-shadow:inset 0 0 0 1px var(--line),0 30px 60px -44px rgba(61,10,102,.5);opacity:1;scroll-snap-align:center;justify-content:flex-start}
+  .xistep h3{font-size:23px;margin:10px 0 6px}.xistep>p{font-size:15px}
   .xinum::after{transform:scaleX(1)}
-  .xim{display:block;order:-1;margin:0 0 16px;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 24px 50px -30px rgba(61,10,102,.5),0 0 0 1px rgba(123,24,193,.12)}
-  .xim .xiwbar{padding:7px 10px}.xim .xiwbar i{width:7px;height:7px}.xim .xiwbar span{font-size:10px;padding:4px 8px}
-  .xim img{display:block;width:100%;height:auto}
+  .xivl{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}.xivl li{opacity:1;transform:none;font-size:0;padding:8px 13px;border-radius:99px}.xivl li::before{display:none}.xivl b{font-size:13px;margin:0}
+  .xim{display:block;order:-1;margin:0 0 16px}
+  .xim .xiwbar{padding:6px 9px}.xim .xiwbar i{width:6px;height:6px}.xim .xiwbar span{font-size:9px;padding:3px 7px}
+  .xim .xisw{border-radius:10px;box-shadow:0 18px 34px -20px rgba(61,10,102,.45),0 0 0 1px rgba(123,24,193,.14)}
 }
 /* "Made for phones too": three phones that fan open as the section scrolls in, a range switch and two floating chips */
 .xiticks{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:14px}
@@ -163,12 +176,15 @@
 .xiph .p1{margin-left:-105px;transform:translateX(calc(var(--sp) * -150px)) rotate(calc(var(--sp) * -9deg));animation:xifl 8s ease-in-out -3s infinite}
 .xiph .p3{margin-left:-105px;transform:translateX(calc(var(--sp) * 150px)) rotate(calc(var(--sp) * 9deg));animation:xifl 7.5s ease-in-out -5s infinite}
 @keyframes xifl{50%{translate:0 -14px}}
-.xiseg{left:50%;bottom:14px;translate:-50% 0;z-index:4;display:flex;padding:5px;border-radius:14px;background:#fff;box-shadow:0 20px 44px -18px rgba(61,10,102,.45),inset 0 0 0 1px var(--line);font:600 13px/1 var(--f-b)}
-.xiseg span{white-space:nowrap;position:relative;z-index:1;padding:10px 14px;border-radius:10px;color:var(--soft);animation:xisegc 9s steps(1) infinite}
-.xiseg span:nth-of-type(2){animation-delay:-6s}.xiseg span:nth-of-type(3){animation-delay:-3s}
-.xiseg i{position:absolute;left:5px;top:5px;bottom:5px;width:calc((100% - 10px) / 3);border-radius:10px;background:linear-gradient(135deg,var(--acc2),var(--acc));box-shadow:0 8px 18px -6px rgba(123,24,193,.7);animation:xisegm 9s cubic-bezier(.6,0,.3,1) infinite}
-@keyframes xisegm{0%,28%{translate:0}33%,61%{translate:100%}66%,94%{translate:200%}100%{translate:0}}
-@keyframes xisegc{0%{color:#fff}33.33%,100%{color:var(--soft)}}
+.xiseg{left:50%;bottom:14px;translate:-50% 0;z-index:4;display:grid;grid-template-columns:repeat(3,1fr);padding:5px;border-radius:14px;background:#fff;box-shadow:0 20px 44px -18px rgba(61,10,102,.45),inset 0 0 0 1px var(--line)}
+.xiseg button{all:unset;cursor:pointer;text-align:center;white-space:nowrap;position:relative;z-index:1;padding:10px 15px;border-radius:10px;font:600 13px/1 var(--f-b);color:var(--soft);transition:color .3s}
+.xiseg button:hover{color:var(--acc)}
+.xiseg button[aria-pressed="true"]{color:#fff}
+.xiseg button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.xiseg i{position:absolute;left:5px;top:5px;bottom:5px;width:calc((100% - 10px) / 3);border-radius:10px;background:linear-gradient(135deg,var(--acc2),var(--acc));box-shadow:0 8px 18px -6px rgba(123,24,193,.7);transition:translate .45s cubic-bezier(.6,0,.3,1)}
+.xiseg[data-r="28"] i{translate:100%}.xiseg[data-r="90"] i{translate:200%}
+.xiph img{transition:opacity .25s}
+.xiph img.swap{opacity:.25}
 .xic1{left:2%;top:30%;z-index:4;animation:hfl 8s ease-in-out -2s infinite}
 .xic2{right:0;top:12%;z-index:4;animation:hfl 7s ease-in-out -4s infinite}
 @media (max-width:900px){.xiph{height:560px;margin-top:10px}}
@@ -180,6 +196,28 @@
   .xiph .p3{transform:translateX(calc(var(--sp) * 104px)) rotate(calc(var(--sp) * 9deg))}
   .xiglow,.xiorb{width:380px;height:380px}.xiorb.b{width:290px;height:290px}
   .xic1{left:var(--gl);top:auto;bottom:84px}.xic2{right:var(--gl);top:4px}
-  .xiseg{font-size:12px}.xiseg span{padding:9px 11px}
+  .xiseg button{font-size:12px;padding:9px 11px}
 }
-@media (prefers-reduced-motion:reduce){.xiph *,.xiseg *{animation:none!important}.xiseg span:first-of-type{color:#fff}.xistep{opacity:1}.xishots img{transition:none}}
+@media (prefers-reduced-motion:reduce){.xiph *,.xiseg *{animation:none!important}.xistep{opacity:1}.xishots img{transition:none}}
+/* "No extra fee": the three XpertCare plans, with the keywords each one tracks */
+.xiinc{align-items:center}
+.xiplans{display:grid;gap:14px}
+.xiplan{position:relative;padding:20px 22px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px var(--line),0 30px 60px -46px rgba(61,10,102,.55);display:grid;grid-template-columns:1fr auto;gap:6px 18px;align-items:center;transition:transform .3s,box-shadow .3s}
+.xiplan:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1px #d6c2ee,0 36px 70px -40px rgba(61,10,102,.6)}
+.xiplan:last-child{background:linear-gradient(160deg,var(--plum),var(--plum2) 70%,#3d0a66);color:#fff;box-shadow:0 36px 70px -36px rgba(40,6,70,.6)}
+.xiph1 b{font:700 18px/1.2 var(--f-d)}
+.xikw{grid-row:span 2;text-align:right}
+.xikw strong{display:block;font:800 44px/1 var(--f-d);background:linear-gradient(135deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.xiplan:last-child .xikw strong{background:none;color:#fff}
+.xikw small{display:block;font-size:12px;color:var(--mute);max-width:9em;margin-left:auto;line-height:1.3;margin-top:4px}
+.xiplan:last-child .xikw small,.xiplan:last-child li{color:#cbbbe2}
+.xikwbar{height:8px;border-radius:99px;background:#efe6f9;overflow:hidden}
+.xiplan:last-child .xikwbar{background:rgba(255,255,255,.14)}
+.xikwbar i{display:block;height:100%;width:var(--w);border-radius:inherit;background:linear-gradient(90deg,var(--acc2),var(--acc));transform-origin:left;transform:scaleX(0);transition:transform 1.1s cubic-bezier(.2,.8,.2,1) calc(var(--d) * .15s + .2s)}
+.xiplan:last-child .xikwbar i{background:linear-gradient(90deg,#d9b8ff,#fff)}
+.xiplan.in .xikwbar i,.xiplan.on .xikwbar i{transform:none}
+.xiplan ul{grid-column:1/-1;list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--soft)}
+.xiplan li{display:flex;align-items:center;gap:6px}
+.xiplan li::before{content:"\2713";font-weight:700;color:var(--acc)}
+.xiplan:last-child li::before{color:#d9b8ff}
+@media (prefers-reduced-motion:reduce){.xikwbar i{transform:none;transition:none}}
