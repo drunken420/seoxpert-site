@@ -93,6 +93,7 @@ window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(argu
 <slot name="head" />
 </head>
 <body>
+<Fragment set:html="<!--email_off-->" />
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-head band"><i class="prog" aria-hidden="true"></i><div class="wrap"><a class="brand" href="/" aria-label="SEOXpert home" set:html={logo}></a>
 <nav class="menu" aria-label="Main"><div class="mdrop mwide"><button type="button" aria-expanded="false" aria-controls="mdrop" class={svc.some((l) => l[0] === path) ? 'cur' : undefined}>Services<svg viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button><div class="mpanel" id="mdrop"><div class="mcols">{svcGroups.map((g) => <div class="mcol"><b class="mh">{g[0]}</b>{g[1].map((l) => <a href={l[0]} aria-current={isCur(l[0]) ? 'page' : undefined}><b>{l[1]}</b><span>{l[2]}</span></a>)}</div>)}</div></div></div><a href="/packages/" aria-current={path === '/packages/' ? 'page' : undefined}>Packages</a><div class="mdrop"><button type="button" aria-expanded="false" aria-controls="mdrop2" class={explore.some((l) => isCur(l[0])) ? 'cur' : undefined}>Explore<svg viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button><div class="mpanel" id="mdrop2"><div class="mcol">{explore.map((l) => <a href={l[0]} aria-current={isCur(l[0]) ? 'page' : undefined}><b>{l[1]}</b><span>{l[2]}</span></a>)}</div></div></div><a href="/about/" aria-current={path === '/about/' ? 'page' : undefined}>About</a></nav>
@@ -114,5 +115,6 @@ window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(argu
 </div>
 <script src="/js/ui.js" defer></script>
 <slot name="scripts" />
+<Fragment set:html="<!--/email_off-->" />
 </body>
 </html>
