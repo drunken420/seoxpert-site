@@ -29,6 +29,10 @@
 
   // Plan picker
   var box = document.getElementById('planpicker'), sel = { build: 1, care: 1 };
+  if (box && box.dataset.offerEnds && Date.now() >= new Date(box.dataset.offerEnds + 'T00:00:00+08:00').getTime() + 864e5) {
+    all('.pkpick button[data-rm-n]', box).forEach(function (b) { ['rm', 'usd', 'rm-y', 'usd-y'].forEach(function (a) { var v = b.getAttribute('data-' + a + '-n'); if (!v) return; b.setAttribute('data-' + a, v); var sp = b.querySelector(':scope > span[data-rm]'); if (sp) sp.setAttribute('data-' + a, v); }); var sp = b.querySelector(':scope > span[data-rm]'); if (sp) sp.textContent = sp.getAttribute('data-rm'); });
+    all('.pkn', box).forEach(function (el) { el.remove(); });
+  }
   function sum(k) { return box.querySelector('[data-sum="' + k + '"]'); }
   function chosen(set) { return box.querySelector('[data-pick-set="' + set + '"] button[data-i="' + sel[set] + '"]'); }
   function plain(h) { return h.replace(/<[^>]+>/g, ''); }
@@ -42,6 +46,8 @@
     var yr = bill === 'year', per = yr ? 'a year' : 'a month';
     var bp = b.dataset[k], cp = c ? c.dataset[yr ? k + 'Y' : k] : '';
     sum('bn').textContent = b.dataset.name + ' website'; sum('bp').innerHTML = bp + ' <small>once</small>';
+    var ends = box.dataset.offerEnds, live = ends && Date.now() < new Date(ends + 'T00:00:00+08:00').getTime() + 864e5, lt = sum('later');
+    if (lt) { lt.hidden = !live; if (live) lt.innerHTML = 'Launch prices until ' + box.dataset.offerText + '. From 1 February 2027: <s>' + b.dataset[k + 'N'] + '</s> once' + (c ? ' and <s>' + c.dataset[(yr ? k + 'YN' : k + 'N')] + '</s> ' + per : '') + '.'; }
     sum('cn').textContent = c ? c.dataset.name : 'No monthly care'; sum('cp').innerHTML = c ? cp + ' <small>' + per + '</small>' : (cur === 'USD' ? '$0' : 'RM0');
     var rows = (b.dataset.free ? ['<b>Launch offer:</b> ' + b.dataset.free] : []).concat(JSON.parse(b.dataset.rows)).concat(c ? JSON.parse(c.dataset.rows) : []).concat(JSON.parse(box.dataset.all)).concat(c ? ['Monthly Google + AI visibility report'] : []).concat(c && yr ? ['<b>Paid yearly:</b> 2 months free'] : []);
     sum('list').innerHTML = rows.map(function (r) { return '<li>' + r + '</li>'; }).join('');
