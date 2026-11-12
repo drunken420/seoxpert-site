@@ -59,7 +59,7 @@ export const more: MoreFaq[] = [
   { topic: 'XpertCare', q: 'Do you back up my website?', a: 'Yes. With every XpertCare plan, regular copies of your website are saved, so nothing is lost if something goes wrong.' },
   { topic: 'XpertCare', q: 'What is XpertInsight?', a: 'XpertInsight is our own live website report dashboard, included with every XpertCare plan. You log in to see your visitors, leads, keywords, AI answers and site health in plain words. <a href="/website-report-dashboard/">Look inside XpertInsight</a>.' },
   { topic: 'XpertCare', q: 'Does XpertInsight cost extra?', a: 'No. XpertInsight is included with every XpertCare plan and is not sold on its own.' },
-  { topic: 'XpertCare', q: 'How do I log in to XpertInsight?', a: 'With a one-time code sent to your email. There is no password to remember, and you only ever see your own website.' },
+  { topic: 'XpertCare', q: 'How do I log in to XpertInsight?', a: 'With a secure login that needs no password: we send a fresh code to your email every time you log in. You only ever see your own website.' },
   { topic: 'XpertCare', q: 'Can I check XpertInsight on my phone?', a: 'Yes. XpertInsight works on phones too, and you can switch between the last 7 days, 28 days or 3 months.' },
   { topic: 'XpertCare', q: 'What is XpertRecap?', a: 'XpertRecap is your monthly report as a six page PDF. You download it from XpertInsight with the Download PDF button.' },
   // About us

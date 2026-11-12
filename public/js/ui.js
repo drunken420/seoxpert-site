@@ -177,3 +177,20 @@
   new IntersectionObserver(function (es) { labs.classList.toggle('vis', es[0].isIntersecting); }).observe(labs);
   new IntersectionObserver(function (es, io) { if (!es[0].isIntersecting || loaded) return; loaded = true; io.disconnect(); load('/js/land.js', function () { load('/js/lab-teaser.js'); }); }, { rootMargin: '300px 0px' }).observe(labs);
 })();
+/* Google Analytics: every link and button press is sent as a "button_click" event with its words (button), where it sits
+   on the page (place), where it goes (link) and the page it was pressed on (page). Give an element data-track="name" to
+   name it yourself. Nothing is sent when analytics is not set up. */
+(function () {
+  function place(el) {
+    var s = el.closest('header,footer,nav,.chatpanel,section[id],section[class],aside,form'); if (!s) return 'page';
+    if (s.tagName === 'HEADER') return 'header'; if (s.tagName === 'FOOTER') return 'footer'; if (s.classList.contains('chatpanel')) return 'chat';
+    if (s.tagName === 'NAV' && s.closest('.mmenu')) return 'phone_menu'; if (s.tagName === 'NAV') return s.getAttribute('aria-label') || 'nav';
+    return s.id || (s.className.split(' ').filter(function (c) { return c && c !== 'band' && c !== 'solid' && c !== 'tint' && c !== 'rv'; })[0]) || 'section';
+  }
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('a,button,summary,[data-track]'); if (!el || !window.gtag) return;
+    var head = el.querySelector('h3,b,strong'), words = (el.getAttribute('data-track') || el.getAttribute('aria-label') || (head ? head.textContent : el.textContent) || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    var href = el.getAttribute('href') || '';
+    gtag('event', 'button_click', { button: words || el.tagName.toLowerCase(), place: place(el), link: href.slice(0, 200), page: location.pathname });
+  }, true);
+})();

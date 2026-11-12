@@ -14,8 +14,8 @@ export const site = {
   // Contact email address (forwarded to Suhen's inbox with Cloudflare Email Routing).
   email: 'contact@seoxpert.my',
   // Google tag ID from Google Analytics (G-XXXXXXXXXX or GTM-XXXXXXXX). Empty = no analytics is loaded at all.
-  // GTM-WFQMRQWL is the tag Google gave for the SEOXpert property (Suhen, 2026-11-11).
-  ga4: 'GTM-WFQMRQWL',
+  // G-V9EXTT9LSP is the SEOXpert website stream (Suhen, 2026-11-13; replaced the Tag Manager code GTM-WFQMRQWL).
+  ga4: 'G-V9EXTT9LSP',
   // Google Search Console check code (only needed if we verify with a tag instead of through the domain).
   googleVerify: '',
   // Cloudflare Turnstile site key (public) for the spam check on the contact form. Empty = no check box.
