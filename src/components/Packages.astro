@@ -1,7 +1,7 @@
 ---
 // Package cards (website build and XpertCare), the RM or USD switch and the launch offer.
 // show="both" adds the Build / XpertCare switch; show="care" shows the care plans only.
-import { build, care, offer, offerOn, fmt, fmtYear, yearly, type Tier } from '../data/packages';
+import { build, care, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, yearly, type Tier } from '../data/packages';
 interface Props { show?: 'both' | 'care'; pickHref?: string }
 const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
 const sets = show === 'care' ? [care] : [build, care];
@@ -43,6 +43,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
             <h3>{t.name}</h3>
             <p class="pkfor">{t.for}</p>
             <p class="pkprice"><span {...price(t)} {...(S.key === 'care' ? { 'data-rm-y': fmtYear(t, 'RM'), 'data-usd-y': fmtYear(t, 'USD') } : {})}>{fmt(t)}</span><small data-unit={S.key === 'care' ? '' : undefined}>{S.unit}</small></p>
+            {on && <p class="pkwas" data-pk-offer={offer.ends}>Launch price. From 1 February 2027: <s><span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} {...(S.key === 'care' ? { 'data-rm-y': fmtYearNew(t, 'RM'), 'data-usd-y': fmtYearNew(t, 'USD') } : {})}>{fmtNew(t)}</span></s></p>}
             {S.key === 'care' && <p class="pkyear"><span class="m">or <span data-rm={fmtYear(t, 'RM')} data-usd={fmtYear(t, 'USD')}>{fmtYear(t)}</span> a year, {yearly.text}</span><span class="y">12 months for the price of {yearly.pay}</span></p>}
             <ul class="pktick">{t.rows.map((r) => <li set:html={r} />)}</ul>
             {on && t.free && <p class="pkgift" data-pk-offer={offer.ends}>Launch offer: {t.free}</p>}

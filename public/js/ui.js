@@ -156,14 +156,18 @@
   h.addEventListener('pointerleave', function () { h.style.setProperty('--on', '0'); if (art) { art.style.setProperty('--px', '0'); art.style.setProperty('--py', '0'); } });
 })();
 
-/* Services dropdown in the top menu: click or keyboard opens it, Escape or a click elsewhere closes it. Hover works without this. */
+/* Top menu dropdowns (Services, Explore): click or keyboard opens one, Escape or a click elsewhere closes it. Hover works without this. */
 (function () {
-  var d = document.querySelector('.mdrop'); if (!d) return; var b = d.querySelector('button');
-  function set(on) { b.setAttribute('aria-expanded', String(on)); d.classList.toggle('shut', !on && d.matches(':hover')); }
-  b.addEventListener('click', function () { set(b.getAttribute('aria-expanded') !== 'true'); });
-  d.addEventListener('mouseleave', function () { d.classList.remove('shut'); });
-  document.addEventListener('click', function (e) { if (!d.contains(e.target)) set(false); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && b.getAttribute('aria-expanded') === 'true') { set(false); b.focus(); } });
+  var all = [].slice.call(document.querySelectorAll('.mdrop'));
+  all.forEach(function (d) {
+    var b = d.querySelector('button');
+    function set(on) { b.setAttribute('aria-expanded', String(on)); d.classList.toggle('shut', !on && d.matches(':hover')); }
+    d._set = set;
+    b.addEventListener('click', function () { var on = b.getAttribute('aria-expanded') !== 'true'; all.forEach(function (o) { if (o !== d) o._set(false); }); set(on); });
+    d.addEventListener('mouseleave', function () { d.classList.remove('shut'); });
+    document.addEventListener('click', function (e) { if (!d.contains(e.target)) set(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && b.getAttribute('aria-expanded') === 'true') { set(false); b.focus(); } });
+  });
 })();
 
 /* Homepage XpertLab teaser: animations run only while it is on screen; the dotted globe's script loads when it comes near */

@@ -379,3 +379,12 @@ pre.codecard{margin:0;overflow-x:auto}
 .faqtopics a:hover{box-shadow:inset 0 0 0 1.5px var(--acc2)}
 .faqgroup{scroll-margin-top:calc(var(--head-h) + 16px);margin-top:44px}
 .faqgroup h2{font-size:clamp(24px,2.6vw,34px);margin:0 0 16px}
+
+/* Launch price note under each package price while the launch offer runs (until 31 January 2027) */
+.pkwas{margin:2px 0 0;font-size:13.5px;font-weight:600;color:var(--soft)}
+.pkwas s{color:var(--mute);text-decoration-thickness:2px;text-decoration-color:rgba(123,24,193,.55)}
+.pkcard.hot .pkwas{color:#e6d6fa}.pkcard.hot .pkwas s{color:#cbbbe2;text-decoration-color:#d9b8ff}
+.pkpick .pkn{display:block;font-style:normal;font-size:12.5px;font-weight:600;opacity:.8;margin-top:2px}
+.pkpick .pkn s{text-decoration-thickness:2px}
+.pklater{margin:-4px 0 14px;font-size:13.5px;color:#cbbbe2;line-height:1.5}.pklater s{color:#fff;text-decoration-color:#d9b8ff;text-decoration-thickness:2px}
+.pkpick button .pkn span{display:inline;font:inherit;color:inherit;letter-spacing:0;margin:0}

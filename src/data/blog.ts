@@ -29,7 +29,7 @@ const careTable = `<div class="btable" tabindex="0" role="region" aria-label="Xp
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
 <li>Google SEO and AI search optimisation, including structured data and an llms.txt file</li>
-<li>A blog on top of your pages, with posts written at launch</li>
+<li>Your own blog, with posts written at launch</li>
 <li>A WhatsApp button and a contact page</li>
 <li>${starter.name}: 2 revision rounds. ${business.name} and ${growth.name}: 3</li></ul>`;
 
@@ -196,7 +196,7 @@ export const posts: Post[] = [
     faqs: [
       { q: 'What is the cheapest website design package?', a: `${starter.name} at ${fmt(starter)}, paid once, for up to 5 pages.` },
       { q: 'Is the price paid once or every month?', a: `The website build is paid once. Monthly care with XpertCare is separate and optional, from ${fmt(basic)} a month.` },
-      { q: 'Do blog posts count as pages?', a: 'No. Every package has a blog on top of its pages, with 2, 5 or 10 posts written at launch depending on the package.' },
+      { q: 'Do blog posts count as pages?', a: 'No. Every package comes with its own blog, counted separately from your pages, with 2, 5 or 10 posts written at launch depending on the package.' },
       { q: 'Do all packages include the writing?', a: 'Yes. Highly rankable content and full keyword research are included in every XpertForge package.' },
       { q: 'Can I take a small website with the biggest care plan?', a: `No. A care plan can be as big as the website, not bigger. ${starter.name} takes ${basic.name}.` },
     ],
