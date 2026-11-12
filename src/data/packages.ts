@@ -24,7 +24,7 @@ export const fmtYear = (t: Tier, cur: 'RM' | 'USD' = 'RM') => (cur === 'RM' ? 'R
 
 export const care = {
   key: 'care', label: 'XpertCare monthly', unit: 'a month', allTitle: 'In every XpertCare plan',
-  all: ['High speed hosting included', 'Pay yearly, get 2 months free', 'Backups', 'Uptime watch', 'Security', 'Active checks every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'Google + AI visibility report every month'],
+  all: ['High speed hosting included', 'Pay yearly, get 2 months free', 'Backups', 'Uptime watch', 'Security', 'Active checks every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'XpertInsight live report dashboard + monthly XpertRecap PDF'],
   tiers: [
     { id: 'basic', name: 'XpertCare Basic', rm: 55, usd: 15, for: 'Keep it healthy', short: '3 text or photo changes, 1 new blog post a month, 5 keywords tracked weekly', rows: ['<b>3</b> text or photo changes', '<b>1</b> new blog post a month', '<b>5</b> keywords tracked weekly'] },
     { id: 'plus', name: 'XpertCare Plus', rm: 99, usd: 25, for: 'Keep it growing', hot: true, short: '10 text or photo changes, 2 new blog posts a month, 10 keywords tracked weekly', rows: ['<b>10</b> text or photo changes', '<b>2</b> new blog posts a month', '<b>10</b> keywords tracked weekly'] },
