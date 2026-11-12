@@ -120,3 +120,17 @@
   new IntersectionObserver(function (es) { on = es[0].isIntersecting; ask(); }).observe(p);
   addEventListener('scroll', ask, { passive: true }); tick();
 })();
+
+/* Numbers with data-count (the stats ribbon, the plan cards) count up the first time they scroll into view */
+(function () {
+  var els = [].slice.call(document.querySelectorAll('[data-count]')); if (!els.length || !('IntersectionObserver' in window)) return;
+  var calm = matchMedia('(prefers-reduced-motion: reduce)').matches, ribbon = document.querySelector('.xistats');
+  function run(b) {
+    var to = +b.dataset.count; if (calm || !to) { b.textContent = to; return; }
+    var t0 = performance.now(); b.textContent = '0';
+    (function step(t) { var k = Math.min(1, (t - t0) / 1200), e = 1 - Math.pow(1 - k, 3); b.textContent = Math.round(to * e); if (k < 1) requestAnimationFrame(step); })(t0);
+  }
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (!e.isIntersecting) return; io.unobserve(e.target); if (e.target === ribbon) { ribbon.classList.add('in'); ribbon.querySelectorAll('[data-count]').forEach(run); } else run(e.target); }); }, { threshold: .4 });
+  if (ribbon) io.observe(ribbon);
+  els.forEach(function (b) { if (!ribbon || !ribbon.contains(b)) io.observe(b); });
+})();

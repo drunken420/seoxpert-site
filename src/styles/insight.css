@@ -216,3 +216,31 @@
 .xiplan li::before{content:"\2713";font-weight:700;color:var(--acc)}
 .xiplan:last-child li::before{color:#d9b8ff}
 @media (prefers-reduced-motion:reduce){.xikwbar i{transform:none;transition:none}}
+
+/* Colour and motion (Suhen picked "both", 2026-11-12): a purple stats ribbon under the banner, glowing purple
+   backgrounds behind the sections, gradient words, and numbers that count up when they scroll into view */
+.xistats{position:relative;z-index:2;padding-block:40px 0;background:#fbf7ff}
+.xistats ul{list-style:none;margin:0;padding:26px 30px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;border-radius:26px;background:radial-gradient(120% 140% at 0% 0%,#9a35e8 0%,transparent 55%),radial-gradient(120% 160% at 100% 100%,#b06cff 0%,transparent 50%),linear-gradient(120deg,#4a0f80,#7b18c1 55%,#5a139a);box-shadow:0 40px 80px -40px rgba(74,14,120,.7),inset 0 0 0 1px rgba(255,255,255,.14);color:#fff;overflow:hidden;position:relative}
+.xistats ul::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);transform:translateX(-100%);animation:xisheen 6s 1.2s ease-in-out infinite;pointer-events:none}
+@keyframes xisheen{40%,100%{transform:translateX(100%)}}
+.xistats li{position:relative;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:14px;opacity:0;transform:translateY(14px);transition:opacity .6s calc(var(--i) * .12s),transform .6s calc(var(--i) * .12s) cubic-bezier(.2,.8,.2,1)}
+.xistats li+li::before{content:"";position:absolute;left:-10px;top:8px;bottom:8px;width:1px;background:rgba(255,255,255,.2)}
+.xistats.in li{opacity:1;transform:none}
+.xistats b{font:700 46px/1 var(--f-d);letter-spacing:-.04em;min-width:1.2ch;background:linear-gradient(180deg,#fff,#e2c8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.xistats span{font-size:14.5px;line-height:1.4;color:#eadcfb}
+@media (max-width:900px){.xistats{padding-top:28px}.xistats ul{grid-template-columns:1fr 1fr;padding:22px;gap:20px 18px}.xistats li+li::before{display:none}.xistats b{font-size:38px}.xistats span{font-size:13.5px}}
+@media (max-width:420px){.xistats ul{grid-template-columns:1fr}}
+.xigt{background:linear-gradient(90deg,#7b18c1,#b06cff 50%,#7b18c1);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:xigt 6s linear infinite}
+@keyframes xigt{to{background-position:-200% 0}}
+.xiinsb{position:relative;overflow:clip;background:radial-gradient(70vw 50vw at 100% 0%,rgba(176,108,255,.22),transparent 60%),radial-gradient(60vw 50vw at 0% 100%,rgba(123,24,193,.14),transparent 60%),linear-gradient(180deg,#fbf7ff,#f3e9fd)}
+.xiinsb>.wrap{position:relative;z-index:1}
+.xiorb2{position:absolute;border-radius:50%;filter:blur(10px);pointer-events:none;background:radial-gradient(circle at 35% 35%,rgba(176,108,255,.55),rgba(123,24,193,.18) 60%,transparent 70%);animation:xiorbf 14s ease-in-out infinite}
+.xiorb2.a{width:340px;height:340px;right:-90px;top:120px}
+.xiorb2.b{width:260px;height:260px;left:-110px;bottom:80px;animation-delay:-7s}
+@keyframes xiorbf{50%{transform:translate(-30px,40px) scale(1.08)}}
+.xiinsb .xi{box-shadow:0 60px 120px -50px rgba(74,14,120,.55),0 0 0 1px rgba(123,24,193,.14),0 0 90px -30px rgba(176,108,255,.55)}
+.xiphb{background:radial-gradient(60vw 40vw at 85% 50%,rgba(176,108,255,.25),transparent 60%),linear-gradient(180deg,#f3e9fd,#fbf7ff)}
+.xiincb{background:radial-gradient(50vw 40vw at 90% 40%,rgba(176,108,255,.2),transparent 60%),linear-gradient(180deg,#fff,#f6eefd)}
+.xiplan::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:linear-gradient(135deg,#b06cff,transparent 40%,transparent 60%,#7b18c1);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;pointer-events:none}
+.xiplan:hover::before{opacity:1}
+@media (prefers-reduced-motion:reduce){.xistats ul::after,.xigt,.xiorb2{animation:none}.xistats li{opacity:1;transform:none;transition:none}}
