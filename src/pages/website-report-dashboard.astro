@@ -27,7 +27,8 @@ const groups = [
   ['Google and AI search', 'See where you show up on Google, and whether AI tools name your business.', ['keywords', 'ai-answers']],
   ['Health and care', 'See that your website is healthy, what our team did this month, and your reports.', ['health', 'care-plan', 'reports']],
 ];
-const stack = (fs: string[], big: boolean) => fs.map((f, i) => ({ f, h: vmap[f][0], i, n: fs.length, big }));
+// One tab per view, in group order; each tab knows its group name.
+const tabs = groups.flatMap(([g, , fs]) => (fs as string[]).map((f) => ({ f, h: vmap[f][0], p: vmap[f][1], g: g as string })));
 const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertCare plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
 ---
 <Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertCare: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={extraLd}>
@@ -45,22 +46,25 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
   <InsightDemo />
 </div></section>
 
-<section class="solid tint band xistoryb"><div class="wrap">
+<section class="dark band xitabb"><div class="wrap">
   <span class="eyebrow rv">Eight views, one login</span>
   <h2 class="rv">A closer look at every view.</h2>
-  <p class="sub rv">Eight views in three groups, just as you see them on a computer. <span class="xihint-pc">Scroll down and the screens follow along. Click a screen or a name to bring it to the front.</span><span class="xihint-ph">Swipe to see each group, and tap a name to bring its screen to the front.</span></p>
-  <div class="xistory" data-xistory>
-    <ol class="xisteps">
-      {groups.map(([t, p, fs], g) => <li class="xistep" data-i={g}>
-        <span class="xinum">{String(g + 1).padStart(2, '0')} / {String(groups.length).padStart(2, '0')}</span>
-        <h3>{t}</h3><p>{p}</p>
-        <ul class="xivl">{(fs as string[]).map((f, i) => <li><button type="button" data-f={f} aria-pressed={i ? 'false' : 'true'}><b>{vmap[f][0]}</b>{vmap[f][1]}</button></li>)}</ul>
-        <div class="xim xistack3" data-n={(fs as string[]).length}>{stack(fs as string[], false).map(({ f, h, i }) => <figure class="xisw" data-f={f} style={`--k:${i}`}><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>{f}</b></span></div><img src={`/img/xi-view-${f}-720.webp`} width="720" height="450" loading="lazy" decoding="async" alt={`The ${h} view of XpertInsight on a computer`} /></figure>)}</div>
-      </li>)}
-    </ol>
-    <div class="xiscreen" aria-hidden="true">
-      {groups.map(([, , fs], g) => <div class={`xistack3 xigrp${g ? '' : ' on'}`} data-n={(fs as string[]).length}>{stack(fs as string[], true).map(({ f, i }) => <div class="xisw" data-f={f} style={`--k:${i}`}><div class="xiwbar"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>{f}</b></span></div><img src={`/img/xi-view-${f}.webp`} srcset={`/img/xi-view-${f}-720.webp 720w, /img/xi-view-${f}.webp 1200w`} sizes="(max-width: 1300px) 50vw, 640px" width="1200" height="750" loading="lazy" decoding="async" alt="" /></div>)}</div>)}
-      <div class="xidots">{groups.map(([t], g) => <i class={g ? '' : 'on'} title={t}></i>)}</div>
+  <p class="sub rv">Pick a view to see the real screen, just as it looks on a computer. <span class="xihint-ph">Swipe the screen to move to the next one.</span></p>
+  <div class="xitabs" data-xitabs={JSON.stringify(tabs)}>
+    <div class="xitablist" role="tablist" aria-label="XpertInsight views">
+      {tabs.map(({ f, h, g }, i) => <button type="button" role="tab" id={`xit-${f}`} aria-controls="xitpanel" aria-selected={i ? 'false' : 'true'} tabindex={i ? -1 : 0} data-i={i} data-g={g}><span class="xitn">{String(i + 1).padStart(2, '0')}</span>{h}<i class="xitbar" aria-hidden="true"></i></button>)}
+    </div>
+    <div class="xitstage" id="xitpanel" role="tabpanel" aria-labelledby="xit-overview">
+      <div class="xitinfo">
+        <span class="xitg" data-xitg>{tabs[0].g}</span>
+        <h3 data-xith>{tabs[0].h}</h3>
+        <p data-xitp>{tabs[0].p}</p>
+        <div class="xitnav"><button type="button" class="xitprev" aria-label="Previous view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><span class="xitcount"><b data-xitc>1</b> / {tabs.length}</span><button type="button" class="xitnext" aria-label="Next view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+      </div>
+      <div class="xitwin">
+        <div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b data-xitu>{tabs[0].f}</b></span></div>
+        <div class="xitshots">{tabs.map(({ f, h }, i) => <img class={i ? '' : 'on'} data-i={i} src={`/img/xi-view-${f}.webp`} srcset={`/img/xi-view-${f}-720.webp 720w, /img/xi-view-${f}.webp 1200w`} sizes="(max-width: 1000px) 94vw, 760px" width="1200" height="750" loading={i ? 'lazy' : 'eager'} decoding="async" alt={`The ${h} view of XpertInsight on a computer`} />)}</div>
+      </div>
     </div>
   </div>
 </div></section>

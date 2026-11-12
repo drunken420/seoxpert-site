@@ -33,36 +33,51 @@
   function tour() { clearInterval(tmr); if (!mine && seen && !calm) tmr = setInterval(function () { if (!document.hidden && !document.documentElement.classList.contains('dmpaused')) show(cur + 1); }, 4800); }
   new IntersectionObserver(function (es) { var was = seen; seen = es[0].isIntersecting; if (seen && !was) { show(cur); } tour(); }, { threshold: 0.35 }).observe(el);
 })();
-/* "A closer look at every view": the stack of screens on the right follows the group being read (computers only) */
+/* "A closer look at every view": 8 tabs and one big screen. Arrows, swipe and the keyboard move between views;
+   while the section is on screen it tours the views by itself until the visitor clicks or swipes. */
 (function () {
-  var s = document.querySelector('[data-xistory]'); if (!s) return;
-  var steps = [].slice.call(s.querySelectorAll('.xistep')), grps = [].slice.call(s.querySelectorAll('.xigrp')),
-    dots = [].slice.call(s.querySelectorAll('.xidots i')), cur = -1;
-  function go(i) {
-    if (i === cur || i < 0) return; cur = i;
-    [steps, grps, dots].forEach(function (l) { l.forEach(function (x, k) { x.classList.toggle('on', k === i); }); });
+  var t = document.querySelector('[data-xitabs]'); if (!t) return;
+  var tabs = [].slice.call(t.querySelectorAll('[role=tab]')), shots = [].slice.call(t.querySelectorAll('.xitshots img')),
+    info = t.querySelector('.xitinfo'), g = t.querySelector('[data-xitg]'), h = t.querySelector('[data-xith]'), p = t.querySelector('[data-xitp]'),
+    c = t.querySelector('[data-xitc]'), u = t.querySelector('[data-xitu]'), panel = t.querySelector('[role=tabpanel]'),
+    cur = 0, timer = 0, auto = !matchMedia('(prefers-reduced-motion: reduce)').matches, seen = false, MS = 6000;
+  var list = JSON.parse(t.getAttribute('data-xitabs') || '[]');
+  function go(i, focus) {
+    i = (i + tabs.length) % tabs.length; if (i === cur && !focus) return; cur = i;
+    tabs.forEach(function (b, k) { var on = k === i; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
+    shots.forEach(function (im, k) { im.classList.toggle('on', k === i); });
+    var d = list[i]; if (d) { g.textContent = d.g; h.textContent = d.h; p.textContent = d.p; u.textContent = d.f; }
+    c.textContent = i + 1; panel.setAttribute('aria-labelledby', tabs[i].id);
+    [g, h, p].forEach(function (x) { x.classList.remove('swap'); void x.offsetWidth; x.classList.add('swap'); });
+    var b = tabs[i], l = b.parentNode; if (l.scrollWidth > l.clientWidth) l.scrollTo({ left: b.offsetLeft - (l.clientWidth - b.offsetWidth) / 2, behavior: 'smooth' });
+    if (focus) b.focus();
+    if (auto && seen) tick();
   }
-  go(0);
-  // bring one screen of a group to the front: by clicking the screen itself, or its name on the left
-  function front(step, f) {
-    var g = steps.indexOf(step), boxes = [step.querySelector('.xim'), grps[g]];
-    boxes.forEach(function (box) {
-      if (!box) return;
-      var ws = [].slice.call(box.querySelectorAll('.xisw')).sort(function (a, b) { return a.style.getPropertyValue('--k') - b.style.getPropertyValue('--k'); });
-      ws.sort(function (a, b) { return (b.dataset.f === f) - (a.dataset.f === f); });
-      ws.forEach(function (w, k) { w.style.setProperty('--k', k); });
+  function tick() { clearTimeout(timer); var b = tabs[cur].querySelector('.xitbar'); b.style.animation = 'none'; void b.offsetWidth; b.style.animation = ''; timer = setTimeout(function () { go(cur + 1); }, MS); }
+  function stop() { auto = false; clearTimeout(timer); t.classList.remove('auto'); }
+  t.style.setProperty('--xit', MS / 1000 + 's');
+  tabs.forEach(function (b, k) {
+    b.addEventListener('click', function () { stop(); go(k); });
+    b.addEventListener('keydown', function (e) {
+      var k2 = { ArrowRight: cur + 1, ArrowLeft: cur - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (k2 === undefined) return; e.preventDefault(); stop(); go(k2, true);
     });
-    step.querySelectorAll('.xivl button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.f === f)); });
-  }
-  steps.forEach(function (st, g) {
-    st.querySelectorAll('.xivl button').forEach(function (b) { b.addEventListener('click', function () { go(g); front(st, b.dataset.f); }); });
-    [st.querySelector('.xim'), grps[g]].forEach(function (box) { if (box) box.querySelectorAll('.xisw').forEach(function (w) { w.addEventListener('click', function () { front(st, w.dataset.f); }); }); });
   });
-  // load every screen once the story is near, so switching never shows an empty frame
-  new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { s.querySelectorAll('.xiscreen img').forEach(function (x) { x.loading = 'eager'; }); o.disconnect(); } }, { rootMargin: '600px 0px' }).observe(s);
-  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) go(steps.indexOf(e.target)); }); }, { rootMargin: '-45% 0px -45% 0px' });
-  steps.forEach(function (x) { io.observe(x); });
+  t.querySelector('.xitprev').addEventListener('click', function () { stop(); go(cur - 1); });
+  t.querySelector('.xitnext').addEventListener('click', function () { stop(); go(cur + 1); });
+  // swipe the screen on phones
+  var box = t.querySelector('.xitshots'), x0 = null, y0 = 0;
+  box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  box.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null; if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { stop(); go(cur + (dx < 0 ? 1 : -1)); } }, { passive: true });
+  // load every screen once the section is near; tour only while it is on screen
+  new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { shots.forEach(function (x) { x.loading = 'eager'; }); o.disconnect(); } }, { rootMargin: '600px 0px' }).observe(t);
+  new IntersectionObserver(function (es) {
+    seen = es[0].isIntersecting;
+    if (!auto) return;
+    if (seen) { t.classList.add('auto'); tick(); } else { clearTimeout(timer); t.classList.remove('auto'); }
+  }, { threshold: .35 }).observe(t);
 })();
+
 /* "Made for phones too": the range switch really changes the three phones (real screens for 7 days, 28 days and 3 months).
    The new screen fades in on top of the old one once it has loaded, so the change is smooth.
    It also steps through the ranges by itself while on screen, until the visitor picks one. */
