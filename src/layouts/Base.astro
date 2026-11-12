@@ -75,7 +75,7 @@ const ld = {
 {site.googleVerify && <meta name="google-site-verification" content={site.googleVerify} />}
 {site.ga4 && <script is:inline define:vars={{ ga: site.ga4 }}>
 // Google Analytics, fetched only after the page has shown, so it never slows the first view.
-window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); var gtm = ga.indexOf('GTM-') === 0; if (!gtm) gtag('config', ga);
+window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); var gtm = ga.indexOf('GTM-') === 0; if (gtm) dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' }); else gtag('config', ga);
 (function () { var go = function () { var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/' + (gtm ? 'gtm.js' : 'gtag/js') + '?id=' + ga; document.head.appendChild(s); };
   if (document.readyState === 'complete') setTimeout(go, 1500); else addEventListener('load', function () { setTimeout(go, 1500); }); })();
 </script>}
