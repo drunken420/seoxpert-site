@@ -12,22 +12,14 @@ import { site, whatsappLink, talkLabel } from '../config';
 // XpertInsight is included with every XpertCare plan and is not sold on its own (Suhen, 2026-11-12).
 const kw = care.tiers.map((t) => [t.name, t.rows.join(' ').match(/<b>(\d+)<\/b> keywords/)?.[1]]);
 const views = [
-  ['Overview', 'Your Xpert score out of 100, made from visits, leads, rankings, AI mentions and site health, plus insights from our experts in plain words.'],
-  ['Visitors', 'Visits by day compared with the period before, where they came from, phone or computer, and your top pages on Google.'],
-  ['Leads', 'WhatsApp clicks, form messages and call clicks, week by week, and the pages that bring them.'],
-  ['Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and how you compare with competitors.'],
-  ['AI answers', 'Whether ChatGPT, Gemini, Perplexity and Google AI Overviews name your business, and the visits AI tools send you.'],
-  ['Site health', 'Broken links, pages on Google, security certificate, speed on phones and uptime for the last 30 days.'],
-  ['Care plan', 'What your XpertCare plan includes this month, the work our team has done and what comes next.'],
-  ['Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
-];
-const shots = [
-  ['visitors', 'Visitors', 'XpertInsight Visitors view: visits by day against the period before, where visitors came from, phone or computer, and top pages on Google'],
-  ['leads', 'Leads', 'XpertInsight Leads view: WhatsApp clicks, form messages and call clicks, leads by week and the pages that bring leads'],
-  ['keywords', 'Keywords', 'XpertInsight Keywords view: tracked keywords with position, change and an 8 week trend, keywords almost on page 1, and competitors'],
-  ['ai-answers', 'AI answers', 'XpertInsight AI answers view: whether ChatGPT, Gemini, Perplexity and AI Overviews name the business, and visits sent by AI tools'],
-  ['health', 'Site health', 'XpertInsight Site health view: health score, checks, speed on phones and uptime for the last 28 days'],
-  ['care-plan', 'Care plan', 'XpertInsight Care plan view: plan usage this month, work done by our team and what comes next'],
+  ['overview', 'Overview', 'Your Xpert score out of 100, made from visits, leads, rankings, AI mentions and site health, plus insights from our experts in plain words.'],
+  ['visitors', 'Visitors', 'Visits by day compared with the period before, where they came from, phone or computer, and your top pages on Google.'],
+  ['leads', 'Leads', 'WhatsApp clicks, form messages and call clicks, week by week, and the pages that bring them.'],
+  ['keywords', 'Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and how you compare with competitors.'],
+  ['ai-answers', 'AI answers', 'Whether ChatGPT, Gemini, Perplexity and Google AI Overviews name your business, and the visits AI tools send you.'],
+  ['health', 'Site health', 'Broken links, pages on Google, security certificate, speed on phones and uptime, checked every few minutes.'],
+  ['care-plan', 'Care plan', 'What your XpertCare plan includes this month, the work our team has done and what comes next.'],
+  ['reports', 'Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
 ];
 const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertCare plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
 ---
@@ -46,31 +38,47 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
   <InsightDemo />
 </div></section>
 
-<section class="solid tint band"><div class="wrap">
+<section class="solid tint band xistoryb"><div class="wrap">
   <span class="eyebrow rv">Eight views, one login</span>
-  <h2 class="rv">Everything we track for you.</h2>
-  <div class="grid3">
-    {views.map(([h, p], i) => <div class="fcard rv" style={`--d:${i % 3}`}><div class="pet" style={`--r:${(i * 90) % 360}deg`}></div><h3>{h}</h3><p>{p}</p></div>)}
-  </div>
-</div></section>
-
-<section class="solid band"><div class="wrap split">
-  <div class="stick">
-    <span class="eyebrow rv">The real dashboard</span>
-    <h2 class="rv">Made for phones too.</h2>
-    <p class="sub rv">XpertInsight works on any phone, tablet or computer. Choose 7 days, 28 days or 3 months, and every chart and number follows.</p>
-  </div>
-  <div>
-    <figure class="xiphones rv"><img src="/img/xpertinsight-phones-v2.webp" srcset="/img/xpertinsight-phones-640-v2.webp 640w, /img/xpertinsight-phones-v2.webp 1200w" sizes="(max-width: 900px) 90vw, 520px" width="1200" height="1199" loading="lazy" decoding="async" alt="XpertInsight on two phones: the Leads view and the Overview with the Xpert score" /></figure>
-  </div>
-</div></section>
-
-<section class="solid band" style="padding-top:0"><div class="wrap">
-  <span class="eyebrow rv">On a computer</span>
   <h2 class="rv">A closer look at every view.</h2>
-  <figure class="pfig rv"><img src="/img/xpertinsight-dashboard-v2.webp" srcset="/img/xpertinsight-dashboard-900-v2.webp 900w, /img/xpertinsight-dashboard-v2.webp 1440w" sizes="(max-width: 1200px) 100vw, 1140px" width="1440" height="900" loading="lazy" decoding="async" alt="The XpertInsight overview on a computer: Xpert score, visitors, leads, Google clicks, page 1 keywords, AI visits, uptime and insights from our experts" /></figure>
-  <div class="xishots">
-    {shots.map(([f, t, a], i) => <figure class="rv" style={`--d:${i % 2}`}><img src={`/img/xpertinsight-view-${f}.webp`} srcset={`/img/xpertinsight-view-${f}-600.webp 600w, /img/xpertinsight-view-${f}.webp 1200w`} sizes="(max-width: 760px) 100vw, 560px" width="1200" height="700" loading="lazy" decoding="async" alt={a} /><figcaption>{t}</figcaption></figure>)}
+  <p class="sub rv">This is what you see when you log in to XpertInsight on a computer. <span class="xihint-pc">Scroll down and the screen follows along.</span><span class="xihint-ph">Swipe to see each view.</span></p>
+  <div class="xistory" data-xistory>
+    <ol class="xisteps">
+      {views.map(([f, h, p], i) => <li class="xistep" data-i={i}>
+        <span class="xinum">{String(i + 1).padStart(2, '0')}</span>
+        <h3>{h}</h3><p>{p}</p>
+        <figure class="xim"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my</span></div><img src={`/img/xi-view-${f}-720.webp`} width="720" height="450" loading="lazy" decoding="async" alt={`The ${h} view of XpertInsight on a computer`} /></figure>
+      </li>)}
+    </ol>
+    <div class="xiscreen" aria-hidden="true">
+      <div class="xisw">
+        <div class="xiwbar"><i></i><i></i><i></i><span>insight.seoxpert.my/<b data-xiurl>overview</b></span></div>
+        <div class="xishots">{views.map(([f], i) => <img class={i ? '' : 'on'} src={`/img/xi-view-${f}.webp`} srcset={`/img/xi-view-${f}-720.webp 720w, /img/xi-view-${f}.webp 1200w`} sizes="(max-width: 1300px) 60vw, 760px" width="1200" height="750" loading="lazy" decoding="async" alt="" data-f={f} />)}</div>
+      </div>
+      <div class="xidots">{views.map(([, h], i) => <i class={i ? '' : 'on'} title={h}></i>)}</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="solid band xiphb"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">On the go</span>
+    <h2 class="rv">Made for phones too.</h2>
+    <p class="sub rv">XpertInsight works on any phone, tablet or computer, so you can check how your website is doing from anywhere.</p>
+    <ul class="xiticks">
+      <li class="rv"><b>Pick a range</b>Choose 7 days, 28 days or 3 months, and every chart and number follows.</li>
+      <li class="rv" style="--d:1"><b>Log in with a code</b>We send a code to your email. There is no password to remember.</li>
+      <li class="rv" style="--d:2"><b>Download PDF</b>Save your monthly XpertRecap from your phone, ready to forward.</li>
+    </ul>
+  </div>
+  <div class="xiph rv" data-xiph>
+    <i class="xiorb"></i><i class="xiorb b"></i><i class="xiglow"></i>
+    <img class="p1" src="/img/xi-phone-leads.webp" srcset="/img/xi-phone-leads-360.webp 360w, /img/xi-phone-leads.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Leads view on a phone" />
+    <img class="p3" src="/img/xi-phone-health.webp" srcset="/img/xi-phone-health-360.webp 360w, /img/xi-phone-health.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Site health view on a phone" />
+    <img class="p2" src="/img/xi-phone-overview.webp" srcset="/img/xi-phone-overview-360.webp 360w, /img/xi-phone-overview.webp 640w" sizes="250px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Overview with the Xpert score on a phone" />
+    <div class="xiseg" aria-hidden="true"><i></i><span>7 days</span><span>28 days</span><span>3 months</span></div>
+    <span class="hchip xic1" aria-hidden="true">Code sent to your email</span>
+    <span class="hchip plus xic2" aria-hidden="true">Download PDF</span>
   </div>
 </div></section>
 

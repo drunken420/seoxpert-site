@@ -245,6 +245,26 @@ pre.codecard{margin:0;overflow-x:auto}
 .hmail{left:50%;top:50%;width:250px;height:176px;margin:-88px -125px;display:grid;place-items:center}
 .hmail svg{width:176px;fill:none;stroke:var(--acc);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
 .hmail .seal{position:absolute;right:-14px;top:-14px;width:40px;height:40px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 5px #fff,0 10px 22px rgba(123,24,193,.4);animation:pop 3s ease-in-out infinite}
+/* XpertInsight banner: the real dashboard in a tilted window, a phone and floating cards */
+.hart[data-art="insight"] .hring{opacity:.5}
+.hxwin{width:84%;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 40px 80px -30px rgba(61,10,102,.55),0 0 0 1px rgba(123,24,193,.14);transform:perspective(1200px) rotateY(-16deg) rotateX(7deg) rotate(-2deg);transform-origin:40% 50%}
+.hxbar{display:flex;align-items:center;gap:5px;padding:8px 10px;background:#fbf8fe;border-bottom:1px solid var(--line)}
+.hxbar i{width:7px;height:7px;border-radius:50%;background:#e6dcf2}.hxbar i:first-child{background:#f3b3c4}.hxbar i:nth-child(2){background:#f6d98b}
+.hxbar span{margin-left:8px;font:500 10px/1 var(--f-m);color:var(--mute);background:var(--bg);padding:5px 9px;border-radius:6px}
+.hxwin img{display:block;width:100%;height:auto}
+.hxsheen{position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 48%,transparent 60%);transform:translateX(-120%);animation:hxsh 6s ease-in-out 1.2s infinite}
+@keyframes hxsh{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
+.hxphone{width:27%;height:auto;filter:drop-shadow(0 30px 34px rgba(40,6,70,.4));rotate:6deg}
+.hxring{display:flex;align-items:center;gap:10px;padding:12px 16px 12px 12px;border-radius:18px}
+.hxring svg{width:44px;height:44px;rotate:-90deg;fill:none;stroke-width:5;stroke-linecap:round}
+.hxring circle{stroke:#eee4f8}.hxring .v{stroke:var(--acc);stroke-dasharray:75 100;animation:hxr 5s ease-in-out infinite}
+@keyframes hxr{0%,8%{stroke-dasharray:0 100}40%,100%{stroke-dasharray:75 100}}
+.hxring b{display:block;font:700 14px/1.2 var(--f-d)}.hxring small{font-size:12px;color:var(--mute)}
+.hxcols{padding:12px 14px;border-radius:18px;width:150px}
+.hxcols small{display:block;font:600 12px/1 var(--f-b);color:var(--soft);margin-bottom:10px}
+.hxcols div{display:flex;align-items:flex-end;gap:6px;height:54px}
+.hxcols i{flex:1;height:var(--h);border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,var(--acc2),var(--acc));transform-origin:bottom;animation:hxc 5s ease-in-out calc(var(--n)*.12s) infinite}
+@keyframes hxc{0%,6%{transform:scaleY(.15)}30%,100%{transform:scaleY(1)}}
 @media (max-width:1080px){.pgrid{grid-template-columns:1fr;gap:26px}.hart{margin:0 auto;max-width:440px}}
 @media (max-width:560px){.hart{zoom:.68;max-width:500px}.phero{padding-block:26px 48px}}
 /* banner life: drifting word, glow that follows the pointer, rising petals, art that tilts (script: end of public/js/ui.js) */
@@ -285,7 +305,7 @@ pre.codecard{margin:0;overflow-x:auto}
 .hpost b{font:700 17px/1.1 var(--f-d);letter-spacing:-.03em}
 .hpost i{display:block;height:7px;width:100%;border-radius:99px;background:var(--line)}.hpost i:nth-of-type(2){width:80%}.hpost i:nth-of-type(3){width:55%}
 @media (max-width:1080px){.phword{font-size:clamp(90px,26vw,220px)}}
-@media (prefers-reduced-motion:reduce){.phpet{display:none}.hcode pre span{clip-path:none}.hart,.hart *{transition:none}}
+@media (prefers-reduced-motion:reduce){.hxsheen{display:none}.hxring .v,.hxcols i{animation:none}.phpet{display:none}.hcode pre span{clip-path:none}.hart,.hart *{transition:none}}
 .pknote{margin:18px 0 0;font-size:15.5px;color:var(--soft)}
 .pkpick button.off{opacity:.5;cursor:not-allowed;transform:none}.pkpick button em{font:600 12.5px/1.3 var(--f-b);font-style:normal;color:var(--acc);flex-basis:100%}.pkpick button em[hidden]{display:none}
 .pkbill{margin:0 0 18px;width:fit-content}.pkbill[hidden]{display:none}

@@ -33,3 +33,31 @@
   function tour() { clearInterval(tmr); if (!mine && seen && !calm) tmr = setInterval(function () { if (!document.hidden && !document.documentElement.classList.contains('dmpaused')) show(cur + 1); }, 4800); }
   new IntersectionObserver(function (es) { var was = seen; seen = es[0].isIntersecting; if (seen && !was) { show(cur); } tour(); }, { threshold: 0.35 }).observe(el);
 })();
+/* "A closer look at every view": the screen on the right follows the step being read (computers only) */
+(function () {
+  var s = document.querySelector('[data-xistory]'); if (!s) return;
+  var steps = [].slice.call(s.querySelectorAll('.xistep')), shots = [].slice.call(s.querySelectorAll('.xishots img')),
+    dots = [].slice.call(s.querySelectorAll('.xidots i')), url = s.querySelector('[data-xiurl]'), cur = -1;
+  function go(i) {
+    if (i === cur) return; cur = i;
+    steps.forEach(function (x, k) { x.classList.toggle('on', k === i); });
+    shots.forEach(function (x, k) { x.classList.toggle('on', k === i); });
+    dots.forEach(function (x, k) { x.classList.toggle('on', k === i); });
+    if (url && shots[i]) url.textContent = shots[i].dataset.f;
+  }
+  go(0);
+  // load every screen once the story is near, so switching never shows a blank frame
+  new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { shots.forEach(function (x) { x.loading = 'eager'; }); o.disconnect(); } }, { rootMargin: '600px 0px' }).observe(s);
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) go(steps.indexOf(e.target)); }); }, { rootMargin: '-45% 0px -45% 0px' });
+  steps.forEach(function (x) { io.observe(x); });
+})();
+/* "Made for phones too": the side phones fan open while the section scrolls into view */
+(function () {
+  var p = document.querySelector('[data-xiph]'); if (!p) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var on = false, raf = 0;
+  function tick() { raf = 0; var r = p.getBoundingClientRect(), h = innerHeight, k = (h - r.top) / (h * 0.75); p.style.setProperty('--sp', Math.max(0, Math.min(1, k)).toFixed(3)); }
+  function ask() { if (on && !raf) raf = requestAnimationFrame(tick); }
+  new IntersectionObserver(function (es) { on = es[0].isIntersecting; ask(); }).observe(p);
+  addEventListener('scroll', ask, { passive: true }); tick();
+})();
