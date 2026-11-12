@@ -6,7 +6,7 @@ import crypto from 'node:crypto';
 const dist = 'dist', jsDir = path.join(dist, 'js');
 const hash = {};
 for (const f of fs.readdirSync(jsDir)) if (f.endsWith('.js')) hash[f] = crypto.createHash('sha1').update(fs.readFileSync(path.join(jsDir, f))).digest('hex').slice(0, 8);
-const re = /(["'])\/js\/([\w.-]+\.js)\1/g;
+const re = /(["'`])\/js\/([\w.-]+\.js)\1/g;
 const stamp = (txt) => txt.replace(re, (m, q, f) => (hash[f] ? `${q}/js/${f}?v=${hash[f]}${q}` : m));
 let n = 0;
 function walk(dir) {
