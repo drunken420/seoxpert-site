@@ -378,3 +378,18 @@ h1,h2,h3{overflow-wrap:break-word}
 .mpanel a span{font-size:13.5px;color:var(--soft);font-weight:400}
 .menu .mpanel a[aria-current]::after{display:none}
 .menu .mpanel a[aria-current] b{color:var(--acc)}
+
+/* Grouped menus (Suhen picked 2026-11-12): Services in two columns, Explore dropdown, phone groups with a Contact button that stays at the bottom */
+.mwide .mpanel{width:600px}
+.mcols{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:8px}
+.mcols .mcol+.mcol{border-left:1px solid var(--line);padding-left:4px}
+.mcol{position:relative;display:grid;align-content:start}
+.mpanel>.mcol{padding:8px 0}
+.mh{display:block;font:700 11.5px/1 var(--f-b);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);padding:12px 22px 6px}
+.mcols .mh{padding:10px 14px 6px}
+.menu .mcols a{margin:0}
+.menu .mpanel .mcol a:first-child{margin-top:0}.menu .mpanel .mcol a:last-child{margin-bottom:0}
+.menu .mpanel a:hover{background:rgba(123,24,193,.06)}
+.mm-g .mm-help{border-top:0;padding-top:0}
+.mm-foot{position:sticky;bottom:0;margin:0 calc(-1 * var(--gr)) 0 calc(-1 * var(--gl));padding:12px var(--gr) max(14px,env(safe-area-inset-bottom)) var(--gl);background:linear-gradient(rgba(255,255,255,0),var(--bg2) 16px)}
+.mm-in{padding-bottom:0}

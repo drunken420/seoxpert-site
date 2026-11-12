@@ -15,7 +15,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 
 ## SEO wording (from Ubersuggest research, 2026-11)
 - People search "website design" and "website maintenance". Use those in titles, H1s, URLs and descriptions.
-- Menu labels (Suhen, 2026-11-11): a Services dropdown (Website design, Website development, XpertCare, XpertCore), then Packages, XpertLab, XpertAdvice, About. The phone menu lists every page. FAQ is in the footer, the phone menu and the chat. Suhen did not like "Monthly care", "AI builder" or "Website building" (it is not a third service).
+- Menu labels (Suhen, 2026-11-11; grouped 2026-11-12): a Services dropdown in two groups, "Build your website" (Website design, Website development, XpertCore) and "Look after it" (XpertCare, XpertInsight), then Packages, an Explore dropdown (XpertLab, XpertAdvice, FAQ), About. The phone menu uses the same groups plus Explore (Packages, XpertLab, XpertAdvice) and a Company row (About, FAQ), with the Contact button fixed at the bottom. Groups are `svcGroups`, `explore` and `mgroups` in `Base.astro`. FAQ is also in the footer and the chat. Suhen did not like "Monthly care", "AI builder" or "Website building" (it is not a third service).
 - Every page: one H1, title 20 to 65 characters, description 70 to 170, answer first copy, structured data that matches the visible text.
 
 ## Where things are
