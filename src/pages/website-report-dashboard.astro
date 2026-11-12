@@ -39,14 +39,10 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
   <Fragment slot="cta"><a class="btn" href="#inside">Look inside</a><a class="btn ghost" href="/website-maintenance/#xpertcare">See XpertCare plans</a></Fragment>
 </PageHero>
 
-<section class="xistats" aria-label="XpertInsight in numbers"><div class="wrap"><ul>
-  {[[8, 'views in one dashboard'], [3, 'date ranges: 7 days, 28 days or 3 months'], [6, 'page XpertRecap PDF every month'], [0, 'passwords to remember: you log in with a code']].map(([n, t], i) => <li style={`--i:${i}`}><b data-count={n}>{n}</b><span>{t}</span></li>)}
-</ul></div></section>
-
 <section id="inside" class="solid band xiinsb"><i class="xiorb2 a" aria-hidden="true"></i><i class="xiorb2 b" aria-hidden="true"></i><div class="wrap">
   <span class="eyebrow rv">Inside XpertInsight</span>
   <h2 class="rv">Your website's numbers, in <span class="xigt">one clear place</span>.</h2>
-  <p class="sub rv">Pick a view on the left, or watch it go through them. Yours shows your own website.</p>
+  <p class="sub rv">Pick a view to look inside. Yours shows your own website.</p>
   <InsightDemo />
 </div></section>
 

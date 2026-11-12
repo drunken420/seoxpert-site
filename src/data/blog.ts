@@ -174,7 +174,7 @@ export const posts: Post[] = [
 <li><b>One page for each main service or product.</b></li>
 <li><b>Contact:</b> every way to reach you, with your hours.</li>
 <li><b>Questions:</b> the answers customers ask for before they buy.</li></ul>
-<p>Blog posts are not counted as pages. Every package has a blog on top, with posts written at launch: 2 with Starter, 5 with Business and 10 with Growth.</p>` },
+<p>Blog posts are not counted as pages. Every package also comes with its own blog, with posts written at launch: 2 with Starter, 5 with Business and 10 with Growth.</p>` },
       { id: 'count-your-pages', h: 'Three examples to help you count', html: `<p>These are made up examples, to show how the counting works.</p>
 <h3>A home tuition service: ${starter.name}</h3>
 <p>Home, About, Subjects, Fees and how it works, Contact. That is 5 pages, which fits ${starter.name}. The 2 blog posts at launch could answer questions parents ask, like how to choose a tutor.</p>

@@ -94,6 +94,7 @@
 }
 @media (max-width:640px){
   .ximain{padding:16px 14px 18px}
+  .xistack::before,.xistack::after{display:none}
   .xi2{grid-template-columns:1fr}
   .xihero{grid-template-columns:1fr;justify-items:start;padding:18px}.xiring{width:96px}.xiring>b{font-size:28px;top:30%}
   .xibars.dk{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -173,7 +174,7 @@
 .xiph .p1{margin-left:-105px;transform:translateX(calc(var(--sp) * -150px)) rotate(calc(var(--sp) * -9deg));animation:xifl 8s ease-in-out -3s infinite}
 .xiph .p3{margin-left:-105px;transform:translateX(calc(var(--sp) * 150px)) rotate(calc(var(--sp) * 9deg));animation:xifl 7.5s ease-in-out -5s infinite}
 @keyframes xifl{0%,100%{translate:0 0}50%{translate:0 -14px}}
-.xiseg{left:50%;bottom:14px;translate:-50% 0;z-index:4;display:grid;grid-template-columns:repeat(3,1fr);padding:5px;border-radius:14px;background:#fff;box-shadow:0 20px 44px -18px rgba(61,10,102,.45),inset 0 0 0 1px var(--line)}
+.xiseg{left:50%;bottom:14px;translate:-50% 0;z-index:4;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:5px;border-radius:14px;background:#fff;box-shadow:0 20px 44px -18px rgba(61,10,102,.45),inset 0 0 0 1px var(--line)}
 .xiseg button{all:unset;cursor:pointer;text-align:center;white-space:nowrap;position:relative;z-index:1;padding:10px 15px;border-radius:10px;font:600 13px/1 var(--f-b);color:var(--soft);transition:color .3s}
 .xiseg button:hover{color:var(--acc)}
 .xiseg button[aria-pressed="true"]{color:#fff}
@@ -184,14 +185,15 @@
 .xic2{right:0;top:12%;z-index:4;animation:hfl 7s ease-in-out -4s infinite}
 @media (max-width:900px){.xiph{height:560px;margin-top:10px}}
 @media (max-width:560px){
-  .xiph{height:470px;margin-inline:calc(var(--gl) * -1)}
-  .xiph .p2{width:200px;margin-left:-100px;top:30px}
-  .xiph .p1,.xiph .p3{width:160px;margin-left:-80px;top:70px}
-  .xiph .p1{transform:translateX(calc(var(--sp) * -104px)) rotate(calc(var(--sp) * -9deg))}
-  .xiph .p3{transform:translateX(calc(var(--sp) * 104px)) rotate(calc(var(--sp) * 9deg))}
+  .xiph{height:500px;margin-inline:calc(var(--gl) * -1);overflow:hidden}
+  .xiph .p2{width:196px;margin-left:-98px;top:14px}
+  .xiph .p1,.xiph .p3{width:150px;margin-left:-75px;top:56px}
+  .xiph .p1{transform:translateX(calc(var(--sp) * -92px)) rotate(calc(var(--sp) * -8deg))}
+  .xiph .p3{transform:translateX(calc(var(--sp) * 92px)) rotate(calc(var(--sp) * 8deg))}
   .xiglow,.xiorb{width:380px;height:380px}.xiorb.b{width:290px;height:290px}
-  .xic1{left:var(--gl);top:auto;bottom:84px}.xic2{right:var(--gl);top:4px}
-  .xiseg button{font-size:12px;padding:9px 11px}
+  .xic1,.xic2{display:none}
+  .xiseg{bottom:6px}
+  .xiseg button{font-size:13px;padding:11px 14px}
 }
 @media (prefers-reduced-motion:reduce){.xiph *,.xiseg *{animation:none!important}.xishots img{transition:none}}
 /* "No extra fee": the three XpertCare plans, with the keywords each one tracks */
@@ -219,17 +221,6 @@
 
 /* Colour and motion (Suhen picked "both", 2026-11-12): a purple stats ribbon under the banner, glowing purple
    backgrounds behind the sections, gradient words, and numbers that count up when they scroll into view */
-.xistats{position:relative;z-index:2;padding-block:40px 0;background:#fbf7ff}
-.xistats ul{list-style:none;margin:0;padding:26px 30px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;border-radius:26px;background:radial-gradient(120% 140% at 0% 0%,#9a35e8 0%,transparent 55%),radial-gradient(120% 160% at 100% 100%,#b06cff 0%,transparent 50%),linear-gradient(120deg,#4a0f80,#7b18c1 55%,#5a139a);box-shadow:0 40px 80px -40px rgba(74,14,120,.7),inset 0 0 0 1px rgba(255,255,255,.14);color:#fff;overflow:hidden;position:relative}
-.xistats ul::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);transform:translateX(-100%);animation:xisheen 6s 1.2s ease-in-out infinite;pointer-events:none}
-@keyframes xisheen{40%,100%{transform:translateX(100%)}}
-.xistats li{position:relative;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:14px;opacity:0;transform:translateY(14px);transition:opacity .6s calc(var(--i) * .12s),transform .6s calc(var(--i) * .12s) cubic-bezier(.2,.8,.2,1)}
-.xistats li+li::before{content:"";position:absolute;left:-10px;top:8px;bottom:8px;width:1px;background:rgba(255,255,255,.2)}
-.xistats.in li{opacity:1;transform:none}
-.xistats b{font:700 46px/1 var(--f-d);letter-spacing:-.04em;min-width:1.2ch;background:linear-gradient(180deg,#fff,#e2c8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.xistats span{font-size:14.5px;line-height:1.4;color:#eadcfb}
-@media (max-width:900px){.xistats{padding-top:28px}.xistats ul{grid-template-columns:1fr 1fr;padding:22px;gap:20px 18px}.xistats li+li::before{display:none}.xistats b{font-size:38px}.xistats span{font-size:13.5px}}
-@media (max-width:420px){.xistats ul{grid-template-columns:1fr}}
 .xigt{background:linear-gradient(90deg,#7b18c1,#b06cff 50%,#7b18c1);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:xigt 6s linear infinite}
 @keyframes xigt{to{background-position:-200% 0}}
 .xiinsb{position:relative;overflow:clip;background:radial-gradient(70vw 50vw at 100% 0%,rgba(176,108,255,.22),transparent 60%),radial-gradient(60vw 50vw at 0% 100%,rgba(123,24,193,.14),transparent 60%),linear-gradient(180deg,#fbf7ff,#f3e9fd)}
@@ -243,4 +234,4 @@
 .xiincb{background:radial-gradient(50vw 40vw at 90% 40%,rgba(176,108,255,.2),transparent 60%),linear-gradient(180deg,#fff,#f6eefd)}
 .xiplan::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:linear-gradient(135deg,#b06cff,transparent 40%,transparent 60%,#7b18c1);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;pointer-events:none}
 .xiplan:hover::before{opacity:1}
-@media (prefers-reduced-motion:reduce){.xistats ul::after,.xigt,.xiorb2{animation:none}.xistats li{opacity:1;transform:none;transition:none}}
+@media (prefers-reduced-motion:reduce){.xigt,.xiorb2{animation:none}}
