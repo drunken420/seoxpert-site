@@ -1,6 +1,6 @@
 ---
-// A live, coded sample of XpertInsight, our client dashboard (styles: src/styles/insight.css, script: public/js/insight.js).
-// Every name and number here belongs to the made-up "Sample Bakery" from the dashboard's own sample data. Keep it labelled as sample.
+// A live, coded copy of XpertInsight, our client dashboard (styles: src/styles/insight.css, script: public/js/insight.js).
+// Every name and number here belongs to the made-up "Sample Bakery" from the dashboard's own sample data. Suhen (2026-11-12): no "sample" notes or captions; the name Sample Bakery is the only label.
 import { care } from '../data/packages';
 const plus = care.tiers[1];
 const num = (r: string) => Number(r.match(/<b>(\d+)<\/b>/)?.[1] || 0);
@@ -24,8 +24,7 @@ const uptime = Array.from({ length: 30 }, (_, i) => (i === 13 ? 'w' : ''));
 ---
 <div class="xistack rv">
 <div class="xi" data-insight>
-  <div class="xibar"><i></i><i></i><i></i><span>insight.seoxpert.my</span><b>Sample</b></div>
-  <p class="xisample">Sample dashboard. Every name and number here is made up to show the layout.</p>
+  <div class="xibar"><i></i><i></i><i></i><span>insight.seoxpert.my</span></div>
   <div class="xigrid">
     <div class="xinav" role="tablist" aria-label="XpertInsight views">
       <span class="xilogo">Xpert<em>Insight</em></span>
@@ -112,4 +111,3 @@ const uptime = Array.from({ length: 30 }, (_, i) => (i === 13 ? 'w' : ''));
   </div>
 </div>
 </div>
-<p class="xicap">A sample dashboard for a made-up bakery. Your own XpertInsight shows your website's real numbers.</p>
