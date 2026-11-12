@@ -20,7 +20,7 @@ const spark = (pts: number[], w = 120, h = 34) => { const mx = Math.max(...pts),
 const now = [38, 52, 46, 61, 55, 70, 58, 66, 74, 63, 79, 71, 68, 82];
 const before = [34, 41, 44, 49, 47, 52, 50, 55, 58, 54, 60, 57, 59, 62];
 const line = (pts: number[]) => pts.map((p, i) => `${(i / (pts.length - 1) * 600).toFixed(0)},${(200 - p * 2).toFixed(0)}`).join(' ');
-const uptime = Array.from({ length: 30 }, (_, i) => (i === 13 ? 'w' : ''));
+const uptime = Array.from({ length: 28 }, (_, i) => (i === 13 || i === 25 ? 'w' : ''));
 ---
 <div class="xistack rv">
 <div class="xi" data-insight>
@@ -36,9 +36,9 @@ const uptime = Array.from({ length: 30 }, (_, i) => (i === 13 ? 'w' : ''));
 
       <section class="xiv on" id="xiv0" role="tabpanel" aria-labelledby="xit0">
         <div class="xihero" style="--n:0">
-          <div class="xiring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42"/><circle class="v" cx="50" cy="50" r="42" pathLength="100" style="--p:79"/></svg><b data-n="79">79</b><small>Xpert score</small></div>
+          <div class="xiring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42"/><circle class="v" cx="50" cy="50" r="42" pathLength="100" style="--p:75"/></svg><b data-n="75">75</b><small>Xpert score</small></div>
           <div><h4>Your website is growing well</h4><p>1,629 people visited and 58 of them got in touch. 4 of 10 keywords are on Google's first page.</p>
-            <div class="xibars dk">{[['Visits', 88], ['Leads', 84], ['Rankings', 72], ['AI mentions', 60], ['Health', 92]].map(([k, v]) => <span><em>{k}</em><b>{v}</b><i style={`--w:${v}%`}></i></span>)}</div></div>
+            <div class="xibars dk">{[['Visits', 87], ['Leads', 88], ['Rankings', 69], ['AI mentions', 41], ['Health', 92]].map(([k, v]) => <span><em>{k}</em><b>{v}</b><i style={`--w:${v}%`}></i></span>)}</div></div>
         </div>
         <div class="xik">
           <div style="--n:1"><small>Visitors</small><b data-n="1629">1,629</b><em>▲ 10% vs before</em><svg viewBox="0 0 120 34" aria-hidden="true"><polyline points={spark([5, 8, 6, 9, 7, 11, 9, 12])} /></svg></div>
@@ -65,7 +65,7 @@ const uptime = Array.from({ length: 30 }, (_, i) => (i === 13 ? 'w' : ''));
         </div>
         <div class="xi2">
           <div class="xicard" style="--n:3"><b>Leads by week</b><div class="xicols">{[17, 13, 16, 12].map((v, i) => <span style={`--h:${v * 5}%`}><b>{v}</b><em>Week {i + 1}</em></span>)}</div></div>
-          <div class="xicard" style="--n:4"><b>Pages that bring leads</b><div class="xibars">{[['Custom cakes', 18], ['Homepage', 14], ['Birthday cakes', 10], ['Contact', 6]].map(([k, v]) => <span><em>{k}</em><b>{v}</b><i style={`--w:${Number(v) * 5}%`}></i></span>)}</div></div>
+          <div class="xicard" style="--n:4"><b>Pages that bring leads</b><div class="xibars">{[['Custom cakes', 22], ['Homepage', 17], ['Birthday cakes', 12], ['Contact', 7]].map(([k, v]) => <span><em>{k}</em><b>{v}</b><i style={`--w:${Number(v) * 4}%`}></i></span>)}</div></div>
         </div>
       </section>
 
@@ -79,7 +79,7 @@ const uptime = Array.from({ length: 30 }, (_, i) => (i === 13 ? 'w' : ''));
         <div class="xicard" style="--n:0"><b>Do AI tools name you?</b><p class="xinote">"Best birthday cake delivery", asked this month</p>
           <div class="xiai">{[['ChatGPT', true], ['Gemini', false], ['Perplexity', false], ['AI Overviews', true]].map(([k, y], i) => <span style={`--n:${i + 1}`}><em>{k}</em><i class={y ? 'xip ok' : 'xip no'}>{y ? 'Named' : 'Not yet'}</i></span>)}</div></div>
         <div class="xi2">
-          <div class="xicard" style="--n:2"><b>Visits sent by AI tools</b><div class="xibars">{[['ChatGPT', 14], ['Perplexity', 5], ['Gemini', 3], ['Copilot', 1]].map(([k, v]) => <span><em>{k}</em><b>{v}</b><i style={`--w:${Number(v) * 6}%`}></i></span>)}</div></div>
+          <div class="xicard" style="--n:2"><b>Visits sent by AI tools</b><div class="xibars">{[['ChatGPT', 33], ['Perplexity', 12], ['Gemini', 7], ['Copilot', 2]].map(([k, v]) => <span><em>{k}</em><b>{v}</b><i style={`--w:${Number(v) * 2.8}%`}></i></span>)}</div></div>
           <div class="xicard xibig" style="--n:3"><b data-n="3">3</b><span>of 20 answers name you</span><em>▲ 2 vs last month</em></div>
         </div>
       </section>
@@ -90,7 +90,7 @@ const uptime = Array.from({ length: 30 }, (_, i) => (i === 13 ? 'w' : ''));
             <ul class="xichecks"><li>Pages working: all 12</li><li>Broken links: 3 found, 3 fixed</li><li>Security certificate: valid</li><li>Pages on Google: 11 of 12</li></ul></div>
           <div class="xicard" style="--n:1"><b>Speed on phones</b><div class="xibars">{[['Loading', '1.6 s', 84], ['Response to taps', '90 ms', 92], ['Layout shift', '0.02', 96]].map(([k, v, w]) => <span><em>{k}</em><b>{v}</b><i style={`--w:${w}%`}></i></span>)}</div></div>
         </div>
-        <div class="xicard" style="--n:2"><b>Uptime, last 30 days: 99.98%</b><div class="xiup">{uptime.map((u) => <i class={u} />)}</div></div>
+        <div class="xicard" style="--n:2"><b>Uptime, last 28 days: 99.94%</b><div class="xiup">{uptime.map((u) => <i class={u} />)}</div></div>
       </section>
 
       <section class="xiv" id="xiv6" role="tabpanel" aria-labelledby="xit6" hidden>

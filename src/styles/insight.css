@@ -74,7 +74,7 @@
 .xichecks{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:13.5px;color:var(--soft)}
 .xichecks li{position:relative;padding-left:24px}.xichecks li::before{content:"\2713";position:absolute;left:0;top:0;width:17px;height:17px;border-radius:5px;background:#e3f6ea;color:#1d7a46;font:700 11px/17px var(--f-b);text-align:center}
 .xinext{margin:0;padding-left:20px;display:grid;gap:7px;font-size:13.5px;color:var(--soft)}
-.xiup{display:grid;grid-template-columns:repeat(30,1fr);gap:3px;height:34px}.xiup i{border-radius:3px;background:#3fbf73;transform-origin:bottom;animation:xicol .6s both;animation-delay:calc(var(--k,0) * 20ms)}.xiup i.w{background:#f2b33d}
+.xiup{display:grid;grid-template-columns:repeat(28,1fr);gap:3px;height:34px}.xiup i{border-radius:3px;background:#3fbf73;transform-origin:bottom;animation:xicol .6s both;animation-delay:calc(var(--k,0) * 20ms)}.xiup i.w{background:#f2b33d}
 .xipages{position:relative;height:330px}
 .xipages>div{position:absolute;left:calc(4% + var(--i) * 9%);top:calc(var(--i) * 16px);width:46%;max-width:180px;aspect-ratio:1/1.3;background:#fff;border-radius:10px;box-shadow:0 14px 30px -18px rgba(61,10,102,.6),inset 0 0 0 1px var(--line);padding:12px;display:flex;flex-direction:column;gap:8px;animation:xipage .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 110ms)}
 .xipages b{font:700 11px/1 var(--f-d);color:var(--acc)}.xipages em{font:600 12px/1 var(--f-b);font-style:normal}
@@ -107,3 +107,8 @@
 .xisrc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .xisrc li{background:#fff;border-radius:18px;padding:16px 18px;box-shadow:inset 0 0 0 1px var(--line);font-size:15px;color:var(--soft)}.xisrc b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
 @media (max-width:640px){.xisrc{grid-template-columns:1fr}}
+.xishots{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:28px}
+.xishots figure{margin:0}
+.xishots img{display:block;width:100%;height:auto;border-radius:16px;border:1px solid var(--line);box-shadow:0 30px 60px -40px rgba(61,10,102,.5);background:#f6f1fc}
+.xishots figcaption{margin-top:12px;font:600 16px/1.3 var(--f-d);color:var(--ink)}
+@media (max-width:760px){.xishots{grid-template-columns:1fr;gap:22px}}

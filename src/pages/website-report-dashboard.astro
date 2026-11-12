@@ -21,9 +21,17 @@ const views = [
   ['Care plan', 'What your XpertCare plan includes this month, the work our team has done and what comes next.'],
   ['Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
 ];
+const shots = [
+  ['visitors', 'Visitors', 'XpertInsight Visitors view: visits by day against the period before, where visitors came from, phone or computer, and top pages on Google'],
+  ['leads', 'Leads', 'XpertInsight Leads view: WhatsApp clicks, form messages and call clicks, leads by week and the pages that bring leads'],
+  ['keywords', 'Keywords', 'XpertInsight Keywords view: tracked keywords with position, change and an 8 week trend, keywords almost on page 1, and competitors'],
+  ['ai-answers', 'AI answers', 'XpertInsight AI answers view: whether ChatGPT, Gemini, Perplexity and AI Overviews name the business, and visits sent by AI tools'],
+  ['health', 'Site health', 'XpertInsight Site health view: health score, checks, speed on phones and uptime for the last 28 days'],
+  ['care-plan', 'Care plan', 'XpertInsight Care plan view: plan usage this month, work done by our team and what comes next'],
+];
 const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertCare plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
 ---
-<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-2.jpg" description="XpertInsight is the live website report dashboard included with XpertCare: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={extraLd}>
+<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertCare: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Website report dashboard" brand="XpertInsight" art="insight" crumb="Website report dashboard" word="Insight">
   <Fragment slot="title">See how your website is doing, <em>any time</em>.</Fragment>
@@ -53,12 +61,17 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
     <p class="sub rv">XpertInsight works on any phone, tablet or computer. Choose 7 days, 28 days or 3 months, and every chart and number follows.</p>
   </div>
   <div>
-    <figure class="xiphones rv"><img src="/img/xpertinsight-phones.webp" srcset="/img/xpertinsight-phones-640.webp 640w, /img/xpertinsight-phones.webp 1200w" sizes="(max-width: 900px) 90vw, 520px" width="1200" height="1199" loading="lazy" decoding="async" alt="XpertInsight on two phones: the Leads view and the Overview with the Xpert score" /></figure>
+    <figure class="xiphones rv"><img src="/img/xpertinsight-phones-v2.webp" srcset="/img/xpertinsight-phones-640-v2.webp 640w, /img/xpertinsight-phones-v2.webp 1200w" sizes="(max-width: 900px) 90vw, 520px" width="1200" height="1199" loading="lazy" decoding="async" alt="XpertInsight on two phones: the Leads view and the Overview with the Xpert score" /></figure>
   </div>
 </div></section>
 
 <section class="solid band" style="padding-top:0"><div class="wrap">
-  <figure class="pfig rv"><img src="/img/xpertinsight-dashboard.webp" srcset="/img/xpertinsight-dashboard-900.webp 900w, /img/xpertinsight-dashboard.webp 1440w" sizes="(max-width: 1200px) 100vw, 1140px" width="1440" height="900" loading="lazy" decoding="async" alt="The XpertInsight overview on a computer: Xpert score, visitors, leads, Google clicks, page 1 keywords, AI visits, uptime and insights from our experts" /><figcaption>The XpertInsight overview on a computer.</figcaption></figure>
+  <span class="eyebrow rv">On a computer</span>
+  <h2 class="rv">A closer look at every view.</h2>
+  <figure class="pfig rv"><img src="/img/xpertinsight-dashboard-v2.webp" srcset="/img/xpertinsight-dashboard-900-v2.webp 900w, /img/xpertinsight-dashboard-v2.webp 1440w" sizes="(max-width: 1200px) 100vw, 1140px" width="1440" height="900" loading="lazy" decoding="async" alt="The XpertInsight overview on a computer: Xpert score, visitors, leads, Google clicks, page 1 keywords, AI visits, uptime and insights from our experts" /></figure>
+  <div class="xishots">
+    {shots.map(([f, t, a], i) => <figure class="rv" style={`--d:${i % 2}`}><img src={`/img/xpertinsight-view-${f}.webp`} srcset={`/img/xpertinsight-view-${f}-600.webp 600w, /img/xpertinsight-view-${f}.webp 1200w`} sizes="(max-width: 760px) 100vw, 560px" width="1200" height="700" loading="lazy" decoding="async" alt={a} /><figcaption>{t}</figcaption></figure>)}
+  </div>
 </div></section>
 
 <section class="dark band"><div class="wrap split">
