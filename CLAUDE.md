@@ -57,3 +57,7 @@ The 3D scene is an extra. The page must be complete, fast and readable without i
 - `npm run dev` preview at http://localhost:4321
 - `npm test` build and check every page
 - `STRICT=1 npm test` also fails while any placeholder is left (run before going live)
+
+## Releases (Suhen 2026-11-13)
+- One thread, "Review and approve all changes", combines finished branches on the latest main, sends Suhen pages.dev previews, and merges only after Suhen says "go live". Other threads hand their branches to it.
+- If the live site doesn't change after a merge, check the Cloudflare Pages deploy log. On 2026-11-13, Cloudflare failed at "Failed to publish your Function" (an error on their side) for about an hour. A retry or a new merge fixes it.
