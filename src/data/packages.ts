@@ -3,8 +3,8 @@
 export interface Tier { id: string; name: string; rm: number; usd: number; /** price from 1 February 2027 (Suhen picked the moderate rise, 2026-11-12) */ rmNew: number; usdNew: number; for: string; rows: string[]; short: string; free?: string; hot?: boolean }
 
 
-/** Launch offer: free hosting and XpertCare with every build, until this date (inclusive). */
-export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free high speed hosting and XpertCare with every website.', text: '1 month with Starter, 2 with Business, 4 with Growth.' };
+/** Launch offer: 1 year of free hosting and free XpertCare with every build, until this date (inclusive). Suhen 2026-11-13. */
+export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: '1 year of free high speed hosting, plus free XpertCare, with every website.', text: 'Every website gets 1 year of free high speed hosting. Starter also gets the 14 day XpertCare Trial, Business 2 months of XpertCare Basic and Growth 4 months of XpertCare Plus.' };
 export const offerOn = () => new Date() < new Date('2027-02-01T00:00:00+08:00');
 
 /** Prices: today's launch prices until the offer ends, then the new prices (both from Suhen; never change without asking).
@@ -17,12 +17,12 @@ export const fmtNew = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money(cur === 'RM' 
 export const rmNow = (t: Tier) => now(t).rm;
 
 export const build = {
-  key: 'build', label: 'XpertForge website build', unit: 'once', allTitle: 'In every XpertForge build',
+  key: 'build', label: 'XpertForge website build', unit: '', allTitle: 'In every XpertForge build',
   all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Full keyword research with XpertCore', 'WhatsApp button + contact'],
   tiers: [
-    { id: 'starter', name: 'XpertForge Starter', rm: 499, usd: 129, rmNew: 799, usdNew: 199, for: 'For a first website', short: 'Up to 5 pages, plus a blog with 2 posts', rows: ['Up to <b>5 pages</b>', 'Plus a blog with <b>2 posts</b> at launch', '<b>2</b> revision rounds'], free: '1 month of XpertCare Basic free' },
-    { id: 'business', name: 'XpertForge Business', rm: 999, usd: 249, rmNew: 1499, usdNew: 379, for: 'For a growing business', hot: true, short: 'Up to 10 pages, plus a blog with 5 posts', rows: ['Up to <b>10 pages</b>', 'Plus a blog with <b>5 posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertCare Plus free' },
-    { id: 'growth', name: 'XpertForge Growth', rm: 1799, usd: 449, rmNew: 2499, usdNew: 629, for: 'For a bigger website', short: 'Up to 20 pages, plus a blog with 10 posts', rows: ['Up to <b>20 pages</b>', 'Plus a blog with <b>10 posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertCare Pro free' },
+    { id: 'starter', name: 'XpertForge Starter', rm: 499, usd: 129, rmNew: 799, usdNew: 199, for: 'For a first website', short: 'Up to 5 pages, plus a blog with 2 posts', rows: ['Up to <b>5 pages</b>', 'Plus a blog with <b>2 posts</b> at launch', '<b>2</b> revision rounds'], free: '14 day XpertCare Trial free, plus 1 year of free hosting' },
+    { id: 'business', name: 'XpertForge Business', rm: 999, usd: 249, rmNew: 1499, usdNew: 379, for: 'For a growing business', hot: true, short: 'Up to 10 pages, plus a blog with 5 posts', rows: ['Up to <b>10 pages</b>', 'Plus a blog with <b>5 posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertCare Basic free, plus 1 year of free hosting' },
+    { id: 'growth', name: 'XpertForge Growth', rm: 1799, usd: 449, rmNew: 2499, usdNew: 629, for: 'For a bigger website', short: 'Up to 20 pages, plus a blog with 10 posts', rows: ['Up to <b>20 pages</b>', 'Plus a blog with <b>10 posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertCare Plus free, plus 1 year of free hosting' },
   ] as Tier[],
 };
 
@@ -43,6 +43,9 @@ export const care = {
   ] as Tier[],
 };
 
+/** XpertCare Trial: try XpertCare for 14 days (Suhen 2026-11-13: RM25 or US$5). The price after the launch offer is not decided; it stays RM25 until Suhen says otherwise. */
+export const trial: Tier & { days: number } = { id: 'trial', name: 'XpertCare Trial', rm: 25, usd: 5, rmNew: 25, usdNew: 5, days: 14, for: 'Try XpertCare first', short: 'XpertCare for 14 days, with your own XpertInsight dashboard and 3 keywords tracked', rows: ['<b>14 days</b> of XpertCare', 'Your own <b>XpertInsight</b> dashboard', '<b>3</b> keywords tracked'] };
+
 /** Structured data: the same names and RM prices people see on the page. */
 export const offersLd = (set: typeof build | typeof care) =>
-  set.tiers.map((t) => ({ '@type': 'Offer', name: t.name, price: now(t).rm, priceCurrency: 'MYR', description: t.short }));
+  (set.key === 'care' ? [trial, ...set.tiers] : set.tiers).map((t) => ({ '@type': 'Offer', name: t.name, price: now(t).rm, priceCurrency: 'MYR', description: t.short }));

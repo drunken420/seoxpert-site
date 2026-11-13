@@ -2,7 +2,7 @@
 // The first ten live on the homepage (src/fragments/home-lower.html); these come after them.
 // Only write what the site already says is true. Prices and numbers come from packages.ts, never typed in by hand.
 // An entry with `until` (a date) disappears after that day, like the launch offer.
-import { build, care, offer, yearly, fmt, fmtNew } from './packages';
+import { build, care, trial, offer, yearly, fmt, fmtNew } from './packages';
 
 const [starter, business, growth] = build.tiers;
 const [basic, plus, pro, elite] = care.tiers;
@@ -24,7 +24,8 @@ export const more: MoreFaq[] = [
   { topic: 'Prices and packages', q: 'Is copywriting included?', a: 'Yes. Every XpertForge package includes highly rankable content: answer first copy drafted with XpertCore from full keyword research, and checked by our experts before anything goes live.' },
   { topic: 'Prices and packages', q: 'How many revision rounds do I get?', a: `XpertForge Starter has ${rounds(starter)} revision rounds, and Business and Growth have ${rounds(business)} each.` },
   { topic: 'Prices and packages', q: 'Is there a discount if I pay yearly?', a: `Yes. Pay for XpertCare yearly and you get 12 months for the price of ${yearly.pay}, so ${yearly.text}.` },
-  { topic: 'Prices and packages', q: 'Is there a launch offer?', until: offer.ends, a: `Yes, until ${offer.endsText}. Every new website comes with free high speed hosting and XpertCare: ${offer.text} <a href="/packages/">See the packages</a>.` },
+  { topic: 'Prices and packages', q: 'Is there a launch offer?', until: offer.ends, a: `Yes, until ${offer.endsText}. ${offer.text} <a href="/packages/">See the packages</a>.` },
+  { topic: 'XpertCare', q: 'Can I try XpertCare first?', a: `Yes. The ${trial.name} costs ${fmt(trial)} for ${trial.days} days: ${trial.short.replace('XpertCare for 14 days, with', 'you get')}. <a href="/packages/#xpertcare">See the plans</a>.` },
   { topic: 'Prices and packages', q: 'Will the prices go up?', until: offer.ends, a: `Yes. Today's prices are launch prices until ${offer.endsText}. From 1 February 2027, XpertForge websites cost ${fmtNew(starter)}, ${fmtNew(business)} and ${fmtNew(growth)}, and XpertCare costs ${fmtNew(basic)}, ${fmtNew(plus)} and ${fmtNew(pro)} a month. <a href="/packages/">See the packages</a>.` },
   { topic: 'Prices and packages', q: 'Can I see the prices in US dollars?', a: 'Yes. Prices are in Malaysian ringgit (RM), and the <a href="/packages/">packages page</a> has a switch to show them in US dollars too.' },
   { topic: 'Prices and packages', q: 'Do I pay extra for website development?', a: 'No. Design and development are both included in every website design package. <a href="/website-development/">See what goes into the code</a>.' },
