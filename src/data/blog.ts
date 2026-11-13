@@ -15,16 +15,17 @@ export interface Post {
 }
 
 const [starter, business, growth] = build.tiers;
-const [basic, plus, pro] = care.tiers;
+const [basic, plus, pro, elite] = care.tiers;
 const buildTable = `<div class="btable" tabindex="0" role="region" aria-label="XpertForge packages table"><table><thead><tr><th>Package</th><th>Price, paid once</th><th>Pages</th><th>Blog posts at launch, on top</th></tr></thead><tbody>
 <tr><td>${starter.name}</td><td>${fmt(starter)}</td><td>Up to 5</td><td>2</td></tr>
 <tr><td>${business.name}</td><td>${fmt(business)}</td><td>Up to 10</td><td>5</td></tr>
 <tr><td>${growth.name}</td><td>${fmt(growth)}</td><td>Up to 20</td><td>10</td></tr>
 </tbody></table></div>`;
 const careTable = `<div class="btable" tabindex="0" role="region" aria-label="XpertCare plans table"><table><thead><tr><th>Plan</th><th>Price a month</th><th>Paid yearly</th><th>What changes each month</th></tr></thead><tbody>
-<tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>3 text or photo changes, 1 new blog post, 5 keywords tracked weekly</td></tr>
-<tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>10 text or photo changes, 2 new blog posts, 10 keywords tracked weekly</td></tr>
-<tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>Up to 20 small changes, 4 new blog posts, 20 keywords tracked weekly</td></tr>
+<tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>2 text or photo changes, 1 new blog post, 5 keywords tracked weekly</td></tr>
+<tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>4 text or photo changes, 2 new blog posts, 10 keywords tracked weekly</td></tr>
+<tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>6 text or photo changes, 4 new blog posts, 20 keywords tracked weekly</td></tr>
+<tr><td>${elite.name}</td><td>${fmt(elite)}</td><td>${fmtYear(elite)}</td><td>10 text or photo changes, 6 new blog posts, 50 keywords tracked weekly</td></tr>
 </tbody></table></div>`;
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
@@ -188,7 +189,7 @@ export const posts: Post[] = [
       { id: 'revision-rounds', h: 'How revision rounds work', html: `<p>A revision round is one batch of changes you ask for after seeing the design and writing. ${starter.name} includes 2 rounds, and ${business.name} and ${growth.name} include 3.</p>
 <p>To get the most from each round, collect all your changes in one list before you send them, and ask anyone else who needs to approve the website to add theirs to the same list. Clear, complete feedback in one go gives a better result than many small messages.</p>` },
       { id: 'add-monthly-care', h: 'Adding monthly care', html: `<p>After launch you can add XpertCare, our optional monthly plan with high speed hosting included. With every plan we actively check your website every few days, fix what we find, and make SEO and AI search improvements when they are needed.</p>${careTable}
-<p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} needs Growth. Pay yearly and you get ${yearly.text}.</p>
+<p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} and ${elite.name} need Growth. Pay yearly and you get ${yearly.text}.</p>
 <p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p>` },
       { id: 'still-not-sure', h: 'Between two sizes?', html: `<p>Think about the next year, not only launch day. If you plan to add services, or want a page for each type of job you do, the bigger size gives you room.</p>
 <p>If you are still unsure, <a href="/contact/">tell us about your business</a> and we will say honestly which size fits. If a smaller package is enough, we will tell you.</p>` },
@@ -377,12 +378,13 @@ export const posts: Post[] = [
 <h3>Every few days</h3><p>We actively check your website: that it is up, working and fast, that forms send and links work. We fix what we find, and when a page needs it, we make SEO and AI search (LLM) improvements.</p>
 <h3>Every week</h3><p>Your keywords are tracked, so we can see which pages are rising and which need work.</p>
 <h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand.</p>` },
-      { id: 'what-it-costs', h: 'What website maintenance costs', html: `<p>Website maintenance prices vary a lot, so check what is included before you compare. XpertCare has three plans, and high speed hosting is included in every one.</p>${careTable}
+      { id: 'what-it-costs', h: 'What website maintenance costs', html: `<p>Website maintenance prices vary a lot, so check what is included before you compare. XpertCare has four plans, and high speed hosting is included in every one.</p>${careTable}
 <p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>` },
       { id: 'choosing-a-plan', h: 'How to choose a plan size', html: `<p>Choose by how often your website needs to change and how fast you want it to grow:</p>
 <ul><li><b>${basic.name}</b> keeps the website healthy, with a few changes and a new blog post each month. It fits any XpertForge website.</li>
 <li><b>${plus.name}</b> keeps it growing, with more changes, more posts and more keywords tracked. It needs a Business or Growth website.</li>
-<li><b>${pro.name}</b> grows it faster, with the most changes, posts and keywords. It needs a Growth website.</li></ul>
+<li><b>${pro.name}</b> grows it faster, with more changes, posts and keywords. It needs a Growth website.</li>
+<li><b>${elite.name}</b> is our biggest plan, with the most changes, posts and keywords. It needs a Growth website.</li></ul>
 <p>Your care plan can be as big as your website, not bigger, because a small website does not need the biggest plan.</p>` },
       { id: 'who-it-is-for', h: 'Who XpertCare is for', html: `<p>XpertCare is only for websites we build with XpertForge, and we host them, so we know every part of what we look after. We do not maintain websites built elsewhere, but we can build you a new one first.</p>
 <p>XpertCare is optional. See the plans on the <a href="/website-maintenance/">website maintenance</a> page.</p>` },

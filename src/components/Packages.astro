@@ -1,7 +1,7 @@
 ---
 // Package cards (website build and XpertCare), the RM or USD switch and the launch offer.
 // show="both" adds the Build / XpertCare switch; show="care" shows the care plans only.
-import { build, care, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, yearly, type Tier } from '../data/packages';
+import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, yearly, type Tier } from '../data/packages';
 interface Props { show?: 'both' | 'care'; pickHref?: string }
 const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
 const sets = show === 'care' ? [care] : [build, care];
@@ -36,13 +36,13 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
     <div class="pkset" data-set={S.key}>
       {show === 'both' && <h3 class="pksetname">{S.label}</h3>}
       {S.key === 'care' && <div class="pkseg pkbill rv" role="group" aria-label="How to pay" data-pk-bill hidden><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>}
-      <div class="pkcards">
+      <div class={'pkcards' + (S.tiers.length === 4 ? ' n4' : '')}>
         {S.tiers.map((t, i) => (
           <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i}`}>
             {t.hot && <span class="pkbadge">Recommended</span>}
             <h3>{t.name}</h3>
             <p class="pkfor">{t.for}</p>
-            <p class="pkprice"><span {...price(t)} {...(S.key === 'care' ? { 'data-rm-y': fmtYear(t, 'RM'), 'data-usd-y': fmtYear(t, 'USD') } : {})}>{fmt(t)}</span><small data-unit={S.key === 'care' ? '' : undefined}>{S.unit}</small></p>
+            <p class="pkprice"><span {...price(t)} {...(S.key === 'care' ? { 'data-rm-y': fmtYear(t, 'RM'), 'data-usd-y': fmtYear(t, 'USD') } : {})}>{fmt(t)}</span>{S.unit && <small data-unit={S.key === 'care' ? '' : undefined}>{S.unit}</small>}</p>
             {on && <p class="pkwas" data-pk-offer={offer.ends}>Launch price. From 1 February 2027: <s><span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} {...(S.key === 'care' ? { 'data-rm-y': fmtYearNew(t, 'RM'), 'data-usd-y': fmtYearNew(t, 'USD') } : {})}>{fmtNew(t)}</span></s></p>}
             {S.key === 'care' && <p class="pkyear"><span class="m">or <span data-rm={fmtYear(t, 'RM')} data-usd={fmtYear(t, 'USD')}>{fmtYear(t)}</span> a year, {yearly.text}</span><span class="y">12 months for the price of {yearly.pay}</span></p>}
             <ul class="pktick">{t.rows.map((r) => <li set:html={r} />)}</ul>
@@ -51,6 +51,12 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           </article>
         ))}
       </div>
+      {S.key === 'care' && (
+        <div class="pktrial rv">
+          <div><span class="pktag">New</span><h3>{trial.name}</h3><p>{trial.short}.</p></div>
+          <p class="pktprice"><span {...price(trial)}>{fmt(trial)}</span><small>for {trial.days} days</small></p>
+        </div>
+      )}
       {S.key === 'care' && <p class="pknote rv"><span class="xp sm">XpertCare</span> is only for websites we build with XpertForge. High speed hosting is included.</p>}
       <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
     </div>

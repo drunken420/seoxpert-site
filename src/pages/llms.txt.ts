@@ -1,5 +1,5 @@
 import { site } from '../config';
-import { build, care, fmt } from '../data/packages';
+import { build, care, trial, fmt } from '../data/packages';
 import { posts, postUrl } from '../data/blog';
 const line = (t: any, unit: string) => `- ${t.name}: ${fmt(t)} (${fmt(t, 'USD')}) ${unit}. ${t.short}.`;
 // A short, plain summary of the site for AI tools (see llmstxt.org).
@@ -25,6 +25,7 @@ Every build includes: ${build.all.join(', ')}.
 
 ## XpertCare monthly website maintenance
 ${care.tiers.map((t) => line(t, 'a month')).join('\n')}
+${line(trial, `for ${trial.days} days`)}
 Every XpertCare plan includes: ${care.all.join(', ')}.
 
 ## XpertAdvice: website design and SEO guides

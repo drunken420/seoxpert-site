@@ -2,10 +2,10 @@
 // The first ten live on the homepage (src/fragments/home-lower.html); these come after them.
 // Only write what the site already says is true. Prices and numbers come from packages.ts, never typed in by hand.
 // An entry with `until` (a date) disappears after that day, like the launch offer.
-import { build, care, offer, yearly, fmt, fmtNew } from './packages';
+import { build, care, trial, offer, yearly, fmt, fmtNew } from './packages';
 
 const [starter, business, growth] = build.tiers;
-const [basic, plus, pro] = care.tiers;
+const [basic, plus, pro, elite] = care.tiers;
 const pages = (t: typeof starter) => t.short.match(/Up to (\d+)/)?.[1];
 const posts = (t: typeof starter) => t.short.match(/(\d+) posts/)?.[1];
 const rounds = (t: typeof starter) => t.rows.join(' ').match(/<b>(\d+)<\/b> revision/)?.[1];
@@ -24,7 +24,8 @@ export const more: MoreFaq[] = [
   { topic: 'Prices and packages', q: 'Is copywriting included?', a: 'Yes. Every XpertForge package includes highly rankable content: answer first copy drafted with XpertCore from full keyword research, and checked by our experts before anything goes live.' },
   { topic: 'Prices and packages', q: 'How many revision rounds do I get?', a: `XpertForge Starter has ${rounds(starter)} revision rounds, and Business and Growth have ${rounds(business)} each.` },
   { topic: 'Prices and packages', q: 'Is there a discount if I pay yearly?', a: `Yes. Pay for XpertCare yearly and you get 12 months for the price of ${yearly.pay}, so ${yearly.text}.` },
-  { topic: 'Prices and packages', q: 'Is there a launch offer?', until: offer.ends, a: `Yes, until ${offer.endsText}. Every new website comes with free high speed hosting and XpertCare: ${offer.text} <a href="/packages/">See the packages</a>.` },
+  { topic: 'Prices and packages', q: 'Is there a launch offer?', until: offer.ends, a: `Yes, until ${offer.endsText}. ${offer.text} <a href="/packages/">See the packages</a>.` },
+  { topic: 'XpertCare', q: 'Can I try XpertCare first?', a: `Yes. The ${trial.name} costs ${fmt(trial)} for ${trial.days} days: ${trial.short.replace('XpertCare for 14 days, with', 'you get')}. <a href="/packages/#xpertcare">See the plans</a>.` },
   { topic: 'Prices and packages', q: 'Will the prices go up?', until: offer.ends, a: `Yes. Today's prices are launch prices until ${offer.endsText}. From 1 February 2027, XpertForge websites cost ${fmtNew(starter)}, ${fmtNew(business)} and ${fmtNew(growth)}, and XpertCare costs ${fmtNew(basic)}, ${fmtNew(plus)} and ${fmtNew(pro)} a month. <a href="/packages/">See the packages</a>.` },
   { topic: 'Prices and packages', q: 'Can I see the prices in US dollars?', a: 'Yes. Prices are in Malaysian ringgit (RM), and the <a href="/packages/">packages page</a> has a switch to show them in US dollars too.' },
   { topic: 'Prices and packages', q: 'Do I pay extra for website development?', a: 'No. Design and development are both included in every website design package. <a href="/website-development/">See what goes into the code</a>.' },
@@ -52,10 +53,10 @@ export const more: MoreFaq[] = [
   { topic: 'XpertCare', q: 'Is hosting included?', a: 'Yes, high speed hosting is included with every XpertCare plan, and with the launch offer. We do not sell hosting on its own.' },
   { topic: 'XpertCare', q: 'Do I have to take XpertCare?', a: 'No. XpertCare is optional. It is there if you want us to keep your website hosted, updated, backed up and growing every month.' },
   { topic: 'XpertCare', q: 'Can you look after a website built by someone else?', a: 'No. XpertCare is only for websites we build with XpertForge, because we host them and know every part of what we look after. We can build you a new website first.' },
-  { topic: 'XpertCare', q: 'Which XpertCare plan fits my website?', a: `A care plan can be as big as the website, not bigger. ${basic.name} fits any XpertForge website, ${plus.name.replace('XpertCare ', '')} needs Business or Growth, and ${pro.name.replace('XpertCare ', '')} needs Growth.` },
+  { topic: 'XpertCare', q: 'Which XpertCare plan fits my website?', a: `A care plan can be as big as the website, not bigger. ${basic.name} fits any XpertForge website, ${plus.name.replace('XpertCare ', '')} needs Business or Growth, and ${pro.name.replace('XpertCare ', '')} and ${elite.name.replace('XpertCare ', '')} need Growth.` },
   { topic: 'XpertCare', q: 'How often do you check my website?', a: 'Every few days. With every XpertCare plan we actively check your website every few days, fix what we find and make SEO and AI search (LLM) optimisations when needed, plus uptime watch, backups and security, plus a Google and AI visibility report every month.' },
-  { topic: 'XpertCare', q: 'Can I change text or photos after launch?', a: `Yes, with XpertCare. ${basic.name} includes ${basic.short.split(',')[0]}, ${plus.name.replace('XpertCare ', '')} includes ${plus.short.split(',')[0]}, and ${pro.name.replace('XpertCare ', '')} includes ${pro.short.split(',')[0].replace(/^Up to/, 'up to')}, every month. <a href="/packages/">Compare the plans</a>.` },
-  { topic: 'XpertCare', q: 'Do you keep writing blog posts after launch?', a: `Yes, with XpertCare: ${basic.short.split(',')[1].trim().replace(' a month', '')} a month with ${basic.name.replace('XpertCare ', '')}, ${plus.short.split(',')[1].trim().replace(' a month', '')} with ${plus.name.replace('XpertCare ', '')}, and ${pro.short.split(',')[1].trim().replace(' a month', '')} with ${pro.name.replace('XpertCare ', '')}.` },
+  { topic: 'XpertCare', q: 'Can I change text or photos after launch?', a: `Yes, with XpertCare. ${basic.name} includes ${basic.short.split(',')[0]}, ${plus.name.replace('XpertCare ', '')} includes ${plus.short.split(',')[0]}, ${pro.name.replace('XpertCare ', '')} includes ${pro.short.split(',')[0]}, and ${elite.name.replace('XpertCare ', '')} includes ${elite.short.split(',')[0]}, every month. <a href="/packages/">Compare the plans</a>.` },
+  { topic: 'XpertCare', q: 'Do you keep writing blog posts after launch?', a: `Yes, with XpertCare: ${basic.short.split(',')[1].trim().replace(' a month', '')} a month with ${basic.name.replace('XpertCare ', '')}, ${plus.short.split(',')[1].trim().replace(' a month', '')} with ${plus.name.replace('XpertCare ', '')}, ${pro.short.split(',')[1].trim().replace(' a month', '')} with ${pro.name.replace('XpertCare ', '')}, and ${elite.short.split(',')[1].trim().replace(' a month', '')} with ${elite.name.replace('XpertCare ', '')}.` },
   { topic: 'XpertCare', q: 'Do you back up my website?', a: 'Yes. With every XpertCare plan, regular copies of your website are saved, so nothing is lost if something goes wrong.' },
   { topic: 'XpertCare', q: 'What is XpertInsight?', a: 'XpertInsight is our own live website report dashboard, included with every XpertCare plan. You log in to see your visitors, leads, keywords, AI answers and site health in plain words. <a href="/website-report-dashboard/">Look inside XpertInsight</a>.' },
   { topic: 'XpertCare', q: 'Does XpertInsight cost extra?', a: 'No. XpertInsight is included with every XpertCare plan and is not sold on its own.' },

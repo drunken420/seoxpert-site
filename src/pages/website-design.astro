@@ -52,7 +52,7 @@ const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Web
   <h2 class="rv">Website design packages.</h2>
   <p class="sub rv">How much does website design cost? Our <a href="/packages/">website design packages</a> start at RM499, one time, with copywriting and keyword research included.</p>
   <div class="grid3">
-    {build.tiers.map((t, i) => <div class="fcard rv" style={`--d:${i}`}><h3>{t.name}</h3><p><b>{fmt(t)}</b> once. {t.short} at launch.</p></div>)}
+    {build.tiers.map((t, i) => <div class="fcard rv" style={`--d:${i}`}><h3>{t.name}</h3><p><b>{fmt(t)}</b>. {t.short} at launch.</p></div>)}
   </div>
   <p class="sub rv" style="margin-top:28px"><a href="/packages/">Compare the packages and build your plan</a>.</p>
 </div></section>
