@@ -36,7 +36,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
     <div class="pkset" data-set={S.key}>
       {show === 'both' && <h3 class="pksetname">{S.label}</h3>}
       {S.key === 'care' && <div class="pkseg pkbill rv" role="group" aria-label="How to pay" data-pk-bill hidden><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>}
-      <div class="pkcards">
+      <div class={'pkcards' + (S.tiers.length === 4 ? ' n4' : '')}>
         {S.tiers.map((t, i) => (
           <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i}`}>
             {t.hot && <span class="pkbadge">Recommended</span>}

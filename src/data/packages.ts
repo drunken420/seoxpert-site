@@ -35,9 +35,11 @@ export const care = {
   key: 'care', label: 'XpertCare monthly', unit: 'a month', allTitle: 'In every XpertCare plan',
   all: ['High speed hosting included', 'Pay yearly, get 2 months free', 'Backups', 'Uptime watch', 'Security', 'Active checks every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'XpertInsight live report dashboard + monthly XpertRecap PDF'],
   tiers: [
-    { id: 'basic', name: 'XpertCare Basic', rm: 55, usd: 15, rmNew: 69, usdNew: 18, for: 'Keep it healthy', short: '3 text or photo changes, 1 new blog post a month, 5 keywords tracked weekly', rows: ['<b>3</b> text or photo changes', '<b>1</b> new blog post a month', '<b>5</b> keywords tracked weekly'] },
-    { id: 'plus', name: 'XpertCare Plus', rm: 99, usd: 25, rmNew: 129, usdNew: 33, for: 'Keep it growing', hot: true, short: '10 text or photo changes, 2 new blog posts a month, 10 keywords tracked weekly', rows: ['<b>10</b> text or photo changes', '<b>2</b> new blog posts a month', '<b>10</b> keywords tracked weekly'] },
-    { id: 'pro', name: 'XpertCare Pro', rm: 150, usd: 39, rmNew: 199, usdNew: 49, for: 'Grow faster', short: 'Up to 20 small changes, 4 new blog posts a month, 20 keywords tracked weekly', rows: ['Up to <b>20</b> small changes', '<b>4</b> new blog posts a month', '<b>20</b> keywords tracked weekly'] },
+    { id: 'basic', name: 'XpertCare Basic', rm: 55, usd: 15, rmNew: 69, usdNew: 18, for: 'Keep it healthy', short: '2 text or photo changes, 1 new blog post a month, 5 keywords tracked weekly', rows: ['<b>2</b> text or photo changes', '<b>1</b> new blog post a month', '<b>5</b> keywords tracked weekly'] },
+    { id: 'plus', name: 'XpertCare Plus', rm: 99, usd: 25, rmNew: 129, usdNew: 33, for: 'Keep it growing', hot: true, short: '4 text or photo changes, 2 new blog posts a month, 10 keywords tracked weekly', rows: ['<b>4</b> text or photo changes', '<b>2</b> new blog posts a month', '<b>10</b> keywords tracked weekly'] },
+    { id: 'pro', name: 'XpertCare Pro', rm: 150, usd: 39, rmNew: 199, usdNew: 49, for: 'Grow faster', short: '6 text or photo changes, 4 new blog posts a month, 20 keywords tracked weekly', rows: ['<b>6</b> text or photo changes', '<b>4</b> new blog posts a month', '<b>20</b> keywords tracked weekly'] },
+    // Elite: Suhen agreed 2026-11-13 (RM249 now, RM329 from 1 Feb 2027). USD is Claude's draft.
+    { id: 'elite', name: 'XpertCare Elite', rm: 249, usd: 65, rmNew: 329, usdNew: 85, for: 'Our biggest plan', short: '10 text or photo changes, 6 new blog posts a month, 50 keywords tracked weekly', rows: ['<b>10</b> text or photo changes', '<b>6</b> new blog posts a month', '<b>50</b> keywords tracked weekly'] },
   ] as Tier[],
 };
 

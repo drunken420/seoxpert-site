@@ -33,14 +33,17 @@
     all('.pkpick button[data-rm-n]', box).forEach(function (b) { ['rm', 'usd', 'rm-y', 'usd-y'].forEach(function (a) { var v = b.getAttribute('data-' + a + '-n'); if (!v) return; b.setAttribute('data-' + a, v); var sp = b.querySelector(':scope > span[data-rm]'); if (sp) sp.setAttribute('data-' + a, v); }); var sp = b.querySelector(':scope > span[data-rm]'); if (sp) sp.textContent = sp.getAttribute('data-rm'); });
     all('.pkn', box).forEach(function (el) { el.remove(); });
   }
+  // The biggest care plan a website size can take: the same position, and the biggest website (Growth) takes every plan.
+  function capFor(i) { var last = all('[data-pick-set="build"] button', box).length - 1; return i >= last ? 99 : i; }
   function sum(k) { return box.querySelector('[data-sum="' + k + '"]'); }
   function chosen(set) { return box.querySelector('[data-pick-set="' + set + '"] button[data-i="' + sel[set] + '"]'); }
   function plain(h) { return h.replace(/<[^>]+>/g, ''); }
   function draw() {
     if (!box) return;
-    /* a care plan can be as big as the website, not bigger: Starter takes Basic, Business takes Basic or Plus, Growth takes any */
-    if (sel.care > sel.build) sel.care = sel.build;
-    all('[data-pick-set="care"] button', box).forEach(function (b) { var off = +b.dataset.i > sel.build; b.classList.toggle('off', off); b.setAttribute('aria-disabled', String(off)); if (off) b.setAttribute('tabindex', '-1'); else b.removeAttribute('tabindex'); var n = b.querySelector('em'); if (n) n.hidden = !off; });
+    /* a care plan can be as big as the website, not bigger: Starter takes Basic, Business takes Basic or Plus, Growth takes any (Pro or Elite too) */
+    var cap = capFor(sel.build);
+    if (sel.care > cap) sel.care = cap;
+    all('[data-pick-set="care"] button', box).forEach(function (b) { var off = +b.dataset.i > cap; b.classList.toggle('off', off); b.setAttribute('aria-disabled', String(off)); if (off) b.setAttribute('tabindex', '-1'); else b.removeAttribute('tabindex'); var n = b.querySelector('em'); if (n) n.hidden = !off; });
     ['build', 'care'].forEach(function (set) { all('[data-pick-set="' + set + '"] button', box).forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.i === sel[set])); }); });
     var b = chosen('build'), c = sel.care < 0 ? null : chosen('care'), k = key();
     var yr = bill === 'year', per = yr ? 'a year' : 'a month';
@@ -62,7 +65,7 @@
     box.addEventListener('click', function (e) { var b = e.target.closest('.pkpick button'); if (!b || b.classList.contains('off')) return; sel[b.parentNode.getAttribute('data-pick-set')] = +b.dataset.i; draw(); });
   }
   // "Choose ..." buttons on the cards fill in the picker
-  function pick(v) { var p = (v || '').split(':'); if (!box || !(p[0] in sel) || isNaN(+p[1])) return false; sel[p[0]] = +p[1]; if (p[0] === 'care' && sel.care > sel.build) sel.build = sel.care; draw(); return true; }
+  function pick(v) { var p = (v || '').split(':'); if (!box || !(p[0] in sel) || isNaN(+p[1])) return false; sel[p[0]] = +p[1]; if (p[0] === 'care' && sel.care > capFor(sel.build)) sel.build = Math.min(sel.care, all('[data-pick-set="build"] button', box).length - 1); draw(); return true; }
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[data-pick]'); if (!a || !box) return;
     if (pick(a.dataset.pick)) { e.preventDefault(); box.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
