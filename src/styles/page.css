@@ -225,6 +225,9 @@ pre.codecard{margin:0;overflow-x:auto}
 .hpk i{display:block;height:8px;width:100%;border-radius:99px;background:var(--line)}.hpk i:nth-of-type(2){width:78%}.hpk i:nth-of-type(3){width:56%}
 .hpk.dk i{background:rgba(255,255,255,.16)}
 .hpk i:first-of-type{margin-top:8px}
+.hcare{width:76%;padding:14px 18px;display:grid;gap:6px;justify-items:start;z-index:3}
+.hcare b{font:700 17px/1.15 var(--f-d);letter-spacing:-.02em}.hcare b span{color:var(--acc)}
+.hcare small{font:500 12.5px/1.2 var(--f-m);color:var(--mute)}.hcare small span{color:var(--ink);font-weight:600}
 .hscene{left:50%;top:48%;width:0;height:0;perspective:700px}
 .hart[data-art="demos"]{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hcube{position:absolute;width:128px;height:128px;margin:-64px;transform-style:preserve-3d;animation:hcube 16s linear infinite;--c1:#b06cff;--c2:#7b18c1}

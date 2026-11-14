@@ -2,7 +2,7 @@
 // The animated picture in an inner page banner. Pure CSS (styles: "banner art" in src/styles/page.css).
 // It is decoration only, so it is hidden from screen readers. Never put invented numbers in it.
 import icon from '../fragments/icon.svg?raw';
-import { build, fmt } from '../data/packages';
+import { build, care, trial, fmt, offerOn } from '../data/packages';
 interface Props { kind: string }
 const { kind } = Astro.props;
 const at = (x: number, y: number, extra = '') => `--x:${x}%;--y:${y}%;${extra}`;
@@ -87,7 +87,12 @@ const short = (n: string) => n.replace('XpertForge ', '');
         <i></i><i></i><i></i>
       </div>
     ))}
-    <span class="hchip plus hfl" style={at(26, 88, '--t:8s;--dl:-3s')}>Add XpertCare monthly</span>
+    <div class="hc hcare hfl" style={at(12, 70, '--t:8s;--dl:-3s')}>
+      <span class="xp sm">XpertCare</span>
+      <b>Monthly care from <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span></b>
+      <small>Try it first: <span data-rm={fmt(trial, 'RM')} data-usd={fmt(trial, 'USD')}>{fmt(trial)}</span> for {trial.days} days</small>
+    </div>
+    {offerOn() && <span class="hchip hfl" style={at(-3, 4, '--t:7s;--dl:-1s')}>1 year free hosting</span>}
   </>}
 
   {kind === 'demos' && <>
