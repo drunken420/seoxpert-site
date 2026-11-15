@@ -684,11 +684,17 @@
       var gc = document.createElement('canvas'); gc.width = gc.height = 128; var gg = gc.getContext('2d'), rg = gg.createRadialGradient(64, 64, 40, 64, 64, 64); rg.addColorStop(0, 'rgba(176,108,255,.45)'); rg.addColorStop(1, 'rgba(176,108,255,0)'); gg.fillStyle = rg; gg.fillRect(0, 0, 128, 128);
       var glow = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(gc), depthWrite: false })); glow.scale.set(6.4, 6.4, 1); glow.renderOrder = -1; sc.add(glow);
       // famous landmarks, built from simple shapes; the first one, in Kuala Lumpur, is home
-      sc.add(new T.HemisphereLight(0xffffff, 0x8a6fb0, 0.95)); var sun = new T.DirectionalLight(0xffffff, 0.8); sun.position.set(-3, 5, 6); sc.add(sun); var rim = new T.DirectionalLight(0xd9b8ff, 0.45); rim.position.set(4, 2, -5); sc.add(rim);
+      // Lights (Suhen 2026-11-15: "enhance and adjust colour of the buildings"): a warm sun, a neutral sky with a warm bounce from
+      // the ground (it was purple, which greyed every building), a soft lilac rim, and a small studio for metal and glass to reflect.
+      sc.add(new T.HemisphereLight(0xfdfbff, 0xe9cfae, 0.42)); var sun = new T.DirectionalLight(0xfff1dc, 0.95); sun.position.set(-3, 5, 6); sc.add(sun);
+      var fill = new T.DirectionalLight(0xdfe9ff, 0.22); fill.position.set(5, 1, 4); sc.add(fill); var rim = new T.DirectionalLight(0xd9b8ff, 0.5); rim.position.set(4, 2, -5); sc.add(rim);
+      (function () { var room = new T.Scene(); room.background = new T.Color(0x56606e);
+        [[0xffffff, 0, 6, 3, 8, 2], [0xfff1d8, 6, 2, 2, 2, 6], [0xdfe8ff, -6, 1, 2, 2, 6], [0x8a8f9a, 0, -6, 2, 8, 2]].forEach(function (b) { var m = new T.Mesh(new T.PlaneGeometry(b[4], b[5]), new T.MeshBasicMaterial({ color: b[0], side: T.DoubleSide })); m.position.set(b[1], b[2], b[3]); m.lookAt(0, 0, 0); room.add(m); });
+        var pm = new T.PMREMGenerator(r); sc.environment = pm.fromScene(room, 0.04).texture; pm.dispose(); })();
       var places = [['Petronas Twin Towers', 'Kuala Lumpur', 3.158, 101.711, 'petronas'], ['Tokyo Tower', 'Tokyo', 35.659, 139.745, 'tokyo'], ['Opera House', 'Sydney', -33.857, 151.215, 'opera'],
         ['Burj Khalifa', 'Dubai', 25.197, 55.274, 'burj'], ['Eiffel Tower', 'Paris', 48.858, 2.294, 'eiffel'], ['Big Ben', 'London', 51.501, -0.125, 'bigben'], ['Statue of Liberty', 'New York', 40.689, -74.045, 'liberty'],
         ['Pyramids', 'Giza', 29.979, 31.134, 'pyramids'], ['Taj Mahal', 'Agra', 27.175, 78.042, 'taj'], ['Great Wall', 'Beijing', 40.432, 116.57, 'wall'], ['Christ the Redeemer', 'Rio de Janeiro', -22.952, -43.211, 'christ']];
-      function M(c, o) { return new T.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.55, metalness: 0.1, flatShading: true }, o || {})); }
+      function M(c, o) { return new T.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.5, metalness: 0.08, envMapIntensity: 0.35 }, o || {})); }
       function add(gp, geo, m, x, y, z, ry) { var o = new T.Mesh(geo, m); o.position.set(x || 0, y || 0, z || 0); if (ry) o.rotation.y = ry; gp.add(o); return o; }
       var C = function (a, b, h, n) { return new T.CylinderGeometry(a, b, h, n || 8); }, B = function (x, y, z) { return new T.BoxGeometry(x, y, z); }, Q = Math.PI / 4, Y = new T.Vector3(0, 1, 0);
       // a beam from one point to another, for towers built from steel
@@ -706,27 +712,30 @@
       var clock = tex(128, 128, function (x) { x.fillStyle = '#e8b84a'; x.beginPath(); x.arc(64, 64, 63, 0, 7); x.fill(); x.fillStyle = '#fff6dc'; x.beginPath(); x.arc(64, 64, 54, 0, 7); x.fill(); x.fillStyle = '#2a2333';
         for (var i = 0; i < 12; i++) { x.save(); x.translate(64, 64); x.rotate(i * Math.PI / 6); x.fillRect(-2.5, -50, 5, 11); x.restore(); } x.lineCap = 'round'; x.strokeStyle = '#2a2333'; x.lineWidth = 7; x.beginPath(); x.moveTo(64, 64); x.lineTo(64, 28); x.stroke(); x.lineWidth = 6; x.beginPath(); x.moveTo(64, 64); x.lineTo(92, 74); x.stroke(); });
       // every landmark stands on a little round tile: the top in its own colour, the side in brand purple
-      var tileSide = M(0x7b18c1, { roughness: 0.45 }), tops = {};
-      function tile(q, col, r) { var t = tops[col] || (tops[col] = M(col, { roughness: 0.8 })); var o = new T.Mesh(C(r, r * 1.05, 0.05, 32), [tileSide, t, t]); o.position.y = -0.025; q.add(o); }
-      var GRASS = 0x9ccf86, gold = M(0xe8b84a, { metalness: 0.25, roughness: 0.35 }), shine = M(0xffd27a, { emissive: 0xffb43c, emissiveIntensity: 0.9 });
+      var tileSide = M(0x7b18c1, { roughness: 0.35, metalness: 0.15 }), tileRim = M(0xe8b84a, { metalness: 0.7, roughness: 0.3, envMapIntensity: 1.2 }), tops = {};
+      var shade = tex(64, 64, function (x) { var g2 = x.createRadialGradient(32, 32, 0, 32, 32, 32); g2.addColorStop(0, 'rgba(30,10,50,.38)'); g2.addColorStop(0.6, 'rgba(30,10,50,.14)'); g2.addColorStop(1, 'rgba(30,10,50,0)'); x.fillStyle = g2; x.fillRect(0, 0, 64, 64); });
+      function tile(q, col, r) { var t = tops[col] || (tops[col] = M(col, { roughness: 0.75 })); var o = new T.Mesh(C(r, r * 1.05, 0.05, 40), [tileSide, t, t]); o.position.y = -0.025; q.add(o);
+        var ring = new T.Mesh(new T.TorusGeometry(r * 1.005, 0.007, 6, 64), tileRim); ring.rotation.x = Math.PI / 2; ring.position.y = 0.001; q.add(ring);
+        var sh = new T.Mesh(new T.CircleGeometry(r * 0.78, 32), new T.MeshBasicMaterial({ map: shade, transparent: true, depthWrite: false })); sh.rotation.x = -Math.PI / 2; sh.position.y = 0.002; q.add(sh); }
+      var GRASS = 0x5fb34c, gold = M(0xf0be4f, { metalness: 0.75, roughness: 0.28, envMapIntensity: 1.3 }), shine = M(0xffd27a, { emissive: 0xffb43c, emissiveIntensity: 0.9 });
       var build = {
-        petronas: function (q) { tile(q, 0xe4dcef, 0.4); var m = M(0xffffff, { map: glass('#e3e8ef', '#9aa5b6', 8, 10), metalness: 0.2, roughness: 0.35 }), s = M(0xf4f6fa, { metalness: 0.3, roughness: 0.3 });
+        petronas: function (q) { tile(q, 0xcdb9ec, 0.4); var m = M(0xffffff, { map: glass('#dfe7f1', '#6d84a6', 8, 10), metalness: 0.55, roughness: 0.22, envMapIntensity: 1.2 }), s = M(0xf7f9fc, { metalness: 0.8, roughness: 0.18, envMapIntensity: 1.3 });
           add(q, B(0.6, 0.05, 0.24), M(0xd3c8e2), 0, 0.025);
           [-0.15, 0.15].forEach(function (x) { var y = 0.05;
             [[0.08, 0.3], [0.074, 0.11], [0.067, 0.09], [0.059, 0.08], [0.051, 0.07], [0.042, 0.06], [0.033, 0.05], [0.024, 0.045]].forEach(function (v) { add(q, C(v[0], v[0], v[1], 16), m, x, y + v[1] / 2); add(q, C(v[0] + 0.007, v[0] + 0.007, 0.01, 16), s, x, y + v[1]); y += v[1]; });
             add(q, C(0.012, 0.022, 0.05, 8), s, x, y + 0.025); add(q, new T.SphereGeometry(0.013, 8, 6), s, x, y + 0.09); add(q, C(0.002, 0.007, 0.24, 6), s, x, y + 0.17); });
           add(q, B(0.16, 0.03, 0.045), s, 0, 0.47); rod(q, [-0.025, 0.46, 0], [-0.075, 0.33, 0], 0.006, s); rod(q, [0.025, 0.46, 0], [0.075, 0.33, 0], 0.006, s); },
-        tokyo: function (q) { tile(q, 0xe4dcef, 0.4); var r = M(0xe8503a), w = M(0xfbfbfb), gl = M(0x2f3f63, { metalness: 0.4, roughness: 0.3 });
+        tokyo: function (q) { tile(q, 0xcdb9ec, 0.4); var r = M(0xff4f2e, { roughness: 0.4 }), w = M(0xffffff, { roughness: 0.4 }), gl = M(0x2b4a7c, { metalness: 0.6, roughness: 0.2, envMapIntensity: 1.2 });
           add(q, B(0.46, 0.07, 0.3), M(0xf2eef6), 0, 0.035, -0.02);
           lattice(q, [[0.07, 0.2], [0.2, 0.14], [0.36, 0.085], [0.5, 0.06], [0.62, 0.045], [0.72, 0.032]], [r, w, r, w, r], 0.018, 0);
           add(q, C(0.11, 0.1, 0.05, 8), w, 0, 0.39, 0, Math.PI / 8); add(q, C(0.112, 0.112, 0.022, 8), gl, 0, 0.395, 0, Math.PI / 8); add(q, C(0.09, 0.11, 0.015, 8), r, 0, 0.42, 0, Math.PI / 8);
           add(q, C(0.05, 0.05, 0.04, 8), w, 0, 0.73, 0, Math.PI / 8); add(q, C(0.052, 0.052, 0.015, 8), gl, 0, 0.73, 0, Math.PI / 8);
           for (var i = 0; i < 4; i++) add(q, C(0.016 - i * 0.003, 0.018 - i * 0.003, 0.08, 8), i % 2 ? w : r, 0, 0.79 + i * 0.08); add(q, new T.SphereGeometry(0.008, 6, 4), shine, 0, 1.11); },
-        eiffel: function (q) { tile(q, GRASS, 0.4); var m = M(0x7a5c44, { roughness: 0.7 });
+        eiffel: function (q) { tile(q, GRASS, 0.4); var m = M(0x8a6748, { metalness: 0.35, roughness: 0.5 });
           lattice(q, [[0, 0.21], [0.2, 0.11], [0.42, 0.058], [0.56, 0.042], [0.7, 0.028], [0.84, 0.014]], [m], 0.022, 1);
           for (var i = 0; i < 4; i++) { var a = add(q, new T.TorusGeometry(0.15, 0.011, 4, 16, Math.PI), m, Math.sin(i * Math.PI / 2) * 0.16, 0.025, Math.cos(i * Math.PI / 2) * 0.16); a.rotation.y = i * Math.PI / 2; }
           add(q, B(0.26, 0.03, 0.26), m, 0, 0.2); add(q, B(0.13, 0.025, 0.13), m, 0, 0.42); add(q, B(0.04, 0.05, 0.04), m, 0, 0.86); add(q, C(0.003, 0.008, 0.14, 6), m, 0, 0.95); add(q, new T.SphereGeometry(0.009, 6, 4), shine, 0, 1.02); },
-        opera: function (q) { tile(q, 0x84bde0, 0.44); var w = M(0xfbf8f1, { side: T.DoubleSide, roughness: 0.35 }), st = M(0xd2ad84);
+        opera: function (q) { tile(q, 0x2f8fd0, 0.44); var w = M(0xffffff, { side: T.DoubleSide, roughness: 0.22, metalness: 0.05, envMapIntensity: 0.7 }), st = M(0xc98a62, { roughness: 0.7 });
           add(q, B(0.6, 0.07, 0.36), st, -0.02, 0.035); add(q, B(0.14, 0.035, 0.3), st, -0.38, 0.018);
           // a sail: half a dome, narrowed towards the top so it ends in a point
           function sail(rad) { var gm = new T.SphereGeometry(rad, 16, 10, 0, Math.PI, 0, Math.PI / 2), a = gm.attributes.position;
@@ -736,12 +745,12 @@
             var sh = add(pv, sail(rad), w); sh.rotation.x = -0.3; }
           [[0.09, 1], [-0.09, 0.82]].forEach(function (hall) { var k = hall[1], z = hall[0]; shell(-0.25, z, 0.1 * k, -1); shell(-0.13, z, 0.2 * k, 1); shell(0.01, z, 0.17 * k, 1); shell(0.13, z, 0.125 * k, 1); });
           shell(0.26, 0.0, 0.085, 1); },
-        burj: function (q) { tile(q, 0xf0dfb6, 0.4); var m = M(0xffffff, { map: glass('#dfe7f0', '#93a3b8', 3, 16), metalness: 0.2, roughness: 0.3 }), s = M(0xf4f6fa, { metalness: 0.3, roughness: 0.3 });
+        burj: function (q) { tile(q, 0xe9c47a, 0.4); var m = M(0xffffff, { map: glass('#dbe5f2', '#6a82a8', 3, 16), metalness: 0.55, roughness: 0.2, envMapIntensity: 1.25 }), s = M(0xf7f9fc, { metalness: 0.8, roughness: 0.18, envMapIntensity: 1.3 });
           add(q, C(0.045, 0.055, 0.82, 6), m, 0, 0.41);
           [0, 1, 2].forEach(function (wg) { var gp = new T.Group(); gp.rotation.y = wg * Math.PI * 2 / 3; q.add(gp);
             for (var j = 0; j < 5; j++) { var len = 0.2 - j * 0.035, top = 0.2 + j * 0.12 + wg * 0.04; add(gp, B(len, top, 0.075 - j * 0.008), m, len / 2, top / 2); } });
           add(q, C(0.03, 0.042, 0.1, 6), m, 0, 0.87); add(q, C(0.018, 0.028, 0.08, 6), s, 0, 0.96); add(q, C(0.002, 0.012, 0.22, 6), s, 0, 1.11); },
-        bigben: function (q) { tile(q, GRASS, 0.42); var m = M(0xdcbd7e), dk = M(0xb39258), roof = M(0x3b3d52, { metalness: 0.3 }), face = M(0xffffff, { map: clock, emissive: 0xfff0c8, emissiveIntensity: 0.25, flatShading: false }),
+        bigben: function (q) { tile(q, GRASS, 0.42); var m = M(0xe2c27f), dk = M(0xb08a4e), roof = M(0x2f3550, { metalness: 0.5, roughness: 0.35 }), face = M(0xffffff, { map: clock, emissive: 0xfff0c8, emissiveIntensity: 0.25, flatShading: false }),
             wing = M(0xffffff, { map: windows('#dcbd7e', '#8d7350', 6, 2) });
           var x0 = -0.17; add(q, B(0.14, 0.52, 0.14), m, x0, 0.26); [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(function (k) { add(q, B(0.025, 0.56, 0.025), dk, x0 + k[0] * 0.07, 0.28, k[1] * 0.07); add(q, C(0, 0.014, 0.08, 4), gold, x0 + k[0] * 0.08, 0.86, k[1] * 0.08); });
           add(q, B(0.17, 0.18, 0.17), m, x0, 0.61); for (var i = 0; i < 4; i++) { var f = add(q, new T.CircleGeometry(0.066, 24), face, x0 + Math.sin(i * Math.PI / 2) * 0.0855, 0.61, Math.cos(i * Math.PI / 2) * 0.0855); f.rotation.y = i * Math.PI / 2; }
@@ -749,18 +758,18 @@
           add(q, new T.ConeGeometry(0.11, 0.26, 4), roof, x0, 0.93, 0, Q); add(q, C(0.003, 0.012, 0.12, 6), gold, x0, 1.12);
           add(q, B(0.4, 0.15, 0.14), wing, 0.11, 0.075, -0.02); add(q, B(0.4, 0.03, 0.1), roof, 0.11, 0.165, -0.02);
           for (var p = 0; p < 6; p++) add(q, C(0, 0.01, 0.06, 4), dk, -0.07 + p * 0.072, 0.18, 0.05); },
-        liberty: function (q) { tile(q, GRASS, 0.4); var st = M(0xcbb795), st2 = M(0xb39d78), g = M(0x74c4a8, { roughness: 0.6 });
+        liberty: function (q) { tile(q, GRASS, 0.4); var st = M(0xd8c39c), st2 = M(0xb89f76), g = M(0x5fc1a0, { roughness: 0.45, metalness: 0.25 });
           add(q, C(0.3, 0.32, 0.05, 11), st2, 0, 0.025); add(q, B(0.22, 0.08, 0.22), st, 0, 0.09); add(q, B(0.17, 0.2, 0.17), st, 0, 0.23); add(q, B(0.2, 0.025, 0.2), st2, 0, 0.34); add(q, B(0.13, 0.06, 0.13), st, 0, 0.38);
           add(q, C(0.034, 0.075, 0.3, 12), g, 0, 0.56); add(q, C(0.03, 0.04, 0.08, 12), g, 0, 0.74); add(q, new T.SphereGeometry(0.03, 12, 8), g, 0, 0.8);
           for (var i = 0; i < 7; i++) { var a = (i - 3) * 0.42, d = new T.Vector3(Math.sin(a) * 0.9, 0.55, Math.cos(a) * 0.4).normalize(), ray = add(q, new T.ConeGeometry(0.006, 0.045, 4), g, d.x * 0.045, 0.81 + d.y * 0.045, d.z * 0.045); ray.quaternion.setFromUnitVectors(Y, d); }
           rod(q, [0.03, 0.76, 0], [0.075, 0.96, 0], 0.012, g, 6); add(q, C(0.016, 0.009, 0.03, 8), g, 0.077, 0.975); add(q, new T.ConeGeometry(0.014, 0.05, 8), shine, 0.077, 1.01);
           var tb = add(q, B(0.035, 0.06, 0.012), g, -0.045, 0.68, 0.03); tb.rotation.z = 0.3; },
-        pyramids: function (q) { tile(q, 0xebd29c, 0.44); var m = M(0xdcb46a), cap = M(0xf5e6be), palm = M(0x5f9e48), trunk = M(0x8a6a4a);
+        pyramids: function (q) { tile(q, 0xe6c27a, 0.44); var m = M(0xe0b562, { flatShading: true, roughness: 0.8 }), cap = M(0xfff0c4, { flatShading: true }), palm = M(0x5f9e48), trunk = M(0x8a6a4a);
           [[0.26, 0.34, -0.14, -0.06], [0.2, 0.26, 0.14, 0.09], [0.11, 0.14, 0.31, 0.22]].forEach(function (v) { add(q, new T.ConeGeometry(v[0], v[1], 4), m, v[2], v[1] / 2, v[3], Q); });
           add(q, new T.ConeGeometry(0.045, 0.06, 4), cap, -0.14, 0.31, -0.06, Q);
           add(q, B(0.1, 0.035, 0.035), m, -0.08, 0.018, 0.27); add(q, B(0.032, 0.045, 0.032), m, -0.035, 0.045, 0.27);
           [[0.3, -0.22], [-0.33, 0.17]].forEach(function (p) { add(q, C(0.006, 0.009, 0.13, 5), trunk, p[0], 0.065, p[1]); for (var i = 0; i < 5; i++) { var lf = add(q, B(0.07, 0.006, 0.02), palm, p[0] + Math.cos(i * 1.26) * 0.03, 0.125, p[1] + Math.sin(i * 1.26) * 0.03); lf.rotation.set(0, -i * 1.26, -0.4); } }); },
-        taj: function (q) { tile(q, GRASS, 0.44); var m = M(0xfbf7f0, { roughness: 0.4 }), sh = M(0xece4d8), dk = M(0xcbb9a2), wa = M(0x8cc8ec, { roughness: 0.15, metalness: 0.2 });
+        taj: function (q) { tile(q, GRASS, 0.44); var m = M(0xffffff, { roughness: 0.3 }), sh = M(0xf1e6d6), dk = M(0xc9b08c), wa = M(0x4aa8e6, { roughness: 0.08, metalness: 0.3, envMapIntensity: 1.2 });
           var dome = [[0, 0], [0.1, 0], [0.135, 0.05], [0.145, 0.11], [0.125, 0.18], [0.08, 0.24], [0.03, 0.29], [0.008, 0.32], [0, 0.33]];
           add(q, B(0.5, 0.05, 0.5), sh, 0, 0.025, -0.04); add(q, B(0.05, 0.008, 0.16), wa, 0, 0.004, 0.32);
           add(q, C(0.2, 0.2, 0.2, 8), m, 0, 0.15, -0.04, Math.PI / 8);
@@ -768,14 +777,14 @@
           add(q, C(0.1, 0.1, 0.06, 16), m, 0, 0.28, -0.04); add(q, lathe(dome, 18), m, 0, 0.31, -0.04); add(q, C(0.003, 0.006, 0.08, 6), gold, 0, 0.68, -0.04);
           [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(function (k) { var x = k[0] * 0.12, z = k[1] * 0.12 - 0.04; add(q, C(0.028, 0.028, 0.05, 8), m, x, 0.275, z); var d = add(q, lathe(dome, 10), m, x, 0.3, z); d.scale.setScalar(0.32);
             var mx = k[0] * 0.22, mz = k[1] * 0.22 - 0.04; add(q, C(0.016, 0.022, 0.36, 8), m, mx, 0.23, mz); [0.15, 0.26, 0.37].forEach(function (y) { add(q, C(0.027, 0.027, 0.01, 8), dk, mx, y, mz); }); var md = add(q, lathe(dome, 10), m, mx, 0.41, mz); md.scale.setScalar(0.2); }); },
-        wall: function (q) { tile(q, 0x86bf73, 0.44); var h1 = M(0x7cb86c), h2 = M(0x6aa85d), m = M(0xe2cda6), dk = M(0x8f7458);
+        wall: function (q) { tile(q, 0x74bf62, 0.44); var h1 = M(0x6fbf5f, { flatShading: true }), h2 = M(0x58a84e, { flatShading: true }), m = M(0xe6d0a4), dk = M(0x8a6c50);
           var P = [[-0.36, 0.05, 0.12], [-0.2, 0.12, -0.08], [-0.02, 0.07, 0.1], [0.16, 0.17, -0.06], [0.34, 0.09, 0.08]];
           P.forEach(function (p, i) { var h = add(q, new T.SphereGeometry(0.13, 9, 6, 0, Math.PI * 2, 0, Math.PI / 2), i % 2 ? h1 : h2, p[0] * 0.9, 0, p[2] - 0.17); h.scale.y = (p[1] + 0.07) / 0.13; });
           var curve = new T.CatmullRomCurve3(P.map(function (p) { return new T.Vector3(p[0], p[1], p[2]); })), pts = curve.getPoints(16);
           for (var i = 0; i < pts.length - 1; i++) { var a = pts[i], b = pts[i + 1], mid = a.clone().add(b).multiplyScalar(0.5), d = b.clone().sub(a), seg = add(q, B(0.045, 0.055, d.length() + 0.01), m, mid.x, mid.y + 0.025, mid.z);
             seg.lookAt(seg.position.clone().add(d)); var under = add(q, B(0.07, mid.y, d.length() + 0.01), h1, mid.x, mid.y / 2 - 0.01, mid.z); under.rotation.y = Math.atan2(d.x, d.z); }
           P.forEach(function (p, i) { if (i % 2) return; add(q, B(0.075, 0.1, 0.075), m, p[0], p[1] + 0.05, p[2]); add(q, B(0.088, 0.018, 0.088), dk, p[0], p[1] + 0.105, p[2]); add(q, B(0.02, 0.035, 0.077), dk, p[0], p[1] + 0.06, p[2]); }); },
-        christ: function (q) { tile(q, 0x6fae62, 0.42); var hill = M(0x4f8f4a), rock = M(0x8f8a84), w = M(0xf1eee6, { roughness: 0.4 }), tree = M(0x3f7d3c);
+        christ: function (q) { tile(q, 0x6cbf5c, 0.42); var hill = M(0x4f9a49, { flatShading: true }), rock = M(0x948d86, { flatShading: true }), w = M(0xfbf8f0, { roughness: 0.35 }), tree = M(0x3a8a3e, { flatShading: true });
           add(q, C(0.08, 0.34, 0.28, 9), hill, 0, 0.14); add(q, C(0.055, 0.085, 0.07, 9), rock, 0, 0.315); add(q, B(0.065, 0.07, 0.065), w, 0, 0.385);
           add(q, C(0.024, 0.045, 0.26, 10), w, 0, 0.55); add(q, B(0.34, 0.034, 0.038), w, 0, 0.645); add(q, new T.SphereGeometry(0.03, 10, 8), w, 0, 0.705);
           for (var i = 0; i < 7; i++) { var a = i * 0.9, rr = 0.3 + (i % 2) * 0.06; add(q, new T.ConeGeometry(0.035, 0.09, 6), tree, Math.cos(a) * rr, 0.045, Math.sin(a) * rr); } }
