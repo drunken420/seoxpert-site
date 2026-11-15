@@ -85,7 +85,7 @@ export const posts: Post[] = [
 <li>Speed checked with Google's own speed scores, on phone and computer</li>
 <li>One team for the website, the hosting and the monthly SEO work</li></ul>
 ${careTable}
-<p>XpertRank is only for websites we build with XpertForge. See <a href="/website-maintenance/">website maintenance in Malaysia</a> for what each plan does every month.</p>` },
+<p>The free high speed cloud hosting comes with websites we build with XpertForge. See <a href="/website-maintenance/">website maintenance in Malaysia</a> for what each plan does every month.</p>` },
     ],
     faqs: [
       { q: 'What is cloud hosting in simple words?', a: 'Your website is kept on a network of many computers instead of one, so it loads from a place near each visitor and stays online if one computer has a problem.' },
@@ -289,7 +289,7 @@ ${careTable}
 <li><b>Photos and licences.</b> Whether stock photos, fonts or paid plugins are included.</li></ul>
 <p>With us, high speed cloud hosting is included with every XpertRank plan, and changes, new blog posts and active checks are part of the plan.</p>` },
       { id: 'monthly-cost', h: 'What a website costs after launch', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertRank. It costs ${fmt(basic)} to ${fmt(pro)} a month and includes high speed cloud hosting, backups, security, active checks every few days with fixes, SEO and AI search optimisation when needed, new blog posts and a monthly Google and AI visibility report.</p>${careTable}
-<p>If you pay yearly you get ${yearly.text}. XpertRank is only for websites we build. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
+<p>If you pay yearly you get ${yearly.text}. These prices are for websites we build; a website built elsewhere has its own price. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
       { id: 'cheap-or-good-value', h: 'A cheap website or a good value one?', html: `<p>A very low price usually means something has been left out. It might be the writing, the search planning, the phone testing, or any help after launch. None of that shows on day one, but all of it shows over the following months, when the website brings few enquiries.</p>
 <p>A good value website is one that pays for itself: people can find it, understand it quickly and get in touch easily. When you compare two quotes, line them up against the same list of what is included, and ask about anything missing.</p>` },
       { id: 'which-package', h: 'Which package fits your business', html: `<ul><li><b>${starter.name}</b> suits a first website: who you are, what you do and how to reach you, in up to 5 pages.</li>
@@ -448,13 +448,13 @@ ${careTable}
 <li><b>${pro.name}</b> grows it faster, with more changes, posts and keywords. It needs a Growth website.</li>
 <li><b>${elite.name}</b> is our biggest plan, with the most changes, posts and keywords. It needs a Growth website.</li></ul>
 <p>Your care plan can be as big as your website, not bigger, because a small website does not need the biggest plan.</p>` },
-      { id: 'who-it-is-for', h: 'Who XpertRank is for', html: `<p>XpertRank is only for websites we build with XpertForge, and we host them, so we know every part of what we look after. We do not maintain websites built elsewhere, but we can build you a new one first.</p>
+      { id: 'who-it-is-for', h: 'Who XpertRank is for', html: `<p>XpertRank works on any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so we know every part of what we look after. A website built elsewhere can have XpertRank too, at its own price and without hosting.</p>
 <p>XpertRank is optional. See the plans on the <a href="/website-maintenance/">website maintenance</a> page.</p>` },
     ],
     faqs: [
       { q: 'Is hosting included?', a: 'Yes. High speed cloud hosting is included with every XpertRank plan.' },
       { q: 'How often do you check my website?', a: 'Every few days. We fix what we find and make SEO and AI search improvements when they are needed.' },
-      { q: 'Can you maintain a website that someone else built?', a: 'No. XpertRank is only for websites we build with XpertForge.' },
+      { q: 'Can you maintain a website that someone else built?', a: 'Yes. XpertRank works on websites built by others too, at its own price and without hosting.' },
       { q: 'Can I pay for a year at once?', a: `Yes. Pay yearly and you get ${yearly.text}.` },
       { q: 'Does maintenance guarantee better rankings?', a: 'No. Nobody can promise rankings. Maintenance keeps your website healthy and improves the pages that are not ranking yet.' },
     ],

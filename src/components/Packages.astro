@@ -1,7 +1,7 @@
 ---
 // Package cards (website build and XpertRank), the RM or USD switch and the launch offer.
 // show="both" adds the Build / XpertRank switch; show="care" shows the care plans only.
-import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, yearly, type Tier } from '../data/packages';
+import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, yearly, type Tier } from '../data/packages';
 interface Props { show?: 'both' | 'care'; pickHref?: string }
 const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
 const sets = show === 'care' ? [care] : [build, care];
@@ -95,7 +95,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           <div class="pkxiimg"><img src="/img/xi-screen-overview-720.webp" srcset="/img/xi-screen-overview-720.webp 720w, /img/xi-screen-overview.webp 1440w" sizes="(max-width:900px) 92vw, 520px" width="1440" height="900" loading="lazy" decoding="async" alt="The XpertInsight dashboard overview, showing visitors, keyword positions and site health for the Sample Bakery" /></div>
         </div>
       )}
-      {S.key === 'care' && <p class="pknote rv"><span class="xp sm">XpertRank</span> is only for websites we build with XpertForge. High speed cloud hosting is included.</p>}
+      {S.key === 'care' && <p class="pknote rv">Prices are for websites we build with <span class="xp sm">XpertForge</span>, with free high speed cloud hosting. Already have a website? <span class="xp sm">XpertRank</span> works on it too, from {fmtOther(care.tiers[0])} a month, without hosting. <a href="#plan" data-pick="build:3">See your price</a></p>}
       <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
     </div>
   ))}
