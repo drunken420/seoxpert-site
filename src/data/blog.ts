@@ -3,7 +3,7 @@
 // Never promise rankings. No invented numbers, clients or results: examples are clearly marked as examples.
 // Add a new guide at the TOP of the list. Headings use single quotes and no apostrophes (scripts/make-pics.cjs reads them).
 // Styling helpers inside html: <h3>, <ol>, <div class="btip"><b>Tip</b>...</div>, <ul class="bcheck"> (tick list).
-import { build, care, fmt, fmtYear, yearly } from './packages';
+import { build, care, fmt, fmtYear, yearly, offer, offerOn } from './packages';
 
 export interface Post {
   slug: string; tag: string; art: 'cost' | 'care' | 'ai' | 'seo' | 'pick' | 'map' | 'city' | 'stack';
@@ -35,6 +35,65 @@ const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first co
 <li>${starter.name}: 2 revision rounds. ${business.name} and ${growth.name}: 3</li></ul>`;
 
 export const posts: Post[] = [
+  {
+    slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15',
+    h1: 'Cloud hosting in Malaysia: what it is, and when it is free',
+    title: 'Cloud Hosting in Malaysia: What It Is and When It Is Free',
+    description: 'Cloud hosting in Malaysia in plain words: what it is, how it differs from shared hosting, what to check before you pay, and when free cloud hosting is real.',
+    card: 'What cloud hosting is, how it differs from shared hosting, and when free cloud hosting is real.',
+    short: `Cloud hosting keeps your website on a network of many computers instead of one, so it stays fast and online even when one of them has a problem or many people visit at once. Free cloud hosting is real, but it usually comes with limits or as part of another service. At SEOXpert, high speed cloud hosting is included with every XpertRank plan${offerOn() ? `, and every website ordered before ${offer.endsText} gets 1 year of free high speed cloud hosting` : ''}. We do not sell hosting on its own.`,
+    sections: [
+      { id: 'what-is-cloud-hosting', h: 'What cloud hosting is', html: `<p>Every website lives on a computer that is always switched on and connected to the internet. That computer is called a server, and renting space on one is called hosting.</p>
+<p>With older kinds of hosting, your website sits on one server in one building. With <b>cloud hosting</b>, your website is kept on a network of many servers, often in many places. When someone opens your website, the network answers from a server that is close to them and free to respond.</p>
+<p>For a business owner, that means three things:</p>
+<ul class="bcheck"><li><b>Speed.</b> Pages are sent from a place near the visitor, so they open quickly.</li>
+<li><b>Staying online.</b> If one server has a problem, another one answers instead.</li>
+<li><b>Room to grow.</b> A busy day, such as a sale or a post that gets shared, does not slow the website down the way it can on one small server.</li></ul>` },
+      { id: 'cloud-vs-shared', h: 'Cloud hosting compared with shared hosting', html: `<p>Shared hosting is the most common cheap hosting. Your website shares one server with many other websites. It works, and for a small website it can be enough, but you share the speed too: when a neighbour is busy, your website can slow down.</p>
+<div class="btable" tabindex="0" role="region" aria-label="Shared hosting compared with cloud hosting"><table><thead><tr><th></th><th>Shared hosting</th><th>Cloud hosting</th></tr></thead><tbody>
+<tr><td>Where the website lives</td><td>One server, shared with many websites</td><td>A network of many servers</td></tr>
+<tr><td>If a server has a problem</td><td>The website can go offline</td><td>Another server answers</td></tr>
+<tr><td>Busy days</td><td>Can slow down</td><td>Handles more visitors at once</td></tr>
+<tr><td>Visitors far away</td><td>Everyone is served from one place</td><td>Served from a place near them</td></tr>
+</tbody></table></div>
+<p>Neither kind makes a badly built website fast. Heavy pictures and too many add-ons slow a website down on any hosting. Good hosting and a well built website work together. See how we build for speed in <a href="/website-development/">website development</a>.</p>` },
+      { id: 'what-to-check', h: 'What to check in cloud hosting in Malaysia', html: `<p>Hosting plans are sold with long lists of technical words. These are the questions that matter for a business website in Malaysia:</p>
+<ul><li><b>Is your website served from somewhere near your customers?</b> A network with a location in or near Malaysia answers local visitors faster. This matters more than where the hosting company has its office.</li>
+<li><b>Is the security certificate included?</b> This is the padlock in the browser (SSL). Without it, browsers warn visitors that the website is not secure.</li>
+<li><b>Are backups made for you?</b> Ask how often, and how you get a copy back if something breaks.</li>
+<li><b>Who watches if the website goes offline?</b> Many plans leave that to you.</li>
+<li><b>What does it cost after the first year?</b> Some plans are cheap at the start and renew at a much higher price. Read the renewal price before you pay.</li>
+<li><b>Who do you call when something breaks?</b> With hosting bought on its own, the answer is often you.</li></ul>
+<div class="btip"><b>Good to know</b>Your domain name (your address, like yourbusiness.com.my) and your hosting are two different things. Both have renewal dates, and a website goes offline if either one runs out.</div>` },
+      { id: 'free-cloud-hosting', h: 'Is free cloud hosting real', html: `<p>Yes, but it helps to know which kind you are looking at.</p>
+<h3>Free plans from hosting companies</h3>
+<p>Some cloud companies offer a free plan. These are real and can be very good, but they are made for people who can set up and look after a website themselves. They usually have limits, and there is nobody to call when something goes wrong.</p>
+<h3>Free hosting that comes with another service</h3>
+<p>Here the hosting is included in something else you pay for, such as a website build or a monthly care plan. You do not pay for it separately, and the people who built the website also look after where it lives.</p>
+<p>That second kind is how we do it${offerOn() ? `. Every website ordered before ${offer.endsText} gets <b>1 year of free high speed cloud hosting</b>, and high speed cloud hosting is included with every XpertRank plan` : ': high speed cloud hosting is included with every XpertRank plan'}. See the <a href="/packages/">packages and prices</a>.</p>
+<div class="btip"><b>Before you choose free</b>Ask what happens when the free period ends, what the limits are, and who fixes it if the website goes down. Free hosting with nobody looking after it can cost more in lost customers than paid hosting.</div>` },
+      { id: 'hosting-and-google', h: 'Does hosting help you on Google', html: `<p>Hosting alone does not put a website on page 1, and nobody can promise that. But it does affect two things Google and your visitors both care about:</p>
+<ul><li><b>Speed.</b> Google measures how quickly real pages load, and uses it as one of many signals. Visitors also leave slow pages, especially on mobile data.</li>
+<li><b>Being online.</b> A website that is often down cannot be visited by customers or read by Google.</li></ul>
+<p>The words on your pages and how well they answer what people search for still matter most. Read our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a> for the full picture.</p>` },
+      { id: 'how-we-do-it', h: 'How SEOXpert includes cloud hosting', html: `<p>We build websites and look after them every month. We do not sell hosting on its own. For websites we build, the hosting is part of the service:</p>
+<ul class="bcheck"><li>High speed cloud hosting, included with every XpertRank plan</li>
+<li>Backups, uptime watch and security, included</li>
+<li>Your domain and SSL certificate renewal dates shown in your XpertInsight dashboard, with reminders before they run out</li>
+<li>Speed checked with Google's own speed scores, on phone and computer</li>
+<li>One team for the website, the hosting and the monthly SEO work</li></ul>
+${careTable}
+<p>XpertRank is only for websites we build with XpertForge. See <a href="/website-maintenance/">website maintenance in Malaysia</a> for what each plan does every month.</p>` },
+    ],
+    faqs: [
+      { q: 'What is cloud hosting in simple words?', a: 'Your website is kept on a network of many computers instead of one, so it loads from a place near each visitor and stays online if one computer has a problem.' },
+      { q: 'Is cloud hosting better than shared hosting?', a: 'For most business websites, yes: it handles busy days better and is less likely to go offline. A small website can still run well on shared hosting if it is built well.' },
+      { q: 'Is free cloud hosting safe to use?', a: 'It can be. Check the limits, what happens when the free period ends, and who fixes the website if it goes down.' },
+      { q: 'Does SEOXpert sell cloud hosting on its own?', a: 'No. High speed cloud hosting is included with every XpertRank plan, for websites we build.' },
+      { q: 'Does my hosting need to be in Malaysia?', a: 'Not exactly. What matters is that your website is served from a place near your customers. A cloud network with a location in or near Malaysia does that.' },
+    ],
+    cta: { pill: 'XpertRank', title: 'High speed cloud hosting, included with your website care', href: '/packages/', label: 'See packages and prices' },
+  },
   {
     slug: 'local-seo-malaysia', tag: 'Local SEO', art: 'map', date: '2026-11-11',
     h1: 'Local SEO in Malaysia: how to be found in your area',
