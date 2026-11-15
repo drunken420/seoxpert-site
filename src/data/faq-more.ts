@@ -6,8 +6,8 @@ import { build, care, trial, offer, yearly, fmt, fmtNew } from './packages';
 
 const [starter, business, growth] = build.tiers;
 const [basic, plus, pro, elite] = care.tiers;
-const pages = (t: typeof starter) => t.short.match(/Up to (\d+)/)?.[1];
-const posts = (t: typeof starter) => t.short.match(/(\d+) posts/)?.[1];
+const pages = (t: typeof starter) => t.short.match(/up to (\d+)/i)?.[1];
+const posts = (t: typeof starter) => t.short.match(/(\d+) blog posts/)?.[1];
 const rounds = (t: typeof starter) => t.rows.join(' ').match(/<b>(\d+)<\/b> revision/)?.[1];
 
 export type Topic = 'Prices and packages' | 'Your website' | 'Google and AI search' | 'XpertRank' | 'About us';

@@ -12,7 +12,7 @@ import '../styles/page.css';
 import '../styles/insight.css';
 import { site, whatsappLink, talkLabel } from '../config';
 // XpertInsight is included with every XpertRank plan and is not sold on its own (Suhen, 2026-11-12).
-const kw = care.tiers.map((t) => [t.name, t.rows.join(' ').match(/<b>(\d+)<\/b> keywords/)?.[1]]);
+const kw = care.tiers.map((t) => [t.name, t.rows.join(' ').match(/<b>(\d+)<\/b> (?:target )?keywords/)?.[1]]);
 const views = [
   ['overview', 'Overview', 'Your Xpert score out of 100, made from visits, leads, rankings, AI mentions and site health, plus insights from our experts in plain words.'],
   ['visitors', 'Visitors', 'Visits by day compared with the period before, where they came from, phone or computer, and your top pages on Google.'],
@@ -138,12 +138,12 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
 <section class="solid band xiincb"><div class="wrap split xiinc">
   <div>
     <span class="eyebrow rv">Included with XpertRank</span>
-    <h2 class="rv">No extra fee. It comes with your care plan.</h2>
+    <h2 class="rv">No extra fee. It comes with your XpertRank plan.</h2>
     <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertRank</a> plan. It is not sold on its own. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
     <p class="rv"><a class="btn" href="/website-maintenance/#xpertrank">Compare XpertRank plans</a></p>
   </div>
   <div class="xiplans">
-    {kw.map(([n, k], i) => <details class="xiplan rv" style={`--d:${i};--w:${Math.round(Number(k) / Number(kw[kw.length - 1][1]) * 100)}%`}>
+    {kw.map(([n, k], i) => <details class="xiplan rv" name="xiplan" style={`--d:${i};--w:${Math.round(Number(k) / Number(kw[kw.length - 1][1]) * 100)}%`}>
       <summary>
         <div class="xiph1"><b>{n}</b></div>
         <div class="xikw"><strong data-count={k}>{k}</strong><small>keywords tracked every week</small></div>
@@ -153,7 +153,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
       </summary>
       <div class="xiall">
         <ul>{care.tiers[i].rows.map((r) => <li set:html={r} />)}{care.all.map((a) => <li>{a}</li>)}</ul>
-        <a href="/website-maintenance/#xpertrank">See {n} prices</a>
+        <a class="xicmp" href="/website-maintenance/#xpertrank">Compare all XpertRank plans and prices</a>
       </div>
     </details>)}
   </div>

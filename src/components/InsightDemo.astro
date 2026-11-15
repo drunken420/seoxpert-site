@@ -4,7 +4,9 @@
 import { care } from '../data/packages';
 const plus = care.tiers[1];
 const num = (r: string) => Number(r.match(/<b>(\d+)<\/b>/)?.[1] || 0);
-const [chg, posts, kws] = plus.rows.map(num);
+// Found by their words, not their place in the list, so a reworded or reordered row cannot swap the numbers.
+const row = (w: RegExp) => num(plus.rows.find((r) => w.test(r)) || '');
+const [chg, posts, kws] = [row(/edits/), row(/blog post/), row(/keywords tracked/)];
 const ico: Record<string, string> = {
   Overview: 'M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z',
   Visitors: 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21a7 7 0 0 1 14 0M16 3.5a4 4 0 0 1 0 7M18 14a6 6 0 0 1 4 7',
