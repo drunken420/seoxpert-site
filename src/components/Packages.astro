@@ -7,6 +7,7 @@ interface Props { show?: 'both' | 'care'; pickHref?: string }
 const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
 const sets = show === 'care' ? [care] : [build, care];
 const on = offerOn();
+const maxKw = Math.max(...care.tiers.map((t) => t.kw || 0));
 const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD') });
 ---
 <div class="pk" data-pk>
@@ -55,7 +56,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
         {S.tiers.map((t, i) => (
           // Every card has the same rows (empty ones where a card has no "up" line or gift), so headings, prices, lists,
           // gifts and buttons line up across the row (CSS subgrid; Suhen 2026-11-15 "tidy it up").
-          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i};--rows:${4 + (on ? 1 : 0) + (S.key === 'care' ? 2 : 0) + (S.tiers.some((x) => x.up) ? 1 : 0) + 1 + (on && S.tiers.some((x) => x.free) ? 1 : 0)}`}>
+          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i};--rows:${4 + (on ? 1 : 0) + (S.key === 'care' ? 3 : 0) + (S.tiers.some((x) => x.up) ? 1 : 0) + 1 + (on && S.tiers.some((x) => x.free) ? 1 : 0)}`}>
             {t.hot && <span class="pkbadge">Recommended</span>}
             <h3>{t.name}</h3>
             <p class="pkfor">{t.for}</p>
@@ -63,8 +64,10 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
             {on && <p class="pkwas" data-pk-offer={offer.ends}>{S.key === 'care' ? 'Launch price for our first 20 XpertRank clients.' : 'Launch price.'} From 1 February 2027: <s><span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} {...(S.key === 'care' ? { 'data-rm-y': fmtYearNew(t, 'RM'), 'data-usd-y': fmtYearNew(t, 'USD') } : {})}>{fmtNew(t)}</span></s></p>}
             {S.key === 'care' && <p class="pkyear"><span class="m">or <span data-rm={fmtYear(t, 'RM')} data-usd={fmtYear(t, 'USD')}>{fmtYear(t)}</span> a year, {yearly.text}</span><span class="y">12 months for the price of {yearly.pay}</span></p>}
             {S.key === 'care' && <a class="pkmbadge" href="#money-back" data-track="promise-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span>Money-back promise on our builds</span></a>}
+            {/* Target keywords are the main difference between the XpertRank plans (Suhen 2026-11-16), so each card leads with them, with a meter against Elite. */}
+            {t.kw && <div class="pkkw"><p><b>{t.kw}</b><span>target keywords<small>optimised for Google and AI search (LLM), tracked weekly</small></span></p><i aria-hidden="true" style={`--w:${Math.round((t.kw / maxKw) * 100)}%`}></i></div>}
             {t.up ? <p class="pkup">{t.up}</p> : S.tiers.some((x) => x.up) && <p class="pkup0" aria-hidden="true"></p>}
-            <ul class="pktick">{t.rows.map((r) => <li set:html={r} />)}{(t.locked || []).map((r) => <li class="lk"><span class="sro">Not in this plan: </span>{r}</li>)}</ul>
+            <ul class="pktick">{(t.kw ? t.rows.slice(1) : t.rows).map((r) => <li set:html={r} />)}{(t.locked || []).map((r) => <li class="lk"><span class="sro">Not in this plan: </span>{r}</li>)}</ul>
             {on && t.free ? <p class="pkgift" data-pk-offer={offer.ends}>Launch offer: {t.free}</p> : on && S.tiers.some((x) => x.free) && <p class="pkup0" aria-hidden="true"></p>}
             <a class="btn" href={pickHref} data-pick={`${S.key}:${i}`}>Choose {t.name}</a>
           </article>

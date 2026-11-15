@@ -16,7 +16,7 @@ const extraLd = [
   { '@type': 'Service', name: 'Website design packages', serviceType: 'Website design', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/packages/`, offers: offersLd(build) },
   { '@type': 'Service', name: 'XpertRank monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
 ];
-const pf = pageFaq(['What is the difference between Starter, Business and Growth?', 'Is the website price paid once or every month?', 'Is there a launch offer?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'Can I try XpertRank first?']);
+const pf = pageFaq(['What is the difference between Starter, Business and Growth?', 'Is the website price paid once or every month?', 'Is there a launch offer?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'What is the difference between the XpertRank plans?', 'Can I try XpertRank first?']);
 ---
 <Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description={`Website design packages in Malaysia from ${fmt(build.tiers[0])}, with copywriting and keyword research included. XpertRank monthly website maintenance from ${fmt(care.tiers[0])} a month.`} path="/packages/" crumb="Packages" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
