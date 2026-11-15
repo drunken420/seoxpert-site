@@ -618,3 +618,4 @@ a.pkmbadge:hover,a.pkmbadge:focus-visible{transform:translateY(-1px);box-shadow:
 .pmgrid>div{min-width:0}
 .pmcq{flex:1 1 auto}
 @media (max-width:520px){.pmcrow{gap:10px}.pmcpos small{font-size:10px}}
+.pmwho{margin:14px 0 0;font-size:15px;color:#cbbbe2;max-width:36em}

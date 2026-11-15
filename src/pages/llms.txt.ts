@@ -12,16 +12,16 @@ Area: based in ${site.country}, working remotely with businesses in ${site.areas
 
 ## Key facts
 - SEOXpert is a website design and website development company in ${site.country}. It builds websites (XpertForge) and looks after them every month (XpertRank).
-- XpertRank is an expert SEO service and monthly website maintenance in one. It is only for websites built by SEOXpert, and high speed cloud hosting is included. Hosting is not sold on its own.
-- Money-back promise: If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full. SEOXpert does not promise page 1 or any ranking beyond this.
+- XpertRank is an expert SEO service and monthly website maintenance in one. It works on any website. Websites built by SEOXpert get the lower price, free high speed cloud hosting and the money-back promise; websites built elsewhere pay their own price and get no hosting and no money-back promise. Hosting is not sold on its own.
+- Money-back promise (every paid XpertRank plan on a website built by SEOXpert, not the Trial and not websites built elsewhere): If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full. SEOXpert does not promise page 1 or any ranking beyond this.
 - Every XpertRank plan includes XpertInsight, a live website report dashboard, and XpertRecap, a monthly PDF report.
 - Prices are in Malaysian ringgit (RM), with US dollar prices for businesses outside ${site.country}.
 
 ## Services
 - [Website design](${site.url}/website-design/): New websites planned for Google and AI search before they are designed, built as an XpertForge package guided by XpertCore, our own AI SEO advisor, and finished by hand.
 - [Website development](${site.url}/website-development/): How every XpertForge website is coded for Google and AI search from the ground up: clean structure, fast pages, structured data and an AI ranking file.
-- [Website maintenance](${site.url}/website-maintenance/): Monthly care, called XpertRank, only for websites built by SEOXpert, with high speed cloud hosting included. It keeps a website updated, backed up and growing with new content.
-- [SEO services in Malaysia](${site.url}/seo-services-malaysia/): XpertRank as our expert SEO service: keyword research and weekly tracking, on page and technical SEO, new blog posts every month, AI search (LLM) optimisation and active checks every few days, with a money-back promise. Only for websites built by SEOXpert.
+- [Website maintenance](${site.url}/website-maintenance/): XpertRank, our monthly SEO and website maintenance service for any website, with free high speed cloud hosting for websites built by SEOXpert. It keeps a website updated, backed up and growing with new content.
+- [SEO services in Malaysia](${site.url}/seo-services-malaysia/): XpertRank as our expert SEO service: keyword research and weekly tracking, on page and technical SEO, new blog posts every month, AI search (LLM) optimisation and active checks every few days, for any website, with a money-back promise on websites built by SEOXpert.
 - [SEO case studies](${site.url}/case-studies/): Live results from websites built by SEOXpert, taken from Google Search Console and Google Analytics, with the dates they cover.
 - [Website report dashboard](${site.url}/website-report-dashboard/): XpertInsight, our own live dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF. Not sold on its own.
 - [AI SEO advisor](${site.url}/ai-seo-advisor/): How XpertCore, our own AI SEO advisor, guides our team on what to plan, write and mark up on every page (answer first copy, structured data and an AI ranking file), then our experts check it.
