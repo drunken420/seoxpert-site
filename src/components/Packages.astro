@@ -58,13 +58,16 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
         </div>
       )}
       {S.key === 'care' && (
+        <div class="pkpromise rv"><span class="pkptag">Our promise</span><p><b>If none of your tracked keywords reaches Google's top 100 within 3 months, your next month of XpertCare is free.</b> We check every week, and you can see it in your XpertInsight dashboard.</p></div>
+      )}
+      {S.key === 'care' && (
         <div class="pkxi rv">
           <div class="pkxitext">
             <span class="pkxitag">Included with every XpertCare plan</span>
             <h3>Your own <span class="xp">XpertInsight</span> dashboard account</h3>
             <p>Every XpertCare plan comes with your own login to XpertInsight, our live website report dashboard. No extra fee.</p>
             <ul>
-              <li>Visitors, leads and Google searches, updated every morning</li>
+              <li>Live data from Google (visitors, leads, searches, speed and uptime), refreshed every day</li>
               <li>Your keyword positions on Google, checked every week</li>
               <li>Whether AI answers like ChatGPT mention your business</li>
               <li>Site health checks and what our team fixed</li>

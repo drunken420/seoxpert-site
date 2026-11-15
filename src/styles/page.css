@@ -423,3 +423,8 @@ pre.codecard{margin:0;overflow-x:auto}
 .pkxiimg img{display:block;width:100%;height:auto}
 @media (max-width:900px){.pkxi{grid-template-columns:1fr;padding:24px 20px}.pkxiimg{transform:none}.pkxi h3{font-size:22px}}
 @media (prefers-reduced-motion:reduce){.pkxiimg{transition:none}}
+
+/* Our promise under the XpertCare cards (Suhen 2026-11-15) */
+.pkpromise{margin-top:18px;border-radius:22px;padding:18px 24px;background:#fff;box-shadow:inset 0 0 0 2px var(--acc);display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.pkpromise p{margin:0;flex:1 1 420px;font-size:16px;color:var(--soft)}.pkpromise b{color:var(--ink,#1d1030)}
+.pkptag{font:700 12px/1 var(--f-b);letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;border-radius:99px;background:var(--acc);color:#fff;white-space:nowrap}
