@@ -48,7 +48,6 @@
     if (own && sel.care < 0) sel.care = 0; // keeping your own website only makes sense with an XpertRank plan
     box.classList.toggle('own', own);
     all('[data-pick-set="care"] [data-rm-o]', box).forEach(function (el) { var a = 'data-' + key() + (bill === 'year' ? '-y' : '') + (own ? '-o' : ''); if (el.tagName === 'SPAN') el.textContent = el.getAttribute(a); });
-    var pm = document.getElementById('promise'); if (pm) pm.style.display = own ? 'none' : ''; // the money-back promise is for websites we build
     all('[data-pick-set="care"] button', box).forEach(function (b) { var off = +b.dataset.i > cap || (own && b.dataset.i === '-1'); b.classList.toggle('off', off); b.setAttribute('aria-disabled', String(off)); if (off) b.setAttribute('tabindex', '-1'); else b.removeAttribute('tabindex'); var n = b.querySelector('em'); if (n) n.hidden = !off; });
     ['build', 'care'].forEach(function (set) { all('[data-pick-set="' + set + '"] button', box).forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.i === sel[set])); }); });
     var b = chosen('build'), c = sel.care < 0 ? null : chosen('care'), k = key();

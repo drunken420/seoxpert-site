@@ -7,7 +7,7 @@ const body = `# ${site.name}
 
 > ${site.tagline}. ${site.description}
 
-XpertForge (the website build), XpertCore (our own AI SEO advisor), XpertRank (monthly care) and XpertLab (live demos) were all developed in house by SEOXpert.
+XpertForge (the website build), XpertCore (our own AI SEO advisor), XpertRank (our expert SEO service) and XpertLab (live demos) were all developed in house by SEOXpert.
 Area: based in ${site.country}, working remotely with businesses in ${site.areas.join(', ')}, across ${site.country} and around the world.
 
 ## Key facts

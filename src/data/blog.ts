@@ -24,10 +24,10 @@ const buildTable = `<div class="btable" tabindex="0" role="region" aria-label="X
 <tr><td>${growth.name}</td><td>${fmt(growth)}</td><td>Up to 20</td><td>10</td></tr>
 </tbody></table></div>`;
 const careTable = `<div class="btable" tabindex="0" role="region" aria-label="XpertRank plans table"><table><thead><tr><th>Plan</th><th>Price a month</th><th>Paid yearly</th><th>What changes each month</th></tr></thead><tbody>
-<tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>2 text or photo changes, 1 new blog post, 10 keywords tracked weekly</td></tr>
-<tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>4 text or photo changes, 2 new blog posts, 25 keywords tracked weekly</td></tr>
-<tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>6 text or photo changes, 4 new blog posts, 50 keywords tracked weekly</td></tr>
-<tr><td>${elite.name}</td><td>${fmt(elite)}</td><td>${fmtYear(elite)}</td><td>10 text or photo changes, 8 new blog posts, 100 keywords tracked weekly</td></tr>
+<tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>2 on-page SEO edits, 1 new SEO blog post, 10 keywords tracked weekly</td></tr>
+<tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>4 on-page SEO edits, 2 new SEO blog posts, 25 keywords tracked weekly</td></tr>
+<tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>6 on-page SEO edits, 4 new SEO blog posts, 50 keywords tracked weekly</td></tr>
+<tr><td>${elite.name}</td><td>${fmt(elite)}</td><td>${fmtYear(elite)}</td><td>10 on-page SEO edits, 8 new SEO blog posts, 100 keywords tracked weekly</td></tr>
 </tbody></table></div>`;
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
