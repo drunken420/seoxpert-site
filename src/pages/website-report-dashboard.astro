@@ -20,14 +20,14 @@ const views = [
   ['keywords', 'Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and how you compare with competitors.'],
   ['ai-answers', 'AI answers', 'Whether ChatGPT, Gemini, Perplexity and Google AI Overviews name your business, and the visits AI tools send you.'],
   ['health', 'Site health', 'Broken links, pages on Google, security certificate, speed on phones and uptime, checked every few minutes.'],
-  ['care-plan', 'Care plan', 'What your XpertRank plan includes this month, the work our team has done and what comes next.'],
+  ['xpertrank', 'XpertRank', 'Your XpertRank SEO service this month: what your plan includes, the SEO and AI search work our team has done, and what comes next.'],
   ['reports', 'Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
 ];
 const vmap = Object.fromEntries(views.map(([f, h, p]) => [f, [h, p]]));
 const groups = [
   ['Visits and leads', 'See how many people find your website, and how many of them get in touch.', ['overview', 'visitors', 'leads']],
   ['Google and AI search', 'See where you show up on Google, and whether AI tools name your business.', ['keywords', 'ai-answers']],
-  ['Health and care', 'See that your website is healthy, what our team did this month, and your reports.', ['health', 'care-plan', 'reports']],
+  ['Health and SEO work', 'See that your website is healthy, the SEO work our team did this month, and your reports.', ['health', 'xpertrank', 'reports']],
 ];
 // One tab per view, in group order; each tab knows its group name.
 const tabs = groups.flatMap(([g, , fs]) => (fs as string[]).map((f) => ({ f, h: vmap[f][0], p: vmap[f][1], g: g as string })));
@@ -124,12 +124,12 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
   <div>
     <span class="eyebrow rv">XpertRecap</span>
     <h2 class="rv">A monthly report you can save and share.</h2>
-    <p class="sub rv">One tap on Download PDF saves the month as an XpertRecap: six pages covering the overview, visitors, leads, keywords, AI answers with site health, and your care plan. It is easy to forward to a partner or keep with your records.</p>
+    <p class="sub rv">One tap on Download PDF saves the month as an XpertRecap: six pages covering the overview, visitors, leads, keywords, AI answers with site health, and your XpertRank work. It is easy to forward to a partner or keep with your records.</p>
     <p class="rv"><a class="btn" href="/xpertrecap.pdf" target="_blank" rel="noopener">See what an XpertRecap looks like (PDF)</a></p>
   </div>
   <ul class="xisrc">
     <li class="rv"><b>Updated every week</b>Your Google search data, visitor numbers, speed checks and uptime, gathered for you every week.</li>
-    <li class="rv" style="--d:1"><b>Checked by our team</b>Keywords are tracked every week, and each month we ask AI tools the questions your customers ask.</li>
+    <li class="rv" style="--d:1"><b>Worked on by our team</b>Your target keywords are optimised for Google and AI search and tracked every week, and each month we ask AI tools the questions your customers ask.</li>
     <li class="rv" style="--d:2"><b>Private to you</b>A secure login with a fresh code sent to your email each time, and you only ever see your own website.</li>
     <li class="rv" style="--d:3"><b>Explained in plain words</b>Insights from our experts say what changed, what it means and what we will do next.</li>
   </ul>
@@ -146,7 +146,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
     {kw.map(([n, k], i) => <details class="xiplan rv" name="xiplan" style={`--d:${i};--w:${Math.round(Number(k) / Number(kw[kw.length - 1][1]) * 100)}%`}>
       <summary>
         <div class="xiph1"><b>{n}</b></div>
-        <div class="xikw"><strong data-count={k}>{k}</strong><small>keywords tracked every week</small></div>
+        <div class="xikw"><strong data-count={k}>{k}</strong><small>target keywords we optimise and track</small></div>
         <div class="xikwbar"><i></i></div>
         <ul><li>XpertInsight dashboard</li><li>Monthly XpertRecap PDF</li></ul>
         <span class="xiopen">See everything included</span>

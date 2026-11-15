@@ -24,10 +24,10 @@ const buildTable = `<div class="btable" tabindex="0" role="region" aria-label="X
 <tr><td>${growth.name}</td><td>${fmt(growth)}</td><td>Up to 20</td><td>10</td></tr>
 </tbody></table></div>`;
 const careTable = `<div class="btable" tabindex="0" role="region" aria-label="XpertRank plans table"><table><thead><tr><th>Plan</th><th>Price a month</th><th>Paid yearly</th><th>What changes each month</th></tr></thead><tbody>
-<tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>2 on-page SEO edits, 1 new SEO blog post, 10 keywords tracked weekly</td></tr>
-<tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>4 on-page SEO edits, 2 new SEO blog posts, 25 keywords tracked weekly</td></tr>
-<tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>6 on-page SEO edits, 4 new SEO blog posts, 50 keywords tracked weekly</td></tr>
-<tr><td>${elite.name}</td><td>${fmt(elite)}</td><td>${fmtYear(elite)}</td><td>10 on-page SEO edits, 8 new SEO blog posts, 100 keywords tracked weekly</td></tr>
+<tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>2 on-page SEO edits, 1 new SEO blog post, 10 target keywords optimised and tracked weekly</td></tr>
+<tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>4 on-page SEO edits, 2 new SEO blog posts, 20 target keywords optimised and tracked weekly</td></tr>
+<tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>6 on-page SEO edits, 4 new SEO blog posts, 30 target keywords optimised and tracked weekly</td></tr>
+<tr><td>${elite.name}</td><td>${fmt(elite)}</td><td>${fmtYear(elite)}</td><td>10 on-page SEO edits, 8 new SEO blog posts, 50 target keywords optimised and tracked weekly</td></tr>
 </tbody></table></div>`;
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
@@ -427,7 +427,7 @@ ${careTable}
 <li><b>Active checks.</b> We check the website every few days, fix what we find, and make SEO and AI search (LLM) improvements when they are needed.</li>
 <li><b>Changes.</b> New prices, new photos, new opening hours, new offers.</li>
 <li><b>New content.</b> Fresh blog posts that answer customer questions, so the website keeps growing.</li>
-<li><b>Search health.</b> Keywords are tracked every week, and pages that are not ranking yet are improved.</li>
+<li><b>Search health.</b> Your target keywords are optimised for Google and AI search and tracked every week, and pages that are not ranking yet are improved.</li>
 <li><b>Reporting.</b> A Google and AI visibility report every month.</li></ul>` },
       { id: 'what-goes-wrong', h: 'What goes wrong when nobody looks after a website', html: `<p>A website is not finished on launch day. Problems rarely announce themselves. They happen quietly, and visitors notice before you do:</p>
 <ul><li>A contact form stops sending, and enquiries disappear without anyone knowing.</li>
@@ -444,7 +444,7 @@ ${careTable}
 <p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>` },
       { id: 'choosing-a-plan', h: 'How to choose a plan size', html: `<p>Choose by how often your website needs to change and how fast you want it to grow:</p>
 <ul><li><b>${basic.name}</b> keeps the website healthy, with a few changes and a new blog post each month. It fits any XpertForge website.</li>
-<li><b>${plus.name}</b> keeps it growing, with more changes, more posts and more keywords tracked. It needs a Business or Growth website.</li>
+<li><b>${plus.name}</b> keeps it growing, with more changes, more posts and more target keywords optimised and tracked. It needs a Business or Growth website.</li>
 <li><b>${pro.name}</b> grows it faster, with more changes, posts and keywords. It needs a Growth website.</li>
 <li><b>${elite.name}</b> is our biggest plan, with the most changes, posts and keywords. It needs a Growth website.</li></ul>
 <p>Your care plan can be as big as your website, not bigger, because a small website does not need the biggest plan.</p>` },
