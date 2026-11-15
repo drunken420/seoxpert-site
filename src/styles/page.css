@@ -631,3 +631,17 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
 .pkpick button[aria-pressed="true"] .pkkwp b{color:#fff}
 .pksumkw{display:block;width:max-content;margin-top:8px;padding:5px 10px;border-radius:99px;background:rgba(176,108,255,.24);color:#fff;font:700 13px/1.1 var(--f-b);font-style:normal}
 @media (max-width:600px){.pkkw b{font-size:40px}}
+/* Trial trust line: lock + "Secure checkout by Stripe" + the ways to pay, centred under the pay button */
+.pktrial .pktpay{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 8px;margin:0;font:600 13px/1.2 var(--f-b);color:var(--soft)}
+.pktpay svg{width:15px;height:15px;flex:none;fill:none;stroke:#2f9e6b;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.pktpay .pkways{display:inline-flex;gap:5px}
+.pktpay .pkways i{font:700 11px/1 var(--f-b);font-style:normal;letter-spacing:.02em;padding:5px 8px;border-radius:7px;background:#fff;color:#4a3d5c;box-shadow:inset 0 0 0 1px var(--line)}
+.pktrows{list-style:none;margin:12px 0 2px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.pktrows li{display:inline-flex;align-items:center;gap:7px;padding:7px 11px 7px 9px;border-radius:99px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font:500 13.5px/1.2 var(--f-b);color:var(--soft)}
+.pktrows li b{color:var(--ink)}
+.pktrows li::before{content:"";width:14px;height:14px;flex:none;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center/10px no-repeat}
+.pktrows li.no{color:var(--mute);background:transparent;box-shadow:inset 0 0 0 1px #ece4f5}
+.pktrows li.no::before{background:#ece4f5 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2375697f' stroke-width='3.4' stroke-linecap='round'%3E%3Cpath d='M7 7l10 10M17 7 7 17'/%3E%3C/svg%3E") center/9px no-repeat}
+.pktrows li{display:inline-block}
+.pktrows li::before{display:inline-block;vertical-align:-2px;margin-right:7px}
+@media (min-width:901px){.pktrial{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px 40px}.pktrial .pktside{align-items:center}.pktrial .pktside .pktpay{max-width:260px}}
