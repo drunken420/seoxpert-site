@@ -23,7 +23,7 @@
     function show(k) { btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.k === k)); }); sets.forEach(function (s) { s.hidden = s.dataset.set !== k; }); }
     kind.hidden = false; pk.classList.add('switched');
     btns.forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.k); }); });
-    show(/^#xpert(rank|care)$/.test(location.hash) ? 'care' : 'build');
+    show(location.hash === '#xpertrank' ? 'care' : 'build');
     pk.showKind = show;
   });
 
