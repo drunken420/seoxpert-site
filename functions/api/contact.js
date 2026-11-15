@@ -7,7 +7,7 @@
 const FROM = 'SEOXpert <hello@seoxpert.my>';
 const TO = 'contact@seoxpert.my';
 const SITE = 'https://seoxpert.my';
-const NEEDS = ['Website design', 'Website redesign', 'XpertRank', 'Not sure yet'];
+const NEEDS = ['Website design', 'Website and XpertRank', 'XpertRank for my website', 'XpertRank Trial', 'Website redesign', 'XpertRank', 'Not sure yet']; // keep in step with the choices in src/pages/contact.astro
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

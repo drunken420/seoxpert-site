@@ -4,14 +4,46 @@ import PageHero from '../components/PageHero.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
 import { site, whatsappLink, emailLink, ways } from '../config';
+import { build, care, trial, fmt, fmtOther, offerOn } from '../data/packages';
+// Contact page redone for the current offer (Suhen 2026-11-15): three ways we can help, with real prices from
+// packages.ts, and form choices that match them. Each choice shows a short line of what it is.
+const starter = build.tiers[0], growth = build.tiers[build.tiers.length - 1], basic = care.tiers[0];
+const total = (t) => t.short.match(/^(\d+) pages/)?.[1];
+const on = offerOn();
+const picks = [
+  { need: 'Website design', tag: 'XpertForge', title: 'A new website', price: `From ${fmt(starter)}`, text: `Planned, written, designed and built to rank on Google and AI search. ${total(starter)} to ${total(growth)} pages in total.`, extra: on ? 'Launch offer: free months of XpertRank and 1 year of free high speed cloud hosting.' : '', link: ['/packages/', 'See website packages'] },
+  { need: 'XpertRank for my website', tag: 'XpertRank', title: 'SEO for my website', price: `From ${fmt(basic)} a month`, text: `Our expert SEO service: keyword tracking, new SEO blog posts, fixes and AI search optimisation. Already have a website built elsewhere? XpertRank works on it too, from ${fmtOther(basic)} a month.`, extra: 'Money-back promise on websites we build.', link: ['/seo-services-malaysia/', 'See the SEO service'] },
+  { need: 'XpertRank Trial', tag: `${trial.days}-day Trial`, title: 'Try XpertRank first', price: `${fmt(trial)} for ${trial.days} days`, text: 'Your own XpertInsight dashboard, 5 keywords tracked and a technical SEO audit of up to 20 pages.', extra: 'The trial price comes off your first paid month.', link: ['/website-maintenance/#xpertrank', 'See XpertRank plans'] },
+];
+const needs = [
+  ['Website design', 'A new website', `XpertForge website, from ${fmt(starter)}. Tell us what your business does and roughly how many pages you need.`],
+  ['Website and XpertRank', 'A website and SEO', `An XpertForge website with XpertRank, our expert SEO service, from ${fmt(basic)} a month.`],
+  ['XpertRank for my website', 'SEO for my website', `XpertRank on a website you already have, from ${fmtOther(basic)} a month. Add your website address above.`],
+  ['XpertRank Trial', `${trial.days}-day Trial`, `${fmt(trial)} for ${trial.days} days, taken off your first paid month. Add your website address above.`],
+  ['Not sure yet', 'Not sure yet', 'No problem. Tell us about your business and we will suggest what fits.'],
+];
 ---
-<Base title="Contact SEOXpert | Start With a Conversation" description={`Talk to SEOXpert about a new website or monthly website care. Reach us by ${ways.toLowerCase().replace("whatsapp", "WhatsApp")}. No pressure, just honest insight, always.`} path="/contact/" crumb="Contact">
+<Base title="Contact SEOXpert | Start With a Conversation" description={`Talk to SEOXpert about a new website or XpertRank, our expert SEO service. Reach us by ${ways.toLowerCase().replace("whatsapp", "WhatsApp")}. No pressure, just honest insight, always.`} path="/contact/" crumb="Contact">
 <main id="main">
 <PageHero kicker="Contact" art="contact" crumb="Contact" word="Hello">
   <Fragment slot="title">Start with a <em>conversation</em>.</Fragment>
-  <Fragment slot="lede">Tell us about your business and what you want your website to do. No pressure, just honest insight.</Fragment>
+  <Fragment slot="lede">Tell us about your business and whether you need a new website, SEO for the one you have, or both. No pressure, just honest insight.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#ways">Send us a message</a></Fragment>
 </PageHero>
+<section id="help" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">How we can help</span>
+  <h2 class="rv">Three ways to start.</h2>
+  <div class="cpicks">
+    {picks.map((k, i) => <div class="cpick rv" style={`--d:${i}`}>
+      <span class="cptag">{k.tag}</span>
+      <h3>{k.title}</h3>
+      <p class="cpprice">{k.price}</p>
+      <p>{k.text}</p>
+      {k.extra && <p class="cpextra">{k.extra}</p>}
+      <div class="cpact"><a class="btn sm" href="#ways" data-need={k.need}>Ask about this</a><a class="cplink" href={k.link[0]}>{k.link[1]}</a></div>
+    </div>)}
+  </div>
+</div></section>
 <section id="ways" class="solid band"><div class="wrap">
   <span class="eyebrow rv">Write to us</span>
   <h2 class="rv">Send us a message.</h2>
@@ -19,7 +51,7 @@ import { site, whatsappLink, emailLink, ways } from '../config';
     <div class="cpanel rv">
       <div class="cpside"><i class="cppet" aria-hidden="true"></i><i class="cppet p2" aria-hidden="true"></i>
         <h3>Let's talk about your website.</h3><p>No pressure, just honest insight.</p>
-        <ol><li><div><b>You message us</b><span>Tell us what your business does and what you need.</span></div></li><li><div><b>We ask a few questions</b><span>Enough to understand your goals and whether we are the right fit.</span></div></li><li><div><b>You get a clear plan</b><span>What we would build, how it works and what it costs, in plain language.</span></div></li></ol>
+        <ol><li><div><b>You message us</b><span>Tell us what your business does and what you need.</span></div></li><li><div><b>We ask a few questions</b><span>Enough to understand your goals and whether we are the right fit.</span></div></li><li><div><b>You get a clear plan</b><span>What we would build or improve, how it works and what it costs, in plain language.</span></div></li></ol>
         {emailLink && <a class="cpmail" href={emailLink}>{site.email}</a>}
       </div>
     <form class="cform" id="cform" method="post" action="/api/contact" novalidate>
@@ -29,12 +61,10 @@ import { site, whatsappLink, emailLink, ways } from '../config';
       </div>
       <label class="cf"><span>Your website <small>(if you have one)</small></span><input name="site" type="text" inputmode="url" autocomplete="url" maxlength="200" placeholder="yourbusiness.com.my"></label>
       <fieldset class="cf cneed"><legend>What do you need?</legend>
-        <label><input type="radio" name="need" value="Website design" checked><span>A new website</span></label>
-        <label><input type="radio" name="need" value="Website redesign"><span>A redesign</span></label>
-        <label><input type="radio" name="need" value="XpertRank"><span>XpertRank</span></label>
-        <label><input type="radio" name="need" value="Not sure yet"><span>Not sure yet</span></label>
+        {needs.map((n, i) => <label><input type="radio" name="need" value={n[0]} data-hint={n[2]} checked={i === 0}><span>{n[1]}</span></label>)}
+        <p class="chint" id="chint">{needs[0][2]}</p>
       </fieldset>
-      <label class="cf"><span>Your message</span><textarea name="message" rows="5" required maxlength="3000" placeholder="What does your business do, and what should your website help with?"></textarea></label>
+      <label class="cf"><span>Your message</span><textarea name="message" rows="5" required maxlength="3000" placeholder="What does your business do, and what should your website help with? If you want SEO, which searches do you want to be found for?"></textarea></label>
       <label class="hp" aria-hidden="true">Leave this empty<input name="company" tabindex="-1" autocomplete="off"></label>
       {site.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-size="flexible"></div>}
       <div class="cfoot"><button class="btn" type="submit">Send message<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><p class="cnote">A real person reads every message and replies by email.</p></div>
@@ -44,7 +74,8 @@ import { site, whatsappLink, emailLink, ways } from '../config';
     <div class="cside">
       <div class="way rv" style="--d:1"><h3>Email</h3><p>Prefer your own email app? Write to us directly.</p>{emailLink ? <a class="cmail" href={emailLink}>{site.email}</a> : <p class="ph">[PLACEHOLDER] Your email address goes here.</p>}</div>
       {site.whatsapp && <div class="way rv"><h3>WhatsApp</h3><p>The quickest way to start a conversation with a real person.</p><a class="btn" href={whatsappLink}>WhatsApp us</a></div>}
-      <div class="way rv" style="--d:2"><h3>Chat</h3><p>Instant answers to common questions about website design and website maintenance.</p><button class="btn ghost" type="button" data-chat-open>Open the chat</button></div>
+      <div class="way rv" style="--d:3"><h3>See your total first</h3><p>Pick a website and an SEO plan, and see the price before you write to us.</p><a class="btn ghost" href="/packages/#planpicker">Build your plan</a></div>
+      <div class="way rv" style="--d:2"><h3>Chat</h3><p>Instant answers to common questions about website design, SEO and XpertRank.</p><button class="btn ghost" type="button" data-chat-open>Open the chat</button></div>
     </div>
   </div>
 </div></section>

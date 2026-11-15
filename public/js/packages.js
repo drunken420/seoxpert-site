@@ -34,27 +34,33 @@
     all('.pkn', box).forEach(function (el) { el.remove(); });
   }
   // The biggest care plan a website size can take: the same position, and the biggest website (Growth) takes every plan.
-  function capFor(i) { var last = all('[data-pick-set="build"] button', box).length - 1; return i >= last ? 99 : i; }
+  // "I already have a website" is the last card in step 1: any XpertRank plan, at the price for websites built elsewhere.
+  function isOwn() { var b = box && box.querySelector('[data-pick-set="build"] button[data-i="' + sel.build + '"]'); return !!(b && b.dataset.own); }
+  function capFor(i) { var last = all('[data-pick-set="build"] button:not([data-own])', box).length - 1; return i >= last ? 99 : i; }
   function sum(k) { return box.querySelector('[data-sum="' + k + '"]'); }
   function chosen(set) { return box.querySelector('[data-pick-set="' + set + '"] button[data-i="' + sel[set] + '"]'); }
   function plain(h) { return h.replace(/<[^>]+>/g, ''); }
   function draw() {
     if (!box) return;
     /* a care plan can be as big as the website, not bigger: Starter takes Basic, Business takes Basic or Plus, Growth takes any (Pro or Elite too) */
-    var cap = capFor(sel.build);
+    var own = isOwn(), cap = capFor(sel.build);
     if (sel.care > cap) sel.care = cap;
-    all('[data-pick-set="care"] button', box).forEach(function (b) { var off = +b.dataset.i > cap; b.classList.toggle('off', off); b.setAttribute('aria-disabled', String(off)); if (off) b.setAttribute('tabindex', '-1'); else b.removeAttribute('tabindex'); var n = b.querySelector('em'); if (n) n.hidden = !off; });
+    if (own && sel.care < 0) sel.care = 0; // keeping your own website only makes sense with an XpertRank plan
+    box.classList.toggle('own', own);
+    all('[data-pick-set="care"] [data-rm-o]', box).forEach(function (el) { var a = 'data-' + key() + (bill === 'year' ? '-y' : '') + (own ? '-o' : ''); if (el.tagName === 'SPAN') el.textContent = el.getAttribute(a); });
+    all('[data-pick-set="care"] button', box).forEach(function (b) { var off = +b.dataset.i > cap || (own && b.dataset.i === '-1'); b.classList.toggle('off', off); b.setAttribute('aria-disabled', String(off)); if (off) b.setAttribute('tabindex', '-1'); else b.removeAttribute('tabindex'); var n = b.querySelector('em'); if (n) n.hidden = !off; });
     ['build', 'care'].forEach(function (set) { all('[data-pick-set="' + set + '"] button', box).forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.i === sel[set])); }); });
     var b = chosen('build'), c = sel.care < 0 ? null : chosen('care'), k = key();
     var yr = bill === 'year', per = yr ? 'a year' : 'a month';
-    var bp = b.dataset[k], cp = c ? c.dataset[yr ? k + 'Y' : k] : '';
-    sum('bn').textContent = b.dataset.name + ' website'; sum('bp').innerHTML = bp;
+    var bp = b.dataset[k], cp = c ? c.dataset[(yr ? k + 'Y' : k) + (own ? 'O' : '')] : '';
+    sum('bn').textContent = own ? 'Your own website' : b.dataset.name + ' website'; sum('bp').innerHTML = own ? '' : bp;
     var ends = box.dataset.offerEnds, live = ends && Date.now() < new Date(ends + 'T00:00:00+08:00').getTime() + 864e5, lt = sum('later');
-    if (lt) { lt.hidden = !live; if (live) lt.innerHTML = 'Launch prices until ' + box.dataset.offerText + '. From 1 February 2027: <s>' + b.dataset[k + 'N'] + '</s>' + (c ? ' and <s>' + c.dataset[(yr ? k + 'YN' : k + 'N')] + '</s> ' + per : '') + '.'; }
+    if (lt) { lt.hidden = !live || own; if (live && !own) lt.innerHTML = 'Launch prices until ' + box.dataset.offerText + '. From 1 February 2027: <s>' + b.dataset[k + 'N'] + '</s>' + (c ? ' and <s>' + c.dataset[(yr ? k + 'YN' : k + 'N')] + '</s> ' + per : '') + '.'; }
     sum('cn').textContent = c ? c.dataset.name : 'No SEO plan'; sum('cp').innerHTML = c ? cp + ' <small>' + per + '</small>' : (cur === 'USD' ? '$0' : 'RM0');
-    var rows = (b.dataset.free ? ['<b>Launch offer:</b> ' + b.dataset.free] : []).concat(JSON.parse(b.dataset.rows)).concat(c ? JSON.parse(c.dataset.rows) : []).concat(JSON.parse(box.dataset.all)).concat(c ? ['Monthly Google + AI visibility report'] : []).concat(c && yr ? ['<b>Paid yearly:</b> 2 months free'] : []);
+    var rows = (b.dataset.free ? ['<b>Launch offer:</b> ' + b.dataset.free] : []).concat(JSON.parse(b.dataset.rows)).concat(c ? JSON.parse(c.dataset.rows) : []).concat(own ? [] : JSON.parse(box.dataset.all)).concat(c ? ['Monthly Google + AI visibility report'] : []).concat(c && yr ? ['<b>Paid yearly:</b> 2 months free'] : []);
     sum('list').innerHTML = rows.map(function (r) { return '<li>' + r + '</li>'; }).join('');
-    var msg = 'Hello SEOXpert, I would like this plan: ' + b.dataset.name + ' website (' + bp + ')' + (c ? ' with ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').' : ', no SEO plan.');
+    var msg = own ? 'Hello SEOXpert, I already have a website and would like ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').'
+      : 'Hello SEOXpert, I would like this plan: ' + b.dataset.name + ' website (' + bp + ')' + (c ? ' with ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').' : ', no SEO plan.');
     var a = sum('send');
     if (box.dataset.wa) { a.href = 'https://wa.me/' + box.dataset.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Send this plan on WhatsApp'; }
     else if (box.dataset.mail) { a.href = 'mailto:' + box.dataset.mail + '?subject=' + encodeURIComponent('My SEOXpert plan') + '&body=' + encodeURIComponent(msg); a.textContent = 'Send this plan by email'; }
@@ -78,7 +84,7 @@
   function setCur(c, save) {
     cur = c;
     curBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.c === c)); });
-    all('span[data-rm][data-usd]').forEach(function (el) { el.textContent = el.getAttribute('data-' + key() + (bill === 'year' && el.hasAttribute('data-rm-y') ? '-y' : '')); });
+    all('span[data-rm][data-usd]').forEach(function (el) { if (el.hasAttribute('data-rm-o')) return; el.textContent = el.getAttribute('data-' + key() + (bill === 'year' && el.hasAttribute('data-rm-y') ? '-y' : '')); });
     all('[data-unit]').forEach(function (el) { el.textContent = bill === 'year' ? 'a year' : 'a month'; });
     draw();
     if (save) try { localStorage.setItem('sx-cur', c); } catch (e) {}

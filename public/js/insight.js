@@ -137,3 +137,14 @@
   if (ribbon) io.observe(ribbon);
   els.forEach(function (b) { if (!ribbon || !ribbon.contains(b)) io.observe(b); });
 })();
+
+// Plan boxes ("No extra fee"): only one list is open at a time (Suhen 2026-11-15). Browsers that know
+// <details name> do this by themselves; this covers the older ones.
+(function () {
+  var all = document.querySelectorAll('details.xiplan');
+  [].forEach.call(all, function (d) {
+    d.addEventListener('toggle', function () {
+      if (d.open) [].forEach.call(all, function (o) { if (o !== d) o.open = false; });
+    });
+  });
+})();
