@@ -18,11 +18,12 @@ export const rmNow = (t: Tier) => now(t).rm;
 
 export const build = {
   key: 'build', label: 'XpertForge website build', unit: '', allTitle: 'In every XpertForge build',
-  all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Full keyword research with XpertCore', 'WhatsApp button + contact'],
+  all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Full keyword research with XpertCore, with a keyword plan for you', 'WhatsApp button + contact', 'Google Business Profile set up, so you show on Google Maps', 'Google Search Console and Analytics set up', 'A business email address on your domain, forwarded to your inbox', '30 days of free fixes after launch', 'A handover video of your website and dashboard'],
+  // Build prices raised and six extras added by Suhen 2026-11-15: RM799/1,499/2,499 now, RM1,199/1,999/3,499 from 1 Feb 2027. USD is Claude's draft.
   tiers: [
-    { id: 'starter', name: 'XpertForge Starter', rm: 499, usd: 129, rmNew: 799, usdNew: 199, for: 'For a first website', short: 'Up to 5 pages, plus a blog with 2 posts', rows: ['Up to <b>5 pages</b>', 'Plus a blog with <b>2 posts</b> at launch', '<b>2</b> revision rounds'], free: '14 day XpertRank Trial free, plus 1 year of free hosting' },
-    { id: 'business', name: 'XpertForge Business', rm: 999, usd: 249, rmNew: 1499, usdNew: 379, for: 'For a growing business', hot: true, short: 'Up to 10 pages, plus a blog with 5 posts', rows: ['Up to <b>10 pages</b>', 'Plus a blog with <b>5 posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertRank Basic free, plus 1 year of free hosting' },
-    { id: 'growth', name: 'XpertForge Growth', rm: 1799, usd: 449, rmNew: 2499, usdNew: 629, for: 'For a bigger website', short: 'Up to 20 pages, plus a blog with 10 posts', rows: ['Up to <b>20 pages</b>', 'Plus a blog with <b>10 posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertRank Plus free, plus 1 year of free hosting' },
+    { id: 'starter', name: 'XpertForge Starter', rm: 799, usd: 199, rmNew: 1199, usdNew: 289, for: 'For a first website', short: 'Up to 5 pages, plus a blog with 2 posts', rows: ['Up to <b>5 pages</b>', 'Plus a blog with <b>2 posts</b> at launch', '<b>2</b> revision rounds'], free: '14 day XpertRank Trial free, plus 1 year of free hosting' },
+    { id: 'business', name: 'XpertForge Business', rm: 1499, usd: 379, rmNew: 1999, usdNew: 479, for: 'For a growing business', hot: true, short: 'Up to 10 pages, plus a blog with 5 posts', rows: ['Up to <b>10 pages</b>', 'Plus a blog with <b>5 posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertRank Basic free, plus 1 year of free hosting' },
+    { id: 'growth', name: 'XpertForge Growth', rm: 2499, usd: 629, rmNew: 3499, usdNew: 839, for: 'For a bigger website', short: 'Up to 20 pages, plus a blog with 10 posts', rows: ['Up to <b>20 pages</b>', 'Plus a blog with <b>10 posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertRank Plus free, plus 1 year of free hosting' },
   ] as Tier[],
 };
 
