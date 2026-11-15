@@ -92,7 +92,7 @@ const short = (n: string) => n.replace('XpertForge ', '');
       <b>Monthly care from <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span></b>
       <small>Try it first: <span data-rm={fmt(trial, 'RM')} data-usd={fmt(trial, 'USD')}>{fmt(trial)}</span> for {trial.days} days</small>
     </div>
-    {offerOn() && <span class="hchip hfl" style={at(-3, 4, '--t:7s;--dl:-1s')}>1 year free hosting</span>}
+    {offerOn() && <span class="hchip hfl" style={at(-3, 4, '--t:7s;--dl:-1s')}>1 year free cloud hosting</span>}
   </>}
 
   {kind === 'demos' && <>
