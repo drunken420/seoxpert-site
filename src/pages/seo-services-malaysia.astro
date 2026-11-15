@@ -25,7 +25,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
 <main id="main">
 <PageHero kicker="SEO services" brand="XpertRank" art="seo" crumb="SEO services" word="SEO">
   <Fragment slot="title">SEO services in Malaysia, <em>built into your website</em>.</Fragment>
-  <Fragment slot="lede">XpertRank is our expert SEO service. We track your keywords, write new content every month, fix what holds you back and optimise for Google and AI search, from {fmt(basic)} a month, backed by a money-back promise.</Fragment>
+  <Fragment slot="lede">XpertRank is our expert SEO service. We track your keywords, write new content every month, fix what holds you back and optimise for Google and AI search, from {fmt(basic)} a month, backed by a money-back promise for websites we build.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#plans">See XpertRank plans</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 
@@ -50,7 +50,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
     <p class="sub rv">You always see what we did and what changed, in plain words.</p>
   </div>
   <ol class="nsteps">
-    <li class="rv"><h3>Every few days</h3><p>We actively check your website, fix what we find and keep it fast, safe and online on high speed cloud hosting.</p></li>
+    <li class="rv"><h3>Every few days</h3><p>We actively check your website, fix what we find and keep it fast and safe. Websites we build stay online on our high speed cloud hosting.</p></li>
     <li class="rv" style="--d:1"><h3>Every week</h3><p>XpertCore rank tracking checks where each of your keywords sits in Google's top 100. On Plus and up we also track your competitors.</p></li>
     <li class="rv" style="--d:2"><h3>Every month</h3><p>New blog posts and page changes go live, and we check what AI tools say about your business.</p></li>
     <li class="rv" style="--d:3"><h3>Any time</h3><p>Your <a href="/website-report-dashboard/">XpertInsight dashboard</a> shows visitors, leads, keywords, AI answers and site health, with a monthly XpertRecap PDF.</p></li>
@@ -61,9 +61,16 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
   <div>
     <span class="eyebrow rv">Our money-back promise</span>
     <p class="creed rv">{promise.replace(", we refund that month of XpertRank in full.", ",")} <em>we refund that month of XpertRank in full</em>.</p>
+    <p class="pmwho rv">For every paid XpertRank plan on a website we build. Not for websites built elsewhere, and not the Trial.</p>
+    <p class="pmhow rv"><b>How we check it:</b> every week XpertCore rank tracking looks up your tracked keywords on Google. The moving example shows one keyword climbing into the top 50 in its first month.</p>
   </div>
-  <!-- A 3D gold shield (public/js/promise3d.js, three.js on demand; Suhen picked the shield 2026-11-15). A picture of the same shield shows until it loads, or if 3D is not available. -->
-  <div class="pm3d" id="pm3d" aria-hidden="true"><div class="mbshield pmfall"><img src="/img/money-back-shield-160.webp" srcset="/img/money-back-shield-160.webp 160w, /img/money-back-shield.webp 320w" sizes="(max-width:900px) 170px, 250px" width="320" height="425" alt="" loading="lazy" decoding="async" /></div></div>
+  <!-- "Rank Guard" (Suhen picked it 2026-11-16, in the site's own look): a purple force-field shield guarding a stack of
+       Google results, where an example keyword climbs into the top 50 (public/js/promise3d.js, three.js on demand).
+       The caption under it follows the example; it is never a result. A picture of the same scene shows until it loads. -->
+  <div class="pmstage">
+    <div class="pm3d" id="pm3d" role="img" aria-label="Example of how we check it: a tracked keyword climbs Google week by week in its first month, from position 88 to 43, inside the top 50, and our money-back shield lights up gold."><div class="pmfall"><img src="/img/rank-guard-360.webp" srcset="/img/rank-guard-360.webp 360w, /img/rank-guard.webp 720w" sizes="(max-width:900px) 300px, 440px" width="720" height="720" alt="" loading="lazy" decoding="async" /></div></div>
+    <p class="pmcap" data-pm-cap aria-hidden="true"><span class="pmcx">Example</span><span class="pmcw"><b data-pm-week>Week 4</b> &middot; position <b data-pm-pos>43</b></span><span class="pmcok">Inside Google's top 50 in the first month</span></p>
+  </div>
 </div></section>
 
 <section id="plans" class="solid band"><div class="wrap">

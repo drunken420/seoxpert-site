@@ -19,15 +19,16 @@ const views = [
   ['leads', 'Leads', 'WhatsApp clicks, form messages and call clicks, week by week, and the pages that bring them.'],
   ['keywords', 'Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and how you compare with competitors.'],
   ['ai-answers', 'AI answers', 'Whether ChatGPT, Gemini, Perplexity and Google AI Overviews name your business, and the visits AI tools send you.'],
-  ['health', 'Site health', 'Broken links, pages on Google, security certificate, speed on phones and uptime, checked every few minutes.'],
+  ['health', 'Site health', 'A weekly technical SEO audit of your pages, with errors, warnings and what our team fixed, plus speed on phones, uptime, your security certificate and domain renewal dates.'],
   ['xpertrank', 'XpertRank', 'Your XpertRank SEO service this month: what your plan includes, the SEO and AI search work our team has done, and what comes next.'],
   ['reports', 'Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
+  ['plan', 'Your plan', 'What your XpertRank plan includes, how much of it you use, and how it compares with the other plans.'],
 ];
 const vmap = Object.fromEntries(views.map(([f, h, p]) => [f, [h, p]]));
 const groups = [
   ['Visits and leads', 'See how many people find your website, and how many of them get in touch.', ['overview', 'visitors', 'leads']],
   ['Google and AI search', 'See where you show up on Google, and whether AI tools name your business.', ['keywords', 'ai-answers']],
-  ['Health and SEO work', 'See that your website is healthy, the SEO work our team did this month, and your reports.', ['health', 'xpertrank', 'reports']],
+  ['Health and SEO work', 'See that your website is healthy, the SEO work our team did this month, your reports and your plan.', ['health', 'xpertrank', 'reports', 'plan']],
 ];
 // One tab per view, in group order; each tab knows its group name.
 const tabs = groups.flatMap(([g, , fs]) => (fs as string[]).map((f) => ({ f, h: vmap[f][0], p: vmap[f][1], g: g as string })));
@@ -76,7 +77,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
 </div></section>
 
 <section class="dark band xitabb"><div class="wrap">
-  <span class="eyebrow rv">Eight views, one login</span>
+  <span class="eyebrow rv">Nine views, one login</span>
   <h2 class="rv">A closer look at every view.</h2>
   <p class="sub rv">Pick a view to see the real screen, just as it looks on a computer. <span class="xihint-ph">Swipe the screen to move to the next one.</span></p>
   <div class="xitabs" data-xitabs={JSON.stringify(tabs)}>
@@ -104,7 +105,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
     <h2 class="rv">Made for phones too.</h2>
     <p class="sub rv">XpertInsight works on any phone, tablet or computer, so you can check how your website is doing from anywhere.</p>
     <ul class="xiticks">
-      <li class="rv"><b>Pick a range</b>Choose 7 days, 28 days or 3 months, and every chart and number follows.</li>
+      <li class="rv"><b>Pick a range</b>Choose this month, 7 days, 28 days or 3 months, and every chart and number follows.</li>
       <li class="rv" style="--d:1"><b>Secure login, no password</b>Get a fresh code to your email every time you log in. There is no password to remember.</li>
       <li class="rv" style="--d:2"><b>Download PDF</b>Save your monthly XpertRecap from your phone, ready to forward.</li>
     </ul>
@@ -120,6 +121,22 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
   </div>
 </div></section>
 
+<section class="solid tint band"><div class="wrap">
+  <span class="eyebrow rv">Handy extras</span>
+  <h2 class="rv">Small tools that save you time.</h2>
+  <p class="sub rv">Every XpertInsight account has these built in, on a computer or a phone.</p>
+  <ul class="xivg">
+    <li class="rv"><b>Refresh button</b><span>Fresh Google numbers when you want them, as often as your plan allows.</span></li>
+    <li class="rv"><b>Updates</b><span>New keywords on Google, fixed problems, plan changes and reminders. A red number means something new.</span></li>
+    <li class="rv"><b>Report button</b><span>Send our team a bug, an idea or a fix request from any page. We answer under Updates.</span></li>
+    <li class="rv"><b>Since your last visit</b><span>What changed since you last looked, at the top of your Overview.</span></li>
+    <li class="rv"><b>Run your own site audit</b><span>Check your pages again from Site health, as often as your plan allows.</span></li>
+    <li class="rv"><b>Your plan</b><span>What your XpertRank plan includes, how much you use, and how it compares.</span></li>
+    <li class="rv"><b>Guided tour</b><span>A one minute walk through every page, any time you press Tour.</span></li>
+    <li class="rv"><b>This month</b><span>See this month so far next to 7 days, 28 days and 3 months.</span></li>
+  </ul>
+</div></section>
+
 <section class="dark band"><div class="wrap split">
   <div>
     <span class="eyebrow rv">XpertRecap</span>
@@ -128,7 +145,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
     <p class="rv"><a class="btn" href="/xpertrecap.pdf" target="_blank" rel="noopener">See what an XpertRecap looks like (PDF)</a></p>
   </div>
   <ul class="xisrc">
-    <li class="rv"><b>Updated every week</b>Your Google search data, visitor numbers, speed checks and uptime, gathered for you every week.</li>
+    <li class="rv"><b>Updated every day</b>Your visitors, leads, Google search data, speed checks and uptime are read every morning. Keyword positions and the site audit are checked every week.</li>
     <li class="rv" style="--d:1"><b>Worked on by our team</b>Your target keywords are optimised for Google and AI search and tracked every week, and each month we ask AI tools the questions your customers ask.</li>
     <li class="rv" style="--d:2"><b>Private to you</b>A secure login with a fresh code sent to your email each time, and you only ever see your own website.</li>
     <li class="rv" style="--d:3"><b>Explained in plain words</b>Insights from our experts say what changed, what it means and what we will do next.</li>

@@ -4,7 +4,7 @@ export interface Tier { id: string; name: string; rm: number; usd: number; /** p
 
 
 /** Launch offer: free months of XpertRank (Starter 1, Business 2, Growth 4; Suhen 2026-11-15) and 1 year of free hosting with every build, until this date (inclusive). */
-export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free XpertRank included with every website.', text: 'Every website gets 1 year of free high speed cloud hosting. Starter also gets 1 month of XpertRank Basic free, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.' };
+export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free XpertRank included with every website we build.', text: 'Every website we build gets 1 year of free high speed cloud hosting. Starter also gets 1 month of XpertRank Basic free, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.' };
 export const offerOn = () => new Date() < new Date('2027-02-01T00:00:00+08:00');
 
 /** Prices: today's launch prices until the offer ends, then the new prices (both from Suhen; never change without asking).
@@ -53,7 +53,7 @@ export const care = {
 };
 
 /** XpertRank Trial: try XpertRank for 14 days (Suhen 2026-11-13: RM25 or US$5). The price after the launch offer is not decided; it stays RM25 until Suhen says otherwise. */
-export const trial: Tier & { days: number } = { id: 'trial', name: 'XpertRank Trial', rm: 25, usd: 5, rmNew: 25, usdNew: 5, days: 14, for: 'Try XpertRank first', short: 'XpertRank for 14 days, with your own XpertInsight dashboard, 5 keywords tracked, a technical SEO audit of up to 20 pages and 1 dashboard refresh. AI answer checks, the monthly PDF and the money-back promise come with the paid plans. Choose a paid XpertRank plan after your trial and the trial price comes off your first month', rows: ['<b>14 days</b> of XpertRank', 'Your own <b>XpertInsight</b> dashboard', '<b>5</b> keywords tracked', 'Technical SEO audit of up to <b>20</b> pages', '<b>1</b> dashboard refresh', 'No AI answer checks or PDF download'] };
+export const trial: Tier & { days: number } = { id: 'trial', name: 'XpertRank Trial', rm: 25, usd: 5, rmNew: 25, usdNew: 5, days: 14, for: 'Try XpertRank first', short: 'XpertRank for 14 days, with your own XpertInsight dashboard, 5 keywords tracked, a technical SEO audit of up to 20 pages and 1 dashboard refresh. AI answer checks and the monthly PDF come with the paid plans, and so does the money-back promise on websites we build. Choose a paid XpertRank plan after your trial and the trial price comes off your first month', rows: ['<b>14 days</b> of XpertRank', 'Your own <b>XpertInsight</b> dashboard', '<b>5</b> keywords tracked', 'Technical SEO audit of up to <b>20</b> pages', '<b>1</b> dashboard refresh', 'No AI answer checks or PDF download'] };
 
 /** Structured data: the same names and RM prices people see on the page. */
 export const offersLd = (set: typeof build | typeof care) =>

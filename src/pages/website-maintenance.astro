@@ -12,11 +12,11 @@ import Packages from '../components/Packages.astro';
 import { site, whatsappLink, talkLabel, areaLd } from '../config';
 import { care, offersLd } from '../data/packages';
 const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertRank, a monthly website maintenance service with expert SEO for websites built by SEOXpert, with high speed cloud hosting included: updates, backups, fixes, new content and SEO and AI search optimisation.', offers: offersLd(care) }];
-const pf = pageFaq(['What does monthly care include?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
+const pf = pageFaq(['What does XpertRank include?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
 ---
 <Base title="Website Maintenance Malaysia with Expert SEO | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description="XpertRank is a monthly website maintenance service in Malaysia with expert SEO, for websites built by SEOXpert: hosted, updated, backed up and growing." path="/website-maintenance/" crumb="Website maintenance" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
-<PageHero kicker="Monthly care" brand="XpertRank" art="care" crumb="Website maintenance" word="Care">
+<PageHero kicker="Expert SEO and maintenance" brand="XpertRank" art="care" crumb="Website maintenance" word="Care">
   <Fragment slot="title">Website maintenance in Malaysia, <em>month after month</em>.</Fragment>
   <Fragment slot="lede">A website is not finished on launch day. XpertRank keeps the website we built for you hosted, updated, backed up and growing, so you can get on with running your business.</Fragment>
   <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#xpertrank">See XpertRank plans</a></Fragment>
@@ -39,7 +39,7 @@ const pf = pageFaq(['What does monthly care include?', 'Is XpertRank an SEO serv
 <section id="xpertrank" class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">XpertRank plans</span>
   <h2 class="rv">Website maintenance cost in Malaysia, month by month.</h2>
-  <p class="sub rv">XpertRank is our monthly care plan for any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so the website lives with us and we look after all of it. Pick the size that fits how often your website changes, and add it to any of our <a href="/packages/">website design packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
+  <p class="sub rv">XpertRank is our expert SEO and maintenance service for any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so the website lives with us and we look after all of it. Pick the size that fits how often your website changes, and add it to any of our <a href="/packages/">website design packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
   <Packages show="care" pickHref="/packages/#plan" />
   <div class="note rv"><h3>Built by us, or built elsewhere</h3><p>For websites we build with XpertForge, Basic fits any size, Plus needs Business or Growth, and Pro and Elite need Growth, with free high speed cloud hosting. Already have a website? Any XpertRank plan works on it, at its own price and without hosting. See both prices on the <a href="/packages/#plan">packages page</a>.</p></div>
 </div></section>
