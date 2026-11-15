@@ -101,7 +101,22 @@
   // and the "Backed by our money-back promise" chip shows the promise inside the plan summary. That summary is sticky on
   // computers, so the browser's own jump went past it: we scroll it into the middle of the screen and make it glow.
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-  if (location.hash === '#xpertrank') { var pkc = document.querySelector('[data-pk]'); if (pkc) setTimeout(function () { pkc.scrollIntoView({ behavior: 'auto', block: 'start' }); }, 60); }
+  var pkc = document.querySelector('[data-pk]');
+  if (location.hash === '#xpertrank' && pkc) setTimeout(function () { pkc.scrollIntoView({ behavior: 'auto', block: 'start' }); }, 60);
+  // Links to this same page ("See the plans" = /packages/#xpertrank, "Compare the packages" = /packages/) used to do nothing
+  // or jump to the top, because the browser does not reload a page for its own address (Suhen 2026-11-16). Open the right
+  // set of cards and scroll to them instead.
+  if (pkc) all('a[href]').forEach(function (a) {
+    var u; try { u = new URL(a.getAttribute('href'), location.href); } catch (e) { return; }
+    if (u.origin !== location.origin || u.pathname !== location.pathname || (u.hash && u.hash !== '#xpertrank') || pkc.contains(a)) return;
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var care = u.hash === '#xpertrank';
+      if (pkc.showKind) pkc.showKind(care ? 'care' : 'build');
+      if (history.replaceState) history.replaceState(null, '', care ? '#xpertrank' : location.pathname);
+      pkc.scrollIntoView({ behavior: reduce, block: 'start' });
+    });
+  });
   all('a[href="#promise"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var pm = document.getElementById('promise'); if (!pm) return;
