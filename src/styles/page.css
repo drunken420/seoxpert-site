@@ -473,3 +473,18 @@ pre.codecard{margin:0;overflow-x:auto}
 @keyframes mbshine{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 @media (max-width:420px){.pkmb{flex-direction:column;align-items:flex-start}}
 @media (prefers-reduced-motion:reduce){.mbspin,.pkmb::after{animation:none}}
+
+/* Case studies page (Suhen 2026-11-15): stat tiles and screenshots of real Google data */
+.cstats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+.cstat{display:grid;gap:6px;align-content:start;padding:24px 22px;border-radius:22px;background:linear-gradient(160deg,#fff,#f6eeff);box-shadow:inset 0 0 0 1px var(--line),0 18px 40px -28px rgba(91,15,150,.45)}
+.cstat b{font:800 clamp(38px,4vw,54px)/1 var(--f-d);letter-spacing:-.03em;background:linear-gradient(120deg,#5b0f96,#a64dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cstat span{font-weight:600;line-height:1.35}
+.cstat small{color:var(--mut,#6b6280);font-size:13px}
+.cshots{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:28px}
+.cshots figure,.cwide{margin:0}
+.cwide{margin-top:20px}
+.cshots img,.cwide img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:inset 0 0 0 1px var(--line),0 20px 44px -30px rgba(40,10,80,.5);background:#fff}
+.cshots figcaption,.cwide figcaption{margin-top:10px;font-size:14px;color:var(--mut,#6b6280)}
+@media (max-width:1000px){.cstats{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.cshots{grid-template-columns:1fr}}
+@media (max-width:420px){.cstats{grid-template-columns:1fr}}
