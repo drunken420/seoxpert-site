@@ -488,3 +488,21 @@ pre.codecard{margin:0;overflow-x:auto}
 @media (max-width:1000px){.cstats{grid-template-columns:1fr 1fr}}
 @media (max-width:700px){.cshots{grid-template-columns:1fr}}
 @media (max-width:420px){.cstats{grid-template-columns:1fr}}
+
+/* Case studies: totals in a tooltip that opens on hover, keyboard focus or tap */
+.ctot{position:relative;margin:0}
+.cinfo{display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border:0;border-radius:99px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font:600 14px var(--f-b);color:var(--acc);cursor:help}
+.cinfo svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.ctip{position:absolute;left:0;bottom:calc(100% + 10px);z-index:5;width:min(440px,calc(100vw - 32px));padding:14px 16px;border-radius:14px;background:#1d0b33;color:#f1e6ff;font-size:14px;line-height:1.5;box-shadow:0 20px 40px -18px rgba(29,11,51,.7);opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s,transform .2s,visibility .2s}
+.ctip b{color:#fff}
+.cinfo:hover+.ctip,.cinfo:focus-visible+.ctip,.cinfo:focus+.ctip{opacity:1;visibility:visible;transform:none}
+/* SEO services: the promise with a 3D coin on the right */
+.pmgrid{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+.pm3d{position:relative;aspect-ratio:1;max-width:440px;width:100%;margin-left:auto;display:grid;place-items:center}
+.pm3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.pm3d.on .pmfall{display:none}
+.pmfall{width:160px;height:160px}
+@media (max-width:900px){.pmgrid{grid-template-columns:1fr}.pm3d{max-width:300px;margin:0 auto}}
+.pkbillrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 22px;margin:0 0 18px}
+.pkbillrow .pkbill{margin:0}
+@media (max-width:520px){.pkbillrow .pkcur{width:100%;justify-content:space-between}}

@@ -31,7 +31,7 @@ const careTable = `<div class="btable" tabindex="0" role="region" aria-label="Xp
 </tbody></table></div>`;
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
-<li>Google SEO and AI search optimisation, including structured data and an llms.txt file</li>
+<li>Google SEO and AI search optimisation, including structured data and an AI ranking file</li>
 <li>Your own blog, with posts written at launch</li>
 <li>A WhatsApp button and a contact page</li>
 <li>${starter.name}: 2 revision rounds. ${business.name} and ${growth.name}: 3</li></ul>`;
@@ -384,7 +384,7 @@ ${careTable}
 <li><b>Headings that read like questions</b> people actually ask.</li>
 <li><b>One topic per page.</b> A page about everything is hard to quote for anything.</li>
 <li><b>Structured data.</b> Labels in the code that state the facts, such as your business name, your services and your questions and answers.</li>
-<li><b>An llms.txt file.</b> A short, plain summary of your website for AI tools. It is a new idea and not every tool reads it yet, but it is quick to add.</li></ul>` },
+<li><b>An AI ranking file.</b> A short, plain summary of your website for AI tools. It is a new idea and not every tool reads it yet, but it is quick to add.</li></ul>` },
       { id: 'write-to-be-quoted', h: 'How to write pages AI tools can quote', html: `<p>AI tools reward clear writing over clever writing. Compare these two openings for a made up bakery:</p>
 <div class="btip"><b>Hard to quote</b>Welcome to our world of passion, where every creation tells a story crafted with love.</div>
 <div class="btip"><b>Easy to quote</b>We bake custom birthday and wedding cakes in Petaling Jaya. Orders need three days notice, and you can order by WhatsApp or through our website.</div>
@@ -401,13 +401,13 @@ ${careTable}
       { id: 'does-it-work', h: 'Does AI SEO work?', html: `<p>It helps, with honest limits. Nobody can promise that an AI tool will name your business, because the companies that make those tools decide how they choose sources, and they change it often.</p>
 <p>What you can control is how clear, consistent and well structured your website is. The good news is that the same work also helps on Google, so nothing is wasted. Be careful with anyone who guarantees results in AI answers.</p>` },
       { id: 'other-names', h: 'Other names you may hear', html: `<p>AI SEO goes by several names. GEO means generative engine optimisation (also spelled generative engine optimization). AEO means answer engine optimisation. Some people say LLM optimisation, after the large language models behind the AI tools. They all describe the same idea: helping AI tools understand and use your content.</p>` },
-      { id: 'how-we-do-it', h: 'How we build it in', html: `<p>Every website we build is planned for Google and AI search before it is designed. <a href="/ai-website-builder/">XpertCore, our own AI website builder</a>, drafts the page plan, headings and answer first copy, and adds structured data and an llms.txt file. Then our experts check and refine every page.</p>
+      { id: 'how-we-do-it', h: 'How we build it in', html: `<p>Every website we build is planned for Google and AI search before it is designed. <a href="/ai-website-builder/">XpertCore, our own AI website builder</a>, drafts the page plan, headings and answer first copy, and adds structured data and an AI ranking file. Then our experts check and refine every page.</p>
 <p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places.</p>` },
     ],
     faqs: [
-      { q: 'Is AI SEO different from normal SEO?', a: 'It builds on normal SEO. The basics are the same: clear pages, good structure and useful answers. AI SEO adds short answer blocks, consistent facts, structured data and an llms.txt file.' },
+      { q: 'Is AI SEO different from normal SEO?', a: 'It builds on normal SEO. The basics are the same: clear pages, good structure and useful answers. AI SEO adds short answer blocks, consistent facts, structured data and an AI ranking file.' },
       { q: 'Does Google still matter now that people use AI tools?', a: 'Yes. People still use Google, and more and more of them also ask AI tools. A website should be easy to find in both.' },
-      { q: 'What is an llms.txt file?', a: 'It is a short text file that sums up your website for AI tools: who you are, what you offer and where the key pages are.' },
+      { q: 'What is an AI ranking file?', a: 'It is a short text file that sums up your website for AI tools: who you are, what you offer and where the key pages are.' },
       { q: 'How can I see what AI tools say about my business?', a: 'Ask a few AI tools the questions your customers would ask, note any wrong or missing facts, and fix them on your website and Google profile.' },
       { q: 'Can you guarantee an AI tool will recommend my business?', a: 'No, and nobody honestly can. We make your website clear, well structured and easy to quote, which gives it the best chance.' },
     ],

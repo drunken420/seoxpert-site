@@ -57,7 +57,7 @@ const extraLd = [{ '@type': 'Article', headline: 'SEO case study: seoxpert.my, t
     <div class="btable rv" tabindex="0" role="region" aria-label="Top Google searches for seoxpert.my in its first days"><table><thead><tr><th>Search</th><th>Impressions</th><th>Clicks</th></tr></thead><tbody>
       {queries.map((q) => <tr><td>{q[0]}</td><td>{q[1]}</td><td>{q[2]}</td></tr>)}
     </tbody></table></div>
-    <p class="rv" style="margin:0">In total: <b>{first.clicks} clicks</b> from <b>{first.impressions} impressions</b>, at an average position of <b>{first.position}</b>. In the last 24 hours ({day.range}): {day.clicks} click from {day.impressions} impressions, at an average position of {day.position}.</p>
+    <p class="ctot rv"><button type="button" class="cinfo" aria-describedby="ctotal"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg>Totals and average position</button><span class="ctip" role="tooltip" id="ctotal">In total: <b>{first.clicks} clicks</b> from <b>{first.impressions} impressions</b>, at an average position of <b>{first.position}</b>. In the last 24 hours ({day.range}): {day.clicks} click from {day.impressions} impressions, at an average position of {day.position}.</span></p>
   </div>
 </div></section>
 
@@ -79,7 +79,7 @@ const extraLd = [{ '@type': 'Article', headline: 'SEO case study: seoxpert.my, t
   <div class="prose">
     <p class="rv">These are first results, a few days after launch. Google already shows the new website for {first.searches} different searches, including ones we planned for, such as "website maintenance malaysia" and "malaysia web design package".</p>
     <p class="rv">An average position of about 55 means the website is mostly on page 5 or 6 of Google for now. That is normal for a new website: Google tests new pages before it trusts them. Most websites begin to see results after eight to twelve weeks, so we will keep adding the numbers here every month, good or bad.</p>
-    <p class="rv">Every page was planned with XpertCore: one clear topic per page, answer first writing, structured data, an llms.txt file for AI tools, and {guides} guides on <a href="/blog/">XpertAdvice</a>. It is the same work that goes into every <a href="/website-design/">website we design</a> and every <a href="/seo-services-malaysia/">XpertRank SEO plan</a>.</p>
+    <p class="rv">Every page was planned with XpertCore: one clear topic per page, answer first writing, structured data, an AI ranking file for AI tools, and {guides} guides on <a href="/blog/">XpertAdvice</a>. It is the same work that goes into every <a href="/website-design/">website we design</a> and every <a href="/seo-services-malaysia/">XpertRank SEO plan</a>.</p>
   </div>
 </div></section>
 

@@ -9,7 +9,7 @@ const on = offerOn();
 const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD') });
 ---
 <div class="pk" data-pk>
-  <div class="pkbar rv">
+  {show !== 'care' && <div class="pkbar rv">
     {show === 'both' && (
       <div class="pkseg" role="group" aria-label="Package type" data-pk-kind hidden>
         <button type="button" aria-pressed="true" data-k="build">XpertForge build</button>
@@ -22,7 +22,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
         <button type="button" aria-pressed="false" data-c="USD">USD</button>
       </div>
     </div>
-  </div>
+  </div>}
   {on && (
     <div class="pkoffer rv" data-pk-offer={offer.ends}>
       <i class="pkoshine" aria-hidden="true"></i><i class="pkopet" aria-hidden="true" style="--x:72%;--y:14%;--s:34px;--t:7s"></i><i class="pkopet" aria-hidden="true" style="--x:93%;--y:62%;--s:54px;--t:9s"></i><i class="pkopet" aria-hidden="true" style="--x:58%;--y:78%;--s:22px;--t:6s"></i>
@@ -47,7 +47,9 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           </ul>
         </div>
       )}
-      {S.key === 'care' && <div class="pkseg pkbill rv" role="group" aria-label="How to pay" data-pk-bill hidden><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>}
+      {/* On the care-only pages the currency switch sits beside Pay monthly / Pay yearly (Suhen 2026-11-15). */}
+      {S.key === 'care' && <div class="pkbillrow rv"><div class="pkseg pkbill" role="group" aria-label="How to pay" data-pk-bill hidden><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>
+        {show === 'care' && <div class="pkcur" hidden data-pk-curbar><span>Show prices in</span><div class="pkseg sm" role="group" aria-label="Currency" data-pk-cur><button type="button" aria-pressed="true" data-c="RM">RM</button><button type="button" aria-pressed="false" data-c="USD">USD</button></div></div>}</div>}
       <div class={'pkcards' + (S.tiers.length === 4 ? ' n4' : '')}>
         {S.tiers.map((t, i) => (
           <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i}`}>
