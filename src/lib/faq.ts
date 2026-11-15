@@ -32,3 +32,9 @@ export const faqLd = ld(faqs);
 /** The homepage shows only its own ten, so its structured data does too. */
 export const homeFaqLd = ld(home);
 export const readyFaqs = faqs.filter((f) => f.ready);
+/** A few finished questions for one page, in the order asked for, with matching structured data (PageFaq.astro).
+ *  A question that has gone (for example the launch offer after it ends) is simply left out. */
+export const pageFaq = (qs: string[]) => {
+  const items = qs.map((q) => readyFaqs.find((f) => f.q === q)).filter(Boolean) as Faq[];
+  return { items, ld: ld(items) };
+};

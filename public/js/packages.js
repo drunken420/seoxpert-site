@@ -51,10 +51,10 @@
     sum('bn').textContent = b.dataset.name + ' website'; sum('bp').innerHTML = bp;
     var ends = box.dataset.offerEnds, live = ends && Date.now() < new Date(ends + 'T00:00:00+08:00').getTime() + 864e5, lt = sum('later');
     if (lt) { lt.hidden = !live; if (live) lt.innerHTML = 'Launch prices until ' + box.dataset.offerText + '. From 1 February 2027: <s>' + b.dataset[k + 'N'] + '</s>' + (c ? ' and <s>' + c.dataset[(yr ? k + 'YN' : k + 'N')] + '</s> ' + per : '') + '.'; }
-    sum('cn').textContent = c ? c.dataset.name : 'No monthly care'; sum('cp').innerHTML = c ? cp + ' <small>' + per + '</small>' : (cur === 'USD' ? '$0' : 'RM0');
+    sum('cn').textContent = c ? c.dataset.name : 'No SEO plan'; sum('cp').innerHTML = c ? cp + ' <small>' + per + '</small>' : (cur === 'USD' ? '$0' : 'RM0');
     var rows = (b.dataset.free ? ['<b>Launch offer:</b> ' + b.dataset.free] : []).concat(JSON.parse(b.dataset.rows)).concat(c ? JSON.parse(c.dataset.rows) : []).concat(JSON.parse(box.dataset.all)).concat(c ? ['Monthly Google + AI visibility report'] : []).concat(c && yr ? ['<b>Paid yearly:</b> 2 months free'] : []);
     sum('list').innerHTML = rows.map(function (r) { return '<li>' + r + '</li>'; }).join('');
-    var msg = 'Hello SEOXpert, I would like this plan: ' + b.dataset.name + ' website (' + bp + ')' + (c ? ' with ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').' : ', no monthly care.');
+    var msg = 'Hello SEOXpert, I would like this plan: ' + b.dataset.name + ' website (' + bp + ')' + (c ? ' with ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').' : ', no SEO plan.');
     var a = sum('send');
     if (box.dataset.wa) { a.href = 'https://wa.me/' + box.dataset.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Send this plan on WhatsApp'; }
     else if (box.dataset.mail) { a.href = 'mailto:' + box.dataset.mail + '?subject=' + encodeURIComponent('My SEOXpert plan') + '&body=' + encodeURIComponent(msg); a.textContent = 'Send this plan by email'; }

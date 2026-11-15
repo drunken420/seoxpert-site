@@ -37,6 +37,17 @@ const short = (n: string) => n.replace('XpertForge ', '');
     <span class="hchip seq hfl" style={at(30, 90, '--n:4;--t:8.5s;--dl:-3s')}>Monthly report</span>
   </>}
 
+  {kind === 'seo' && <>
+    <i class="hpulse"></i><i class="hpulse" style="--dl:-1.6s"></i>
+    <div class="hc dk hdisc"><svg viewBox="0 0 48 48"><circle cx="21" cy="21" r="12"/><path d="m30 30 10 10"/><path class="ck" d="m14 25 5-5 4 4 6-7"/></svg></div>
+    <span class="xp hfl" style={at(36, 0, '--t:7s')}>XpertRank</span>
+    <span class="hchip seq hfl" style={at(0, 22, '--n:0;--t:8s')}>Keyword tracking</span>
+    <span class="hchip seq hfl" style={at(64, 26, '--n:1;--t:7s;--dl:-2s')}>On page SEO</span>
+    <span class="hchip seq hfl" style={at(2, 68, '--n:2;--t:9s;--dl:-4s')}>AI search (LLM)</span>
+    <span class="hchip seq hfl" style={at(58, 72, '--n:3;--t:7.5s;--dl:-1s')}>New content monthly</span>
+    <span class="hchip seq hfl" style={at(26, 90, '--n:4;--t:8.5s;--dl:-3s')}>Money-back promise</span>
+  </>}
+
   {kind === 'insight' && <>
     <div class="hxwin" style={at(2, 12)}><div class="hxbar"><i></i><i></i><i></i><span>insight.seoxpert.my</span></div><img src="/img/xi-screen-overview-720.webp" width="720" height="450" alt="" decoding="async" fetchpriority="low" /><i class="hxsheen"></i></div>
     <img class="hxphone hfl" style={at(70, 30, '--t:8s;--dl:-2s')} src="/img/xi-phone-overview-28-360.webp" width="360" height="744" alt="" decoding="async" fetchpriority="low" />
@@ -92,7 +103,7 @@ const short = (n: string) => n.replace('XpertForge ', '');
       <b>Monthly care from <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span></b>
       <small>Try it first: <span data-rm={fmt(trial, 'RM')} data-usd={fmt(trial, 'USD')}>{fmt(trial)}</span> for {trial.days} days</small>
     </div>
-    {offerOn() && <span class="hchip hfl" style={at(-3, 4, '--t:7s;--dl:-1s')}>1 year free hosting</span>}
+    {offerOn() && <span class="hchip hfl" style={at(-3, 4, '--t:7s;--dl:-1s')}>1 year free cloud hosting</span>}
   </>}
 
   {kind === 'demos' && <>

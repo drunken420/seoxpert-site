@@ -4,6 +4,8 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import Glance from '../components/Glance.astro';
+import PageFaq from '../components/PageFaq.astro';
+import { pageFaq } from '../lib/faq';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Packages from '../components/Packages.astro';
@@ -14,8 +16,9 @@ const extraLd = [
   { '@type': 'Service', name: 'Website design packages', serviceType: 'Website design', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/packages/`, offers: offersLd(build) },
   { '@type': 'Service', name: 'XpertRank monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
 ];
+const pf = pageFaq(['What is the difference between Starter, Business and Growth?', 'Is the website price paid once or every month?', 'Is there a launch offer?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'Can I try XpertRank first?']);
 ---
-<Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description={`Website design packages in Malaysia from ${fmt(build.tiers[0])}, with copywriting and keyword research included. XpertRank monthly website maintenance from ${fmt(care.tiers[0])} a month.`} path="/packages/" crumb="Packages" extraLd={extraLd}>
+<Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description={`Website design packages in Malaysia from ${fmt(build.tiers[0])}, with copywriting and keyword research included. XpertRank monthly website maintenance from ${fmt(care.tiers[0])} a month.`} path="/packages/" crumb="Packages" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Packages" brand="XpertForge" art="packages" crumb="Packages" word="Packages">
   <Fragment slot="title">Website design packages in Malaysia, <em>in plain language</em>.</Fragment>
@@ -53,6 +56,7 @@ const extraLd = [
   <p class="sub rv" style="margin-top:28px">Forged by XpertCore, looked after by XpertRank. <a href="/website-maintenance/">See what website maintenance covers</a>, or read more about <a href="/website-design/">website design</a>.</p>
 </div></section>
 <Glance page="packages" guides={['website-design-packages-malaysia', 'website-design-price-malaysia']} />
+<PageFaq title="Package and price questions, answered." items={pf.items} tint />
 <Related skip="/packages/" />
 <Cta title="Not sure which package fits? Ask us." />
 </main>

@@ -5,11 +5,14 @@ import Cta from '../components/Cta.astro';
 import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
 import Glance from '../components/Glance.astro';
+import PageFaq from '../components/PageFaq.astro';
+import { pageFaq } from '../lib/faq';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { whatsappLink, talkLabel, areaText } from '../config';
+const pf = pageFaq(['Who is behind SEOXpert?', 'Do you outsource the work?', 'Which areas do you work in?', 'How do I contact you?']);
 ---
-<Base title="About SEOXpert | A Web Design Company in Malaysia" image={`/img/${pictures["about"].file}.jpg`} description="SEOXpert is a founder led website development company in Malaysia, with web design built in. Every site is optimised for Google and AI search, and cared for monthly." path="/about/" crumb="About">
+<Base title="About SEOXpert | A Web Design Company in Malaysia" image={`/img/${pictures["about"].file}.jpg`} description="SEOXpert is a founder led website development company in Malaysia, with web design built in. Every site is optimised for Google and AI search, and cared for monthly." path="/about/" extraLd={[pf.ld]} crumb="About">
 <main id="main">
 <PageHero kicker="About SEOXpert" art="about" crumb="About" word="About">
   <Fragment slot="title">A website development company in Malaysia, built on <em>clarity</em>.</Fragment>
@@ -46,6 +49,7 @@ import { whatsappLink, talkLabel, areaText } from '../config';
   </div>
 </div></section>
 <Glance page="about" guides={['choose-web-design-company-malaysia']} />
+<PageFaq title="Questions about SEOXpert, answered." items={pf.items} tint />
 <Trio />
 <Related skip="/about/" />
 <Cta />
