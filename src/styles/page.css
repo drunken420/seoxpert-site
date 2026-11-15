@@ -645,3 +645,27 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
 .pktrows li{display:inline-block}
 .pktrows li::before{display:inline-block;vertical-align:-2px;margin-right:7px}
 @media (min-width:901px){.pktrial{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px 40px}.pktrial .pktside{align-items:center}.pktrial .pktside .pktpay{max-width:260px}}
+/* Phones (Suhen 2026-11-16 "check and optimise for mobile"): package cards sit in a row you swipe, each card nearly
+   full width with the next one peeking in, instead of a very long stack. A small hint under them says so. */
+@media (max-width:700px){
+  .pkcards,.pkcards.n4{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;margin:0 calc(-1 * var(--gr)) 0 calc(-1 * var(--gl));padding:16px var(--gr) 8px var(--gl);scroll-padding-left:var(--gl);scrollbar-width:none}
+  .pkcards::-webkit-scrollbar{display:none}
+  .pkcards .pkcard{flex:0 0 86%;scroll-snap-align:start;margin-bottom:0;display:flex;flex-direction:column}
+  .pkcards .pkcard .btn{margin-top:auto;align-self:stretch}
+  .pkcards .pkgift{min-height:0}
+  .pkcards .pkup0{display:none}
+  .pkswipe{display:flex;justify-content:center;gap:6px;margin:12px 0 0}
+  .pkswipe i{width:7px;height:7px;border-radius:9px;background:#dccbf0;transition:width .3s ease,background-color .3s ease}
+  .pkswipe i.on{width:22px;background:var(--acc)}
+  .pkall li{padding:10px 12px;font-size:14px}
+}
+@media (min-width:701px){.pkswipe{display:none}}
+/* Phones: feature cards are tighter, with the petal beside the heading instead of above it */
+@media (max-width:700px){
+  .fcard{padding:20px;border-radius:20px;display:grid;grid-template-columns:30px minmax(0,1fr);column-gap:12px;align-items:start}
+  .fcard .pet{width:28px;height:28px;margin:2px 0 0;grid-row:1}
+  .fcard h3{grid-column:2;font-size:19px;margin-bottom:6px}
+  .fcard>:not(.pet):not(h3){grid-column:1/-1}
+  .fcard p{font-size:15.5px}
+  .grid3{gap:12px}
+}

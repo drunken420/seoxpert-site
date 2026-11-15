@@ -12,7 +12,7 @@ const total = (t) => t.short.match(/^(\d+) pages/)?.[1];
 const on = offerOn();
 const picks = [
   { need: 'Website design', tag: 'XpertForge', title: 'A new website', price: `From ${fmt(starter)}`, text: `Planned, written, designed and built to rank on Google and AI search. ${total(starter)} to ${total(growth)} pages in total.`, extra: on ? 'Launch offer: free months of XpertRank and 1 year of free high speed cloud hosting.' : '', link: ['/packages/', 'See website packages'] },
-  { need: 'XpertRank for my website', tag: 'XpertRank', title: 'SEO for my website', price: `From ${fmt(basic)} a month`, text: `Our expert SEO service: keyword tracking, new SEO blog posts, fixes and AI search optimisation. Already have a website built elsewhere? XpertRank works on it too, from ${fmtOther(basic)} a month.`, extra: 'Money-back promise on websites we build.', link: ['/seo-services-malaysia/', 'See the SEO service'] },
+  { need: 'XpertRank for my website', tag: 'XpertRank', title: 'SEO for my website', price: `From ${fmt(basic)} a month`, text: `Our expert SEO service: target keywords optimised for Google and AI search, new SEO blog posts, fixes and AI search optimisation. Already have a website built elsewhere? XpertRank works on it too, from ${fmtOther(basic)} a month.`, extra: 'Money-back promise on websites we build.', link: ['/seo-services-malaysia/', 'See the SEO service'] },
   { need: 'XpertRank Trial', tag: `${trial.days}-day Trial`, title: 'Try XpertRank first', price: `${fmt(trial)} for ${trial.days} days`, text: 'Your own XpertInsight dashboard, 5 keywords tracked and a technical SEO audit of up to 20 pages.', extra: 'The trial price comes off your first paid month.', link: ['/website-maintenance/#xpertrank', 'See XpertRank plans'] },
 ];
 const needs = [
@@ -59,7 +59,11 @@ const needs = [
         <label class="cf"><span>Your name</span><input name="name" autocomplete="name" required maxlength="80"></label>
         <label class="cf"><span>Your email</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label>
       </div>
-      <label class="cf"><span>Your website <small>(if you have one)</small></span><input name="site" type="text" inputmode="url" autocomplete="url" maxlength="200" placeholder="yourbusiness.com.my"></label>
+      <!-- Company and website (Suhen 2026-11-16: ask for name, email, company and website, the website only if they have one). "biz", because "company" is the hidden bot trap. -->
+      <div class="cf2">
+        <label class="cf"><span>Company or business name</span><input name="biz" autocomplete="organization" required maxlength="120"></label>
+        <label class="cf"><span>Your website <small>(if you have one)</small></span><input name="site" type="text" inputmode="url" autocomplete="url" maxlength="200" placeholder="yourbusiness.com.my"></label>
+      </div>
       <fieldset class="cf cneed"><legend>What do you need?</legend>
         {needs.map((n, i) => <label><input type="radio" name="need" value={n[0]} data-hint={n[2]} checked={i === 0}><span>{n[1]}</span></label>)}
         <p class="chint" id="chint">{needs[0][2]}</p>

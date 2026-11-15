@@ -149,3 +149,16 @@
     });
   });
 })();
+
+// Phones: the swipe dots under the package cards follow the card in view, and the Recommended card is shown first (Suhen 2026-11-16).
+(function () {
+  if (!window.matchMedia('(max-width:700px)').matches) return;
+  document.querySelectorAll('.pkcards').forEach(function (row) {
+    var dots = row.nextElementSibling; if (!dots || !dots.classList.contains('pkswipe')) return;
+    var cards = row.querySelectorAll('.pkcard'), hot = row.querySelector('.pkcard.hot');
+    function mark() { var x = row.scrollLeft, best = 0, d = 1e9; cards.forEach(function (c, i) { var e = Math.abs(c.offsetLeft - row.offsetLeft - x - parseFloat(getComputedStyle(row).paddingLeft) + 16); if (e < d) { d = e; best = i; } }); dots.querySelectorAll('i').forEach(function (n, i) { n.classList.toggle('on', i === best); }); }
+    row.addEventListener('scroll', function () { window.requestAnimationFrame(mark); }, { passive: true });
+    if (hot) row.scrollLeft = hot.offsetLeft - row.offsetLeft - parseFloat(getComputedStyle(row).paddingLeft);
+    mark();
+  });
+})();

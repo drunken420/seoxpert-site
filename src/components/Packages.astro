@@ -42,7 +42,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           <ul>
             <li><b>Your own live dashboard</b><span>XpertInsight puts visitors, leads, Google searches, speed, uptime, and your domain and SSL renewal dates in one place, refreshed every day.</span></li>
             <li><b>Seen by AI, not just Google</b><span>We check whether ChatGPT, Gemini, Perplexity and Google's AI answers mention you, every month.</span></li>
-            <li><b>Keyword positions every week</b><span>See exactly where you rank on Google for the words your customers search.</span></li>
+            <li><b>Target keywords, every week</b><span>We optimise your website for the words your customers search, on Google and AI search (LLM), and show where you rank every week.</span></li>
             <li><b>New highly rankable content</b><span>Blog posts written with XpertCore, our AI core, and checked by experts, every month.</span></li>
             <li><b>Checked every few days</b><span>We find problems and fix them, plus SEO and AI search optimisation when needed.</span></li>
             <li><b>Money-back promise</b><span>On websites we build: if none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.</span></li>
@@ -73,6 +73,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           </article>
         ))}
       </div>
+      <div class="pkswipe" aria-hidden="true">{S.tiers.map((t, i) => <i class:list={[t.hot ? 'on' : i === 0 && !S.tiers.some((x) => x.hot) && 'on']} />)}</div>
       {/* The Trial sits under the care cards, and on /packages/ under the build cards too, so it is never missed
           (Suhen 2026-11-16: "no trial option on the packages page"). */}
       {(S.key === 'care' || show === 'both') && (
