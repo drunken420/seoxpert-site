@@ -61,6 +61,17 @@
     sum('list').innerHTML = rows.map(function (r) { return '<li>' + r + '</li>'; }).join('');
     var msg = own ? 'Hello SEOXpert, I already have a website and would like ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').'
       : 'Hello SEOXpert, I would like this plan: ' + b.dataset.name + ' website (' + bp + ')' + (c ? ' with ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').' : ', no SEO plan.');
+    // Pay and start (only when online payments are switched on, site.payments in src/config.ts; Suhen 2026-11-16).
+    // A new website is paid in full before we start; its XpertRank plan starts after launch, through a link we send.
+    // Keeping your own website starts XpertRank at once, charged every month or year.
+    var pay = sum('pay'), note = sum('paynote');
+    if (pay) {
+      if (own) { pay.dataset.pay = c.dataset.id; pay.dataset.bill = bill; pay.innerHTML = 'Pay ' + cp + ' and start'; }
+      else { pay.dataset.pay = b.dataset.id; delete pay.dataset.bill; pay.innerHTML = 'Pay ' + bp + ' and start'; }
+      if (note) note.textContent = (own ? 'XpertRank is charged automatically every ' + (yr ? 'year' : 'month') + ' by card. '
+        : 'Your website is paid in full before we start.' + (c ? ' ' + c.dataset.name + ' starts after launch' + (b.dataset.free ? ', after your free launch months' : '') + ', and we send its payment link then.' : '') + ' ')
+        + 'Secure payment by Stripe' + (own ? '.' : ': card, FPX online banking or GrabPay.');
+    }
     var a = sum('send');
     if (box.dataset.wa) { a.href = 'https://wa.me/' + box.dataset.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Send this plan on WhatsApp'; }
     else if (box.dataset.mail) { a.href = 'mailto:' + box.dataset.mail + '?subject=' + encodeURIComponent('My SEOXpert plan') + '&body=' + encodeURIComponent(msg); a.textContent = 'Send this plan by email'; }
@@ -82,7 +93,7 @@
   // Currency
   var curBtns = all('[data-pk-cur] button');
   function setCur(c, save) {
-    cur = c;
+    cur = c; window.__sxCur = c; // pay.js pays in the currency on screen
     curBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.c === c)); });
     all('span[data-rm][data-usd]').forEach(function (el) { if (el.hasAttribute('data-rm-o')) return; el.textContent = el.getAttribute('data-' + key() + (bill === 'year' && el.hasAttribute('data-rm-y') ? '-y' : '')); });
     all('[data-unit]').forEach(function (el) { el.textContent = bill === 'year' ? 'a year' : 'a month'; });
