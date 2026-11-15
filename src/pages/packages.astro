@@ -15,7 +15,7 @@ const extraLd = [
   { '@type': 'Service', name: 'XpertCare monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
 ];
 ---
-<Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description="Website design packages in Malaysia from RM499, with copywriting and keyword research included. XpertCare monthly website maintenance from RM55 a month." path="/packages/" crumb="Packages" extraLd={extraLd}>
+<Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description={`Website design packages in Malaysia from ${fmt(build.tiers[0])}, with copywriting and keyword research included. XpertCare monthly website maintenance from ${fmt(care.tiers[0])} a month.`} path="/packages/" crumb="Packages" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Packages" brand="XpertForge" art="packages" crumb="Packages" word="Packages">
   <Fragment slot="title">Website design packages in Malaysia, <em>in plain language</em>.</Fragment>
