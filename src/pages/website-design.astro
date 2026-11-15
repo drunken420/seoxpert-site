@@ -11,10 +11,10 @@ import '../styles/page.css';
 import Work from '../components/Work.astro';
 import { build, fmt } from '../data/packages';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
-const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Website design and building', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-design/`, areaServed: areaLd, description: 'Website design for businesses in Malaysia, planned for Google and AI search before it is designed, built with our own AI website builder and finished by hand.' }];
+const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Website design and building', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-design/`, areaServed: areaLd, description: 'Website design for businesses in Malaysia, planned for Google and AI search before it is designed, guided by XpertCore, our own AI SEO advisor, and finished by hand.' }];
 const pf = pageFaq(['How does a website project start?', 'How much does a website cost?', 'Is copywriting included?', 'Can you redesign my current website?', 'Which areas do you work in?']);
 ---
-<Base title="Website Design Malaysia for Google and AI Search | SEOXpert" image={`/img/${pictures["website-design"].file}.jpg`} description="Website design in Malaysia for businesses that want to be found. Planned for Google and AI search first, built with our own AI website builder and finished by hand." path="/website-design/" crumb="Website design" extraLd={[...extraLd, pf.ld]}>
+<Base title="Website Design Malaysia for Google and AI Search | SEOXpert" image={`/img/${pictures["website-design"].file}.jpg`} description="Website design in Malaysia for businesses that want to be found. Planned for Google and AI search first, guided by our own AI SEO advisor and finished by hand." path="/website-design/" crumb="Website design" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Website design" brand="XpertForge" art="design" crumb="Website design" word="Design">
   <Fragment slot="title">Website design in Malaysia, <em>built to be found</em>.</Fragment>
@@ -31,8 +31,8 @@ const pf = pageFaq(['How does a website project start?', 'How much does a websit
     <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Answer first writing</h3><p>Short, plain answers at the top of each page, written for what people are actually asking.</p></div>
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Fast on phones</h3><p>Light pages that load quickly, because most people will meet your business on a phone.</p></div>
     <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>Ready for Google</h3><p>Well ordered headings, titles and descriptions, plus structured data that tells search engines the facts. See how our <a href="/website-development/">website development</a> builds it into the code.</p></div>
-    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>Ready for AI search</h3><p>Clear facts and quotable answers, with an llms.txt file that sums up your business for AI tools. See <a href="/ai-website-builder/">how our AI website builder works</a>.</p></div>
-    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Checked by experts</h3><p>XpertCore, our AI builder, does the heavy lifting. Our experts check and refine every page before it goes live.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>Ready for AI search</h3><p>Clear facts and quotable answers, with an AI ranking file that sums up your business for AI tools. See <a href="/ai-seo-advisor/">how our AI SEO advisor works</a>.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Checked by experts</h3><p>XpertCore, our own AI SEO advisor, guides the work. Our experts check and refine every page before it goes live.</p></div>
   </div>
 </div></section>
 
@@ -44,7 +44,7 @@ const pf = pageFaq(['How does a website project start?', 'How much does a websit
   </div>
   <ol class="nsteps">
     <li class="rv"><h3>Tell us about your business</h3><p>Tell us a little about your business and what you would love your website to do. A short, friendly chat is all it takes to begin.</p></li>
-    <li class="rv" style="--d:1"><h3>We plan the pages</h3><p><a href="/ai-website-builder/">XpertCore, our AI website builder</a>, drafts the page plan, headings and answer first copy, with search in mind from the first line.</p></li>
+    <li class="rv" style="--d:1"><h3>We plan the pages</h3><p><a href="/ai-seo-advisor/">XpertCore, our AI SEO advisor</a>, drafts the page plan, headings and answer first copy, with search in mind from the first line.</p></li>
     <li class="rv" style="--d:2"><h3>We design and refine by hand</h3><p>We shape the design around your brand, then check every page for clarity, accuracy and speed.</p></li>
     <li class="rv" style="--d:3"><h3>Launch, then look after it</h3><p>Your website goes live with the Google and AI setup in place. <a href="/website-maintenance/">XpertRank monthly care</a> keeps it healthy after that.</p></li>
   </ol>

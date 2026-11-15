@@ -7,7 +7,7 @@ const body = `# ${site.name}
 
 > ${site.tagline}. ${site.description}
 
-XpertForge (the website build), XpertCore (our AI core), XpertRank (monthly care) and XpertLab (live demos) were all developed in house by SEOXpert.
+XpertForge (the website build), XpertCore (our own AI SEO advisor), XpertRank (monthly care) and XpertLab (live demos) were all developed in house by SEOXpert.
 Area: based in ${site.country}, working remotely with businesses in ${site.areas.join(', ')}, across ${site.country} and around the world.
 
 ## Key facts
@@ -18,13 +18,13 @@ Area: based in ${site.country}, working remotely with businesses in ${site.areas
 - Prices are in Malaysian ringgit (RM), with US dollar prices for businesses outside ${site.country}.
 
 ## Services
-- [Website design](${site.url}/website-design/): New websites planned for Google and AI search before they are designed, built as an XpertForge package with XpertCore, our own AI website builder, and finished by hand.
-- [Website development](${site.url}/website-development/): How every XpertForge website is coded for Google and AI search from the ground up: clean structure, fast pages, structured data and llms.txt.
+- [Website design](${site.url}/website-design/): New websites planned for Google and AI search before they are designed, built as an XpertForge package guided by XpertCore, our own AI SEO advisor, and finished by hand.
+- [Website development](${site.url}/website-development/): How every XpertForge website is coded for Google and AI search from the ground up: clean structure, fast pages, structured data and an AI ranking file.
 - [Website maintenance](${site.url}/website-maintenance/): Monthly care, called XpertRank, only for websites built by SEOXpert, with high speed cloud hosting included. It keeps a website updated, backed up and growing with new content.
 - [SEO services in Malaysia](${site.url}/seo-services-malaysia/): XpertRank as our expert SEO service: keyword research and weekly tracking, on page and technical SEO, new blog posts every month, AI search (LLM) optimisation and active checks every few days, with a money-back promise. Only for websites built by SEOXpert.
 - [SEO case studies](${site.url}/case-studies/): Live results from websites built by SEOXpert, taken from Google Search Console and Google Analytics, with the dates they cover.
 - [Website report dashboard](${site.url}/website-report-dashboard/): XpertInsight, our own live dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF. Not sold on its own.
-- [AI website builder](${site.url}/ai-website-builder/): How XpertCore, our own builder, plans pages, writes answer first copy and adds structured data and llms.txt.
+- [AI SEO advisor](${site.url}/ai-seo-advisor/): How XpertCore, our own AI SEO advisor, guides our team on what to plan, write and mark up on every page (answer first copy, structured data and an AI ranking file), then our experts check it.
 - [Interactive website demos](${site.url}/demos/): Live examples of 3D and animation we can build into a website: a 3D product to spin, a 3D logo, weather over a page, a website on a laptop and phone, a globe with world landmarks, moving backgrounds, particle text, tilt cards, a before and after slider and animated charts.
 - [Website design packages](${site.url}/packages/): Prices, what every package includes, and a plan picker.
 

@@ -57,10 +57,13 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
   </ol>
 </div></section>
 
-<section class="dark band"><div class="wrap">
-  <span class="eyebrow rv">Our money-back promise</span>
-  <p class="creed rv">{promise.replace(", we refund that month of XpertRank in full.", ",")} <em>we refund that month of XpertRank in full</em>.</p>
-  <p class="sub rv" style="margin-top:22px;color:#e9dcff">Nobody can honestly promise page 1, so we do not. This is the promise we can keep, in writing.</p>
+<section class="dark band"><div class="wrap pmgrid">
+  <div>
+    <span class="eyebrow rv">Our money-back promise</span>
+    <p class="creed rv">{promise.replace(", we refund that month of XpertRank in full.", ",")} <em>we refund that month of XpertRank in full</em>.</p>
+  </div>
+  <!-- A 3D gold coin that turns (public/js/promise3d.js, three.js on demand). The CSS coin shows until it loads, or if 3D is not available. -->
+  <div class="pm3d" id="pm3d" aria-hidden="true"><div class="mbcoin pmfall"><div class="mbspin"><span class="mbf"><b>100%</b><small>Money back</small></span><span class="mbb"></span></div></div></div>
 </div></section>
 
 <section id="plans" class="solid band"><div class="wrap">
@@ -89,4 +92,5 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
 <Cta title="Ready to grow on Google and AI search?" />
 </main>
 <script slot="scripts" src="/js/packages.js" defer></script>
+<script slot="scripts" src="/js/promise3d.js" defer></script>
 </Base>

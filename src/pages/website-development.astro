@@ -9,10 +9,10 @@ import { pageFaq } from '../lib/faq';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
-const extraLd = [{ '@type': 'Service', name: 'Website development', serviceType: 'Website development', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-development/`, areaServed: areaLd, description: 'Website development in Malaysia: websites coded for Google and AI search from the ground up, with fast pages, structured data and an llms.txt file.' }];
-const pf = pageFaq(['What is the difference between website design and website development?', 'Do I pay extra for website development?', 'What is structured data?', 'What is an llms.txt file?', 'Will my website work well on phones?']);
+const extraLd = [{ '@type': 'Service', name: 'Website development', serviceType: 'Website development', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-development/`, areaServed: areaLd, description: 'Website development in Malaysia: websites coded for Google and AI search from the ground up, with fast pages, structured data and an AI ranking file.' }];
+const pf = pageFaq(['What is the difference between website design and website development?', 'Do I pay extra for website development?', 'What is structured data?', 'What is an AI ranking file?', 'Will my website work well on phones?']);
 ---
-<Base title="Website Development Malaysia: Coded for SEO and AI | SEOXpert" image={`/img/${pictures["website-development"].file}.jpg`} description="Website development in Malaysia, coded for Google and AI search from the ground up: fast pages, clean structure, structured data and an llms.txt file." path="/website-development/" crumb="Website development" extraLd={[...extraLd, pf.ld]}>
+<Base title="Website Development Malaysia: Coded for SEO and AI | SEOXpert" image={`/img/${pictures["website-development"].file}.jpg`} description="Website development in Malaysia, coded for Google and AI search from the ground up: fast pages, clean structure, structured data and an AI ranking file." path="/website-development/" crumb="Website development" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Website development" brand="XpertForge" art="code" crumb="Website development" word="Code">
   <Fragment slot="title">Website development in Malaysia, <em>coded to be found</em>.</Fragment>
@@ -35,14 +35,14 @@ const pf = pageFaq(['What is the difference between website design and website d
   <div class="stick">
     <span class="eyebrow rv">From the ground up</span>
     <h2 class="rv">What goes into the code of every website.</h2>
-    <p class="sub rv">Six things are built in from the first line, with <a href="/ai-website-builder/">XpertCore, our AI website builder</a>, and checked by experts.</p>
+    <p class="sub rv">Six things are built in from the first line, guided by <a href="/ai-seo-advisor/">XpertCore, our AI SEO advisor</a>, and checked by experts.</p>
   </div>
   <ol class="nsteps">
     <li class="rv"><h3>Clean page structure</h3><p>One main heading per page and well ordered headings under it, so search engines and AI tools can follow the page the way a reader does.</p></li>
     <li class="rv" style="--d:1"><h3>Fast, light pages</h3><p>Pages are kept light so they load quickly on phones, because most people will meet your business on a phone.</p></li>
     <li class="rv" style="--d:2"><h3>Titles and descriptions</h3><p>Every page gets its own title and description, written for what people search for.</p></li>
     <li class="rv" style="--d:3"><h3>Structured data</h3><p>Extra labels in the code that tell Google and AI tools the facts: your business, your services, your questions and answers.</p></li>
-    <li class="rv" style="--d:4"><h3>An llms.txt file</h3><p>A short, plain summary of your website for AI assistants, alongside the sitemap that search engines use.</p></li>
+    <li class="rv" style="--d:4"><h3>An AI ranking file</h3><p>A short, plain summary of your website for AI assistants, alongside the sitemap that search engines use.</p></li>
     <li class="rv" style="--d:5"><h3>Effects that never get in the way</h3><p>Animation and 3D load only when they are needed, and the page is complete and readable without them. Try them in <a href="/demos/">XpertLab</a>.</p></li>
   </ol>
 </div></section>
@@ -69,7 +69,7 @@ const pf = pageFaq(['What is the difference between website design and website d
     <h2 class="rv">This website is built the same way.</h2>
   </div>
   <div class="prose">
-    <p class="rv">You are looking at an example. This website has one main heading on every page, its own title and description on every page, structured data, a sitemap and an <a href="/llms.txt">llms.txt file</a> you can open.</p>
+    <p class="rv">You are looking at an example. This website has one main heading on every page, its own title and description on every page, structured data, a sitemap and an <a href="/llms.txt">AI ranking file</a> you can open.</p>
     <p class="rv">The 3D logo on the home page and the effects in <a href="/demos/">XpertLab</a> load only when they are needed, so the pages stay quick on phones.</p>
     <p class="rv">We never promise rankings, because nobody controls Google or AI tools. What we promise is the work: a website that is clear, fast and easy for both to read. After launch, <a href="/website-maintenance/">XpertRank website maintenance</a> keeps it that way.</p>
   </div>
