@@ -406,3 +406,30 @@ h1,h2,h3{overflow-wrap:break-word}
 
 /* Every #section a link jumps to stops below the fixed header (Suhen 2026-11-15) */
 [id],[data-pk]{scroll-margin-top:calc(var(--head-h,70px) + 16px)}
+
+/* Menu polish (Suhen 2026-11-15: "enhance it and optimise it").
+   Computers: the Services panel is centred under its button and the Explore panel hangs from its right edge, so
+   neither runs off the screen on narrower windows; links have icons; the Services panel ends with two shortcuts. */
+.mwide .mpanel{width:660px;left:50%;transform:translate(-50%,-6px)}
+.mwide:hover .mpanel,.mwide:focus-within .mpanel,.mwide>button[aria-expanded="true"]+.mpanel{transform:translate(-50%,0)}
+.mdrop:not(.mwide) .mpanel{left:auto;right:-10px;width:340px}
+.menu .mpanel a{grid-template-columns:40px 1fr;column-gap:12px;row-gap:2px;align-items:center;transition:background .2s ease}
+.mpanel .mi{grid-row:1/3;display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:rgba(123,24,193,.08);color:var(--acc);transition:background .2s ease,color .2s ease,transform .2s ease}
+.mpanel .mi svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mpanel a b{align-self:end}.mpanel a span{align-self:start}
+.menu .mpanel a:hover .mi,.menu .mpanel a[aria-current] .mi{background:var(--acc);color:#fff}
+.menu .mpanel a:hover .mi{transform:scale(1.06)}
+.menu .mpanel a[aria-current]{background:rgba(123,24,193,.07)}
+.mfoot{position:relative;display:flex;align-items:center;gap:8px;margin:0 8px 8px;padding:10px 12px 10px 16px;border-radius:12px;background:var(--bg2);font-size:14px;color:var(--soft)}
+.mfoot span{margin-right:auto}
+.menu .mpanel .mfoot a{display:inline-flex;margin:0;padding:8px 14px;border-radius:999px;font-weight:600;font-size:14px;color:var(--acc);background:#fff;box-shadow:inset 0 0 0 1px var(--line);white-space:nowrap}
+.menu .mpanel .mfoot a:first-of-type{background:var(--acc);color:#fff;box-shadow:none}
+.menu .mpanel .mfoot a:hover{background:var(--ink);color:#fff;box-shadow:none}
+/* Phones: one Contact button, not two (the header one hides while the menu is open); slightly tighter rows so more fits. */
+.site-head:has(.burger[aria-expanded="true"]) .wrap>.btn{display:none}
+.site-head:has(.burger[aria-expanded="true"]) .burger{margin-left:auto}
+.mm-in{gap:14px}
+.mmenu .mm-a{padding:8px 12px;gap:13px}
+.mm-i{width:40px;height:40px}
+.mm-t strong{font-size:16px}
+.mmenu .mm-a:active .mm-i{background:var(--acc);color:#fff}
