@@ -579,3 +579,42 @@ a.pkmbadge:hover,a.pkmbadge:focus-visible{transform:translateY(-1px);box-shadow:
 .pktside{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
 .pktside .btn{white-space:nowrap}
 @media (max-width:700px){.pktside{align-items:stretch;width:100%}.pktside .pktprice{justify-content:flex-start}}
+/* The small live 3D shield in the plan picker's promise box (Suhen 2026-11-15) */
+.pkmb .pm3d.pmsm{flex:none;width:118px;max-width:118px;margin:-14px -10px -14px -14px}
+.pm3d.pmsm .mbshield{width:66%;height:auto}
+.pm3d.pmsm.on{cursor:pointer}
+@media (max-width:420px){.pkmb .pm3d.pmsm{width:140px;max-width:140px;margin:-10px auto -14px}}
+/* SEO services: "How we check it", the moving example under the promise (climb.js; Suhen 2026-11-15) */
+.pmclimb{--x:0%;margin-top:34px;max-width:560px;padding:20px 22px 18px;border-radius:22px;background:linear-gradient(140deg,rgba(255,255,255,.1),rgba(255,255,255,.04));box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 30px 60px -40px rgba(0,0,0,.6);backdrop-filter:blur(6px)}
+.pmch{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.pmck{font:700 12px/1 var(--f-b);letter-spacing:.12em;text-transform:uppercase;color:#f3d48a}
+.pmcx{font:600 11px/1 var(--f-b);letter-spacing:.08em;text-transform:uppercase;color:#cbbbe2;padding:5px 9px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.pmcrow{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.pmcq{margin:0;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:#fff;color:#2a1640;font:500 15px/1.2 var(--f-b);min-width:0}
+.pmcq svg{width:18px;height:18px;flex:none;fill:none;stroke:#7B18C1;stroke-width:2.2;stroke-linecap:round}
+.pmcq span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmcpos{margin:0;display:flex;flex-direction:column;align-items:flex-end;flex:none}
+.pmcpos small{font:600 11px/1 var(--f-b);letter-spacing:.1em;text-transform:uppercase;color:#cbbbe2}
+.pmcpos b{font:800 40px/1 var(--f-d);letter-spacing:-.03em;color:#fff;font-variant-numeric:tabular-nums;transition:color .4s}
+.pmcpos b::before{content:"#";font-size:.55em;opacity:.6;margin-right:2px}
+.pmclimb.won .pmcpos b{color:#ffd77a}
+.pmctrack{position:relative;height:10px;margin:22px 0 10px;border-radius:99px;background:rgba(255,255,255,.12)}
+.pmcfill{position:absolute;left:0;top:0;bottom:0;width:var(--x);border-radius:inherit;background:linear-gradient(90deg,#8e3fe0,#c78bff);transition:background .5s}
+.pmclimb.won .pmcfill{background:linear-gradient(90deg,#c78bff,#ffd77a)}
+.pmc50{position:absolute;left:50.5%;top:-8px;bottom:-8px;width:2px;background:#ffd77a;border-radius:2px}
+.pmc50 span{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);white-space:nowrap;font:700 11px/1 var(--f-b);letter-spacing:.08em;text-transform:uppercase;color:#ffd77a}
+.pmcdot{position:absolute;top:50%;left:var(--x);width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(199,139,255,.35),0 0 18px rgba(199,139,255,.8);transition:box-shadow .4s}
+.pmclimb.won .pmcdot{box-shadow:0 0 0 5px rgba(255,215,122,.4),0 0 22px rgba(255,215,122,.95)}
+.pmcl,.pmcr{position:absolute;top:calc(100% + 6px);font:600 11px/1 var(--f-b);color:#a993c7}.pmcl{left:0}.pmcr{right:0}
+.pmcweeks{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:26px 0 0;padding:0}
+.pmcweeks li{text-align:center;padding:7px 4px;border-radius:10px;font:600 12.5px/1 var(--f-b);color:#a993c7;background:rgba(255,255,255,.05);transition:background .3s,color .3s}
+.pmcweeks li.done{color:#e5d6fb}
+.pmcweeks li.on{color:#2a1640;background:#fff}
+.pmcmsg{display:flex;align-items:flex-start;gap:10px;margin:14px 0 0;font-size:14px;line-height:1.45;color:#f6e7c4;opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s}
+.pmcmsg svg{width:22px;height:22px;flex:none;padding:3px;border-radius:50%;background:#ffd77a;fill:none;stroke:#3b2600;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.pmclimb.won .pmcmsg{opacity:1;transform:none}
+@media (max-width:520px){.pmclimb{padding:16px}.pmcq{font-size:14px;padding:9px 12px}.pmcpos b{font-size:32px}.pmcweeks li{font-size:11.5px}}
+@media (prefers-reduced-motion:reduce){.pmcmsg,.pmcfill,.pmcweeks li{transition:none}}
+.pmgrid>div{min-width:0}
+.pmcq{flex:1 1 auto}
+@media (max-width:520px){.pmcrow{gap:10px}.pmcpos small{font-size:10px}}

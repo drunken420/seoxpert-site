@@ -61,6 +61,18 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
   <div>
     <span class="eyebrow rv">Our money-back promise</span>
     <p class="creed rv">{promise.replace(", we refund that month of XpertRank in full.", ",")} <em>we refund that month of XpertRank in full</em>.</p>
+    <!-- How the promise is checked, as a small moving example (Suhen 2026-11-15 picked "both": the living shield plus a Google climb).
+         public/js/climb.js steps through four weeks; it is an example of the check, never a result. -->
+    <div class="pmclimb rv" id="pmclimb" role="img" aria-label="Example of how we check it: a tracked keyword moves up Google week by week in the first month, from position 88 to 43, which is inside the top 50.">
+      <div class="pmch"><span class="pmck">How we check it</span><span class="pmcx">Example</span></div>
+      <div class="pmcrow">
+        <p class="pmcq"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Your tracked keyword</span></p>
+        <p class="pmcpos"><small>Position</small><b data-pos>88</b></p>
+      </div>
+      <div class="pmctrack"><i class="pmcfill"></i><i class="pmc50"><span>Top 50</span></i><i class="pmcdot"></i><span class="pmcl">100</span><span class="pmcr">1</span></div>
+      <ol class="pmcweeks"><li data-w="88">Week 1</li><li data-w="71">Week 2</li><li data-w="56">Week 3</li><li data-w="43">Week 4</li></ol>
+      <p class="pmcmsg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Inside Google's top 50 within the first month.</span></p>
+    </div>
   </div>
   <!-- A 3D gold shield (public/js/promise3d.js, three.js on demand; Suhen picked the shield 2026-11-15). A picture of the same shield shows until it loads, or if 3D is not available. -->
   <div class="pm3d" id="pm3d" aria-hidden="true"><div class="mbshield pmfall"><img src="/img/money-back-shield-160.webp" srcset="/img/money-back-shield-160.webp 160w, /img/money-back-shield.webp 320w" sizes="(max-width:900px) 170px, 250px" width="320" height="425" alt="" loading="lazy" decoding="async" /></div></div>
@@ -93,4 +105,5 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
 </main>
 <script slot="scripts" src="/js/packages.js" defer></script>
 <script slot="scripts" src="/js/promise3d.js" defer></script>
+<script slot="scripts" src="/js/climb.js" defer></script>
 </Base>

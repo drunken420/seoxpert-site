@@ -8,17 +8,22 @@
    scrolls away, and people who ask for less motion get a still shield that still turns when dragged.
    Without WebGL the SVG shield stays. */
 (function () {
-  var box = document.getElementById('pm3d');
-  if (!box || !('IntersectionObserver' in window)) return;
+  if (!('IntersectionObserver' in window)) return;
+  // Every .pm3d box gets its own shield: the big one on the SEO services page, and a small one (.pmsm) in the plan
+  // picker's promise box on Packages (Suhen 2026-11-15: "its not cool or moving", also on phones).
+  [].forEach.call(document.querySelectorAll('.pm3d'), init);
+  function init(box) {
+  var small = box.classList.contains('pmsm');
   var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var started = false;
 
   function three() {
     if (window.THREE) return Promise.resolve(window.THREE);
-    return new Promise(function (ok, no) {
+    if (window.__pm3dThree) return window.__pm3dThree; // one download, however many shields are on the page
+    return (window.__pm3dThree = new Promise(function (ok, no) {
       var s = document.createElement('script'); s.src = '/vendor/three-r128.min.js';
       s.onload = function () { ok(window.THREE); }; s.onerror = no; document.head.appendChild(s);
-    });
+    }));
   }
 
   // The shield in its own units: 3.24 wide, from y = 2.0 (the small peak at the top) down to y = -2.2 (the point).
@@ -95,10 +100,10 @@
     renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
     box.classList.add('on');
     box.appendChild(renderer.domElement);
-    var hint = document.createElement('span'); hint.className = 'pmhint'; hint.textContent = 'Drag to turn'; box.appendChild(hint);
+    if (!small) { var hint = document.createElement('span'); hint.className = 'pmhint'; hint.textContent = 'Drag to turn'; box.appendChild(hint); }
 
     var scene = new T.Scene();
-    var cam = new T.PerspectiveCamera(30, w / h, 0.1, 100); cam.position.set(0, 0, 11.8);
+    var cam = new T.PerspectiveCamera(30, w / h, 0.1, 100); cam.position.set(0, 0, small ? 8.4 : 11.8);
     var aniso = renderer.capabilities.getMaxAnisotropy();
 
     // The room the gold reflects, painted as one wide picture: dark, with bright soft bands of light. The dark parts
@@ -199,8 +204,20 @@
       scene.add(new T.Points(geo, mat)); groups.push({ pos: pos, seed: seed, geo: geo, mat: mat, ph: gi * 2.1 });
     });
 
+    // Embers: small gold sparks that rise past the shield and fade, so the scene always has a little life in it.
+    var EN = small ? 18 : 46, epos = new Float32Array(EN * 3), eseed = [];
+    for (var e = 0; e < EN; e++) eseed.push([(Math.random() - 0.5) * 5.2, (Math.random() - 0.5) * 1.6 + 0.4, 0.25 + Math.random() * 0.45, Math.random() * 6]);
+    var egeo = new T.BufferGeometry(); egeo.setAttribute('position', new T.BufferAttribute(epos, 3));
+    var emat = new T.PointsMaterial({ color: 0xffd27a, size: 0.17, map: dotTex, transparent: true, depthWrite: false, blending: T.AdditiveBlending, opacity: 0.85 });
+    scene.add(new T.Points(egeo, emat));
+    // A gold ring that grows out from the shield and fades each time it turns to its other side.
+    var ring = new T.Mesh(new T.RingGeometry(2.2, 2.28, 96), new T.MeshBasicMaterial({ color: 0xffd98a, transparent: true, opacity: 0, depthWrite: false, blending: T.AdditiveBlending }));
+    ring.position.z = -0.4; scene.add(ring);
+    var pulseAt = -10;
+    if (small) { seal.visible = false; rays.scale.setScalar(0.8); }
+
     // Turning. `rot` is the shield's own turn; `goal` is the side it is settling on (a whole number of half turns).
-    var mx = 0, my = 0, tx = 0, ty = 0, rot = 0, vel = 0, goal = 0, drag = false, lastX = 0, moved = 0, touched = -100, flipAt = 9, awake = 0;
+    var mx = 0, my = 0, tx = 0, ty = 0, rot = 0, vel = 0, goal = 0, drag = false, lastX = 0, moved = 0, touched = -100, flipAt = 3.5, awake = 0;
     var t0 = performance.now(), now = function () { return (performance.now() - t0) / 1000; };
     box.addEventListener('pointerdown', function (e) {
       drag = true; lastX = e.clientX; moved = 0; vel = 0; box.classList.add('grab');
@@ -216,9 +233,13 @@
       if (!drag) return;
       drag = false; box.classList.remove('grab'); touched = now();
       // a tap flips it; a drag settles on the nearest side, carried a little by how fast it was moving
+      var was = goal;
       goal = moved < 6 ? goal + Math.PI : Math.round((rot + vel * 9) / Math.PI) * Math.PI;
+      if (goal !== was) pulseAt = now();
       box.classList.add('used'); kick();
     }
+    // the "How we check it" example (climb.js) turns the shield with a pulse when its keyword reaches the top 50
+    box.addEventListener('pm3d-pulse', function () { if (drag) return; goal += Math.PI; pulseAt = now(); flipAt = now() + 6; kick(); });
     box.addEventListener('pointerup', drop); box.addEventListener('pointercancel', drop);
     box.addEventListener('pointerleave', function () { tx = ty = 0; });
 
@@ -226,7 +247,7 @@
     function draw(t) {
       mx += (tx - mx) * 0.06; my += (ty - my) * 0.06;
       if (!drag) {
-        if (live && t > flipAt && t - touched > 14) { goal += Math.PI; flipAt = t + 9; } // flips by itself, unless someone just turned it
+        if (live && t > flipAt && t - touched > 10) { goal += Math.PI; flipAt = t + 6; pulseAt = t; } // flips by itself every 6 seconds, unless someone just turned it
         rot += (goal - rot) * 0.07;
       }
       holder.rotation.y = rot + (drag ? 0 : Math.sin(t * 0.55) * 0.26 * live + mx * 0.35);
@@ -239,6 +260,9 @@
         for (var j = 0; j < G.seed.length; j++) { var s = G.seed[j], a = s[0] + t * s[3] * live; G.pos[j * 3] = Math.cos(a) * s[1]; G.pos[j * 3 + 2] = Math.sin(a) * s[1] * 0.45 - 0.9; G.pos[j * 3 + 1] = s[2] + Math.sin(t * 0.7 * live + j) * 0.1; }
         G.geo.attributes.position.needsUpdate = true; G.mat.opacity = live ? 0.3 + 0.6 * Math.max(0, Math.sin(t * 1.6 + G.ph)) : 0.6;
       });
+      for (var k = 0; k < EN; k++) { var q = eseed[k], up = ((t * q[2] * live + q[3]) % 6) / 6; epos[k * 3] = q[0] + Math.sin(t * 0.8 + k) * 0.15; epos[k * 3 + 1] = -2.9 + up * 5.8; epos[k * 3 + 2] = q[1]; }
+      egeo.attributes.position.needsUpdate = true; emat.opacity = live ? 0.8 : 0;
+      var pa = (t - pulseAt) / 1.4; ring.material.opacity = pa >= 0 && pa < 1 ? (1 - pa) * 0.7 : 0; ring.scale.setScalar(1 + Math.max(0, Math.min(pa, 1)) * 0.75);
       renderer.render(scene, cam);
     }
     function frame() {
@@ -261,4 +285,5 @@
     started = true; io.disconnect();
     three().then(start).catch(function (e) { if (window.console) console.warn('promise3d', e); });
   }, { rootMargin: '300px' }).observe(box);
+  }
 })();
