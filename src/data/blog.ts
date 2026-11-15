@@ -25,7 +25,7 @@ const careTable = `<div class="btable" tabindex="0" role="region" aria-label="Xp
 <tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>2 text or photo changes, 1 new blog post, 5 keywords tracked weekly</td></tr>
 <tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>4 text or photo changes, 2 new blog posts, 10 keywords tracked weekly</td></tr>
 <tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>6 text or photo changes, 4 new blog posts, 20 keywords tracked weekly</td></tr>
-<tr><td>${elite.name}</td><td>${fmt(elite)}</td><td>${fmtYear(elite)}</td><td>10 text or photo changes, 6 new blog posts, 50 keywords tracked weekly</td></tr>
+<tr><td>${elite.name}</td><td>${fmt(elite)}</td><td>${fmtYear(elite)}</td><td>10 text or photo changes, 8 new blog posts, 50 keywords tracked weekly</td></tr>
 </tbody></table></div>`;
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
