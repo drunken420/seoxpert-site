@@ -30,9 +30,11 @@ export function mail(ev) {
   const dash = (path) => `https://dashboard.stripe.com/${ev.livemode ? '' : 'test/'}${path}`;
   if (ev.type === 'checkout.session.completed') {
     const m = o.metadata || {}, who = o.customer_details || {};
-    const site = (o.custom_fields || []).map((f) => f.text && f.text.value).filter(Boolean)[0] || (m.slug ? `insight.seoxpert.my/${m.slug}/` : 'Not given');
+    // The boxes from checkout.js fields(): name, company, website (older payments had one box, website or business name).
+    const box = {}; (o.custom_fields || []).forEach((f) => { if (f.text && f.text.value) box[f.key] = f.text.value; });
+    const site = box.website || (m.slug ? `insight.seoxpert.my/${m.slug}/` : m.kind === 'build' ? 'None yet' : 'Not given');
     const what = { trial: 'XpertRank Trial', xpertrank: 'XpertRank (website built elsewhere)', build: 'XpertForge website build', upgrade: 'XpertRank upgrade from the XpertInsight dashboard' }[m.kind] || 'A payment';
-    const rows = [['Paid', money(o.amount_total || 0, o.currency)], ['For', `${what}: ${m.item || ''}${m.bill && m.bill !== 'once' ? `, every ${m.bill}` : ''}`], ['Name', who.name], ['Email', who.email], ['Phone', who.phone], [m.kind === 'build' ? 'Business' : 'Website', site]];
+    const rows = [['Paid', money(o.amount_total || 0, o.currency)], ['For', `${what}: ${m.item || ''}${m.bill && m.bill !== 'once' ? `, every ${m.bill}` : ''}`], ['Name', box.name || who.name], ['Company', box.company], ['Email', who.email], ['Phone', who.phone], ['Website', site]];
     const next = { trial: 'Next: set up their XpertInsight Trial (setup page, "Let the client set it up") and email them.', xpertrank: 'Next: add them in XpertInsight with "Who built the website?" set to elsewhere, and email them.', build: 'Next: email them to start planning their website. It is paid in full.', upgrade: `Their dashboard (${m.slug || 'their link'}) switches to the new plan by itself. Nothing to change; maybe say thank you.` }[m.kind] || '';
     return { subject: `New payment: ${what}, ${money(o.amount_total || 0, o.currency)}${ev.livemode ? '' : ' (TEST)'}`, reply: who.email, rows, next, link: dash(o.payment_intent ? `payments/${o.payment_intent}` : o.subscription ? `subscriptions/${o.subscription}` : 'payments') };
   }

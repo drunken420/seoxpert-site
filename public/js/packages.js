@@ -64,17 +64,14 @@
     // Pay and start (only when online payments are switched on, site.payments in src/config.ts; Suhen 2026-11-16).
     // A new website is paid in full before we start; its XpertRank plan starts after launch, through a link we send.
     // Keeping your own website starts XpertRank at once, charged every month or year.
-    var pay = sum('pay'), note = sum('paynote');
+    var pay = sum('pay');
     if (pay) {
       if (own) { pay.dataset.pay = c.dataset.id; pay.dataset.bill = bill; pay.innerHTML = 'Pay ' + cp + ' and start'; }
       else { pay.dataset.pay = b.dataset.id; delete pay.dataset.bill; pay.innerHTML = 'Pay ' + bp + ' and start'; }
-      if (note) note.textContent = (own ? 'XpertRank is charged automatically every ' + (yr ? 'year' : 'month') + ' by card. '
-        : 'Your website is paid in full before we start.' + (c ? ' ' + c.dataset.name + ' starts after launch' + (b.dataset.free ? ', after your free launch months' : '') + ', and we send its payment link then.' : '') + ' ')
-        + 'Secure payment by Stripe' + (own ? '.' : ': card, FPX online banking or GrabPay.');
     }
     var a = sum('send');
-    if (box.dataset.wa) { a.href = 'https://wa.me/' + box.dataset.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Send this plan on WhatsApp'; }
-    else if (box.dataset.mail) { a.href = 'mailto:' + box.dataset.mail + '?subject=' + encodeURIComponent('My SEOXpert plan') + '&body=' + encodeURIComponent(msg); a.textContent = 'Send this plan by email'; }
+    if (box.dataset.wa) { a.href = 'https://wa.me/' + box.dataset.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Talk to us'; }
+    else if (box.dataset.mail) { a.href = 'mailto:' + box.dataset.mail + '?subject=' + encodeURIComponent('My SEOXpert plan') + '&body=' + encodeURIComponent(msg); a.textContent = 'Talk to us'; }
   }
   if (box) {
     box.hidden = false;

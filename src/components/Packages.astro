@@ -70,7 +70,9 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           </article>
         ))}
       </div>
-      {S.key === 'care' && (
+      {/* The Trial sits under the care cards, and on /packages/ under the build cards too, so it is never missed
+          (Suhen 2026-11-16: "no trial option on the packages page"). */}
+      {(S.key === 'care' || show === 'both') && (
         <div class="pktrial rv">
           <div><span class="pktag">New</span><h3>{trial.name}</h3><p>{trial.short}.</p></div>
           <div class="pktside">
