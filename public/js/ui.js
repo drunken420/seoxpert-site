@@ -194,3 +194,27 @@
     gtag('event', 'button_click', { button: words || el.tagName.toLowerCase(), place: place(el), link: href.slice(0, 200), page: location.pathname });
   }, true);
 })();
+
+// Anchor links (Suhen 2026-11-15): some pages grow while you scroll (demos start, pictures load), which pushed a #section
+// down after the browser had jumped to it. If the visitor has not scrolled by themselves, line the section up again,
+// after a page load with #section and after pressing a link to a #section on the same page.
+(function () {
+  var moved = false;
+  ['wheel', 'touchstart', 'keydown'].forEach(function (t) { addEventListener(t, function () { moved = true; }, { passive: true }); });
+  function align(id) {
+    if (!id || id === 'main' || id === 'top') return;
+    moved = false;
+    [700, 1500, 2600].forEach(function (ms) {
+      setTimeout(function () {
+        var el = document.getElementById(id); if (!el || moved || el.closest('[hidden]')) return;
+        var head = (document.querySelector('header') || { offsetHeight: 70 }).offsetHeight, top = el.getBoundingClientRect().top;
+        if (Math.abs(top - head - 16) > 30) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }, ms);
+    });
+  }
+  align(decodeURIComponent(location.hash.slice(1)));
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a || e.defaultPrevented) return;
+    var id = decodeURIComponent(a.getAttribute('href').slice(1)); if (id) setTimeout(function () { align(id); }, 0);
+  });
+})();

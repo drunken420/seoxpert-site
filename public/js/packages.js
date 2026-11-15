@@ -90,4 +90,23 @@
   billBtns.forEach(function (b) { b.addEventListener('click', function () { bill = b.dataset.b; billBtns.forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.b === bill)); }); document.documentElement.classList.toggle('pk-yearly', bill === 'year'); setCur(cur); }); });
   curBtns.forEach(function (b) { b.addEventListener('click', function () { setCur(b.dataset.c, true); }); });
   setCur(cur, false);
+
+  // Links that land in the right place (Suhen 2026-11-15): /packages/#xpertrank opens the XpertRank cards and scrolls to them,
+  // and the "Backed by our money-back promise" chip shows the promise inside the plan summary. That summary is sticky on
+  // computers, so the browser's own jump went past it: we scroll it into the middle of the screen and make it glow.
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  if (location.hash === '#xpertrank') { var pkc = document.querySelector('[data-pk]'); if (pkc) setTimeout(function () { pkc.scrollIntoView({ behavior: 'auto', block: 'start' }); }, 60); }
+  all('a[href="#promise"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var pm = document.getElementById('promise'); if (!pm) return;
+      e.preventDefault();
+      var r = pm.getBoundingClientRect(), head = (document.querySelector('header') || { offsetHeight: 70 }).offsetHeight;
+      if (r.top < head + 8 || r.bottom > innerHeight - 8) {
+        var sum = pm.closest('.pksum'), sticky = sum && getComputedStyle(sum).position === 'sticky';
+        // a sticky summary is taller than the screen and only shows its end at the bottom of the picker, so scroll there; otherwise centre the promise itself
+        if (sticky) scrollTo({ top: scrollY + box.getBoundingClientRect().bottom - innerHeight + 32, behavior: reduce }); else pm.scrollIntoView({ behavior: reduce, block: 'center' });
+      }
+      pm.classList.remove('glow'); void pm.offsetWidth; pm.classList.add('glow');
+    });
+  });
 })();
