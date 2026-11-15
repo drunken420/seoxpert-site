@@ -1,6 +1,6 @@
 // Stripe tells us here when something happens to a payment (Cloudflare Pages Function, runs at /api/stripe-webhook).
 // We check the message really came from Stripe (its signature), then email contact@seoxpert.my so our team can start:
-//   checkout.session.completed     someone paid (Trial, XpertRank or a build): who, what, how much, their website
+//   checkout.session.completed     someone paid (Trial, XpertRank, a build, or an upgrade in the XpertInsight dashboard)
 //   invoice.payment_failed         a monthly XpertRank payment failed (Stripe retries and emails the client itself)
 //   customer.subscription.deleted  an XpertRank plan was cancelled
 // Stripe sends the client their own receipt, so nothing goes to the client from here.
@@ -30,10 +30,10 @@ export function mail(ev) {
   const dash = (path) => `https://dashboard.stripe.com/${ev.livemode ? '' : 'test/'}${path}`;
   if (ev.type === 'checkout.session.completed') {
     const m = o.metadata || {}, who = o.customer_details || {};
-    const site = (o.custom_fields || []).map((f) => f.text && f.text.value).filter(Boolean)[0] || 'Not given';
-    const what = { trial: 'XpertRank Trial', xpertrank: 'XpertRank (website built elsewhere)', build: 'XpertForge website build' }[m.kind] || 'A payment';
+    const site = (o.custom_fields || []).map((f) => f.text && f.text.value).filter(Boolean)[0] || (m.slug ? `insight.seoxpert.my/${m.slug}/` : 'Not given');
+    const what = { trial: 'XpertRank Trial', xpertrank: 'XpertRank (website built elsewhere)', build: 'XpertForge website build', upgrade: 'XpertRank upgrade from the XpertInsight dashboard' }[m.kind] || 'A payment';
     const rows = [['Paid', money(o.amount_total || 0, o.currency)], ['For', `${what}: ${m.item || ''}${m.bill && m.bill !== 'once' ? `, every ${m.bill}` : ''}`], ['Name', who.name], ['Email', who.email], ['Phone', who.phone], [m.kind === 'build' ? 'Business' : 'Website', site]];
-    const next = { trial: 'Next: set up their XpertInsight Trial (setup page, "Let the client set it up") and email them.', xpertrank: 'Next: add them in XpertInsight with "Who built the website?" set to elsewhere, and email them.', build: 'Next: email them to start planning their website. It is paid in full.' }[m.kind] || '';
+    const next = { trial: 'Next: set up their XpertInsight Trial (setup page, "Let the client set it up") and email them.', xpertrank: 'Next: add them in XpertInsight with "Who built the website?" set to elsewhere, and email them.', build: 'Next: email them to start planning their website. It is paid in full.', upgrade: `Their dashboard (${m.slug || 'their link'}) switches to the new plan by itself. Nothing to change; maybe say thank you.` }[m.kind] || '';
     return { subject: `New payment: ${what}, ${money(o.amount_total || 0, o.currency)}${ev.livemode ? '' : ' (TEST)'}`, reply: who.email, rows, next, link: dash(o.payment_intent ? `payments/${o.payment_intent}` : o.subscription ? `subscriptions/${o.subscription}` : 'payments') };
   }
   if (ev.type === 'invoice.payment_failed') return { subject: `XpertRank payment failed${ev.livemode ? '' : ' (TEST)'}`, reply: o.customer_email, rows: [['Amount', money(o.amount_due || 0, o.currency)], ['Email', o.customer_email], ['Attempt', o.attempt_count]], next: 'Stripe tries again and emails the client. You may want to check in with them.', link: dash(`invoices/${o.id}`) };
