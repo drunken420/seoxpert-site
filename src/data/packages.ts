@@ -3,8 +3,8 @@
 export interface Tier { id: string; name: string; rm: number; usd: number; /** price from 1 February 2027 (Suhen picked the moderate rise, 2026-11-12) */ rmNew: number; usdNew: number; for: string; rows: string[]; short: string; free?: string; hot?: boolean }
 
 
-/** Launch offer: 1 year of free hosting and free XpertRank with every build, until this date (inclusive). Suhen 2026-11-13. */
-export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: '1 year of free high speed cloud hosting, plus free XpertRank, with every website.', text: 'Every website gets 1 year of free high speed cloud hosting. Starter also gets the 14 day XpertRank Trial, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.' };
+/** Launch offer: free months of XpertRank (Starter 1, Business 2, Growth 4; Suhen 2026-11-15) and 1 year of free hosting with every build, until this date (inclusive). */
+export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free months of XpertRank, plus 1 year of free high speed cloud hosting, with every website.', text: 'Every website gets 1 year of free high speed cloud hosting. Starter also gets 1 month of XpertRank Basic free, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.' };
 export const offerOn = () => new Date() < new Date('2027-02-01T00:00:00+08:00');
 
 /** Prices: today's launch prices until the offer ends, then the new prices (both from Suhen; never change without asking).
@@ -21,7 +21,7 @@ export const build = {
   all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Full keyword research with XpertCore, with a keyword plan for you', 'WhatsApp button + contact', 'Google Business Profile set up, so you show on Google Maps', 'Google Search Console and Analytics set up', 'A business email address on your domain, forwarded to your inbox', '30 days of free fixes after launch', 'A handover video of your website and dashboard'],
   // Build prices raised and six extras added by Suhen 2026-11-15: RM799/1,499/2,499 now, RM1,199/1,999/3,499 from 1 Feb 2027. USD is Claude's draft.
   tiers: [
-    { id: 'starter', name: 'XpertForge Starter', rm: 799, usd: 199, rmNew: 1199, usdNew: 289, for: 'For a first website', short: 'Up to 5 pages, plus a blog with 2 posts', rows: ['Up to <b>5 pages</b>', 'Plus a blog with <b>2 posts</b> at launch', '<b>2</b> revision rounds'], free: '14 day XpertRank Trial free, plus 1 year of free hosting' },
+    { id: 'starter', name: 'XpertForge Starter', rm: 799, usd: 199, rmNew: 1199, usdNew: 289, for: 'For a first website', short: 'Up to 5 pages, plus a blog with 2 posts', rows: ['Up to <b>5 pages</b>', 'Plus a blog with <b>2 posts</b> at launch', '<b>2</b> revision rounds'], free: '1 month of XpertRank Basic free, plus 1 year of free hosting' },
     { id: 'business', name: 'XpertForge Business', rm: 1499, usd: 379, rmNew: 1999, usdNew: 479, for: 'For a growing business', hot: true, short: 'Up to 10 pages, plus a blog with 5 posts', rows: ['Up to <b>10 pages</b>', 'Plus a blog with <b>5 posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertRank Basic free, plus 1 year of free hosting' },
     { id: 'growth', name: 'XpertForge Growth', rm: 2499, usd: 629, rmNew: 3499, usdNew: 839, for: 'For a bigger website', short: 'Up to 20 pages, plus a blog with 10 posts', rows: ['Up to <b>20 pages</b>', 'Plus a blog with <b>10 posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertRank Plus free, plus 1 year of free hosting' },
   ] as Tier[],
