@@ -51,15 +51,20 @@ export function item(id, cur, bill) {
  *  mode; on previews (*.pages.dev) a test key is enough, so we can try a payment with Stripe's test card first.
  *  PAYMENTS=off in the Cloudflare settings turns them off everywhere. Nothing needs rebuilding when the keys change. */
 export function ready(env, url) {
-  const key = env.STRIPE_SECRET_KEY || '';
+  const key = keyOf(env);
   if (!key || env.PAYMENTS === 'off') return false;
   const live = /(^|\.)seoxpert\.my$/.test(new URL(url).hostname);
   return !live || key.startsWith('sk_live_') || key.startsWith('rk_live_');
 }
 
+/** The key as pasted into Cloudflare, without stray spaces or line breaks around it. */
+const keyOf = (env) => String(env.STRIPE_SECRET_KEY || '').trim();
+/** Which kind of key is set (never the key itself), so a wrong paste is easy to spot: live, test, publishable, other or none. */
+const kindOf = (k) => (!k ? 'none' : /^[sr]k_live_/.test(k) ? 'live' : /^[sr]k_test_/.test(k) ? 'test' : /^pk_/.test(k) ? 'publishable' : 'other');
+
 /** The pay buttons ask this once per visit (pay.js) and show themselves only when it says on. */
 export function onRequestGet({ request, env }) {
-  return json({ on: ready(env, request.url) });
+  return json({ on: ready(env, request.url), key: kindOf(keyOf(env)) });
 }
 
 export async function onRequestPost({ request, env }) {
@@ -83,7 +88,7 @@ export async function onRequestPost({ request, env }) {
     metadata: meta,
     ...(it.mode === 'payment' ? { customer_creation: 'always', payment_intent_data: { metadata: meta } } : { subscription_data: { metadata: meta } }),
   };
-  const r = await fetch(`${env.STRIPE_API || STRIPE}/checkout/sessions`, { method: 'POST', headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`, 'content-type': 'application/x-www-form-urlencoded' }, body: form(session) });
+  const r = await fetch(`${env.STRIPE_API || STRIPE}/checkout/sessions`, { method: 'POST', headers: { Authorization: `Bearer ${keyOf(env)}`, 'content-type': 'application/x-www-form-urlencoded' }, body: form(session) });
   const s = await r.json().catch(() => ({}));
   if (!r.ok || !s.url) return json({ ok: false, error: 'stripe', detail: s.error && s.error.message }, 502);
   return json({ ok: true, url: s.url });
