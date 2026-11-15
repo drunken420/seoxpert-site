@@ -57,6 +57,25 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           <p class="pktprice"><span {...price(trial)}>{fmt(trial)}</span><small>for {trial.days} days</small></p>
         </div>
       )}
+      {S.key === 'care' && (
+        <div class="pkxi rv">
+          <div class="pkxitext">
+            <span class="pkxitag">Included with every XpertCare plan</span>
+            <h3>Your own <span class="xp">XpertInsight</span> dashboard account</h3>
+            <p>Every XpertCare plan comes with your own login to XpertInsight, our live website report dashboard. No extra fee.</p>
+            <ul>
+              <li>Visitors, leads and Google searches, updated every morning</li>
+              <li>Your keyword positions on Google, checked every week</li>
+              <li>Whether AI answers like ChatGPT mention your business</li>
+              <li>Site health checks and what our team fixed</li>
+              <li>A monthly XpertRecap PDF report</li>
+              <li>Works on your phone too</li>
+            </ul>
+            <a class="more" href="/website-report-dashboard/">See the XpertInsight dashboard</a>
+          </div>
+          <div class="pkxiimg"><img src="/img/xi-view-overview-720.webp" srcset="/img/xi-view-overview-720.webp 720w, /img/xi-view-overview.webp 1440w" sizes="(max-width:900px) 92vw, 520px" width="1440" height="900" loading="lazy" decoding="async" alt="The XpertInsight dashboard overview, showing visitors, keyword positions and site health for the Sample Bakery" /></div>
+        </div>
+      )}
       {S.key === 'care' && <p class="pknote rv"><span class="xp sm">XpertCare</span> is only for websites we build with XpertForge. High speed hosting is included.</p>}
       <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
     </div>
