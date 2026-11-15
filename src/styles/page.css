@@ -115,6 +115,10 @@ pre.codecard{margin:0;overflow-x:auto}
 .pkbadge{position:absolute;top:-13px;right:22px;font:700 12px/1 var(--f-b);padding:8px 12px;border-radius:99px;background:var(--acc2);color:#1a0b2e}
 .pkfor{margin:-8px 0 0;color:var(--soft);font-size:15px}
 .pkcard.hot .pkfor{color:#cbb8ea}
+/* why the next package is worth it (Suhen 2026-11-15) */
+.pkup{margin:0;font:600 14px/1.4 var(--f-b);color:#5b0f96;padding-left:22px;position:relative}
+.pkup::before{content:"";position:absolute;left:0;top:3px;width:14px;height:14px;background:currentColor;clip-path:polygon(50% 0,100% 55%,68% 55%,68% 100%,32% 100%,32% 55%,0 55%)}
+.pkcard.hot .pkup{color:#e3ccff}
 .pkprice{margin:0;font:800 clamp(38px,4vw,52px)/1 var(--f-d);letter-spacing:-.04em;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
 .pkprice small{font:600 15px/1 var(--f-b);letter-spacing:0;opacity:.75}
 .pktick{list-style:none;margin:0;padding:0;display:grid;gap:10px}
