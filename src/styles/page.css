@@ -506,3 +506,7 @@ pre.codecard{margin:0;overflow-x:auto}
 .pkbillrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 22px;margin:0 0 18px}
 .pkbillrow .pkbill{margin:0}
 @media (max-width:520px){.pkbillrow .pkcur{width:100%;justify-content:space-between}}
+
+/* Promise glow when the chip is pressed (Suhen 2026-11-15) */
+.pkmb.glow{animation:pkglow 1.6s ease}
+@keyframes pkglow{0%,100%{box-shadow:0 0 0 0 rgba(242,193,78,0)}30%{box-shadow:0 0 0 6px rgba(242,193,78,.55)}}

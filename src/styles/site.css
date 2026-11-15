@@ -403,3 +403,6 @@ h1,h2,h3{overflow-wrap:break-word}
 .mm-g .mm-help{border-top:0;padding-top:0}
 .mm-foot{position:sticky;bottom:0;margin:0 calc(-1 * var(--gr)) 0 calc(-1 * var(--gl));padding:12px var(--gr) max(14px,env(safe-area-inset-bottom)) var(--gl);background:linear-gradient(rgba(255,255,255,0),var(--bg2) 16px)}
 .mm-in{padding-bottom:0}
+
+/* Every #section a link jumps to stops below the fixed header (Suhen 2026-11-15) */
+[id],[data-pk]{scroll-margin-top:calc(var(--head-h,70px) + 16px)}
