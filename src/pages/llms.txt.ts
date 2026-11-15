@@ -13,7 +13,7 @@ Area: based in ${site.country}, working remotely with businesses in ${site.areas
 ## Key facts
 - SEOXpert is a website design and website development company in ${site.country}. It builds websites (XpertForge) and looks after them every month (XpertRank).
 - XpertRank is an expert SEO service and monthly website maintenance in one. It is only for websites built by SEOXpert, and high speed cloud hosting is included. Hosting is not sold on its own.
-- Money-back promise: If none of your tracked keywords reaches Google's top 100 in your first month, we refund that month of XpertRank in full. SEOXpert does not promise page 1 or any ranking beyond this.
+- Money-back promise: If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full. SEOXpert does not promise page 1 or any ranking beyond this.
 - Every XpertRank plan includes XpertInsight, a live website report dashboard, and XpertRecap, a monthly PDF report.
 - Prices are in Malaysian ringgit (RM), with US dollar prices for businesses outside ${site.country}.
 

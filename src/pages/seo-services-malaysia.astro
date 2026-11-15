@@ -17,7 +17,7 @@ import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
 import { care, fmt, offersLd, offerOn } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic, , , elite] = care.tiers;
-const promise = "If none of your tracked keywords reaches Google's top 100 in your first month, we refund that month of XpertRank in full.";
+const promise = "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.";
 const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'Is XpertRank an SEO service?', 'How is XpertRank different from an SEO agency?', 'Is there a money-back promise?', 'Can you guarantee first page on Google?', 'How long before I see results?', 'Can you look after a website built by someone else?']);
 const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRank', serviceType: 'Search engine optimisation (SEO)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/seo-services-malaysia/`, areaServed: areaLd, description: 'XpertRank, our expert SEO service for websites built by SEOXpert: keyword tracking, on page and technical SEO, new blog posts every month, AI search (LLM) optimisation and a live XpertInsight dashboard, with high speed cloud hosting included.', offers: offersLd(care) }, pf.ld];
 ---
