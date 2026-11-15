@@ -43,7 +43,7 @@ export function mail(ev) {
 
 export async function onRequestPost({ request, env }) {
   const body = await request.text();
-  if (!(await verify(body, request.headers.get('stripe-signature'), env.STRIPE_WEBHOOK_SECRET))) return new Response('bad signature', { status: 400 });
+  if (!(await verify(body, request.headers.get('stripe-signature'), String(env.STRIPE_WEBHOOK_SECRET || '').trim()))) return new Response('bad signature', { status: 400 });
   let ev; try { ev = JSON.parse(body); } catch { return new Response('bad body', { status: 400 }); }
   const m = mail(ev);
   if (!m || !env.RESEND_API_KEY) return new Response('ok');
