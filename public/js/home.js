@@ -70,7 +70,8 @@
       W = hero.clientWidth; H = hero.clientHeight; phone = window.innerWidth < 900;
       R.setPixelRatio(Math.min(window.devicePixelRatio || 1, phone ? 1.5 : 2)); R.setSize(W, H, false);
       camera.aspect = W / H; far = Math.max(1, Math.min(2.1, 0.84 / camera.aspect)); camera.position.set(0, 0, 24 * far); camera.lookAt(0, 0, 0);
-      if (phone) camera.setViewOffset(W, H, 0, Math.round(H * 0.25), W, H); else camera.setViewOffset(W, H, -Math.round(W * 0.215), 0, W, H);
+      // Phones: the scene sits in the space above the words (.copy padding-top, 40svh), centred there whatever the hero's height (Suhen 2026-11-16: header on mobile).
+      if (phone) { var cp = hero.querySelector('.copy'), room = cp ? cp.getBoundingClientRect().top - hero.getBoundingClientRect().top + parseFloat(getComputedStyle(cp).paddingTop) : H * 0.5; camera.setViewOffset(W, H, 0, Math.round(H / 2 - room / 2 - 8), W, H); } else camera.setViewOffset(W, H, -Math.round(W * 0.215), 0, W, H);
       stage.scale.setScalar(phone ? 0.8 : 1); camera.updateProjectionMatrix();
     }
     fit(); window.addEventListener('resize', fit);

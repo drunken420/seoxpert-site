@@ -22,7 +22,7 @@ body{background:radial-gradient(50vw 62vh at 74% 40%,rgba(176,108,255,.26),trans
 .no3d .hero{background:radial-gradient(30vw 40vh at 75% 50%,rgba(123,24,193,.22),transparent 70%)}
 @media (max-width:900px){
   .hero{align-items:flex-end;padding-block:0 34px}
-  .copy{padding-top:44svh}
+  .copy{padding-top:40svh}
   h1{font-size:clamp(36px,10.4vw,56px);margin:14px 0 12px}
   .lede{font-size:17px;margin-bottom:20px}
   .badge3d{display:none}
@@ -69,7 +69,7 @@ body{background:radial-gradient(50vw 62vh at 74% 40%,rgba(176,108,255,.26),trans
 .hero h1{text-shadow:0 0 22px var(--bg),0 0 10px var(--bg),0 0 3px var(--bg)}
 .hero h1 em{color:#6a12ad}
 .hero .lede{text-shadow:0 0 12px var(--bg),0 0 4px var(--bg)}
-@media (max-width:900px){.copy::before{inset:44svh -16px -20px;background:linear-gradient(rgba(247,242,252,0),rgba(247,242,252,.92) 60px)}}
+@media (max-width:900px){.copy::before{inset:40svh -16px -20px;background:linear-gradient(rgba(247,242,252,0),rgba(247,242,252,.92) 60px)}}
 .badge3d{right:calc(var(--gr) + 78px)}
 
 /* XpertLab teaser: three small live demos that link to the demos page */
@@ -108,3 +108,14 @@ body{background:radial-gradient(50vw 62vh at 74% 40%,rgba(176,108,255,.26),trans
 @media (max-width:900px){.labs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.labs .lab:first-child{grid-column:1/-1}}
 @media (max-width:560px){.labs{grid-template-columns:minmax(0,1fr);gap:28px}}
 @media (prefers-reduced-motion:reduce){.lcard,.lcard em,.lm.new,.lgrip{animation:none}}
+/* Phones (Suhen 2026-11-16 "home page header on mobile is bad"): a calmer two-line kicker, the scene centred above it (home.js fit()) */
+@media (max-width:600px){
+  .hero .kicker{font-size:12px;line-height:1.35;border-radius:14px;padding:8px 12px;align-items:flex-start}
+  .hero .kicker::before{margin-top:3px}
+}
+/* Phones: the XpertLab teaser becomes a row you swipe, like a shelf, instead of three tall boxes */
+@media (max-width:700px){
+  .labs{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--gr));padding:6px var(--gr) 20px var(--gl);scroll-padding-left:var(--gl);scrollbar-width:none}
+  .labs::-webkit-scrollbar{display:none}
+  .labs .lab{flex:0 0 80%;scroll-snap-align:start}
+}

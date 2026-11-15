@@ -433,3 +433,39 @@ h1,h2,h3{overflow-wrap:break-word}
 .mm-i{width:40px;height:40px}
 .mm-t strong{font-size:16px}
 .mmenu .mm-a:active .mm-i{background:var(--acc);color:#fff}
+
+/* ===== Polish layer (Suhen 2026-11-16: "professional and high quality and well built like the Apple website") =====
+   Small, site-wide details: crisp type, no lonely last words, calm link underlines, steady tap targets on phones. */
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+p,li,dd,figcaption,blockquote{text-wrap:pretty}
+.pkprice,.pksum .row b,.minip li b,.pkkw b{font-variant-numeric:tabular-nums}
+/* Links inside text that have no style of their own use the brand purple, with a soft underline that firms up on hover */
+main :where(p,li,dd,figcaption,td,small) a:where(:not([class])){color:var(--acc);font-weight:600;text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-color:rgba(123,24,193,.4);transition:text-decoration-color .2s ease}
+main :where(p,li,dd,figcaption,td,small) a:where(:not([class])):hover{text-decoration-color:currentColor}
+:where(.dark,.pksum) :where(p,li,dd,figcaption,td,small) a:where(:not([class])){color:inherit;text-decoration-color:rgba(255,255,255,.5)}
+/* "More" links keep their arrow right after the last word when they wrap */
+.more{display:block;width:fit-content;max-width:100%}
+.more::after{display:inline-block;margin-left:8px;vertical-align:.12em}
+/* Buttons: one smooth press and lift everywhere */
+.btn{transition:transform .25s cubic-bezier(.2,.7,.2,1),filter .2s ease,box-shadow .25s ease,background-color .25s ease,color .25s ease}
+.btn:active{transform:scale(.98)}
+:focus-visible{outline:3px solid var(--acc2);outline-offset:3px;border-radius:6px}
+::selection{background:#e2c9ff;color:#1a0b2e}
+@media (max-width:700px){
+  /* Footer links are easy to tap */
+  .foot nav{gap:2px}
+  .foot nav a{min-height:40px;display:inline-flex;align-items:center}
+  /* The price list on the homepage keeps each name on one line beside its price */
+  .minip li{align-items:center;padding:14px 16px;font-size:15px}
+  .minip li span{min-width:0}
+  /* "Why SEOXpert" cards sit as compact rows: picture left, words right */
+  .vcard{display:grid;grid-template-columns:84px minmax(0,1fr);column-gap:16px;align-items:start;padding:18px}
+  .vcard .vpic{grid-row:span 2;height:84px}
+  .vcard h3{margin:4px 0 6px;font-size:19px}
+  /* The chat button appears once the visitor starts scrolling */
+  html:not(.scrolled) .chatfab{opacity:0;pointer-events:none;transform:translateY(16px) scale(.9)}
+  .chatfab{transition:opacity .35s ease,transform .35s cubic-bezier(.2,.7,.2,1)}
+}
+/* Homepage "What we do" panels: the link sits at the bottom, so links line up across a row */
+.panel.svc,.panel:has(>.minip){display:flex;flex-direction:column}
+.panel.svc>.more,.panel:has(>.minip)>.more{margin-top:auto;padding-top:16px}
