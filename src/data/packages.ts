@@ -1,10 +1,10 @@
 // Packages and prices, in one place. Every page that shows a price reads it from here.
 // Prices come from Suhen (2026-11). Never change a number here without asking.
-export interface Tier { id: string; name: string; rm: number; usd: number; /** price from 1 February 2027 (Suhen picked the moderate rise, 2026-11-12) */ rmNew: number; usdNew: number; for: string; rows: string[]; short: string; free?: string; hot?: boolean }
+export interface Tier { id: string; name: string; rm: number; usd: number; /** price from 1 February 2027 (Suhen picked the moderate rise, 2026-11-12) */ rmNew: number; usdNew: number; for: string; rows: string[]; short: string; free?: string; /** why this one is worth it over the package below */ up?: string; /** what only bigger plans have, shown greyed with a lock (Suhen 2026-11-15) */ locked?: string[]; hot?: boolean }
 
 
-/** Launch offer: 1 year of free hosting and free XpertCare with every build, until this date (inclusive). Suhen 2026-11-13. */
-export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: '1 year of free high speed hosting, plus free XpertCare, with every website.', text: 'Every website gets 1 year of free high speed hosting. Starter also gets the 14 day XpertCare Trial, Business 2 months of XpertCare Basic and Growth 4 months of XpertCare Plus.' };
+/** Launch offer: free months of XpertRank (Starter 1, Business 2, Growth 4; Suhen 2026-11-15) and 1 year of free hosting with every build, until this date (inclusive). */
+export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free XpertRank included with every website.', text: 'Every website gets 1 year of free high speed cloud hosting. Starter also gets 1 month of XpertRank Basic free, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.' };
 export const offerOn = () => new Date() < new Date('2027-02-01T00:00:00+08:00');
 
 /** Prices: today's launch prices until the offer ends, then the new prices (both from Suhen; never change without asking).
@@ -18,34 +18,41 @@ export const rmNow = (t: Tier) => now(t).rm;
 
 export const build = {
   key: 'build', label: 'XpertForge website build', unit: '', allTitle: 'In every XpertForge build',
-  all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Full keyword research with XpertCore', 'WhatsApp button + contact'],
+  all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Full keyword research with XpertCore, with a keyword plan for you', 'WhatsApp button + contact', 'Google Business Profile set up, so you show on Google Maps', 'Google Search Console and Analytics set up', 'A business email address on your domain, forwarded to your inbox', '30 days of free fixes after launch', 'A handover video of your website and dashboard'],
+  // Build prices raised and six extras added by Suhen 2026-11-15: RM799/1,499/2,499 now, RM1,199/1,999/2,999 from 1 Feb 2027 (Growth lowered from 3,499 by Suhen the same day). USD prices picked by Suhen 2026-11-15 (about RM4.45 to US$1, clean numbers).
+  // `up` is the "why take the next package" line on each card (Suhen 2026-11-15). It must stay true for the launch and the later prices, in RM and USD.
   tiers: [
-    { id: 'starter', name: 'XpertForge Starter', rm: 499, usd: 129, rmNew: 799, usdNew: 199, for: 'For a first website', short: 'Up to 5 pages, plus a blog with 2 posts', rows: ['Up to <b>5 pages</b>', 'Plus a blog with <b>2 posts</b> at launch', '<b>2</b> revision rounds'], free: '14 day XpertCare Trial free, plus 1 year of free hosting' },
-    { id: 'business', name: 'XpertForge Business', rm: 999, usd: 249, rmNew: 1499, usdNew: 379, for: 'For a growing business', hot: true, short: 'Up to 10 pages, plus a blog with 5 posts', rows: ['Up to <b>10 pages</b>', 'Plus a blog with <b>5 posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertCare Basic free, plus 1 year of free hosting' },
-    { id: 'growth', name: 'XpertForge Growth', rm: 1799, usd: 449, rmNew: 2499, usdNew: 629, for: 'For a bigger website', short: 'Up to 20 pages, plus a blog with 10 posts', rows: ['Up to <b>20 pages</b>', 'Plus a blog with <b>10 posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertCare Plus free, plus 1 year of free hosting' },
+    { id: 'starter', name: 'XpertForge Starter', rm: 799, usd: 199, rmNew: 1199, usdNew: 279, for: 'For a first website', short: 'Up to 5 pages, plus a blog with 2 posts', rows: ['Up to <b>5 pages</b>', 'Plus a blog with <b>2 posts</b> at launch', '<b>2</b> revision rounds'], free: '1 month of XpertRank Basic free, plus 1 year of free hosting' },
+    { id: 'business', name: 'XpertForge Business', rm: 1499, usd: 349, rmNew: 1999, usdNew: 449, for: 'For a growing business', hot: true, up: 'Double the pages of Starter, at a lower price per page', short: 'Up to 10 pages, plus a blog with 5 posts', rows: ['Up to <b>10 pages</b>', 'Plus a blog with <b>5 posts</b> at launch', '<b>3</b> revision rounds'], free: '2 months of XpertRank Basic free, plus 1 year of free hosting' },
+    { id: 'growth', name: 'XpertForge Growth', rm: 2499, usd: 549, rmNew: 2999, usdNew: 699, for: 'For a bigger website', up: 'Double the pages and blog posts of Business, at our lowest price per page', short: 'Up to 20 pages, plus a blog with 10 posts', rows: ['Up to <b>20 pages</b>', 'Plus a blog with <b>10 posts</b> at launch', '<b>3</b> revision rounds'], free: '4 months of XpertRank Plus free, plus 1 year of free hosting' },
   ] as Tier[],
 };
 
-/** XpertCare paid yearly: 12 months for the price of 10 (Suhen, 2026-11-11). */
+/** XpertRank paid yearly: 12 months for the price of 10 (Suhen, 2026-11-11). */
 export const yearly = { pay: 10, free: 2, text: '2 months free' };
 export const fmtYear = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money((cur === 'RM' ? now(t).rm : now(t).usd) * yearly.pay, cur);
 export const fmtYearNew = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money((cur === 'RM' ? t.rmNew : t.usdNew) * yearly.pay, cur);
 
 export const care = {
-  key: 'care', label: 'XpertCare monthly', unit: 'a month', allTitle: 'In every XpertCare plan',
-  all: ['High speed hosting included', 'Pay yearly, get 2 months free', 'Backups', 'Uptime watch', 'Security', 'Active checks every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'XpertInsight live report dashboard + monthly XpertRecap PDF'],
+  key: 'care', label: 'XpertRank monthly', unit: 'a month', allTitle: 'In every XpertRank plan',
+  all: ['High speed cloud hosting included', 'Pay yearly, get 2 months free', 'Backups', 'Uptime watch', 'Security', 'Active checks every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'XpertInsight live report dashboard, data refreshed every day', 'Monthly XpertRecap PDF'],
   tiers: [
-    { id: 'basic', name: 'XpertCare Basic', rm: 55, usd: 15, rmNew: 69, usdNew: 18, for: 'Keep it healthy', short: '2 text or photo changes, 1 new blog post a month, 5 keywords tracked weekly', rows: ['<b>2</b> text or photo changes', '<b>1</b> new blog post a month', '<b>5</b> keywords tracked weekly'] },
-    { id: 'plus', name: 'XpertCare Plus', rm: 99, usd: 25, rmNew: 129, usdNew: 33, for: 'Keep it growing', hot: true, short: '4 text or photo changes, 2 new blog posts a month, 10 keywords tracked weekly', rows: ['<b>4</b> text or photo changes', '<b>2</b> new blog posts a month', '<b>10</b> keywords tracked weekly'] },
-    { id: 'pro', name: 'XpertCare Pro', rm: 150, usd: 39, rmNew: 199, usdNew: 49, for: 'Grow faster', short: '6 text or photo changes, 4 new blog posts a month, 20 keywords tracked weekly', rows: ['<b>6</b> text or photo changes', '<b>4</b> new blog posts a month', '<b>20</b> keywords tracked weekly'] },
-    // Elite: Suhen agreed 2026-11-13 (RM249 now, RM329 from 1 Feb 2027). USD is Claude's draft.
-    { id: 'elite', name: 'XpertCare Elite', rm: 249, usd: 65, rmNew: 329, usdNew: 85, for: 'Our biggest plan', short: '10 text or photo changes, 6 new blog posts a month, 50 keywords tracked weekly', rows: ['<b>10</b> text or photo changes', '<b>6</b> new blog posts a month', '<b>50</b> keywords tracked weekly'] },
+    { id: 'basic', name: 'XpertRank Basic', rm: 99, usd: 25, rmNew: 199, usdNew: 49, for: 'Keep it healthy', short: '2 text or photo changes, 1 new blog post a month, 10 keywords tracked weekly, 5 AI answer questions checked monthly', rows: ['<b>2</b> text or photo changes', '<b>1</b> new blog post a month', '<b>10</b> keywords tracked weekly', '<b>5</b> AI answer questions checked monthly', 'Site check of up to <b>50</b> pages weekly', 'Refresh your dashboard <b>every week</b>', 'Keyword results in <b>about 1 to 5 minutes</b>'], locked: ['Competitor tracking, from Plus', 'Daily refresh and keyword results in under a minute, from Pro'] },
+    { id: 'plus', name: 'XpertRank Plus', rm: 199, usd: 45, rmNew: 399, usdNew: 89, for: 'Keep it growing', hot: true, up: 'Double the blog posts and changes of Basic, and 25 keywords instead of 10', short: '4 text or photo changes, 2 new blog posts a month, 25 keywords tracked weekly, 10 AI answer questions checked monthly', rows: ['<b>4</b> text or photo changes', '<b>2</b> new blog posts a month', '<b>25</b> keywords tracked weekly', '<b>10</b> AI answer questions checked monthly', 'Site check of up to <b>100</b> pages weekly', 'Refresh your dashboard <b>twice a week</b>', 'Keyword results in <b>about 1 to 5 minutes</b>', '<b>Competitor tracking</b> on Google page 1'], locked: ['Daily refresh and keyword results in under a minute, from Pro'] },
+    { id: 'pro', name: 'XpertRank Pro', rm: 349, usd: 79, rmNew: 699, usdNew: 159, for: 'Grow faster', up: 'Double the blog posts and keywords of Plus, for less than double the price', short: '6 text or photo changes, 4 new blog posts a month, 50 keywords tracked weekly, 20 AI answer questions checked monthly', rows: ['<b>6</b> text or photo changes', '<b>4</b> new blog posts a month', '<b>50</b> keywords tracked weekly', '<b>20</b> AI answer questions checked monthly', 'Site check of up to <b>200</b> pages weekly', 'Refresh your dashboard <b>every day</b>', 'Keyword results in <b>under a minute</b>', '<b>Competitor tracking</b> on Google page 1'] },
+    // Competitor tracking is for Plus and up (Suhen 2026-11-15; `rivals` in the dashboard's lib/plans.js).
+    // Plan limits raised by Suhen 2026-11-15 (match lib/plans.js in xpertinsight). Care prices raised by Suhen 2026-11-15: RM99/199/349/599 now, about double from 1 Feb 2027: RM199/399/699/1,199. USD prices picked by Suhen 2026-11-15.
+    { id: 'elite', name: 'XpertRank Elite', rm: 599, usd: 139, rmNew: 1199, usdNew: 269, for: 'Our biggest plan', up: 'Double the blog posts and keywords of Pro, for less than double the price', short: '10 text or photo changes, 8 new blog posts a month, 100 keywords tracked weekly, 30 AI answer questions checked monthly', rows: ['<b>10</b> text or photo changes', '<b>8</b> new blog posts a month', '<b>100</b> keywords tracked weekly', '<b>30</b> AI answer questions checked monthly', 'Site check of up to <b>300</b> pages weekly', 'Refresh your dashboard <b>every day</b>', 'Keyword results in <b>under a minute</b>', '<b>Competitor tracking</b> on Google page 1'] },
   ] as Tier[],
 };
 
-/** XpertCare Trial: try XpertCare for 14 days (Suhen 2026-11-13: RM25 or US$5). The price after the launch offer is not decided; it stays RM25 until Suhen says otherwise. */
-export const trial: Tier & { days: number } = { id: 'trial', name: 'XpertCare Trial', rm: 25, usd: 5, rmNew: 25, usdNew: 5, days: 14, for: 'Try XpertCare first', short: 'XpertCare for 14 days, with your own XpertInsight dashboard and 3 keywords tracked', rows: ['<b>14 days</b> of XpertCare', 'Your own <b>XpertInsight</b> dashboard', '<b>3</b> keywords tracked'] };
+/** XpertRank Trial: try XpertRank for 14 days (Suhen 2026-11-13: RM25 or US$5). The price after the launch offer is not decided; it stays RM25 until Suhen says otherwise. */
+export const trial: Tier & { days: number } = { id: 'trial', name: 'XpertRank Trial', rm: 25, usd: 5, rmNew: 25, usdNew: 5, days: 14, for: 'Try XpertRank first', short: 'XpertRank for 14 days, with your own XpertInsight dashboard, 3 keywords tracked, a site check of up to 10 pages and 1 dashboard refresh. AI answer checks and the monthly PDF come with the paid plans', rows: ['<b>14 days</b> of XpertRank', 'Your own <b>XpertInsight</b> dashboard', '<b>3</b> keywords tracked', 'Site check of up to <b>10</b> pages', '<b>1</b> dashboard refresh', 'No AI answer checks or PDF download'] };
 
 /** Structured data: the same names and RM prices people see on the page. */
 export const offersLd = (set: typeof build | typeof care) =>
   (set.key === 'care' ? [trial, ...set.tiers] : set.tiers).map((t) => ({ '@type': 'Offer', name: t.name, price: now(t).rm, priceCurrency: 'MYR', description: t.short }));
+
+/** Fills {{price:<tier id>}} in hand-written HTML (the homepage) with today's price, so prices are never typed twice. */
+export const fillPrices = (html: string) =>
+  html.replace(/\{\{price:(\w+)\}\}/g, (all, id) => { const t = [...build.tiers, ...care.tiers, trial].find((x) => x.id === id); if (!t) throw new Error('Unknown price ' + all); return fmt(t); });

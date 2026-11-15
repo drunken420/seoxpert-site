@@ -14,10 +14,10 @@ const paths = [...icon.matchAll(/ d="([^"]+)"/g)].map((m) => m[1]);
 const mark = icon.replace('<svg ', '<svg class="mark" aria-hidden="true" ').replace(/id="pg"/, 'id="pgd"').replace('url(#pg)', 'url(#pgd)');
 const word = logo.replace('role="img" aria-label="SEOxpert"', 'aria-hidden="true"');
 const tagline = site.tagline + '.';
-const tiltCards = [['Build', 'XpertForge', 'Your website, built for search.'], ['AI core', 'XpertCore', 'Plans and writes every page.'], ['Care', 'XpertCare', 'Looked after every month.']];
+const tiltCards = [['Build', 'XpertForge', 'Your website, built for search.'], ['AI core', 'XpertCore', 'Plans and writes every page.'], ['Care', 'XpertRank', 'Looked after every month.']];
 const scenes = [['light', 'soft', '#f3e9fd', 'Light scene'], ['dark', 'studio', '#1d1326', 'Dark studio'], ['purple', 'neon', 'linear-gradient(150deg,#5a0f93,#b06cff)', 'Purple neon'], ['sunset', 'sunset', 'linear-gradient(180deg,#2b1a5e,#ff7a45 60%,#ffd27a)', 'Sunset'], ['space', 'moon', 'radial-gradient(circle at 60% 30%,#2a1660,#06040c)', 'Space'], ['aurora', 'aurora', 'linear-gradient(150deg,#2fd6a0,#9a35e8)', 'Aurora']];
 const globePlaces = ['Kuala Lumpur', 'Tokyo', 'Sydney', 'Dubai', 'Paris', 'London', 'New York', 'Giza', 'Agra', 'Beijing', 'Rio'];
-const ringCards = [['XpertForge', 'Website build'], ['XpertCore', 'Our AI core'], ['XpertCare', 'Monthly care'], ['XpertForge', 'Starter, Business, Growth'], ['XpertCore', 'Plans and writes every page'], ['XpertCare', 'Basic, Plus, Pro, Elite']];
+const ringCards = [['XpertForge', 'Website build'], ['XpertCore', 'Our AI core'], ['XpertRank', 'Monthly care'], ['XpertForge', 'Starter, Business, Growth'], ['XpertCore', 'Plans and writes every page'], ['XpertRank', 'Basic, Plus, Pro, Elite']];
 const demos = [
   { id: 'spin', kind: '3D', title: '3D product you can spin', text: 'Let people turn your product around and try its colours before they buy. Here it is a cup, a bottle, a can, a box and a candle.', hint: 'Pick a product, tap a colour, drag to spin.', good: ['Online shops', 'Product launches', 'Food and drink'] },
   { id: 'logo3d', kind: '3D', title: 'Your logo in 3D', text: 'Your logo as a solid object that floats and catches the light. Try chrome, gold or glass, then pick a scene to change the light and the background.', hint: 'Drag to turn it. Pick a finish and a scene.', good: ['Homepage banners', 'Brand pages', 'Loading screens'] },
@@ -86,7 +86,7 @@ const demos = [
               <div><span class="xp wxland">Made with XpertCore</span><strong>{tagline}</strong><p>Website design for businesses in Malaysia.</p><span class="wxbtn wxland">See packages</span></div>
               <div class="wxmark" set:html={mark}></div>
             </div>
-            <div class="wxcards"><b class="wxland">XpertForge<small>Website build</small></b><b class="wxland">XpertCore<small>Our AI core</small></b><b class="wxland">XpertCare<small>Monthly care</small></b></div>
+            <div class="wxcards"><b class="wxland">XpertForge<small>Website build</small></b><b class="wxland">XpertCore<small>Our AI core</small></b><b class="wxland">XpertRank<small>Monthly care</small></b></div>
           </div>
         )}
         {d.id === 'devices' && (<>
@@ -104,8 +104,8 @@ const demos = [
         </>)}
         {d.id === 'spot' && (
           <div class="dmspot">
-            <div class="spotc dim" aria-hidden="true"><Fragment set:html={word} /><strong>{tagline}</strong><span>Forged by XpertCore, looked after by XpertCare.</span></div>
-            <div class="spotc lit"><Fragment set:html={word} /><strong>{tagline}</strong><span>Forged by XpertCore, looked after by XpertCare.</span></div>
+            <div class="spotc dim" aria-hidden="true"><Fragment set:html={word} /><strong>{tagline}</strong><span>Forged by XpertCore, looked after by XpertRank.</span></div>
+            <div class="spotc lit"><Fragment set:html={word} /><strong>{tagline}</strong><span>Forged by XpertCore, looked after by XpertRank.</span></div>
           </div>
         )}
         {d.id === 'theme' && (
@@ -116,7 +116,7 @@ const demos = [
                 <strong>{tagline}</strong>
                 <p>Website building and monthly website care.</p>
                 <em>See packages</em>
-                <div class="tcards"><b>XpertForge</b><b>XpertCore</b><b>XpertCare</b></div>
+                <div class="tcards"><b>XpertForge</b><b>XpertCore</b><b>XpertRank</b></div>
               </div>
             ))}
             <button class="tsw" type="button" aria-pressed="false" aria-label="Dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="sun" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-5v3m0 14v3M2 12h3m14 0h3M4.9 4.9 7 7m10 10 2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/><path class="moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg></button>
@@ -169,7 +169,7 @@ const demos = [
           <div class="dmglobe" aria-hidden="true"><Fragment set:html={word} /><span class="xp">XpertForge</span></div>
         </>)}
         {d.id === 'scramble' && (
-          <div class="dmscr"><span class="xp lt">XpertCore</span><strong aria-live="polite" data-lines="Built with XpertForge|Powered by XpertCore|Looked after by XpertCare">Built with XpertForge</strong><button type="button" class="btn">Next line</button></div>
+          <div class="dmscr"><span class="xp lt">XpertCore</span><strong aria-live="polite" data-lines="Built with XpertForge|Powered by XpertCore|Looked after by XpertRank">Built with XpertForge</strong><button type="button" class="btn">Next line</button></div>
         )}
         {d.id === 'draw' && (<>
           <div class="dmchead" aria-hidden="true"><Fragment set:html={word} /><span>Example report</span></div>

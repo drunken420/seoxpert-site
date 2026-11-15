@@ -1,6 +1,8 @@
 // The first ten questions and answers live in src/fragments/home-lower.html (the homepage FAQ); more live in
 // src/data/faq-more.ts. This reads them out so the Questions page, the chat helper and the structured data all say the same thing.
-import lower from '../fragments/home-lower.html?raw';
+import raw from '../fragments/home-lower.html?raw';
+import { fillPrices } from '../data/packages';
+const lower = fillPrices(raw);
 import { more, homeTopics, topics, type Topic } from '../data/faq-more';
 
 const strip = (t: string) => t.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();

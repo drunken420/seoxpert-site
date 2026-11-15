@@ -1,0 +1,12 @@
+# Old addresses from the previous seoxpert.my site that Google and AI answers still link to.
+# Cloudflare Pages sends visitors to the new page (301 = moved for good).
+/contact-us /contact/ 301
+/contact-us/ /contact/ 301
+/about-us /about/ 301
+/about-us/ /about/ 301
+/pricing /packages/ 301
+/pricing/ /packages/ 301
+/services /website-design/ 301
+/services/ /website-design/ 301
+/faqs /faq/ 301
+/faqs/ /faq/ 301

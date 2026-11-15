@@ -7,6 +7,7 @@ import { site, whatsappLink } from '../config';
 import Cta from '../components/Cta.astro';
 import Trio from '../components/Trio.astro';
 import { homeFaqLd } from '../lib/faq';
+import { fillPrices } from '../data/packages';
 import icon from '../fragments/icon.svg?raw';
 const fill = (h: string) => h.replace('<canvas id="gl" aria-hidden="true"></canvas>', '<canvas id="gl" aria-hidden="true"></canvas><div class="poster" aria-hidden="true">' + icon + '<i></i><i></i><i></i><i></i><i></i><i></i></div>').replace('<a href="#talk">WhatsApp us</a>, <a href="/contact/">email us</a>', site.whatsapp ? `<a href="${whatsappLink}">WhatsApp us</a>, <a href="/contact/">email us</a>` : '<a href="/contact/">Email us</a>');
 const extraLd = [homeFaqLd];
@@ -15,7 +16,7 @@ const extraLd = [homeFaqLd];
   <main id="main">
   <Fragment set:html={fill(top)} />
   <Trio />
-  <Fragment set:html={lower} />
+  <Fragment set:html={fillPrices(lower)} />
   <Cta />
   </main>
   <script slot="scripts" is:inline>

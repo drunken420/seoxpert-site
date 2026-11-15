@@ -9,7 +9,7 @@ import { care } from '../data/packages';
 import '../styles/page.css';
 import '../styles/insight.css';
 import { site, whatsappLink, talkLabel } from '../config';
-// XpertInsight is included with every XpertCare plan and is not sold on its own (Suhen, 2026-11-12).
+// XpertInsight is included with every XpertRank plan and is not sold on its own (Suhen, 2026-11-12).
 const kw = care.tiers.map((t) => [t.name, t.rows.join(' ').match(/<b>(\d+)<\/b> keywords/)?.[1]]);
 const views = [
   ['overview', 'Overview', 'Your Xpert score out of 100, made from visits, leads, rankings, AI mentions and site health, plus insights from our experts in plain words.'],
@@ -18,7 +18,7 @@ const views = [
   ['keywords', 'Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and how you compare with competitors.'],
   ['ai-answers', 'AI answers', 'Whether ChatGPT, Gemini, Perplexity and Google AI Overviews name your business, and the visits AI tools send you.'],
   ['health', 'Site health', 'Broken links, pages on Google, security certificate, speed on phones and uptime, checked every few minutes.'],
-  ['care-plan', 'Care plan', 'What your XpertCare plan includes this month, the work our team has done and what comes next.'],
+  ['care-plan', 'Care plan', 'What your XpertRank plan includes this month, the work our team has done and what comes next.'],
   ['reports', 'Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
 ];
 const vmap = Object.fromEntries(views.map(([f, h, p]) => [f, [h, p]]));
@@ -29,14 +29,14 @@ const groups = [
 ];
 // One tab per view, in group order; each tab knows its group name.
 const tabs = groups.flatMap(([g, , fs]) => (fs as string[]).map((f) => ({ f, h: vmap[f][0], p: vmap[f][1], g: g as string })));
-const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertCare plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
+const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
 ---
-<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertCare: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={extraLd}>
+<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertRank: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Website report dashboard" brand="XpertInsight" art="insight" crumb="Website report dashboard" word="Insight">
   <Fragment slot="title">See how your website is doing, <em>any time</em>.</Fragment>
-  <Fragment slot="lede">XpertInsight is our own live website report dashboard, included with every XpertCare plan. Log in to see your visitors, leads, keywords, AI answers and site health in plain words, and download your monthly XpertRecap as a PDF.</Fragment>
-  <Fragment slot="cta"><a class="btn" href="#inside">Look inside</a><a class="btn ghost" href="/website-maintenance/#xpertcare">See XpertCare plans</a></Fragment>
+  <Fragment slot="lede">XpertInsight is our own live website report dashboard, included with every XpertRank plan. Log in to see your visitors, leads, keywords, AI answers and site health in plain words, and download your monthly XpertRecap as a PDF.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="#inside">Look inside</a><a class="btn ghost" href="/website-maintenance/#xpertrank">See XpertRank plans</a></Fragment>
 </PageHero>
 
 <section id="inside" class="solid band xiinsb"><i class="xiorb2 a" aria-hidden="true"></i><i class="xiorb2 b" aria-hidden="true"></i><div class="wrap">
@@ -44,6 +44,32 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
   <h2 class="rv">Your website's numbers, in <span class="xigt">one clear place</span>.</h2>
   <p class="sub rv">Pick a view to look inside. Yours shows your own website.</p>
   <InsightDemo />
+</div></section>
+
+<section class="solid tint band xivital"><div class="wrap">
+  <div class="xivtop">
+    <div>
+      <span class="eyebrow rv">All your vital info</span>
+      <h2 class="rv">Every vital sign of your website, in one place.</h2>
+      <p class="sub rv">Most reports stop at visitors. XpertInsight also watches the things that quietly take a website offline, like an expired domain name or SSL certificate, and reminds you before they run out.</p>
+    </div>
+    <div class="xivcard rv">
+      <p class="xivhead">Sample Bakery <small>Dates we watch</small></p>
+      <p class="xivrow"><i aria-hidden="true"></i><b>Domain name</b><span>Renews 14 Aug 2027</span><em>We remind you 30 days before</em></p>
+      <p class="xivrow"><i aria-hidden="true"></i><b>SSL certificate</b><span>Renews 2 Jan 2027</span><em>We remind you 14 days before</em></p>
+      <p class="xivnote">Live data, refreshed every day. Updates in the dashboard tell you when something changes.</p>
+    </div>
+  </div>
+  <ul class="xivg">
+    <li class="rv"><b>Uptime</b><span>Whether your website was online, day by day.</span></li>
+    <li class="rv"><b>Speed</b><span>Google's own speed scores, on phone and computer.</span></li>
+    <li class="rv"><b>Visitors</b><span>Who came to your website, and where from.</span></li>
+    <li class="rv"><b>Leads</b><span>Who got in touch through your website.</span></li>
+    <li class="rv"><b>Google searches</b><span>The words people searched before they clicked on you.</span></li>
+    <li class="rv"><b>Keyword positions</b><span>Where you rank on Google, checked every week.</span></li>
+    <li class="rv"><b>AI answers</b><span>Whether ChatGPT, Gemini, Perplexity and Google's AI mention you.</span></li>
+    <li class="rv"><b>Site health</b><span>Problems found on your pages, and what our team fixed.</span></li>
+  </ul>
 </div></section>
 
 <section class="dark band xitabb"><div class="wrap">
@@ -63,7 +89,7 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
       </div>
       <div class="xitwin">
         <div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b data-xitu>{tabs[0].f}</b></span></div>
-        <div class="xitshots">{tabs.map(({ f, h }, i) => <img class={i ? '' : 'on'} data-i={i} src={`/img/xi-view-${f}.webp`} srcset={`/img/xi-view-${f}-720.webp 720w, /img/xi-view-${f}.webp 1200w`} sizes="(max-width: 1000px) 94vw, 760px" width="1200" height="750" loading={i ? 'lazy' : 'eager'} decoding="async" alt={`The ${h} view of XpertInsight on a computer`} />)}</div>
+        <div class="xitshots">{tabs.map(({ f, h }, i) => <img class={i ? '' : 'on'} data-i={i} src={`/img/xi-screen-${f}.webp`} srcset={`/img/xi-screen-${f}-720.webp 720w, /img/xi-screen-${f}.webp 1200w`} sizes="(max-width: 1000px) 94vw, 760px" width="1200" height="750" loading={i ? 'lazy' : 'eager'} decoding="async" alt={`The ${h} view of XpertInsight on a computer`} />)}</div>
       </div>
     </div>
   </div>
@@ -108,18 +134,25 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
 
 <section class="solid band xiincb"><div class="wrap split xiinc">
   <div>
-    <span class="eyebrow rv">Included with XpertCare</span>
+    <span class="eyebrow rv">Included with XpertRank</span>
     <h2 class="rv">No extra fee. It comes with your care plan.</h2>
-    <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertCare</a> plan. It is not sold on its own. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
-    <p class="rv"><a class="btn" href="/website-maintenance/#xpertcare">Compare XpertCare plans</a></p>
+    <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertRank</a> plan. It is not sold on its own. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
+    <p class="rv"><a class="btn" href="/website-maintenance/#xpertrank">Compare XpertRank plans</a></p>
   </div>
   <div class="xiplans">
-    {kw.map(([n, k], i) => <div class="xiplan rv" style={`--d:${i};--w:${Math.round(Number(k) / Number(kw[kw.length - 1][1]) * 100)}%`}>
-      <div class="xiph1"><b>{n}</b></div>
-      <div class="xikw"><strong data-count={k}>{k}</strong><small>keywords tracked every week</small></div>
-      <div class="xikwbar"><i></i></div>
-      <ul><li>XpertInsight dashboard</li><li>Monthly XpertRecap PDF</li></ul>
-    </div>)}
+    {kw.map(([n, k], i) => <details class="xiplan rv" style={`--d:${i};--w:${Math.round(Number(k) / Number(kw[kw.length - 1][1]) * 100)}%`}>
+      <summary>
+        <div class="xiph1"><b>{n}</b></div>
+        <div class="xikw"><strong data-count={k}>{k}</strong><small>keywords tracked every week</small></div>
+        <div class="xikwbar"><i></i></div>
+        <ul><li>XpertInsight dashboard</li><li>Monthly XpertRecap PDF</li></ul>
+        <span class="xiopen">See everything included</span>
+      </summary>
+      <div class="xiall">
+        <ul>{care.tiers[i].rows.map((r) => <li set:html={r} />)}{care.all.map((a) => <li>{a}</li>)}</ul>
+        <a href="/website-maintenance/#xpertrank">See {n} prices</a>
+      </div>
+    </details>)}
   </div>
 </div></section>
 
