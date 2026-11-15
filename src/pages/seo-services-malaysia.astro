@@ -1,0 +1,91 @@
+---
+// SEO services in Malaysia (Suhen asked 2026-11-15): XpertRank sold as our expert SEO service.
+// Keywords (Ubersuggest, Malaysia, 2026-11-15): seo services 2,400 a month, seo agency malaysia 2,400,
+// seo malaysia 2,900, seo services malaysia 880, seo company malaysia 480.
+// Rules: never promise rankings or page 1; the money-back promise is the one exception, in its exact words.
+// XpertRank is only for websites we build (XpertForge), with high speed cloud hosting included.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import Glance from '../components/Glance.astro';
+import PageFaq from '../components/PageFaq.astro';
+import Packages from '../components/Packages.astro';
+import pictures from '../data/pictures.json';
+import '../styles/page.css';
+import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
+import { care, fmt, offersLd, offerOn } from '../data/packages';
+import { pageFaq } from '../lib/faq';
+const [basic, , , elite] = care.tiers;
+const promise = "If none of your tracked keywords reaches Google's top 100 in your first month, we refund that month of XpertRank in full.";
+const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'Is XpertRank an SEO service?', 'How is XpertRank different from an SEO agency?', 'Is there a money-back promise?', 'Can you guarantee first page on Google?', 'How long before I see results?', 'Can you look after a website built by someone else?']);
+const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRank', serviceType: 'Search engine optimisation (SEO)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/seo-services-malaysia/`, areaServed: areaLd, description: 'XpertRank, our expert SEO service for websites built by SEOXpert: keyword tracking, on page and technical SEO, new blog posts every month, AI search (LLM) optimisation and a live XpertInsight dashboard, with high speed cloud hosting included.', offers: offersLd(care) }, pf.ld];
+---
+<Base title="SEO Services Malaysia: XpertRank Expert SEO | SEOXpert" image={`/img/${pictures["seo-services-malaysia"].file}.jpg`} description={`SEO services in Malaysia from ${fmt(basic)} a month. XpertRank tracks your keywords, writes new content and optimises for Google and AI search, with a money-back promise.`} path="/seo-services-malaysia/" crumb="SEO services" extraLd={extraLd}>
+<main id="main">
+<PageHero kicker="SEO services" brand="XpertRank" art="seo" crumb="SEO services" word="SEO">
+  <Fragment slot="title">SEO services in Malaysia, <em>built into your website</em>.</Fragment>
+  <Fragment slot="lede">XpertRank is our expert SEO service. We track your keywords, write new content every month, fix what holds you back and optimise for Google and AI search, from {fmt(basic)} a month, backed by a money-back promise.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="#plans">See XpertRank plans</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">What our SEO services include</span>
+  <h2 class="rv">Everything Google and AI search look for, every month.</h2>
+  <p class="sub rv">SEO (search engine optimisation, also spelled search engine optimization) is the work of helping Google and AI tools find, understand and show your website. With XpertRank, our SEO company in {site.country} does that work for you, for businesses in {areaText}.</p>
+  <div class="grid3">
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Keyword research and tracking</h3><p>We find the words your customers type, then check your Google position for each one every week, in your live XpertInsight dashboard.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>On page SEO</h3><p>Titles, descriptions, headings and answer first copy, tuned for what people search. Every page has one clear topic.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Technical SEO</h3><p>Fast pages, clean code and structured data, because we built the website ourselves. See our <a href="/website-development/">website development</a>.</p></div>
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>Highly rankable content</h3><p>New blog posts every month, from 1 on {basic.name.replace('XpertRank ', '')} to 8 on {elite.name.replace('XpertRank ', '')}, written with XpertCore and checked by our experts.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>AI search (LLM) optimisation</h3><p>Each month we ask ChatGPT, Gemini, Perplexity and Google's AI answers the questions your customers ask, and improve your pages so they can be quoted. Read about <a href="/blog/ai-seo-malaysia/">AI SEO in Malaysia</a>.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Active checks and fixes</h3><p>We check your website every few days, fix what we find, and make SEO and AI search optimisations when they are needed.</p></div>
+  </div>
+</div></section>
+
+<section class="solid tint band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">How it works</span>
+    <h2 class="rv">Our SEO services, week by week.</h2>
+    <p class="sub rv">You always see what we did and what changed, in plain words.</p>
+  </div>
+  <ol class="nsteps">
+    <li class="rv"><h3>Every few days</h3><p>We actively check your website, fix what we find and keep it fast, safe and online on high speed cloud hosting.</p></li>
+    <li class="rv" style="--d:1"><h3>Every week</h3><p>XpertCore rank tracking checks where each of your keywords sits in Google's top 100. On Plus and up we also track your competitors.</p></li>
+    <li class="rv" style="--d:2"><h3>Every month</h3><p>New blog posts and page changes go live, and we check what AI tools say about your business.</p></li>
+    <li class="rv" style="--d:3"><h3>Any time</h3><p>Your <a href="/website-report-dashboard/">XpertInsight dashboard</a> shows visitors, leads, keywords, AI answers and site health, with a monthly XpertRecap PDF.</p></li>
+  </ol>
+</div></section>
+
+<section class="dark band"><div class="wrap">
+  <span class="eyebrow rv">Our money-back promise</span>
+  <p class="creed rv">{promise.replace(", we refund that month of XpertRank in full.", ",")} <em>we refund that month of XpertRank in full</em>.</p>
+  <p class="sub rv" style="margin-top:22px;color:#e9dcff">Nobody can honestly promise page 1, so we do not. This is the promise we can keep, in writing.</p>
+</div></section>
+
+<section id="plans" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">XpertRank plans</span>
+  <h2 class="rv">SEO service prices in Malaysia.</h2>
+  <p class="sub rv">Four plan sizes: Essential, Growth, Competitive and Market-leading SEO. Every plan includes high speed cloud hosting, your XpertInsight dashboard and the monthly XpertRecap PDF. XpertRank is for websites we build with XpertForge, so the same team looks after the code, the content and the hosting. See the <a href="/packages/">website design packages</a>.</p>
+  <Packages show="care" pickHref="/packages/#plan" />
+</div></section>
+
+<section class="solid tint band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">Why SEO starts with the website</span>
+    <h2 class="rv">An SEO agency that builds the website too.</h2>
+  </div>
+  <div class="prose">
+    <p class="rv">Many SEO agencies are handed a website someone else built, and then work around its limits. We do it the other way round. Every XpertForge website is planned for Google and AI search before it is designed, and XpertRank keeps that work going every month.</p>
+    <p class="rv">Because we built and host your website, we can change anything that holds it back: the words, the code, the speed or the structure. There is no waiting for another developer.</p>
+    <p class="rv">That is also why XpertRank is only for websites we build. No website with us yet? Start with <a href="/website-design/">website design</a>{offerOn() ? ', and every new website gets free months of XpertRank during the launch offer' : ''}.</p>
+    <p class="rv">Want to learn the basics first? Read our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a> and our guide to <a href="/blog/local-seo-malaysia/">local SEO in Malaysia</a>.</p>
+  </div>
+</div></section>
+<Glance page="seo-services-malaysia" guides={['seo-malaysia-guide', 'ai-seo-malaysia', 'local-seo-malaysia']} />
+<PageFaq title="SEO services questions, answered." items={pf.items} tint />
+<Related skip="/seo-services-malaysia/" />
+<Cta title="Ready to grow on Google and AI search?" />
+</main>
+<script slot="scripts" src="/js/packages.js" defer></script>
+</Base>
