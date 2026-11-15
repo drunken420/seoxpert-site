@@ -114,12 +114,19 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
     <p class="rv"><a class="btn" href="/website-maintenance/#xpertrank">Compare XpertRank plans</a></p>
   </div>
   <div class="xiplans">
-    {kw.map(([n, k], i) => <div class="xiplan rv" style={`--d:${i};--w:${Math.round(Number(k) / Number(kw[kw.length - 1][1]) * 100)}%`}>
-      <div class="xiph1"><b>{n}</b></div>
-      <div class="xikw"><strong data-count={k}>{k}</strong><small>keywords tracked every week</small></div>
-      <div class="xikwbar"><i></i></div>
-      <ul><li>XpertInsight dashboard</li><li>Monthly XpertRecap PDF</li></ul>
-    </div>)}
+    {kw.map(([n, k], i) => <details class="xiplan rv" style={`--d:${i};--w:${Math.round(Number(k) / Number(kw[kw.length - 1][1]) * 100)}%`}>
+      <summary>
+        <div class="xiph1"><b>{n}</b></div>
+        <div class="xikw"><strong data-count={k}>{k}</strong><small>keywords tracked every week</small></div>
+        <div class="xikwbar"><i></i></div>
+        <ul><li>XpertInsight dashboard</li><li>Monthly XpertRecap PDF</li></ul>
+        <span class="xiopen">See everything included</span>
+      </summary>
+      <div class="xiall">
+        <ul>{care.tiers[i].rows.map((r) => <li set:html={r} />)}{care.all.map((a) => <li>{a}</li>)}</ul>
+        <a href="/website-maintenance/#xpertrank">See {n} prices</a>
+      </div>
+    </details>)}
   </div>
 </div></section>
 

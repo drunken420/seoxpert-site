@@ -235,3 +235,22 @@
 .xiplan::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:linear-gradient(135deg,#b06cff,transparent 40%,transparent 60%,#7b18c1);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;pointer-events:none}
 .xiplan:hover::before{opacity:1}
 @media (prefers-reduced-motion:reduce){.xigt,.xiorb2{animation:none}}
+
+/* Plan boxes open to show everything included (Suhen 2026-11-15) */
+details.xiplan{display:block;cursor:pointer}
+.xiplan summary{list-style:none;display:grid;grid-template-columns:1fr auto;gap:6px 18px;align-items:center}
+.xiplan summary::-webkit-details-marker{display:none}
+.xiplan summary:focus-visible{outline:2px solid var(--acc);outline-offset:6px;border-radius:12px}
+.xiopen{grid-column:1/-1;margin-top:6px;font-size:13.5px;font-weight:700;color:var(--acc);display:inline-flex;align-items:center;gap:6px}
+.xiopen::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .25s}
+.xiplan[open] .xiopen::after{transform:rotate(-135deg) translateY(-2px)}
+.xiplan[open] .xiopen{font-size:0}.xiplan[open] .xiopen::before{content:"Hide the list";font-size:13.5px}
+.xiplan:last-child .xiopen{color:#e6c9ff}
+.xiall{cursor:auto;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.xiplan:last-child .xiall{border-color:rgba(255,255,255,.18)}
+.xiall ul{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;margin:0}
+.xiall li{display:block;position:relative;padding-left:20px;line-height:1.4}.xiall li::before{position:absolute;left:0;top:0}.xiall li b{color:inherit}
+.xiplan .xiall li{color:var(--ink,#1d1030)}.xiplan:last-child .xiall li{color:#fff}
+.xiall a{display:inline-block;margin-top:14px;font-weight:700;color:var(--acc)}.xiplan:last-child .xiall a{color:#fff}
+.xiplan[open]:hover{transform:none}
+@media (max-width:560px){.xiall ul{grid-template-columns:1fr}}
