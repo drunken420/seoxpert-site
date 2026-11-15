@@ -3,6 +3,16 @@
 // The price is never sent from here: the server takes it from packages.ts. If payments are not set up or something
 // fails, a link carries on to its own address (the contact form) and a button goes to the contact page.
 (function () {
+  // The pay buttons stay hidden (html without .payon, page.css) until the server says payments are ready: a live
+  // Stripe key on seoxpert.my, or a test key on a preview. Until then people see the contact buttons as before.
+  if (document.querySelector('.payon-only')) {
+    var on = null; try { on = sessionStorage.getItem('sx-payon'); } catch (x) {}
+    if (on === '1') document.documentElement.classList.add('payon');
+    if (on === null) fetch('/api/checkout', { headers: { accept: 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { var yes = !!(d && d.on); if (yes) document.documentElement.classList.add('payon'); try { sessionStorage.setItem('sx-payon', yes ? '1' : '0'); } catch (x) {} })
+      .catch(function () {});
+  }
   document.addEventListener('click', function (e) {
     var el = e.target.closest && e.target.closest('[data-pay]');
     if (!el || !el.dataset.pay || el.getAttribute('aria-busy') === 'true') return;

@@ -6,7 +6,7 @@
 // Settings live in the Cloudflare Pages project (Settings > Variables and Secrets), never in this repo:
 //   STRIPE_SECRET_KEY      required, from dashboard.stripe.com (sk_test_... while testing, sk_live_... when live)
 //   STRIPE_WEBHOOK_SECRET  required for the payment emails (functions/api/stripe-webhook.js)
-// While STRIPE_SECRET_KEY is missing this answers "not set up" and the pay buttons fall back to the contact form.
+// While STRIPE_SECRET_KEY is missing this answers "not set up" and the pay buttons stay hidden (see ready() below).
 //
 // What can be paid online (Suhen 2026-11-16):
 //   trial                 XpertRank Trial, once
@@ -47,8 +47,23 @@ export function item(id, cur, bill) {
   return null;
 }
 
+/** Are the pay buttons on? On seoxpert.my only with a live key (sk_live_...), so real visitors never meet Stripe's test
+ *  mode; on previews (*.pages.dev) a test key is enough, so we can try a payment with Stripe's test card first.
+ *  PAYMENTS=off in the Cloudflare settings turns them off everywhere. Nothing needs rebuilding when the keys change. */
+export function ready(env, url) {
+  const key = env.STRIPE_SECRET_KEY || '';
+  if (!key || env.PAYMENTS === 'off') return false;
+  const live = /(^|\.)seoxpert\.my$/.test(new URL(url).hostname);
+  return !live || key.startsWith('sk_live_') || key.startsWith('rk_live_');
+}
+
+/** The pay buttons ask this once per visit (pay.js) and show themselves only when it says on. */
+export function onRequestGet({ request, env }) {
+  return json({ on: ready(env, request.url) });
+}
+
 export async function onRequestPost({ request, env }) {
-  if (!env.STRIPE_SECRET_KEY) return json({ ok: false, error: 'not_set_up' }, 503);
+  if (!ready(env, request.url)) return json({ ok: false, error: 'not_set_up' }, 503);
   let body = {};
   try { body = await request.json(); } catch { return json({ ok: false, error: 'bad_request' }, 400); }
   const cur = body.cur === 'USD' ? 'USD' : 'RM', it = item(String(body.item || ''), cur, body.bill === 'year' ? 'year' : 'month');

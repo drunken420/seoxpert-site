@@ -75,10 +75,9 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           <div><span class="pktag">New</span><h3>{trial.name}</h3><p>{trial.short}.</p></div>
           <div class="pktside">
             <p class="pktprice"><span {...price(trial)}>{fmt(trial)}</span><small>for {trial.days} days</small></p>
-            {site.payments
-              ? <a class="btn" href="/contact/?need=trial" data-pay="trial" data-track="pay-trial"><span>Pay <span {...price(trial)}>{fmt(trial)}</span> and start</span></a>
-              : <a class="btn" href="/contact/?need=trial" data-track="start-trial">Start your trial</a>}
-            {site.payments && <p class="pktpay">Secure payment by Stripe</p>}
+            {site.payments && <a class="btn payon-only" href="/contact/?need=trial" data-pay="trial" data-track="pay-trial"><span>Pay <span {...price(trial)}>{fmt(trial)}</span> and start</span></a>}
+            <a class:list={['btn', site.payments && 'payoff-only']} href="/contact/?need=trial" data-track="start-trial">Start your trial</a>
+            {site.payments && <p class="pktpay payon-only">Secure payment by Stripe</p>}
           </div>
         </div>
       )}

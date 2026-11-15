@@ -21,8 +21,8 @@ export const site = {
   // Cloudflare Turnstile site key (public) for the spam check on the contact form. Empty = no check box.
   // Its secret goes in the Cloudflare Pages settings as TURNSTILE_SECRET_KEY, never here.
   turnstileSiteKey: '',
-  // Online payments with Stripe (Suhen 2026-11-16). false = the pay buttons stay hidden and people use the contact form.
-  // Turn on only after STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET are in the Cloudflare Pages settings and a test payment worked.
+  // Online payments with Stripe (Suhen 2026-11-16). false = no pay buttons in the pages at all. true = the buttons are in
+  // the pages but stay hidden until /api/checkout says ready: a live key (sk_live_) on seoxpert.my, a test key on previews.
   payments: true,
 };
 /** "Kuala Lumpur, Selangor, Petaling Jaya, across Malaysia and around the world" (we work remotely; Suhen 2026-11-12) */

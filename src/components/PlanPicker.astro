@@ -32,9 +32,9 @@ const data = (t: Tier) => ({ 'data-id': t.id, 'data-name': t.name, 'data-rm': fm
     <div class="row"><span data-sum="cn"></span><b data-sum="cp"></b></div>
     <p class="pklater" data-sum="later" hidden></p>
     <ul class="pktick" data-sum="list"></ul>
-    {site.payments && <button class="btn" type="button" data-pay="" data-sum="pay" data-track="pay-plan">Pay and start</button>}
-    {site.payments && <p class="pkpaynote" data-sum="paynote">Secure payment by Stripe: card, FPX online banking or GrabPay.</p>}
-    <a class:list={['btn', site.payments && 'ghost']} href="/contact/" data-sum="send">Send this plan</a>
+    {site.payments && <button class="btn payon-only" type="button" data-pay="" data-sum="pay" data-track="pay-plan">Pay and start</button>}
+    {site.payments && <p class="pkpaynote payon-only" data-sum="paynote">Secure payment by Stripe: card, FPX online banking or GrabPay.</p>}
+    <a class="btn" href="/contact/" data-sum="send">Send this plan</a>
     <!-- Money-back promise seal (Suhen 2026-11-15): the live 3D "Rank Guard" (public/js/promise3d.js, .pmsm = small; Suhen 2026-11-16), with a picture of it until three.js has loaded. Exact promise words only. -->
     <div class="pkmb" id="promise">
       <div class="pm3d pmsm" aria-hidden="true"><div class="pmfall"><img src="/img/rank-guard-360.webp" width="360" height="360" alt="" loading="lazy" decoding="async" /></div></div>
