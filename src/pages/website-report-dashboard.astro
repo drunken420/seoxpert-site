@@ -4,6 +4,8 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import Glance from '../components/Glance.astro';
+import PageFaq from '../components/PageFaq.astro';
+import { pageFaq } from '../lib/faq';
 import InsightDemo from '../components/InsightDemo.astro';
 import { care } from '../data/packages';
 import '../styles/page.css';
@@ -30,8 +32,9 @@ const groups = [
 // One tab per view, in group order; each tab knows its group name.
 const tabs = groups.flatMap(([g, , fs]) => (fs as string[]).map((f) => ({ f, h: vmap[f][0], p: vmap[f][1], g: g as string })));
 const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
+const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'How do I log in to XpertInsight?', 'Can I check XpertInsight on my phone?', 'What is XpertRecap?']);
 ---
-<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertRank: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={extraLd}>
+<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertRank: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Website report dashboard" brand="XpertInsight" art="insight" crumb="Website report dashboard" word="Insight">
   <Fragment slot="title">See how your website is doing, <em>any time</em>.</Fragment>
@@ -157,6 +160,7 @@ const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashbo
 </div></section>
 
 <Glance page="website-report-dashboard" guides={['website-maintenance-malaysia', 'ai-seo-malaysia']} tint />
+<PageFaq title="XpertInsight questions, answered." items={pf.items} />
 <Related skip="/website-report-dashboard/" />
 <Cta title="Want XpertInsight for your website?" />
 </main>

@@ -10,6 +10,13 @@ const body = `# ${site.name}
 XpertForge (the website build), XpertCore (our AI core), XpertRank (monthly care) and XpertLab (live demos) were all developed in house by SEOXpert.
 Area: based in ${site.country}, working remotely with businesses in ${site.areas.join(', ')}, across ${site.country} and around the world.
 
+## Key facts
+- SEOXpert is a website design and website development company in ${site.country}. It builds websites (XpertForge) and looks after them every month (XpertRank).
+- XpertRank is an expert SEO service and monthly website maintenance in one. It is only for websites built by SEOXpert, and high speed cloud hosting is included. Hosting is not sold on its own.
+- Money-back promise: If none of your tracked keywords reaches Google's top 100 in your first month, we refund that month of XpertRank in full. SEOXpert does not promise page 1 or any ranking beyond this.
+- Every XpertRank plan includes XpertInsight, a live website report dashboard, and XpertRecap, a monthly PDF report.
+- Prices are in Malaysian ringgit (RM), with US dollar prices for businesses outside ${site.country}.
+
 ## Services
 - [Website design](${site.url}/website-design/): New websites planned for Google and AI search before they are designed, built as an XpertForge package with XpertCore, our own AI website builder, and finished by hand.
 - [Website development](${site.url}/website-development/): How every XpertForge website is coded for Google and AI search from the ground up: clean structure, fast pages, structured data and llms.txt.

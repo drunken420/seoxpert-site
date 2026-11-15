@@ -8,6 +8,8 @@ import { build, care, fmt, fmtYear, yearly, offer, offerOn } from './packages';
 export interface Post {
   slug: string; tag: string; art: 'cost' | 'care' | 'ai' | 'seo' | 'pick' | 'map' | 'city' | 'stack';
   h1: string; title: string; description: string; date: string;
+  /** The day the guide was last changed, when that is later than `date`. */
+  updated?: string;
   short: string; card: string;
   sections: { id: string; h: string; html: string }[];
   faqs: { q: string; a: string }[];
@@ -305,14 +307,15 @@ ${careTable}
     cta: { pill: 'XpertForge', title: `Get a website from ${fmt(starter)}`, href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'seo-malaysia-guide', tag: 'SEO', art: 'seo', date: '2026-11-11',
+    slug: 'seo-malaysia-guide', tag: 'SEO', art: 'seo', date: '2026-11-11', updated: '2026-11-15',
     h1: 'SEO in Malaysia: how search engine optimisation works',
     title: 'SEO in Malaysia: How Search Engine Optimisation Works',
     description: 'SEO in Malaysia in plain words: how Google finds pages, keyword research, on page and technical SEO, content, links, local SEO and the free tools to start with.',
     card: 'How Google finds and ranks pages, and what you can do about it: keywords, pages, speed, content and links.',
     short: 'SEO (search engine optimisation) is the work of making your website easy for Google to find, understand and show to people who are searching. It has five parts: knowing what people search for (keyword research), clear and well built pages (on page and technical SEO), useful content that keeps growing, being trusted by other websites, and being visible in your area (local SEO).',
     sections: [
-      { id: 'what-is-seo', h: 'What SEO means', html: `<p>When someone searches Google for something you sell, Google chooses which websites to show and in what order. SEO is everything you do to help Google choose yours: the right words, clear pages, a fast website and genuinely useful answers.</p>
+      { id: 'what-is-seo', h: 'What SEO means', html: `<p>SEO stands for search engine optimisation, also spelled search engine optimization.</p>
+<p>When someone searches Google for something you sell, Google chooses which websites to show and in what order. SEO is everything you do to help Google choose yours: the right words, clear pages, a fast website and genuinely useful answers.</p>
 <p>It is not a trick, and it is not instant. Nobody can buy a place in the normal results, and nobody can honestly promise page 1. What you can do is make your website the clearest, most useful answer you can, and keep improving it.</p>` },
       { id: 'how-google-works', h: 'How Google finds and ranks pages', html: `<p>Google works in three steps, and SEO helps with each one.</p>
 <ol><li><b>Finding.</b> Google follows links and reads sitemaps to discover pages. A page nothing links to may never be found.</li>
@@ -363,7 +366,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'A website planned for search from day one', href: '/website-design/', label: 'Website design in Malaysia' },
   },
   {
-    slug: 'ai-seo-malaysia', tag: 'AI search', art: 'ai', date: '2026-11-11',
+    slug: 'ai-seo-malaysia', tag: 'AI search', art: 'ai', date: '2026-11-11', updated: '2026-11-15',
     h1: 'AI SEO in Malaysia: what it is, and does it work?',
     title: 'AI SEO in Malaysia: What It Is, and Does It Work?',
     description: 'AI SEO means making your website easy for AI tools like ChatGPT and Gemini to read, trust and quote. How it works, how to write for it, and how to check it.',
@@ -397,7 +400,7 @@ ${careTable}
 <p>Answers change over time and from one person to the next, so check again every month or two rather than relying on one test.</p>` },
       { id: 'does-it-work', h: 'Does AI SEO work?', html: `<p>It helps, with honest limits. Nobody can promise that an AI tool will name your business, because the companies that make those tools decide how they choose sources, and they change it often.</p>
 <p>What you can control is how clear, consistent and well structured your website is. The good news is that the same work also helps on Google, so nothing is wasted. Be careful with anyone who guarantees results in AI answers.</p>` },
-      { id: 'other-names', h: 'Other names you may hear', html: `<p>AI SEO goes by several names. GEO means generative engine optimisation. AEO means answer engine optimisation. Some people say LLM optimisation, after the large language models behind the AI tools. They all describe the same idea: helping AI tools understand and use your content.</p>` },
+      { id: 'other-names', h: 'Other names you may hear', html: `<p>AI SEO goes by several names. GEO means generative engine optimisation (also spelled generative engine optimization). AEO means answer engine optimisation. Some people say LLM optimisation, after the large language models behind the AI tools. They all describe the same idea: helping AI tools understand and use your content.</p>` },
       { id: 'how-we-do-it', h: 'How we build it in', html: `<p>Every website we build is planned for Google and AI search before it is designed. <a href="/ai-website-builder/">XpertCore, our own AI website builder</a>, drafts the page plan, headings and answer first copy, and adds structured data and an llms.txt file. Then our experts check and refine every page.</p>
 <p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places.</p>` },
     ],
@@ -458,7 +461,7 @@ ${careTable}
     cta: { pill: 'XpertRank', title: `Monthly care from ${fmt(basic)}, high speed cloud hosting included`, href: '/website-maintenance/', label: 'See XpertRank plans' },
   },
   {
-    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11',
+    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-15',
     h1: 'How to choose a web design company in Malaysia',
     title: 'How to Choose a Web Design Company in Malaysia | SEOXpert',
     description: 'Choose a web design company in Malaysia by checking real work, a clear price, a plan for search, who does the work, what you own and who looks after the website.',
@@ -491,6 +494,7 @@ ${careTable}
 <li><b>Pressure to decide today.</b> A good company is happy to give you time.</li></ul>` },
     ],
     faqs: [
+      { q: 'Is a website design agency different from a web design company?', a: 'No. Website design agency, website design company and web design company usually mean the same thing: a team that plans, designs and builds websites. Use the same checks for all of them.' },
       { q: 'Should I choose the cheapest quote?', a: 'Not by price alone. Compare what is included: the writing, the number of pages, the search setup and the care after launch.' },
       { q: 'What should I prepare before I contact a web design company?', a: 'A short brief: what your business does, the main job of the website, the pages you need, what you already have, and your budget.' },
       { q: 'Do you outsource the work?', a: 'No. Every SEOXpert website is designed and coded in house and personally planned and overseen.' },

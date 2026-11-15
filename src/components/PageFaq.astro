@@ -1,0 +1,16 @@
+---
+// A short "questions people ask" block for a service page (SEO and AI search check, 2026-11-15).
+// The answers are the same ones as on the Questions page (src/lib/faq.ts), so nothing new is claimed here.
+// The page passes the same list to its structured data with pageFaq().ld, so the code matches the visible text.
+import type { Faq } from '../lib/faq';
+interface Props { title: string; items: Faq[]; tint?: boolean }
+const { title, items, tint = false } = Astro.props;
+---
+<section id="questions" class:list={['solid band', { tint }]}><div class="wrap">
+  <span class="eyebrow rv">Questions people ask</span>
+  <h2 class="rv">{title}</h2>
+  <div class="acc">
+    {items.map((f, i) => <details class="rv" open={i === 0}><summary>{f.q}</summary><div class="ans"><p set:html={f.html}></p></div></details>)}
+  </div>
+  <p class="sub rv" style="margin-top:24px">More answers are on the <a href="/faq/">questions page</a>.</p>
+</div></section>

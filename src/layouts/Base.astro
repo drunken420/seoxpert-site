@@ -9,8 +9,8 @@ import '../styles/site.css';
 import logo from '../fragments/logo.svg?raw';
 import { site, whatsappLink, talkLabel, emailLink, areaText, areaLd } from '../config';
 
-interface Props { title: string; description?: string; path?: string; crumb?: string; extraLd?: object[]; noindex?: boolean; image?: string }
-const { title, description = site.description, path = '/', crumb, extraLd = [], noindex = false, image = '/og.png' } = Astro.props;
+interface Props { title: string; description?: string; path?: string; crumb?: string; extraLd?: object[]; noindex?: boolean; image?: string; article?: { published: string; modified: string } }
+const { title, description = site.description, path = '/', crumb, extraLd = [], noindex = false, image = '/og.png', article } = Astro.props;
 // The last line of the footer is different on every page and carries that page's keyword (Suhen, 2026-11-11).
 // A new page needs a line here; anything missing falls back to the website design line.
 const footLines: Record<string, string> = {
@@ -53,7 +53,10 @@ const canonical = new URL(path, site.url).href;
 const ld = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'Organization', '@id': `${site.url}/#org`, name: site.name, url: site.url, logo: `${site.url}/logo.svg`, slogan: site.tagline, description: site.description, areaServed: areaLd },
+    { '@type': 'Organization', '@id': `${site.url}/#org`, name: site.name, url: site.url, logo: `${site.url}/logo.svg`, slogan: site.tagline, description: site.description, areaServed: areaLd,
+      // What we know about, and where to reach us: helps Google and AI tools place the business (SEO check, 2026-11-15).
+      knowsAbout: ['Website design', 'Website development', 'Search engine optimisation (SEO)', 'AI search optimisation', 'Website maintenance'],
+      contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', url: `${site.url}/contact/`, availableLanguage: 'English' } },
     { '@type': 'WebSite', '@id': `${site.url}/#website`, url: site.url, name: site.name, publisher: { '@id': `${site.url}/#org` }, inLanguage: 'en' },
     ...(crumb ? [{ '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' }, { '@type': 'ListItem', position: 2, name: crumb, item: canonical }] }] : []),
     ...extraLd,
@@ -80,7 +83,9 @@ window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(argu
 (function () { var go = function () { var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/' + (gtm ? 'gtm.js' : 'gtag/js') + '?id=' + ga; document.head.appendChild(s); };
   if (document.readyState === 'complete') setTimeout(go, 1500); else addEventListener('load', function () { setTimeout(go, 1500); }); })();
 </script>}
-<meta property="og:type" content="website">
+<meta property="og:type" content={article ? 'article' : 'website'}>
+{article && <meta property="article:published_time" content={article.published}>}
+{article && <meta property="article:modified_time" content={article.modified}>}
 <meta property="og:site_name" content={site.name}>
 <meta property="og:title" content={title}>
 <meta property="og:description" content={description}>
