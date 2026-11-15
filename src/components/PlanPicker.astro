@@ -8,7 +8,7 @@ const later = (t: Tier, yr: boolean) => on ? { 'data-rm-n': fmtNew(t, 'RM'), 'da
 import { site } from '../config';
 // prices for a website built elsewhere, used when "I already have a website" is picked
 const other = (t: Tier) => ({ 'data-rm-o': fmtOther(t, 'RM'), 'data-usd-o': fmtOther(t, 'USD'), 'data-rm-y-o': fmtYearOther(t, 'RM'), 'data-usd-y-o': fmtYearOther(t, 'USD') });
-const data = (t: Tier) => ({ 'data-name': t.name, 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD'), 'data-rows': JSON.stringify(t.rows), 'data-free': offerOn() && t.free ? t.free : '' });
+const data = (t: Tier) => ({ 'data-id': t.id, 'data-name': t.name, 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD'), 'data-rows': JSON.stringify(t.rows), 'data-free': offerOn() && t.free ? t.free : '' });
 ---
 <div class="pkbuilder" id="planpicker" hidden data-offer-ends={on ? offer.ends : undefined} data-offer-text={on ? offer.endsText : undefined} data-wa={site.whatsapp} data-mail={site.email} data-all={JSON.stringify(build.all.slice(0, 3))}>
   <div>
@@ -32,6 +32,8 @@ const data = (t: Tier) => ({ 'data-name': t.name, 'data-rm': fmt(t, 'RM'), 'data
     <div class="row"><span data-sum="cn"></span><b data-sum="cp"></b></div>
     <p class="pklater" data-sum="later" hidden></p>
     <ul class="pktick" data-sum="list"></ul>
+    {site.payments && <button class="btn payon-only" type="button" data-pay="" data-sum="pay" data-track="pay-plan">Pay and start</button>}
+    {site.payments && <p class="pkpaynote payon-only" data-sum="paynote">Secure payment by Stripe: card, FPX online banking or GrabPay.</p>}
     <a class="btn" href="/contact/" data-sum="send">Send this plan</a>
     <!-- Money-back promise seal (Suhen 2026-11-15): the live 3D "Rank Guard" (public/js/promise3d.js, .pmsm = small; Suhen 2026-11-16), with a picture of it until three.js has loaded. Exact promise words only. -->
     <div class="pkmb" id="promise">

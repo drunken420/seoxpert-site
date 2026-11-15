@@ -2,6 +2,7 @@
 // Package cards (website build and XpertRank), the RM or USD switch and the launch offer.
 // show="both" adds the Build / XpertRank switch; show="care" shows the care plans only.
 import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, yearly, type Tier } from '../data/packages';
+import { site } from '../config';
 interface Props { show?: 'both' | 'care'; pickHref?: string }
 const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
 const sets = show === 'care' ? [care] : [build, care];
@@ -74,7 +75,9 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           <div><span class="pktag">New</span><h3>{trial.name}</h3><p>{trial.short}.</p></div>
           <div class="pktside">
             <p class="pktprice"><span {...price(trial)}>{fmt(trial)}</span><small>for {trial.days} days</small></p>
-            <a class="btn" href="/contact/?need=trial" data-track="start-trial">Start your trial</a>
+            {site.payments && <a class="btn payon-only" href="/contact/?need=trial" data-pay="trial" data-track="pay-trial"><span>Pay <span {...price(trial)}>{fmt(trial)}</span> and start</span></a>}
+            <a class:list={['btn', site.payments && 'payoff-only']} href="/contact/?need=trial" data-track="start-trial">Start your trial</a>
+            {site.payments && <p class="pktpay payon-only">Secure payment by Stripe</p>}
           </div>
         </div>
       )}

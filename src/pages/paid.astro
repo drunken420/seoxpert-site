@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/page.css';
+import { site } from '../config';
+// After a Stripe payment (functions/api/checkout.js sends people here). Not for search engines.
+// The line under the heading follows what was paid (?kind=trial|xpertrank|build), filled in by the small script.
+---
+<Base title="Payment Received | SEOXpert Website Design" description="Thank you, your payment to SEOXpert went through. Stripe emails your receipt, and our team emails you the next step within one working day." path="/paid/" noindex>
+<main id="main">
+<section class="phero center band"><div class="wrap">
+  <p class="paidtick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></p>
+  <h1>Thank you, your payment went through.</h1>
+  <p class="lede" id="paidnext">Stripe has emailed your receipt. Our team will email you the next step within one working day.</p>
+  <p class="sub">Questions? Write to <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  <div class="cta-row"><a class="btn" href="/">Back to the homepage</a><a class="btn ghost" href="/blog/">Read our guides</a></div>
+</div></section>
+</main>
+<script is:inline>
+  (function () {
+    var k = (/[?&]kind=([a-z]+)/.exec(location.search) || [])[1], el = document.getElementById('paidnext');
+    var t = { trial: 'Your XpertRank Trial is booked. Stripe has emailed your receipt, and we will email you a link to set up your XpertInsight dashboard within one working day.',
+      xpertrank: 'Your XpertRank plan has started. Stripe has emailed your receipt, and we will email you within one working day to get your XpertInsight dashboard ready.',
+      build: 'Your website is paid and booked. Stripe has emailed your receipt, and we will email you within one working day to plan your website together.' }[k];
+    if (t && el) el.textContent = t;
+  })();
+</script>
+</Base>
