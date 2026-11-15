@@ -18,8 +18,9 @@ import { site } from '../config';
 <script is:inline>
   (function () {
     var k = (/[?&]kind=([a-z]+)/.exec(location.search) || [])[1], el = document.getElementById('paidnext');
-    var t = { trial: 'Your XpertRank Trial is booked. Stripe has emailed your receipt, and we will email you a link to set up your XpertInsight dashboard within one working day.',
-      xpertrank: 'Your XpertRank plan has started. Stripe has emailed your receipt, and we will email you within one working day to get your XpertInsight dashboard ready.',
+    // Trial and XpertRank: the XpertInsight invite is emailed straight after the payment (Suhen 2026-11-16, functions/api/stripe-webhook.js invite()).
+    var t = { trial: 'Your XpertRank Trial is booked. Stripe has emailed your receipt, and your invite to set up your XpertInsight dashboard is on its way to the same inbox in a few minutes.',
+      xpertrank: 'Your XpertRank plan has started. Stripe has emailed your receipt, and your invite to set up your XpertInsight dashboard is on its way to the same inbox in a few minutes.',
       build: 'Your website is paid and booked. Stripe has emailed your receipt, and we will email you within one working day to plan your website together.' }[k];
     if (t && el) el.textContent = t;
   })();

@@ -43,11 +43,30 @@ export function mail(ev) {
   return null;
 }
 
+/** Asks XpertInsight to invite the payer (insight.seoxpert.my/hooks/paid). Never throws: the payment email still goes out. */
+export async function invite(env, session, f = fetch) {
+  try {
+    const r = await f(`${env.INSIGHT_URL || 'https://insight.seoxpert.my'}/hooks/paid`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ session }), redirect: 'manual' });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.ok) return { ok: true, invited: j.invited, plan: j.plan };
+    if (j.already) return { already: true };
+    return { why: j.skip || j.error || (j.notes && j.notes[0]) || (r.status >= 300 && r.status < 400 ? 'the dashboard asked for a login: the /hooks Bypass is not set up yet' : `error ${r.status}`), plan: j.plan };
+  } catch (e) { return { why: e.message }; }
+}
+
 export async function onRequestPost({ request, env }) {
   const body = await request.text();
   if (!(await verify(body, request.headers.get('stripe-signature'), String(env.STRIPE_WEBHOOK_SECRET || '').trim()))) return new Response('bad signature', { status: 400 });
   let ev; try { ev = JSON.parse(body); } catch { return new Response('bad body', { status: 400 }); }
   const m = mail(ev);
+  // Trial and XpertRank for a website built elsewhere: XpertInsight sends the dashboard invite by itself (Suhen 2026-11-16,
+  // "Yes, automatic"). It asks Stripe about the session with its own key, so we only pass the id. Builds stay manual.
+  if (m && ev.type === 'checkout.session.completed' && ['trial', 'xpertrank'].includes((ev.data.object.metadata || {}).kind)) {
+    const r = await invite(env, ev.data.object.id);
+    m.next = r.ok ? `Done for you: ${r.invited} got their XpertInsight invite (${r.plan}). They set up their dashboard at /start/ and you get an email when it is ready. Next: choose their target keywords on the setup page.`
+      : r.already ? 'Their XpertInsight invite was already sent.'
+      : `The automatic XpertInsight invite did not go out (${r.why}). Send it on the setup page: "Let the client set it up" with ${r.plan || 'their plan'}.`;
+  }
   if (!m || !env.RESEND_API_KEY) return new Response('ok');
   const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1026">
     <p style="margin:0 0 6px;color:#7b18c1;font-weight:700;letter-spacing:.08em;font-size:12px">SEOXPERT PAYMENTS${ev.livemode ? '' : ' · TEST MODE'}</p>
