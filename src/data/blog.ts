@@ -200,7 +200,7 @@ ${careTable}
 <ul class="bcheck"><li>Does it load quickly, even away from Wi-Fi?</li><li>Can you read the text without zooming in?</li><li>Are buttons big enough to tap easily?</li><li>Can you call or message the business in one or two taps?</li></ul>
 <p>Google also offers a free tool called PageSpeed Insights that tests any page and explains what slows it down. Speed is part of <a href="/website-development/">website development</a>, and it is easiest to get right when a website is built for it from the start.</p>` },
       { id: 'planned-for-search', h: '5. It is planned for Google and AI search', html: `<p>A website nobody can find does not help your business. Ask how each page is planned: which searches it answers, what the title and headings say, and how the facts about your business are labelled for search engines and AI tools.</p>
-<p>If the answer is "we can do SEO later", be careful. Adding search after the design is finished often means rewriting pages and paying twice. We plan every page for Google and AI search before it is designed, using <a href="/ai-website-builder/">XpertCore, our own AI website builder</a>.</p>` },
+<p>If the answer is "we can do SEO later", be careful. Adding search after the design is finished often means rewriting pages and paying twice. We plan every page for Google and AI search before it is designed, guided by <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>.</p>` },
       { id: 'what-you-own', h: '6. You know what you will own', html: `<p>Ask these before you sign, whoever you work with:</p>
 <ul><li><b>The domain name:</b> whose name is it registered in, and who pays to renew it each year?</li>
 <li><b>Your content:</b> the words and photos made for your website.</li>
@@ -401,7 +401,7 @@ ${careTable}
       { id: 'does-it-work', h: 'Does AI SEO work?', html: `<p>It helps, with honest limits. Nobody can promise that an AI tool will name your business, because the companies that make those tools decide how they choose sources, and they change it often.</p>
 <p>What you can control is how clear, consistent and well structured your website is. The good news is that the same work also helps on Google, so nothing is wasted. Be careful with anyone who guarantees results in AI answers.</p>` },
       { id: 'other-names', h: 'Other names you may hear', html: `<p>AI SEO goes by several names. GEO means generative engine optimisation (also spelled generative engine optimization). AEO means answer engine optimisation. Some people say LLM optimisation, after the large language models behind the AI tools. They all describe the same idea: helping AI tools understand and use your content.</p>` },
-      { id: 'how-we-do-it', h: 'How we build it in', html: `<p>Every website we build is planned for Google and AI search before it is designed. <a href="/ai-website-builder/">XpertCore, our own AI website builder</a>, drafts the page plan, headings and answer first copy, and adds structured data and an AI ranking file. Then our experts check and refine every page.</p>
+      { id: 'how-we-do-it', h: 'How we build it in', html: `<p>Every website we build is planned for Google and AI search before it is designed. <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>, drafts the page plan, headings and answer first copy, and adds structured data and an AI ranking file. Then our experts check and refine every page.</p>
 <p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places.</p>` },
     ],
     faqs: [
@@ -411,7 +411,7 @@ ${careTable}
       { q: 'How can I see what AI tools say about my business?', a: 'Ask a few AI tools the questions your customers would ask, note any wrong or missing facts, and fix them on your website and Google profile.' },
       { q: 'Can you guarantee an AI tool will recommend my business?', a: 'No, and nobody honestly can. We make your website clear, well structured and easy to quote, which gives it the best chance.' },
     ],
-    cta: { pill: 'XpertCore', title: 'See how our AI builder plans every page', href: '/ai-website-builder/', label: 'How XpertCore works' },
+    cta: { pill: 'XpertCore', title: 'See how our AI SEO advisor guides every page', href: '/ai-seo-advisor/', label: 'How XpertCore works' },
   },
   {
     slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11',

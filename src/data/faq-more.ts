@@ -31,7 +31,7 @@ export const more: MoreFaq[] = [
   { topic: 'Prices and packages', q: 'Do I pay extra for website development?', a: 'No. Design and development are both included in every website design package. <a href="/website-development/">See what goes into the code</a>.' },
   // Your website
   { topic: 'Your website', q: 'How does a website project start?', a: 'With a short chat. You tell us about your business, XpertCore drafts the page plan and answer first copy, we design and refine every page by hand, and then your website goes live with the Google and AI setup in place. <a href="/website-design/">See how website design works</a>.' },
-  { topic: 'Your website', q: 'Do I need to use the AI builder myself?', a: 'No. XpertCore is our own AI core, and our team uses it for you. There is no tool for you to learn.' },
+  { topic: 'Your website', q: 'Do I need to use XpertCore myself?', a: 'No. XpertCore is our own AI SEO advisor, and our team uses it for you. There is no tool for you to learn.' },
   { topic: 'Your website', q: 'Does my website come with a blog?', a: `Yes. Every XpertForge website comes with its own blog, and blog posts do not count towards your pages. It starts with ${posts(starter)}, ${posts(business)} or ${posts(growth)} posts written at launch, depending on the package.` },
   { topic: 'Your website', q: 'Will my website work well on phones?', a: 'Yes. We keep pages light so they load quickly on phones, because most people will meet your business on a phone.' },
   { topic: 'Your website', q: 'Can customers contact me from the website?', a: 'Yes. Every package includes a contact page and a WhatsApp button, so customers can reach you.' },

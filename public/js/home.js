@@ -128,7 +128,7 @@
     return api;
   }
 })();
-/* the builder window types out what the AI builder produces */
+/* the builder window types out what XpertCore, our AI SEO advisor, plans */
 (function () {
   var body = document.getElementById('bbody'), tabs = [].slice.call(document.querySelectorAll('#btabs button')), stages = [].slice.call(document.querySelectorAll('#stages li')), bname = document.getElementById('bname'), bstat = document.getElementById('bstat');
   var nm = 'Your Business', cur = 0, chars = 0, docs, live = false, hold = 0;
