@@ -4,7 +4,7 @@ export interface Tier { id: string; name: string; rm: number; usd: number; /** p
 
 
 /** Launch offer: 1 year of free hosting and free XpertCare with every build, until this date (inclusive). Suhen 2026-11-13. */
-export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: '1 year of free high speed hosting, plus free XpertCare, with every website.', text: 'Every website gets 1 year of free high speed hosting. Starter also gets the 14 day XpertCare Trial, Business 2 months of XpertCare Basic and Growth 4 months of XpertCare Plus.' };
+export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: '1 year of free high speed cloud hosting, plus free XpertCare, with every website.', text: 'Every website gets 1 year of free high speed cloud hosting. Starter also gets the 14 day XpertCare Trial, Business 2 months of XpertCare Basic and Growth 4 months of XpertCare Plus.' };
 export const offerOn = () => new Date() < new Date('2027-02-01T00:00:00+08:00');
 
 /** Prices: today's launch prices until the offer ends, then the new prices (both from Suhen; never change without asking).
@@ -33,7 +33,7 @@ export const fmtYearNew = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money((cur === 
 
 export const care = {
   key: 'care', label: 'XpertCare monthly', unit: 'a month', allTitle: 'In every XpertCare plan',
-  all: ['High speed hosting included', 'Pay yearly, get 2 months free', 'Backups', 'Uptime watch', 'Security', 'Active checks every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'XpertInsight live report dashboard + monthly XpertRecap PDF'],
+  all: ['High speed cloud hosting included', 'Pay yearly, get 2 months free', 'Backups', 'Uptime watch', 'Security', 'Active checks every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'XpertInsight live report dashboard + monthly XpertRecap PDF'],
   tiers: [
     { id: 'basic', name: 'XpertCare Basic', rm: 99, usd: 24, rmNew: 199, usdNew: 49, for: 'Keep it healthy', short: '2 text or photo changes, 1 new blog post a month, 5 keywords tracked weekly, 3 AI answer questions checked monthly', rows: ['<b>2</b> text or photo changes', '<b>1</b> new blog post a month', '<b>5</b> keywords tracked weekly', '<b>3</b> AI answer questions checked monthly', 'Site check of up to <b>20</b> pages weekly', 'Refresh your dashboard <b>every 2 weeks</b>', 'Keyword results in <b>about 5 to 45 minutes</b>'] },
     { id: 'plus', name: 'XpertCare Plus', rm: 199, usd: 47, rmNew: 399, usdNew: 95, for: 'Keep it growing', hot: true, short: '4 text or photo changes, 2 new blog posts a month, 10 keywords tracked weekly, 5 AI answer questions checked monthly', rows: ['<b>4</b> text or photo changes', '<b>2</b> new blog posts a month', '<b>10</b> keywords tracked weekly', '<b>5</b> AI answer questions checked monthly', 'Site check of up to <b>50</b> pages weekly', 'Refresh your dashboard <b>every week</b>', 'Keyword results in <b>about 1 to 5 minutes</b>'] },
