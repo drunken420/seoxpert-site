@@ -126,6 +126,14 @@ pre.codecard{margin:0;overflow-x:auto}
 .pktick li b{color:var(--ink)}
 .pktick li::before{content:"";position:absolute;left:0;top:3px;width:20px;height:20px;border-radius:50%;background:var(--acc)}
 .pktick li::after{content:"";position:absolute;left:5px;top:8px;width:10px;height:10px;background:#fff;clip-path:polygon(14% 52%,0 66%,38% 100%,100% 22%,86% 8%,38% 72%)}
+/* what only bigger plans have: greyed, with a lock in place of the tick (Suhen 2026-11-15) */
+.pktick li.lk{color:#75697f}
+.pktick .sro{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.pktick li.lk::before{background:#ece4f5}
+.pktick li.lk::after{left:5px;top:7px;width:10px;height:12px;background:#75697f;clip-path:polygon(0 42%,15% 42%,15% 25%,30% 0,70% 0,85% 25%,85% 42%,100% 42%,100% 100%,0 100%,0 42%,32% 42%,68% 42%,68% 27%,60% 15%,40% 15%,32% 27%,32% 42%)}
+.pkcard.hot .pktick li.lk{color:#b9a8d2}
+.pkcard.hot .pktick li.lk::before{background:rgba(255,255,255,.14)}
+.pkcard.hot .pktick li.lk::after{background:#d9cbee}
 .pkcard.hot .pktick li,.pksum .pktick li{color:#d9cbee}
 .pkcard.hot .pktick li b,.pksum .pktick li b{color:#fff}
 .pkcard.hot .pktick li::before,.pksum .pktick li::before{background:var(--acc2)}

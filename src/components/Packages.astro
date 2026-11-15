@@ -58,7 +58,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
             {on && <p class="pkwas" data-pk-offer={offer.ends}>{S.key === 'care' ? 'Launch price for our first 20 XpertRank clients.' : 'Launch price.'} From 1 February 2027: <s><span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} {...(S.key === 'care' ? { 'data-rm-y': fmtYearNew(t, 'RM'), 'data-usd-y': fmtYearNew(t, 'USD') } : {})}>{fmtNew(t)}</span></s></p>}
             {S.key === 'care' && <p class="pkyear"><span class="m">or <span data-rm={fmtYear(t, 'RM')} data-usd={fmtYear(t, 'USD')}>{fmtYear(t)}</span> a year, {yearly.text}</span><span class="y">12 months for the price of {yearly.pay}</span></p>}
             {t.up && <p class="pkup">{t.up}</p>}
-            <ul class="pktick">{t.rows.map((r) => <li set:html={r} />)}</ul>
+            <ul class="pktick">{t.rows.map((r) => <li set:html={r} />)}{(t.locked || []).map((r) => <li class="lk"><span class="sro">Not in this plan: </span>{r}</li>)}</ul>
             {on && t.free && <p class="pkgift" data-pk-offer={offer.ends}>Launch offer: {t.free}</p>}
             <a class="btn" href={pickHref} data-pick={`${S.key}:${i}`}>Choose {t.name}</a>
           </article>
