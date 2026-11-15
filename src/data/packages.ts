@@ -53,7 +53,7 @@ export const care = {
 };
 
 /** XpertRank Trial: try XpertRank for 14 days (Suhen 2026-11-13: RM25 or US$5). The price after the launch offer is not decided; it stays RM25 until Suhen says otherwise. */
-export const trial: Tier & { days: number } = { id: 'trial', name: 'XpertRank Trial', rm: 25, usd: 5, rmNew: 25, usdNew: 5, days: 14, for: 'Try XpertRank first', short: 'XpertRank for 14 days, with your own XpertInsight dashboard, 5 keywords tracked, a technical SEO audit of up to 20 pages and 1 dashboard refresh. AI answer checks, the monthly PDF and the money-back promise come with the paid plans', rows: ['<b>14 days</b> of XpertRank', 'Your own <b>XpertInsight</b> dashboard', '<b>5</b> keywords tracked', 'Technical SEO audit of up to <b>20</b> pages', '<b>1</b> dashboard refresh', 'No AI answer checks or PDF download'] };
+export const trial: Tier & { days: number } = { id: 'trial', name: 'XpertRank Trial', rm: 25, usd: 5, rmNew: 25, usdNew: 5, days: 14, for: 'Try XpertRank first', short: 'XpertRank for 14 days, with your own XpertInsight dashboard, 5 keywords tracked, a technical SEO audit of up to 20 pages and 1 dashboard refresh. AI answer checks, the monthly PDF and the money-back promise come with the paid plans. Choose a paid XpertRank plan after your trial and the trial price comes off your first month', rows: ['<b>14 days</b> of XpertRank', 'Your own <b>XpertInsight</b> dashboard', '<b>5</b> keywords tracked', 'Technical SEO audit of up to <b>20</b> pages', '<b>1</b> dashboard refresh', 'No AI answer checks or PDF download'] };
 
 /** Structured data: the same names and RM prices people see on the page. */
 export const offersLd = (set: typeof build | typeof care) =>
