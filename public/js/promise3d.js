@@ -97,10 +97,9 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(w, h);
     renderer.outputEncoding = T.sRGBEncoding;
-    renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+    renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1; // bright and rich (Suhen 2026-11-15: "still looks dull, really enhance it")
     box.classList.add('on');
     box.appendChild(renderer.domElement);
-    if (!small) { var hint = document.createElement('span'); hint.className = 'pmhint'; hint.textContent = 'Drag to turn'; box.appendChild(hint); }
 
     var scene = new T.Scene();
     var cam = new T.PerspectiveCamera(30, w / h, 0.1, 100); cam.position.set(0, 0, small ? 8.4 : 11.8);
@@ -120,8 +119,10 @@
     var room = new T.CanvasTexture(rc); room.encoding = T.sRGBEncoding; room.mapping = T.EquirectangularReflectionMapping;
     var pm = new T.PMREMGenerator(renderer); scene.environment = pm.fromEquirectangular(room).texture; pm.dispose(); room.dispose();
 
-    scene.add(new T.AmbientLight(0xffffff, 0.12));
-    var key = new T.DirectionalLight(0xfff4dc, 0.9); key.position.set(4, 5, 8); scene.add(key);
+    scene.add(new T.AmbientLight(0xffffff, 0.28));
+    var key = new T.DirectionalLight(0xfff4dc, 1.35); key.position.set(4, 5, 8); scene.add(key);
+    var rimL = new T.DirectionalLight(0xffd9a0, 1.2); rimL.position.set(-6, 2, 3); scene.add(rimL); // a warm light from the left, so the edges glow as it turns
+    var fill = new T.PointLight(0xc58bff, 0.7, 14); fill.position.set(0, -3, 5); scene.add(fill);
     var sweep = new T.PointLight(0xfff2cf, 0, 9); scene.add(sweep); // the band of light that crosses the shield
 
     // Gold whose own colour runs from pale to deep across the shield, so even its flat faces have a sheen.
@@ -129,8 +130,8 @@
     gl.addColorStop(0, '#fff0b8'); gl.addColorStop(0.28, '#f7bd45'); gl.addColorStop(0.5, '#ffe08a'); gl.addColorStop(0.72, '#d9941f'); gl.addColorStop(1, '#ffd166');
     gg.fillStyle = gl; gg.fillRect(0, 0, 256, 256);
     var gt = new T.CanvasTexture(gc); gt.encoding = T.sRGBEncoding; gt.repeat.set(1 / W, 1 / H); gt.offset.set(0.5, -BOT / H);
-    var gold = new T.MeshStandardMaterial({ map: gt, metalness: 1, roughness: 0.16, envMapIntensity: 1.55 });
-    var goldEdge = new T.MeshStandardMaterial({ color: 0xe3a52e, metalness: 1, roughness: 0.26, envMapIntensity: 1.6 });
+    var gold = new T.MeshStandardMaterial({ map: gt, metalness: 1, roughness: 0.13, envMapIntensity: 1.85 });
+    var goldEdge = new T.MeshStandardMaterial({ color: 0xf0b63a, metalness: 1, roughness: 0.2, envMapIntensity: 2.2 });
 
     // The enamel: deep purple, lighter in the middle, with a fine engraved sunburst and rings under a clear coat.
     var ec = document.createElement('canvas'); ec.width = CW; ec.height = CH; var eg = ec.getContext('2d'), cx = X(0), cy = Y(0.1);
@@ -177,19 +178,19 @@
     // Behind the shield: a soft halo, slow light rays and a fine gold seal ring with tick marks.
     var glowTex = function (draw) { var c = document.createElement('canvas'); c.width = c.height = 1024; draw(c.getContext('2d')); var t = new T.CanvasTexture(c); t.anisotropy = aniso; return t; };
     var flat = function (size, z, tex, op) { var m = new T.Mesh(new T.PlaneGeometry(size, size), new T.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, blending: T.AdditiveBlending, opacity: op })); m.position.z = z; scene.add(m); return m; };
-    var halo = flat(6.6, -1.6, glowTex(function (g) { var r = g.createRadialGradient(512, 512, 0, 512, 512, 512); r.addColorStop(0, 'rgba(255,214,120,.5)'); r.addColorStop(0.4, 'rgba(190,110,255,.2)'); r.addColorStop(1, 'rgba(120,40,200,0)'); g.fillStyle = r; g.fillRect(0, 0, 1024, 1024); }), 1);
+    var halo = flat(6.6, -1.6, glowTex(function (g) { var r = g.createRadialGradient(512, 512, 0, 512, 512, 512); r.addColorStop(0, 'rgba(255,214,120,.8)'); r.addColorStop(0.4, 'rgba(190,110,255,.32)'); r.addColorStop(1, 'rgba(120,40,200,0)'); g.fillStyle = r; g.fillRect(0, 0, 1024, 1024); }), 1);
     var rays = flat(7.4, -2, glowTex(function (g) {
       g.translate(512, 512);
       for (var i = 0; i < 24; i++) { g.rotate(Math.PI * 2 / 24); var lg = g.createLinearGradient(0, 0, 0, 512); lg.addColorStop(0, 'rgba(255,225,150,.3)'); lg.addColorStop(1, 'rgba(255,225,150,0)'); g.fillStyle = lg; g.beginPath(); g.moveTo(0, 0); g.lineTo(-18 - (i % 3) * 10, 512); g.lineTo(18 + (i % 3) * 10, 512); g.fill(); }
       g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = 'destination-in';
       var f = g.createRadialGradient(512, 512, 0, 512, 512, 512); f.addColorStop(0, 'rgba(0,0,0,1)'); f.addColorStop(0.5, 'rgba(0,0,0,.55)'); f.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = f; g.fillRect(0, 0, 1024, 1024);
-    }), 0.5);
+    }), 0.9);
     var seal = flat(5.9, -0.9, glowTex(function (g) {
       g.translate(512, 512); g.strokeStyle = 'rgba(255,214,130,.85)';
       g.lineWidth = 3; g.beginPath(); g.arc(0, 0, 496, 0, Math.PI * 2); g.stroke();
       g.lineWidth = 1.5; g.beginPath(); g.arc(0, 0, 462, 0, Math.PI * 2); g.stroke();
       for (var i = 0; i < 120; i++) { g.rotate(Math.PI / 60); g.lineWidth = i % 5 ? 1.5 : 3; g.beginPath(); g.moveTo(0, i % 5 ? 470 : 466); g.lineTo(0, 488); g.stroke(); }
-    }), 0.5);
+    }), 0.85);
 
     // Sparkles: soft round dots in three groups that twinkle at different times, drifting around the shield.
     var sc = document.createElement('canvas'); sc.width = sc.height = 64; var sg = sc.getContext('2d'), sr = sg.createRadialGradient(32, 32, 0, 32, 32, 32);
@@ -239,7 +240,7 @@
       box.classList.add('used'); kick();
     }
     // the "How we check it" example (climb.js) turns the shield with a pulse when its keyword reaches the top 50
-    box.addEventListener('pm3d-pulse', function () { if (drag) return; goal += Math.PI; pulseAt = now(); flipAt = now() + 6; kick(); });
+    box.addEventListener('pm3d-pulse', function () { if (drag) return; pulseAt = now(); kick(); });
     box.addEventListener('pointerup', drop); box.addEventListener('pointercancel', drop);
     box.addEventListener('pointerleave', function () { tx = ty = 0; });
 
@@ -247,15 +248,19 @@
     function draw(t) {
       mx += (tx - mx) * 0.06; my += (ty - my) * 0.06;
       if (!drag) {
-        if (live && t > flipAt && t - touched > 10) { goal += Math.PI; flipAt = t + 6; pulseAt = t; } // flips by itself every 6 seconds, unless someone just turned it
-        rot += (goal - rot) * 0.07;
+        // It turns round by itself all the time (Suhen 2026-11-15: "make it turn automatically"), a full turn about every
+        // 8 seconds, with a gold pulse each time a side faces front. After a drag or tap it settles for a moment, then spins on.
+        if (live && t - touched > 2.5) {
+          var before = Math.floor((rot + Math.PI / 2) / Math.PI); rot += 0.013; goal = rot;
+          if (Math.floor((rot + Math.PI / 2) / Math.PI) !== before) pulseAt = t;
+        } else rot += (goal - rot) * 0.07;
       }
-      holder.rotation.y = rot + (drag ? 0 : Math.sin(t * 0.55) * 0.26 * live + mx * 0.35);
+      holder.rotation.y = rot + (drag ? 0 : mx * 0.35);
       holder.rotation.x = Math.sin(t * 0.4) * 0.05 * live - my * 0.3;
       holder.position.y = Math.sin(t * 1.1) * 0.07 * live;
-      rays.rotation.z = t * 0.05 * live; seal.rotation.z = -t * 0.04 * live; halo.material.opacity = 0.85 + Math.sin(t * 1.3) * 0.15 * live;
+      rays.rotation.z = t * 0.05 * live; seal.rotation.z = -t * 0.04 * live; halo.material.opacity = 1;  halo.scale.setScalar(1 + Math.sin(t * 1.3) * 0.05 * live);
       // every 6 seconds a band of light crosses the shield from left to right
-      var c = (t % 6) / 1.6; sweep.intensity = live && c < 1 ? Math.sin(c * Math.PI) * 2.4 : 0; sweep.position.set(-3 + c * 6, 1.2 - c * 1.4, 2.4);
+      var c = (t % 3.2) / 1.4; sweep.intensity = live && c < 1 ? Math.sin(c * Math.PI) * 3.6 : 0; sweep.position.set(-3 + c * 6, 1.2 - c * 1.4, 2.4);
       groups.forEach(function (G) {
         for (var j = 0; j < G.seed.length; j++) { var s = G.seed[j], a = s[0] + t * s[3] * live; G.pos[j * 3] = Math.cos(a) * s[1]; G.pos[j * 3 + 2] = Math.sin(a) * s[1] * 0.45 - 0.9; G.pos[j * 3 + 1] = s[2] + Math.sin(t * 0.7 * live + j) * 0.1; }
         G.geo.attributes.position.needsUpdate = true; G.mat.opacity = live ? 0.3 + 0.6 * Math.max(0, Math.sin(t * 1.6 + G.ph)) : 0.6;
