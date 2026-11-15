@@ -570,7 +570,7 @@ pre.codecard{margin:0;overflow-x:auto}
 @media (prefers-reduced-motion:reduce){.cpick{transition:none}}
 /* The "Money-back promise included" chip is a link to the promise under the cards (Suhen 2026-11-15) */
 a.pkmbadge{text-decoration:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
-a.pkmbadge::after{content:"";width:7px;height:7px;margin-left:2px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-2px);opacity:.7}
+a.pkmbadge:hover span,a.pkmbadge:focus-visible span{text-decoration:underline;text-underline-offset:3px}
 a.pkmbadge:hover,a.pkmbadge:focus-visible{transform:translateY(-1px);box-shadow:0 6px 16px -6px rgba(168,116,0,.55)}
 .pkpromise.glow{animation:pkpglow 1.6s ease}
 @keyframes pkpglow{0%,100%{box-shadow:inset 0 0 0 2px var(--acc),0 0 0 0 rgba(242,193,78,0)}30%{box-shadow:inset 0 0 0 2px var(--acc),0 0 0 8px rgba(242,193,78,.6)}}
@@ -619,3 +619,25 @@ a.pkmbadge:hover,a.pkmbadge:focus-visible{transform:translateY(-1px);box-shadow:
 .pmcq{flex:1 1 auto}
 @media (max-width:520px){.pmcrow{gap:10px}.pmcpos small{font-size:10px}}
 .pmwho{margin:14px 0 0;font-size:15px;color:#cbbbe2;max-width:36em}
+/* Package cards line up row by row (Suhen 2026-11-15 "adjust alignment and position of text and boxes"):
+   each card spans the same number of rows of the card grid and shares them (subgrid), so every heading, price,
+   "up" line, list, launch offer box and button sits at the same height in every card. */
+@supports (grid-template-rows:subgrid){
+  .pkcards{row-gap:0}
+  .pkcard{display:grid;grid-row:span var(--rows);grid-template-rows:subgrid;row-gap:14px;align-content:start}
+  .pkcard>.pkbadge{grid-row:1}
+  .pkcard .pkup0{margin:0}
+  .pkcard .pktick{align-self:start}
+  .pkcard .pkgift{align-self:end}
+  .pkcard .btn{margin-top:4px;align-self:end}
+  @media (max-width:900px){.pkcard{margin-bottom:22px}}
+}
+.pkgift{display:flex;align-items:center;min-height:100%}
+/* "In every XpertForge build": the title on top, then the extras in tidy columns with a tick each */
+.pkall{grid-template-columns:1fr;gap:16px;padding:24px 28px}
+.pkall h3{font-size:20px}
+.pkall ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 14px}
+.pkall li{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:14px;line-height:1.35;background:var(--bg);color:var(--ink,#1d1030)}
+.pkall li::before{content:"";flex:none;width:18px;height:18px;margin-top:-1px;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center/12px no-repeat}
+@media (max-width:1100px){.pkall ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.pkall ul{grid-template-columns:1fr}.pkall{padding:20px}}
