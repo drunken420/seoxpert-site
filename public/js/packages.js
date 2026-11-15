@@ -1,4 +1,4 @@
-// Packages: RM or USD switch, Build / XpertCare switch and the "build your plan" picker.
+// Packages: RM or USD switch, Build / XpertRank switch and the "build your plan" picker.
 // The page is complete without this file: every price is already in the HTML in RM.
 (function () {
   var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -6,7 +6,7 @@
   try { cur = localStorage.getItem('sx-cur') || (/^Asia\/(Kuala_Lumpur|Kuching)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone) ? 'RM' : 'USD'); } catch (e) {}
   if (cur !== 'USD') cur = 'RM';
   var key = function () { return cur === 'USD' ? 'usd' : 'rm'; };
-  var bill = 'month'; // XpertCare: pay monthly, or yearly with 2 months free
+  var bill = 'month'; // XpertRank: pay monthly, or yearly with 2 months free
 
   // Launch offer: hide it by itself once the last day has passed.
   // After the offer, the new price (kept under the launch price) takes its place, until the site is next rebuilt.
@@ -16,14 +16,14 @@
   all('[data-pk-offer]').forEach(function (el) { var end = new Date(el.getAttribute('data-pk-offer') + 'T00:00:00+08:00').getTime() + 864e5, left = Math.ceil((end - Date.now()) / 864e5); if (left <= 0) { el.hidden = true; return; }
     var tag = el.querySelector('[data-pk-left]'); if (tag) { tag.textContent = left === 1 ? 'Last day' : left + ' days left'; tag.hidden = false; } });
 
-  // Build / XpertCare switch (cards)
+  // Build / XpertRank switch (cards)
   all('[data-pk]').forEach(function (pk) {
     var kind = pk.querySelector('[data-pk-kind]'); if (!kind) return;
     var sets = all('.pkset', pk), btns = all('button', kind);
     function show(k) { btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.k === k)); }); sets.forEach(function (s) { s.hidden = s.dataset.set !== k; }); }
     kind.hidden = false; pk.classList.add('switched');
     btns.forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.k); }); });
-    show(location.hash === '#xpertcare' ? 'care' : 'build');
+    show(/^#xpert(rank|care)$/.test(location.hash) ? 'care' : 'build');
     pk.showKind = show;
   });
 
@@ -84,7 +84,7 @@
     if (save) try { localStorage.setItem('sx-cur', c); } catch (e) {}
   }
   all('[data-pk-curbar]').forEach(function (el) { el.hidden = false; });
-  // Pay monthly or yearly (XpertCare)
+  // Pay monthly or yearly (XpertRank)
   var billBtns = all('[data-pk-bill] button');
   all('[data-pk-bill]').forEach(function (el) { el.hidden = false; });
   billBtns.forEach(function (b) { b.addEventListener('click', function () { bill = b.dataset.b; billBtns.forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.b === bill)); }); document.documentElement.classList.toggle('pk-yearly', bill === 'year'); setCur(cur); }); });

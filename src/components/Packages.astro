@@ -1,6 +1,6 @@
 ---
-// Package cards (website build and XpertCare), the RM or USD switch and the launch offer.
-// show="both" adds the Build / XpertCare switch; show="care" shows the care plans only.
+// Package cards (website build and XpertRank), the RM or USD switch and the launch offer.
+// show="both" adds the Build / XpertRank switch; show="care" shows the care plans only.
 import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, yearly, type Tier } from '../data/packages';
 interface Props { show?: 'both' | 'care'; pickHref?: string }
 const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
@@ -13,7 +13,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
     {show === 'both' && (
       <div class="pkseg" role="group" aria-label="Package type" data-pk-kind hidden>
         <button type="button" aria-pressed="true" data-k="build">XpertForge build</button>
-        <button type="button" aria-pressed="false" data-k="care">XpertCare monthly</button>
+        <button type="button" aria-pressed="false" data-k="care">XpertRank monthly</button>
       </div>
     )}
     <div class="pkcur" hidden data-pk-curbar><span>Show prices in</span>
@@ -58,14 +58,14 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
         </div>
       )}
       {S.key === 'care' && (
-        <div class="pkpromise rv"><span class="pkptag">Our promise</span><p><b>If none of your tracked keywords reaches Google's top 100 within 3 months, your next month of XpertCare is free.</b> We check every week, and you can see it in your XpertInsight dashboard.</p></div>
+        <div class="pkpromise rv"><span class="pkptag">Our promise</span><p><b>If none of your tracked keywords reaches Google's top 100 within 3 months, your next month of XpertRank is free.</b> We check every week, and you can see it in your XpertInsight dashboard.</p></div>
       )}
       {S.key === 'care' && (
         <div class="pkxi rv">
           <div class="pkxitext">
-            <span class="pkxitag">Included with every XpertCare plan</span>
+            <span class="pkxitag">Included with every XpertRank plan</span>
             <h3>Your own <span class="xp">XpertInsight</span> dashboard account</h3>
-            <p>Every XpertCare plan comes with your own login to XpertInsight, our live website report dashboard. No extra fee.</p>
+            <p>Every XpertRank plan comes with your own login to XpertInsight, our live website report dashboard. No extra fee.</p>
             <ul>
               <li>Live data from Google (visitors, leads, searches, speed and uptime), refreshed every day</li>
               <li>Your keyword positions on Google, checked every week</li>
@@ -76,10 +76,10 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
             </ul>
             <a class="more" href="/website-report-dashboard/">See the XpertInsight dashboard</a>
           </div>
-          <div class="pkxiimg"><img src="/img/xi-view-overview-720.webp" srcset="/img/xi-view-overview-720.webp 720w, /img/xi-view-overview.webp 1440w" sizes="(max-width:900px) 92vw, 520px" width="1440" height="900" loading="lazy" decoding="async" alt="The XpertInsight dashboard overview, showing visitors, keyword positions and site health for the Sample Bakery" /></div>
+          <div class="pkxiimg"><img src="/img/xi-screen-overview-720.webp" srcset="/img/xi-screen-overview-720.webp 720w, /img/xi-screen-overview.webp 1440w" sizes="(max-width:900px) 92vw, 520px" width="1440" height="900" loading="lazy" decoding="async" alt="The XpertInsight dashboard overview, showing visitors, keyword positions and site health for the Sample Bakery" /></div>
         </div>
       )}
-      {S.key === 'care' && <p class="pknote rv"><span class="xp sm">XpertCare</span> is only for websites we build with XpertForge. High speed cloud hosting is included.</p>}
+      {S.key === 'care' && <p class="pknote rv"><span class="xp sm">XpertRank</span> is only for websites we build with XpertForge. High speed cloud hosting is included.</p>}
       <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
     </div>
   ))}

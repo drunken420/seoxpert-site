@@ -167,7 +167,7 @@
   demo('name', function (el, kick) {
     var cv = el.querySelector('canvas'), cx = cv.getContext('2d'), inp = el.querySelector('input');
     var W = 0, H = 0, dpr = 1, P = [], mx = -9, my = -9, api = { dirty: true };
-    var names = ['SEOXpert', 'XpertForge', 'XpertCore', 'XpertCare', 'XpertLab', 'Your brand'], ni = 0, mine = false, next = 0;
+    var names = ['SEOXpert', 'XpertForge', 'XpertCore', 'XpertRank', 'XpertLab', 'Your brand'], ni = 0, mine = false, next = 0;
     function targets() {
       var o = document.createElement('canvas'); o.width = W; o.height = H; var c = o.getContext('2d');
       var word = (inp.value || '').trim() || 'Hello', fs = Math.min(H * 0.42, (W * 0.86) / Math.max(word.length, 3) * 1.55);
@@ -483,7 +483,7 @@
         else { mark(g, 540 * u, 120 * u, 190 * u, dark ? '#b06cff' : '#9a35e8', dark ? '#d9b8ff' : '#b06cff'); y += 120 * u; }
         // the three names
         g.fillStyle = acc; g.font = '600 ' + 11 * u + 'px ' + bfont; g.fillText('THREE NAMES, ONE WEBSITE', p, y);
-        var cards = [['XpertForge', 'Website build'], ['XpertCore', 'Our AI core'], ['XpertCare', 'Monthly care']], cw = phone ? w - 2 * p : (w - 2 * p - 32 * u) / 3, ch = phone ? 82 * u : 130 * u;
+        var cards = [['XpertForge', 'Website build'], ['XpertCore', 'Our AI core'], ['XpertRank', 'Monthly care']], cw = phone ? w - 2 * p : (w - 2 * p - 32 * u) / 3, ch = phone ? 82 * u : 130 * u;
         cards.forEach(function (c, k) { var cx0 = phone ? p : p + k * (cw + 16 * u), cy = y + 18 * u + (phone ? k * (ch + 12 * u) : 0), hot = k === 1;
           rr(g, cx0, cy, cw, ch, 14 * u); g.fillStyle = hot ? (dark ? '#3d0a66' : '#2a0d47') : card; g.fill(); if (!hot) { g.strokeStyle = line; g.lineWidth = 1.5 * u; g.stroke(); }
           g.fillStyle = hot ? '#ffffff' : ink; g.font = '700 ' + 17 * u + 'px ' + font; g.fillText(c[0], cx0 + 18 * u, cy + ch - (phone ? 40 : 46) * u);

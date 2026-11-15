@@ -196,7 +196,7 @@
   .xiseg button{font-size:13px;padding:11px 14px}
 }
 @media (prefers-reduced-motion:reduce){.xiph *,.xiseg *{animation:none!important}.xishots img{transition:none}}
-/* "No extra fee": the three XpertCare plans, with the keywords each one tracks */
+/* "No extra fee": the three XpertRank plans, with the keywords each one tracks */
 .xiinc{align-items:center}
 .xiplans{display:grid;gap:14px}
 .xiplan{position:relative;padding:20px 22px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px var(--line),0 30px 60px -46px rgba(61,10,102,.55);display:grid;grid-template-columns:1fr auto;gap:6px 18px;align-items:center;transition:transform .3s,box-shadow .3s}

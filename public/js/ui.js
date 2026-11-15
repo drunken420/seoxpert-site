@@ -50,7 +50,7 @@
   var STOP = 'a an and are as at be by can do does for from how i in is it me my of on or our that the this to we what when who will with you your about have has get any there much myself offer offers provide sell need want also just like'.split(' ');
   // words that mean the same thing for matching
   var SAME = { price: 'cost', prices: 'cost', costs: 'cost', pricing: 'cost', fee: 'cost', fees: 'cost', charge: 'cost', rm: 'cost', ringgit: 'cost', cheap: 'cost', expensive: 'cost', budget: 'cost',
-    host: 'hosting', hosted: 'hosting', server: 'hosting', maintain: 'care', maintenance: 'care', xpertcare: 'care', support: 'care', looked: 'care', monthly: 'care', month: 'care',
+    host: 'hosting', hosted: 'hosting', server: 'hosting', maintain: 'care', maintenance: 'care', xpertcare: 'care', xpertrank: 'care', support: 'care', looked: 'care', monthly: 'care', month: 'care',
     rank: 'google', ranking: 'google', rankings: 'google', seo: 'google', search: 'google', chatgpt: 'ai', gemini: 'ai', perplexity: 'ai', llm: 'ai', builder: 'xpertcore',
     redo: 'redesign', revamp: 'redesign',  revisions: 'revision', edit: 'revision', edits: 'revision', promise: 'guarantee', guaranteed: 'guarantee', mobile: 'phone', responsive: 'phone', schema: 'structured', markup: 'structured', update: 'change', updates: 'change',
     animation: '3d', animations: '3d', effects: '3d', demos: '3d', xpertlab: '3d', usd: 'dollar', discount: 'yearly', annual: 'yearly', year: 'yearly',
