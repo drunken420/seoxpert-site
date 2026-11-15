@@ -568,3 +568,14 @@ pre.codecard{margin:0;overflow-x:auto}
 .cside{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 @media (max-width:900px){.cpicks{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.cpick{transition:none}}
+/* The "Money-back promise included" chip is a link to the promise under the cards (Suhen 2026-11-15) */
+a.pkmbadge{text-decoration:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+a.pkmbadge::after{content:"";width:7px;height:7px;margin-left:2px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-2px);opacity:.7}
+a.pkmbadge:hover,a.pkmbadge:focus-visible{transform:translateY(-1px);box-shadow:0 6px 16px -6px rgba(168,116,0,.55)}
+.pkpromise.glow{animation:pkpglow 1.6s ease}
+@keyframes pkpglow{0%,100%{box-shadow:inset 0 0 0 2px var(--acc),0 0 0 0 rgba(242,193,78,0)}30%{box-shadow:inset 0 0 0 2px var(--acc),0 0 0 8px rgba(242,193,78,.6)}}
+@media (prefers-reduced-motion:reduce){a.pkmbadge{transition:none}.pkpromise.glow{animation:none}}
+/* The Trial box has its own button (Suhen 2026-11-15: "why can't trial be selected?") */
+.pktside{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.pktside .btn{white-space:nowrap}
+@media (max-width:700px){.pktside{align-items:stretch;width:100%}.pktside .pktprice{justify-content:flex-start}}

@@ -115,4 +115,14 @@
       pm.classList.remove('glow'); void pm.offsetWidth; pm.classList.add('glow');
     });
   });
+  // The "Money-back promise included" chip on every XpertRank card goes to the promise under the cards (Suhen 2026-11-15)
+  all('a[href="#money-back"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var pm = document.getElementById('money-back'); if (!pm) return;
+      e.preventDefault();
+      pm.scrollIntoView({ behavior: reduce, block: 'center' });
+      if (history.replaceState) history.replaceState(null, '', '#money-back');
+      pm.classList.remove('glow'); void pm.offsetWidth; pm.classList.add('glow');
+    });
+  });
 })();
