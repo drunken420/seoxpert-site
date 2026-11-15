@@ -35,6 +35,19 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
   {sets.map((S) => (
     <div class="pkset" data-set={S.key}>
       {show === 'both' && <h3 class="pksetname">{S.label}</h3>}
+      {S.key === 'care' && (
+        <div class="pkwhy rv">
+          <p class="pkwhyh"><span class="xp sm">XpertRank</span> What you get that most website care plans don't</p>
+          <ul>
+            <li><b>Your own live dashboard</b><span>XpertInsight shows visitors, leads, Google searches, speed and uptime, refreshed every day.</span></li>
+            <li><b>Seen by AI, not just Google</b><span>We check whether ChatGPT, Gemini, Perplexity and Google's AI answers mention you, every month.</span></li>
+            <li><b>Keyword positions every week</b><span>See exactly where you rank on Google for the words your customers search.</span></li>
+            <li><b>New highly rankable content</b><span>Blog posts written with XpertCore, our AI core, and checked by experts, every month.</span></li>
+            <li><b>Checked every few days</b><span>We find problems and fix them, plus SEO and AI search optimisation when needed.</span></li>
+            <li><b>Money-back promise</b><span>No tracked keyword in Google's top 100 in your first month? That month is refunded.</span></li>
+          </ul>
+        </div>
+      )}
       {S.key === 'care' && <div class="pkseg pkbill rv" role="group" aria-label="How to pay" data-pk-bill hidden><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>}
       <div class={'pkcards' + (S.tiers.length === 4 ? ' n4' : '')}>
         {S.tiers.map((t, i) => (
@@ -58,7 +71,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
         </div>
       )}
       {S.key === 'care' && (
-        <div class="pkpromise rv"><span class="pkptag">Our promise</span><p><b>If none of your tracked keywords reaches Google's top 100 within 3 months, your next month of XpertRank is free.</b> We check every week, and you can see it in your XpertInsight dashboard.</p></div>
+        <div class="pkpromise rv"><span class="pkptag">Money-back promise</span><p><b>If none of your tracked keywords reaches Google's top 100 in your first month, we refund that month of XpertRank in full.</b> We check every week, and you can see every position in your XpertInsight dashboard.</p></div>
       )}
       {S.key === 'care' && (
         <div class="pkxi rv">
