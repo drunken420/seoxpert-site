@@ -12,7 +12,7 @@ import Packages from '../components/Packages.astro';
 import { site, whatsappLink, talkLabel, areaLd } from '../config';
 import { care, offersLd } from '../data/packages';
 const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertRank, a monthly website maintenance service with expert SEO for websites built by SEOXpert, with high speed cloud hosting included: updates, backups, fixes, new content and SEO and AI search optimisation.', offers: offersLd(care) }];
-const pf = pageFaq(['What does XpertRank include?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
+const pf = pageFaq(['What does XpertRank include?', 'What is the difference between the XpertRank plans?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
 ---
 <Base title="Website Maintenance Malaysia with Expert SEO | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description="XpertRank is a monthly website maintenance service in Malaysia with expert SEO, for websites built by SEOXpert: hosted, updated, backed up and growing." path="/website-maintenance/" crumb="Website maintenance" extraLd={[...extraLd, pf.ld]}>
 <main id="main">

@@ -218,3 +218,10 @@
     var id = decodeURIComponent(a.getAttribute('href').slice(1)); if (id) setTimeout(function () { align(id); }, 0);
   });
 })();
+
+// Phones: the chat button waits until the visitor scrolls a little, so it never sits on the opening words (Suhen 2026-11-16 polish).
+(function () {
+  var root = document.documentElement, on = false;
+  function check() { var s = window.scrollY > 240; if (s !== on) { on = s; root.classList.toggle('scrolled', s); } }
+  check(); window.addEventListener('scroll', check, { passive: true });
+})();

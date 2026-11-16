@@ -8,7 +8,9 @@ const later = (t: Tier, yr: boolean) => on ? { 'data-rm-n': fmtNew(t, 'RM'), 'da
 import { site } from '../config';
 // prices for a website built elsewhere, used when "I already have a website" is picked
 const other = (t: Tier) => ({ 'data-rm-o': fmtOther(t, 'RM'), 'data-usd-o': fmtOther(t, 'USD'), 'data-rm-y-o': fmtYearOther(t, 'RM'), 'data-usd-y-o': fmtYearOther(t, 'USD') });
-const data = (t: Tier) => ({ 'data-id': t.id, 'data-name': t.name, 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD'), 'data-rows': JSON.stringify(t.rows), 'data-free': offerOn() && t.free ? t.free : '' });
+const data = (t: Tier) => ({ 'data-id': t.id, 'data-kw': t.kw, 'data-name': t.name, 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD'), 'data-rows': JSON.stringify(t.rows), 'data-free': offerOn() && t.free ? t.free : '' });
+/** The picker shows the target keywords on their own line (Suhen 2026-11-16: the main difference between plans), so the small text leaves them out. */
+const noKw = (t: string) => t.replace(/, \d+ target keywords optimised for Google and AI search \(LLM\) and tracked weekly/, '');
 ---
 <div class="pkbuilder" id="planpicker" hidden data-offer-ends={on ? offer.ends : undefined} data-offer-text={on ? offer.endsText : undefined} data-wa={site.whatsapp} data-mail={site.email} data-all={JSON.stringify(build.all.slice(0, 3))}>
   <div>
@@ -19,11 +21,11 @@ const data = (t: Tier) => ({ 'data-id': t.id, 'data-name': t.name, 'data-rm': fm
       </div>
       <p class="pkquote">Bigger website, an online shop or bookings? <a href="/contact/" data-track="get-a-quote">Get a quote</a></p>
     </div>
-    <div class="pkstep rv"><h3>2. Add XpertRank, our expert SEO service</h3><p>Our SEO experts work on your website every month: new highly rankable content, keyword tracking, fixes and AI search optimisation, so it keeps climbing on Google and in AI answers. <a class="pkmbchip" href="#promise">Backed by our money-back promise</a> Websites we build get the lower price and free high speed cloud hosting, and the XpertRank plan can be as big as the website. Already have a website? XpertRank works on it too, at its own price.</p>
+    <div class="pkstep rv"><h3>2. Add XpertRank, our expert SEO service</h3><p>Our SEO experts work on your website every month: target keywords optimised for Google and AI search, new highly rankable content and fixes, so it keeps climbing on Google and in AI answers. <a class="pkmbchip" href="#promise">Backed by our money-back promise</a> Websites we build get the lower price and free high speed cloud hosting, and the XpertRank plan can be as big as the website. Already have a website? XpertRank works on it too, at its own price.</p>
       <div class="pkseg pkbill" role="group" aria-label="How to pay" data-pk-bill><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>
       <div class="pkpick four" data-pick-set="care">
         <button type="button" aria-pressed="false" data-i="-1"><b>No SEO plan</b><span data-rm="RM0" data-usd="$0">RM0</span><small>I will do my own SEO</small></button>
-        {care.tiers.map((t, i) => <button type="button" aria-pressed={i === 1 ? 'true' : 'false'} data-i={i} {...data(t)} data-rm-y={fmtYear(t, 'RM')} data-usd-y={fmtYear(t, 'USD')} {...later(t, true)} {...other(t)}><b>{t.name}</b><span data-rm={fmt(t, 'RM')} data-usd={fmt(t, 'USD')} data-rm-y={fmtYear(t, 'RM')} data-usd-y={fmtYear(t, 'USD')} {...other(t)}>{fmt(t)}</span>{on && <i class="pkn">From 1 Feb 2027: <s><span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} data-rm-y={fmtYearNew(t, 'RM')} data-usd-y={fmtYearNew(t, 'USD')}>{fmtNew(t)}</span></s></i>}<small>{t.short}</small>{i > 0 && <em hidden>Needs {build.tiers[Math.min(i, build.tiers.length - 1)].name}{i < 2 ? ' or Growth' : ''}</em>}</button>)}
+        {care.tiers.map((t, i) => <button type="button" aria-pressed={i === 1 ? 'true' : 'false'} data-i={i} {...data(t)} data-rm-y={fmtYear(t, 'RM')} data-usd-y={fmtYear(t, 'USD')} {...later(t, true)} {...other(t)}><b>{t.name}</b><span data-rm={fmt(t, 'RM')} data-usd={fmt(t, 'USD')} data-rm-y={fmtYear(t, 'RM')} data-usd-y={fmtYear(t, 'USD')} {...other(t)}>{fmt(t)}</span>{on && <i class="pkn">From 1 Feb 2027: <s><span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} data-rm-y={fmtYearNew(t, 'RM')} data-usd-y={fmtYearNew(t, 'USD')}>{fmtNew(t)}</span></s></i>}<strong class="pkkwp"><b>{t.kw}</b> target keywords</strong><small>{noKw(t.short)}</small>{i > 0 && <em hidden>Needs {build.tiers[Math.min(i, build.tiers.length - 1)].name}{i < 2 ? ' or Growth' : ''}</em>}</button>)}
       </div>
     </div>
   </div>
@@ -33,8 +35,7 @@ const data = (t: Tier) => ({ 'data-id': t.id, 'data-name': t.name, 'data-rm': fm
     <p class="pklater" data-sum="later" hidden></p>
     <ul class="pktick" data-sum="list"></ul>
     {site.payments && <button class="btn payon-only" type="button" data-pay="" data-sum="pay" data-track="pay-plan">Pay and start</button>}
-    {site.payments && <p class="pkpaynote payon-only" data-sum="paynote">Secure payment by Stripe: card, FPX online banking or GrabPay.</p>}
-    <a class="btn" href="/contact/" data-sum="send">Send this plan</a>
+    <a class="btn" href="/contact/" data-sum="send">Talk to us</a>
     <!-- Money-back promise seal (Suhen 2026-11-15): the live 3D "Rank Guard" (public/js/promise3d.js, .pmsm = small; Suhen 2026-11-16), with a picture of it until three.js has loaded. Exact promise words only. -->
     <div class="pkmb" id="promise">
       <div class="pm3d pmsm" aria-hidden="true"><div class="pmfall"><img src="/img/rank-guard-360.webp" width="360" height="360" alt="" loading="lazy" decoding="async" /></div></div>

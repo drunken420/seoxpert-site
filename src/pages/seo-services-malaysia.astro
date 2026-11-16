@@ -18,14 +18,14 @@ import { care, fmt, offersLd, offerOn } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic, , , elite] = care.tiers;
 const promise = "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.";
-const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'Is XpertRank an SEO service?', 'How is XpertRank different from an SEO agency?', 'Is there a money-back promise?', 'Can you guarantee first page on Google?', 'How long before I see results?', 'Can you look after a website built by someone else?']);
+const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'What is the difference between the XpertRank plans?', 'Is XpertRank an SEO service?', 'How is XpertRank different from an SEO agency?', 'Is there a money-back promise?', 'Can you guarantee first page on Google?', 'How long before I see results?', 'Can you look after a website built by someone else?']);
 const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRank', serviceType: 'Search engine optimisation (SEO)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/seo-services-malaysia/`, areaServed: areaLd, description: 'XpertRank, our expert SEO service for websites built by SEOXpert: keyword tracking, on page and technical SEO, new blog posts every month, AI search (LLM) optimisation and a live XpertInsight dashboard, with high speed cloud hosting included.', offers: offersLd(care) }, pf.ld];
 ---
 <Base title="SEO Services Malaysia: XpertRank Expert SEO | SEOXpert" image={`/img/${pictures["seo-services-malaysia"].file}.jpg`} description={`SEO services in Malaysia from ${fmt(basic)} a month. XpertRank tracks your keywords, writes new content and optimises for Google and AI search, with a money-back promise.`} path="/seo-services-malaysia/" crumb="SEO services" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="SEO services" brand="XpertRank" art="seo" crumb="SEO services" word="SEO">
   <Fragment slot="title">SEO services in Malaysia, <em>built into your website</em>.</Fragment>
-  <Fragment slot="lede">XpertRank is our expert SEO service. We track your keywords, write new content every month, fix what holds you back and optimise for Google and AI search, from {fmt(basic)} a month, backed by a money-back promise for websites we build.</Fragment>
+  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back, from {fmt(basic)} a month, backed by a money-back promise for websites we build.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#plans">See XpertRank plans</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 
@@ -34,7 +34,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
   <h2 class="rv">Everything Google and AI search look for, every month.</h2>
   <p class="sub rv">SEO (search engine optimisation, also spelled search engine optimization) is the work of helping Google and AI tools find, understand and show your website. With XpertRank, our SEO company in {site.country} does that work for you, for businesses in {areaText}.</p>
   <div class="grid3">
-    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Keyword research and tracking</h3><p>We find the words your customers type, then check your Google position for each one every week, in your live XpertInsight dashboard.</p></div>
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Target keywords, optimised and tracked</h3><p>We find the words your customers type, optimise your website for them on Google and AI search (LLM), and check your Google position for each one every week. {basic.kw} target keywords with {basic.name.replace('XpertRank ', '')}, up to {elite.kw} with {elite.name.replace('XpertRank ', '')}.</p></div>
     <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>On page SEO</h3><p>Titles, descriptions, headings and answer first copy, tuned for what people search. Every page has one clear topic.</p></div>
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Technical SEO</h3><p>Fast pages, clean code and structured data, because we built the website ourselves. See our <a href="/website-development/">website development</a>.</p></div>
     <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>Highly rankable content</h3><p>New blog posts every month, from 1 on {basic.name.replace('XpertRank ', '')} to 8 on {elite.name.replace('XpertRank ', '')}, written with XpertCore and checked by our experts.</p></div>

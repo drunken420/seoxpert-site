@@ -20,7 +20,7 @@ export async function onRequestPost({ request, env }) {
   if (clip(form.get('company'), 200)) return json({ ok: true });
 
   const name = clip(form.get('name'), 80), email = clip(form.get('email'), 120).toLowerCase();
-  const site = clip(form.get('site'), 200), message = clip(form.get('message'), 3000);
+  const site = clip(form.get('site'), 200), biz = clip(form.get('biz'), 120), message = clip(form.get('message'), 3000);
   const need = NEEDS.includes(form.get('need')) ? form.get('need') : 'Not sure yet';
   if (!name || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ ok: false, error: 'missing' }, 400);
 
@@ -40,7 +40,7 @@ export async function onRequestPost({ request, env }) {
     body: JSON.stringify(payload),
   });
   const first = name.split(/\s+/)[0];
-  const rows = [['Name', name], ['Email', email], ['Website', site || 'None given'], ['Needs', need]];
+  const rows = [['Name', name], ['Company', biz || 'Not given'], ['Email', email], ['Website', site || 'None given'], ['Needs', need]];
 
   // 1. To us. Reply-To is the visitor, so pressing Reply answers them.
   const inbox = await send({

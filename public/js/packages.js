@@ -56,7 +56,7 @@
     sum('bn').textContent = own ? 'Your own website' : b.dataset.name + ' website'; sum('bp').innerHTML = own ? '' : bp;
     var ends = box.dataset.offerEnds, live = ends && Date.now() < new Date(ends + 'T00:00:00+08:00').getTime() + 864e5, lt = sum('later');
     if (lt) { lt.hidden = !live || own; if (live && !own) lt.innerHTML = 'Launch prices until ' + box.dataset.offerText + '. From 1 February 2027: <s>' + b.dataset[k + 'N'] + '</s>' + (c ? ' and <s>' + c.dataset[(yr ? k + 'YN' : k + 'N')] + '</s> ' + per : '') + '.'; }
-    sum('cn').textContent = c ? c.dataset.name : 'No SEO plan'; sum('cp').innerHTML = c ? cp + ' <small>' + per + '</small>' : (cur === 'USD' ? '$0' : 'RM0');
+    sum('cn').innerHTML = c ? c.dataset.name + (c.dataset.kw ? '<em class="pksumkw">' + c.dataset.kw + ' target keywords</em>' : '') : 'No SEO plan'; // keywords = the main difference (Suhen 2026-11-16) sum('cp').innerHTML = c ? cp + ' <small>' + per + '</small>' : (cur === 'USD' ? '$0' : 'RM0');
     var rows = (b.dataset.free ? ['<b>Launch offer:</b> ' + b.dataset.free] : []).concat(JSON.parse(b.dataset.rows)).concat(c ? JSON.parse(c.dataset.rows) : []).concat(own ? [] : JSON.parse(box.dataset.all)).concat(c ? ['Monthly Google + AI visibility report'] : []).concat(c && yr ? ['<b>Paid yearly:</b> 2 months free'] : []);
     sum('list').innerHTML = rows.map(function (r) { return '<li>' + r + '</li>'; }).join('');
     var msg = own ? 'Hello SEOXpert, I already have a website and would like ' + c.dataset.name + ' (' + cp + ' ' + per + (yr ? ', paid yearly' : '') + ').'
@@ -64,17 +64,14 @@
     // Pay and start (only when online payments are switched on, site.payments in src/config.ts; Suhen 2026-11-16).
     // A new website is paid in full before we start; its XpertRank plan starts after launch, through a link we send.
     // Keeping your own website starts XpertRank at once, charged every month or year.
-    var pay = sum('pay'), note = sum('paynote');
+    var pay = sum('pay');
     if (pay) {
       if (own) { pay.dataset.pay = c.dataset.id; pay.dataset.bill = bill; pay.innerHTML = 'Pay ' + cp + ' and start'; }
       else { pay.dataset.pay = b.dataset.id; delete pay.dataset.bill; pay.innerHTML = 'Pay ' + bp + ' and start'; }
-      if (note) note.textContent = (own ? 'XpertRank is charged automatically every ' + (yr ? 'year' : 'month') + ' by card. '
-        : 'Your website is paid in full before we start.' + (c ? ' ' + c.dataset.name + ' starts after launch' + (b.dataset.free ? ', after your free launch months' : '') + ', and we send its payment link then.' : '') + ' ')
-        + 'Secure payment by Stripe' + (own ? '.' : ': card, FPX online banking or GrabPay.');
     }
     var a = sum('send');
-    if (box.dataset.wa) { a.href = 'https://wa.me/' + box.dataset.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Send this plan on WhatsApp'; }
-    else if (box.dataset.mail) { a.href = 'mailto:' + box.dataset.mail + '?subject=' + encodeURIComponent('My SEOXpert plan') + '&body=' + encodeURIComponent(msg); a.textContent = 'Send this plan by email'; }
+    if (box.dataset.wa) { a.href = 'https://wa.me/' + box.dataset.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Talk to us'; }
+    else if (box.dataset.mail) { a.href = 'mailto:' + box.dataset.mail + '?subject=' + encodeURIComponent('My SEOXpert plan') + '&body=' + encodeURIComponent(msg); a.textContent = 'Talk to us'; }
   }
   if (box) {
     box.hidden = false;
@@ -150,5 +147,18 @@
       if (history.replaceState) history.replaceState(null, '', '#money-back');
       pm.classList.remove('glow'); void pm.offsetWidth; pm.classList.add('glow');
     });
+  });
+})();
+
+// Phones: the swipe dots under the package cards follow the card in view, and the Recommended card is shown first (Suhen 2026-11-16).
+(function () {
+  if (!window.matchMedia('(max-width:700px)').matches) return;
+  document.querySelectorAll('.pkcards').forEach(function (row) {
+    var dots = row.nextElementSibling; if (!dots || !dots.classList.contains('pkswipe')) return;
+    var cards = row.querySelectorAll('.pkcard'), hot = row.querySelector('.pkcard.hot');
+    function mark() { var x = row.scrollLeft, best = 0, d = 1e9; cards.forEach(function (c, i) { var e = Math.abs(c.offsetLeft - row.offsetLeft - x - parseFloat(getComputedStyle(row).paddingLeft) + 16); if (e < d) { d = e; best = i; } }); dots.querySelectorAll('i').forEach(function (n, i) { n.classList.toggle('on', i === best); }); }
+    row.addEventListener('scroll', function () { window.requestAnimationFrame(mark); }, { passive: true });
+    if (hot) row.scrollLeft = hot.offsetLeft - row.offsetLeft - parseFloat(getComputedStyle(row).paddingLeft);
+    mark();
   });
 })();

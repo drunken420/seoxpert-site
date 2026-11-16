@@ -47,6 +47,16 @@ export function item(id, cur, bill) {
   return null;
 }
 
+/** The boxes Stripe Checkout shows under the email: name, company and website. Keys stay the same for the payment email. */
+export function fields(kind) {
+  const box = (key, label, optional) => ({ key, type: 'text', optional: String(optional), label: { type: 'custom', custom: label } });
+  return {
+    0: box('name', 'Your full name', false),
+    1: box('company', 'Company or business name', false),
+    2: kind === 'build' ? box('website', 'Current website, if you have one', true) : box('website', 'Your website address', false),
+  };
+}
+
 /** Are the pay buttons on? On seoxpert.my only with a live key (sk_live_...), so real visitors never meet Stripe's test
  *  mode; on previews (*.pages.dev) a test key is enough, so we can try a payment with Stripe's test card first.
  *  PAYMENTS=off in the Cloudflare settings turns them off everywhere. Nothing needs rebuilding when the keys change. */
@@ -82,7 +92,9 @@ export async function onRequestPost({ request, env }) {
     line_items: { 0: { quantity: 1, price_data: { currency: cur === 'USD' ? 'usd' : 'myr', unit_amount: it.amount, product_data: { name: it.name, description: it.text }, ...(it.interval ? { recurring: { interval: it.interval } } : {}) } } },
     success_url: `${origin}/paid/?item=${encodeURIComponent(meta.item)}&kind=${it.kind}`,
     cancel_url: origin + back,
-    custom_fields: { 0: { key: 'website', type: 'text', optional: 'false', label: { type: 'custom', custom: it.kind === 'build' ? 'Business name' : 'Your website address' } } },
+    // Stripe always asks for the email. We also ask for the name, the company and the website (Suhen 2026-11-16);
+    // a new build may not have a website yet, so there it is optional. Stripe allows 3 custom fields, labels up to 50 letters.
+    custom_fields: fields(it.kind),
     phone_number_collection: { enabled: 'true' },
     allow_promotion_codes: 'true', // e.g. a code that takes the Trial price off the first month
     metadata: meta,

@@ -7,6 +7,7 @@ interface Props { show?: 'both' | 'care'; pickHref?: string }
 const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
 const sets = show === 'care' ? [care] : [build, care];
 const on = offerOn();
+const maxKw = Math.max(...care.tiers.map((t) => t.kw || 0));
 const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD') });
 ---
 <div class="pk" data-pk>
@@ -41,7 +42,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           <ul>
             <li><b>Your own live dashboard</b><span>XpertInsight puts visitors, leads, Google searches, speed, uptime, and your domain and SSL renewal dates in one place, refreshed every day.</span></li>
             <li><b>Seen by AI, not just Google</b><span>We check whether ChatGPT, Gemini, Perplexity and Google's AI answers mention you, every month.</span></li>
-            <li><b>Keyword positions every week</b><span>See exactly where you rank on Google for the words your customers search.</span></li>
+            <li><b>Target keywords, every week</b><span>We optimise your website for the words your customers search, on Google and AI search (LLM), and show where you rank every week.</span></li>
             <li><b>New highly rankable content</b><span>Blog posts written with XpertCore, our AI core, and checked by experts, every month.</span></li>
             <li><b>Checked every few days</b><span>We find problems and fix them, plus SEO and AI search optimisation when needed.</span></li>
             <li><b>Money-back promise</b><span>On websites we build: if none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.</span></li>
@@ -55,7 +56,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
         {S.tiers.map((t, i) => (
           // Every card has the same rows (empty ones where a card has no "up" line or gift), so headings, prices, lists,
           // gifts and buttons line up across the row (CSS subgrid; Suhen 2026-11-15 "tidy it up").
-          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i};--rows:${4 + (on ? 1 : 0) + (S.key === 'care' ? 2 : 0) + (S.tiers.some((x) => x.up) ? 1 : 0) + 1 + (on && S.tiers.some((x) => x.free) ? 1 : 0)}`}>
+          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i};--rows:${4 + (on ? 1 : 0) + (S.key === 'care' ? 3 : 0) + (S.tiers.some((x) => x.up) ? 1 : 0) + 1 + (on && S.tiers.some((x) => x.free) ? 1 : 0)}`}>
             {t.hot && <span class="pkbadge">Recommended</span>}
             <h3>{t.name}</h3>
             <p class="pkfor">{t.for}</p>
@@ -63,21 +64,30 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
             {on && <p class="pkwas" data-pk-offer={offer.ends}>{S.key === 'care' ? 'Launch price for our first 20 XpertRank clients.' : 'Launch price.'} From 1 February 2027: <s><span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} {...(S.key === 'care' ? { 'data-rm-y': fmtYearNew(t, 'RM'), 'data-usd-y': fmtYearNew(t, 'USD') } : {})}>{fmtNew(t)}</span></s></p>}
             {S.key === 'care' && <p class="pkyear"><span class="m">or <span data-rm={fmtYear(t, 'RM')} data-usd={fmtYear(t, 'USD')}>{fmtYear(t)}</span> a year, {yearly.text}</span><span class="y">12 months for the price of {yearly.pay}</span></p>}
             {S.key === 'care' && <a class="pkmbadge" href="#money-back" data-track="promise-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span>Money-back promise on our builds</span></a>}
-            {t.up ? <p class="pkup">{t.up}</p> : S.tiers.some((x) => x.up) && <p class="pkup0" aria-hidden="true"></p>}
-            <ul class="pktick">{t.rows.map((r) => <li set:html={r} />)}{(t.locked || []).map((r) => <li class="lk"><span class="sro">Not in this plan: </span>{r}</li>)}</ul>
+            {/* Target keywords are the main difference between the XpertRank plans (Suhen 2026-11-16), so each card leads with them, with a meter against Elite. */}
+            {t.kw && <div class="pkkw"><p><b>{t.kw}</b><span>target keywords<small>optimised for Google and AI search (LLM), tracked weekly</small></span></p><i aria-hidden="true" style={`--w:${Math.round((t.kw / maxKw) * 100)}%`}></i></div>}
+            {t.up ? <p class="pkup">{t.up}</p> : t.start ? <p class="pkup pkstart">{t.start}</p> : S.tiers.some((x) => x.up) && <p class="pkup0" aria-hidden="true"></p>}
+            <ul class="pktick">{(t.kw ? t.rows.slice(1) : t.rows).map((r) => <li set:html={r} />)}{(t.locked || []).map((r) => <li class="lk"><span class="sro">Not in this plan: </span>{r}</li>)}</ul>
             {on && t.free ? <p class="pkgift" data-pk-offer={offer.ends}>Launch offer: {t.free}</p> : on && S.tiers.some((x) => x.free) && <p class="pkup0" aria-hidden="true"></p>}
             <a class="btn" href={pickHref} data-pick={`${S.key}:${i}`}>Choose {t.name}</a>
           </article>
         ))}
       </div>
-      {S.key === 'care' && (
+      <div class="pkswipe" aria-hidden="true">{S.tiers.map((t, i) => <i class:list={[t.hot ? 'on' : i === 0 && !S.tiers.some((x) => x.hot) && 'on']} />)}</div>
+      {/* The Trial sits under the care cards, and on /packages/ under the build cards too, so it is never missed
+          (Suhen 2026-11-16: "no trial option on the packages page"). */}
+      {(S.key === 'care' || show === 'both') && (
         <div class="pktrial rv">
-          <div><span class="pktag">New</span><h3>{trial.name}</h3><p>{trial.short}.</p></div>
+          <div><span class="pktag">New</span><h3>{trial.name}</h3>
+            {/* What the Trial includes as short ticks instead of a long sentence (Suhen 2026-11-16 polish); the last row is what it leaves out. */}
+            <ul class="pktrows">{trial.rows.map((r, i) => <li class:list={[i === trial.rows.length - 1 && 'no']} set:html={r} />)}</ul>
+            <p>Choose a paid XpertRank plan after your trial and the trial price comes off your first month.</p></div>
           <div class="pktside">
             <p class="pktprice"><span {...price(trial)}>{fmt(trial)}</span><small>for {trial.days} days</small></p>
             {site.payments && <a class="btn payon-only" href="/contact/?need=trial" data-pay="trial" data-track="pay-trial"><span>Pay <span {...price(trial)}>{fmt(trial)}</span> and start</span></a>}
             <a class:list={['btn', site.payments && 'payoff-only']} href="/contact/?need=trial" data-track="start-trial">Start your trial</a>
-            {site.payments && <p class="pktpay payon-only">Secure payment by Stripe</p>}
+            {/* A quiet trust line (Suhen 2026-11-16: "remove it unless it's a good thing, then enhance it"): lock, Stripe, the ways to pay. */}
+            {site.payments && <p class="pktpay payon-only"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg><span>Secure checkout by Stripe</span><span class="pkways"><i>Card</i><i>FPX</i><i>GrabPay</i></span></p>}
           </div>
         </div>
       )}
