@@ -35,15 +35,15 @@ export function form(obj, pre = '', out = new URLSearchParams()) {
 export function item(id, cur, bill) {
   const usd = cur === 'USD', live = offerOn();
   const now = (t) => (usd ? (live ? t.usd : t.usdNew) : (live ? t.rm : t.rmNew));
-  if (id === 'trial') return { kind: 'trial', name: trial.name, text: `${trial.days} days of XpertRank with your own XpertInsight dashboard`, amount: now(trial) * 100, mode: 'payment' };
+  if (id === 'trial') return { kind: 'trial', pid: 'seoxpert-trial', name: trial.name, text: `${trial.days} days of XpertRank with your own XpertInsight dashboard`, amount: now(trial) * 100, mode: 'payment' };
   const c = care.tiers.find((t) => t.id === id);
   if (c) {
     const month = usd ? c.usdOther : c.rmOther; // online = a website built elsewhere (no launch price, no hosting, no money-back promise)
     const yr = bill === 'year';
-    return { kind: 'xpertrank', name: `${c.name} (${c.for})`, text: `For a website built elsewhere, paid ${yr ? `yearly (12 months for the price of ${yearly.pay})` : 'monthly'}. No free hosting or money-back promise.`, amount: month * (yr ? yearly.pay : 1) * 100, mode: 'subscription', interval: yr ? 'year' : 'month' };
+    return { kind: 'xpertrank', pid: `seoxpert-xpertrank-${c.id}`, name: `${c.name} (${c.for})`, text: `For a website built elsewhere, paid ${yr ? `yearly (12 months for the price of ${yearly.pay})` : 'monthly'}. No free hosting or money-back promise.`, amount: month * (yr ? yearly.pay : 1) * 100, mode: 'subscription', interval: yr ? 'year' : 'month' };
   }
   const b = build.tiers.find((t) => t.id === id);
-  if (b && BUILD_PAY === 'full') return { kind: 'build', name: b.name, text: `${b.short}. Paid in full before we start.`, amount: now(b) * 100, mode: 'payment' };
+  if (b && BUILD_PAY === 'full') return { kind: 'build', pid: `seoxpert-build-${b.id}`, name: b.name, text: `${b.short}. Paid in full before we start.`, amount: now(b) * 100, mode: 'payment' };
   return null;
 }
 
@@ -89,7 +89,7 @@ export async function onRequestPost({ request, env }) {
   const meta = { item: String(body.item), kind: it.kind, cur, bill: it.interval || 'once' };
   const session = {
     mode: it.mode,
-    line_items: { 0: { quantity: 1, price_data: { currency: cur === 'USD' ? 'usd' : 'myr', unit_amount: it.amount, product_data: { name: it.name, description: it.text }, ...(it.interval ? { recurring: { interval: it.interval } } : {}) } } },
+    line_items: { 0: { quantity: 1, price_data: { currency: cur === 'USD' ? 'usd' : 'myr', unit_amount: it.amount, product: it.pid, ...(it.interval ? { recurring: { interval: it.interval } } : {}) } } },
     success_url: `${origin}/paid/?item=${encodeURIComponent(meta.item)}&kind=${it.kind}`,
     cancel_url: origin + back,
     // Stripe always asks for the email. We also ask for the name, the company and the website (Suhen 2026-11-16);
@@ -102,7 +102,16 @@ export async function onRequestPost({ request, env }) {
     // and XpertInsight stops that plan after its first month, so nobody is charged later.
     ...(it.mode === 'payment' ? { customer_creation: 'always', payment_intent_data: { metadata: meta } } : { subscription_data: { metadata: meta }, payment_method_collection: 'if_required' }),
   };
-  const r = await fetch(`${env.STRIPE_API || STRIPE}/checkout/sessions`, { method: 'POST', headers: { Authorization: `Bearer ${keyOf(env)}`, 'content-type': 'application/x-www-form-urlencoded' }, body: form(session) });
+  // Each package is a fixed Stripe product (it.pid), so a free test code made for one package (XpertInsight team home)
+  // only works on that package. The XpertInsight dashboard makes these products, with the same name, when the first
+  // code for a package is made. Until then (or if this key may not use them) we send the name and text ourselves.
+  const send = (body) => fetch(`${env.STRIPE_API || STRIPE}/checkout/sessions`, { method: 'POST', headers: { Authorization: `Bearer ${keyOf(env)}`, 'content-type': 'application/x-www-form-urlencoded' }, body: form(body) });
+  let r = await send(session);
+  if (!r.ok && r.status < 500) {
+    const pd = session.line_items[0].price_data;
+    delete pd.product; pd.product_data = { name: it.name, description: it.text };
+    r = await send(session);
+  }
   const s = await r.json().catch(() => ({}));
   if (!r.ok || !s.url) return json({ ok: false, error: 'stripe', detail: s.error && s.error.message }, 502);
   return json({ ok: true, url: s.url });
