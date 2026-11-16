@@ -55,7 +55,7 @@ export function content(d) {
     pass: free ? pass : '', reach,
     tiles: [[String(trial.days), 'days'], [String(kw), 'keywords tracked'], [num(trial.rows[3]), 'pages audited']],
     steps: [invite, 'In the setup, add our robot email to your Google Search Console and Google Analytics, as the page shows you. Nothing else to install.', `Your dashboard fills in with your visitors, Google searches, site health, speed and your ${kw} keywords.`, free ? 'Like it? Choose a paid XpertRank plan on seoxpert.my at any time.' : `Choose a paid XpertRank plan before your trial ends and the ${d.paid} you paid comes off your first month.`],
-    incTitle: 'Your trial includes', inc: trial.rows, cta: ['See XpertRank plans', `${SITE}/packages/#xpertrank`],
+    incTitle: 'Your trial includes', inc: trial.rows.filter((r) => !/^No /i.test(plain(r))), cta: ['See XpertRank plans', `${SITE}/packages/#xpertrank`],
   };
   if (kind === 'build') return {
     pic: t.id, subject: free ? `A personal invite from our founder: ${t.name}` : `Your ${t.name} website is booked`,
@@ -74,7 +74,7 @@ export function content(d) {
   if (kind === 'upgrade') return {
     pic: t.id, subject: free ? `A personal invite from our founder: ${t.name}, free for ${GUEST_DAYS} days` : `You are now on ${t.name}`,
     head: free ? 'you are personally invited' : `you are now on ${t.name}`,
-    lead: free ? guest(`use ${t.name}`) + ' Your XpertInsight dashboard has already switched to it.' : `Thank you for upgrading. Your XpertInsight dashboard has switched to ${t.name}, ${t.for.toLowerCase()} for your website.`,
+    lead: free ? guest(`use ${t.name}`) + ' Your XpertInsight dashboard has already switched to it.' : `Thank you for upgrading. Your XpertInsight dashboard has switched to ${t.name}: ${t.for} for your website.`,
     pass: free ? pass : '', reach: free ? reach : member, tiles: careTiles,
     steps: ['Open your XpertInsight dashboard. Your plan shows everything that is new.', `We add your extra target keywords with you: ${kw} in total, optimised for Google and AI search (LLM) and tracked weekly.`, work],
     billing, manage, hosting: d.built === 'us' ? 'High speed cloud hosting included, as we built your website.' : '',
@@ -128,7 +128,9 @@ ${c.reach ? `<p style="margin:18px 0 0;padding:14px 16px;border-radius:12px;back
 <table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px"><tr><td valign="middle" style="padding-right:12px"><img src="${SITE}/apple-touch-icon.png" width="44" height="44" alt="SEOXpert" style="display:block;width:44px;height:44px;border-radius:50%"></td><td style="font-size:14.5px;line-height:1.45;color:#3a2f48">${d.free ? 'Glad to have you as my guest,' : 'Thank you for your trust,'}<br><b>The Founder</b>, SEOXpert<br><span style="color:#786c88;font-size:13px">Just reply to this email to reach me.</span></td></tr></table>
 </td></tr>
 <tr><td style="padding:18px 32px 26px;border-top:1px solid #efe6f8;font-size:13px;color:#786c88">SEOXpert · Websites built to rank on Google and AI · <a href="${SITE}" style="color:#7b18c1">seoxpert.my</a>${d.kind === 'build' ? '' : ` · <a href="${INSIGHT}/welcome/" style="color:#7b18c1">XpertInsight</a>`}${d.free ? '' : '<br>Stripe emails your receipt separately.'}</td></tr>
-</table></td></tr></table></body></html>`;
+</table></td></tr></table></body></html>`
+    // mail apps do not pass the font down into table cells, so every cell names it (without this the text shows in a serif font)
+    .replace(/<td([^>]*?) style="/g, '<td$1 style="font-family:Arial,Helvetica,sans-serif;');
   const text = [`Hi ${d.first}, ${c.head}.`, '', plain(c.lead), '', ...summary.map((r) => `${r[0]}: ${r[1]}`), ...(c.pass ? [c.pass] : []), ...(c.billing ? [`${c.billing} ${c.manage}`] : []), ...(c.offer ? ['', c.offer] : []), '', 'What happens next', ...c.steps.map((s, i) => `${i + 1}. ${plain(s)}`), ...(c.cta ? ['', `${c.cta[0]}: ${c.cta[1]}`] : []), '', c.incTitle, ...c.inc.map((r) => `- ${plain(r)}`), ...(c.hosting ? ['', c.hosting] : []), ...(c.reach ? ['', c.reach] : []), '', d.free ? 'Glad to have you as my guest,' : 'Thank you for your trust,', 'The Founder, SEOXpert', SITE].join('\n');
   return { to: d.email, subject: c.subject, html, text };
 }
