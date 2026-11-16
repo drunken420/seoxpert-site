@@ -96,9 +96,11 @@ export async function onRequestPost({ request, env }) {
     // a new build may not have a website yet, so there it is optional. Stripe allows 3 custom fields, labels up to 50 letters.
     custom_fields: fields(it.kind),
     phone_number_collection: { enabled: 'true' },
-    allow_promotion_codes: 'true', // e.g. a code that takes the Trial price off the first month
+    allow_promotion_codes: 'true', // e.g. a code that takes the Trial price off the first month, or a free test code
     metadata: meta,
-    ...(it.mode === 'payment' ? { customer_creation: 'always', payment_intent_data: { metadata: meta } } : { subscription_data: { metadata: meta } }),
+    // A free test code (made on the XpertInsight team home) takes 100% off the first payment: then Stripe asks for no card,
+    // and XpertInsight stops that plan after its first month, so nobody is charged later.
+    ...(it.mode === 'payment' ? { customer_creation: 'always', payment_intent_data: { metadata: meta } } : { subscription_data: { metadata: meta }, payment_method_collection: 'if_required' }),
   };
   const r = await fetch(`${env.STRIPE_API || STRIPE}/checkout/sessions`, { method: 'POST', headers: { Authorization: `Bearer ${keyOf(env)}`, 'content-type': 'application/x-www-form-urlencoded' }, body: form(session) });
   const s = await r.json().catch(() => ({}));
