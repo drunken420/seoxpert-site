@@ -15,7 +15,8 @@ import { build, care, trial, yearly, offerOn } from '../../src/data/packages.ts'
 
 /** A founder's invite (free code) and the Trial both run this long. Keep matching GUEST_DAYS in xpertinsight lib/stripe.js. */
 export const GUEST_DAYS = 14;
-export const FOUNDER = 'Suhen';
+// Suhen 2026-11-16: "dont put my name just founder". The emails never carry a person's name.
+export const FOUNDER = 'The founder of SEOXpert';
 const SITE = 'https://seoxpert.my', INSIGHT = 'https://insight.seoxpert.my';
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const plain = (s) => String(s).replace(/<[^>]+>/g, '');
@@ -44,11 +45,11 @@ export function content(d) {
   const reach = 'Feel free to reach out at any time: for an extra dashboard refresh, to report a bug, or to share an idea to make it better. Reply to this email or press Report in your dashboard. I read every message.';
   // paying customers get the same direct line, said as a member perk (Suhen 2026-11-16: "make paid customers feel special too")
   const member = 'As a paying member you have a direct line to me. Need a free extra dashboard refresh, found a bug, or have an idea to make it better? Feel free to reach out: reply to this email or press Report in your dashboard. I read every message.';
-  const guest = (what) => `I am ${FOUNDER}, the founder of SEOXpert, and I am personally inviting you to ${what}, free for ${GUEST_DAYS} days, as my guest.`;
+  const guest = (what) => `I am the founder of SEOXpert, and I am personally inviting you to ${what}, free for ${GUEST_DAYS} days, as my guest.`;
   const pass = `Nothing is charged and no card is needed. Your invite runs until ${d.ends} and then stops by itself.`;
   const careTiles = [[String(kw), 'target keywords'], [num(t.rows[1]), 'SEO blog posts a month'], [num(t.rows[3]), 'AI search questions']];
   if (kind === 'trial') return {
-    pic: 'trial', subject: free ? `${FOUNDER} invited you to try XpertRank, free for ${GUEST_DAYS} days` : 'Your XpertRank Trial has started',
+    pic: 'trial', subject: free ? `A personal invite from our founder: try XpertRank, free for ${GUEST_DAYS} days` : 'Your XpertRank Trial has started',
     head: free ? 'you are personally invited' : 'your XpertRank Trial has started',
     lead: free ? guest(`try XpertRank${d.site ? ` on ${esc(d.site)}` : ''}`) + ' You get your own XpertInsight dashboard with real numbers from your website.' : `Thank you for trying XpertRank${d.site ? ` for ${esc(d.site)}` : ''}. For the next ${trial.days} days you have your own XpertInsight dashboard with real numbers from your website.`,
     pass: free ? pass : '', reach,
@@ -57,9 +58,9 @@ export function content(d) {
     incTitle: 'Your trial includes', inc: trial.rows, cta: ['See XpertRank plans', `${SITE}/packages/#xpertrank`],
   };
   if (kind === 'build') return {
-    pic: t.id, subject: free ? `${FOUNDER} invited you: ${t.name}` : `Your ${t.name} website is booked`,
+    pic: t.id, subject: free ? `A personal invite from our founder: ${t.name}` : `Your ${t.name} website is booked`,
     head: free ? 'you are personally invited' : `your ${t.name} website is booked`,
-    lead: free ? `I am ${FOUNDER}, the founder of SEOXpert. Thank you for trying our ${t.name} checkout as my guest.` : `Thank you${d.company ? `, ${esc(d.company)}` : ''}! Your ${t.name} website is paid in full, so we can start. We are glad to build it with you.`,
+    lead: free ? `I am the founder of SEOXpert. Thank you for trying our ${t.name} checkout as my guest.` : `Thank you${d.company ? `, ${esc(d.company)}` : ''}! Your ${t.name} website is paid in full, so we can start. We are glad to build it with you.`,
     pass: free ? 'Nothing is charged. This is an invite order, so I will contact you myself before any work starts.' : '', reach: free ? 'Found a bug while ordering, or have an idea to make it better? Feel free to reach out: just reply to this email. I read every message.' : 'As our customer you have a direct line to me. A question, a change of mind or an idea for your website? Feel free to reach out: just reply to this email. I read every message.',
     tiles: [[(t.short.match(/^\d+/) || [''])[0], 'pages in total'], [num(t.rows[2]), 'revision rounds'], ['30', 'days of free fixes']],
     steps: free ? ['I will email you to ask what you would like to do next.'] : ['Our team emails you shortly to plan your pages, words and pictures with you.', 'XpertCore, our own AI SEO advisor, guides our team on what to plan, write and mark up on every page, then our experts check it.', `You see your design and words before launch, with ${num(t.rows[2])} revision rounds.`, 'We launch your website, ready for Google and AI search, and set up the extras below.'],
@@ -71,7 +72,7 @@ export function content(d) {
   const manage = free ? '' : 'Change your card, see invoices or cancel at any time from Your plan, Manage billing, in your dashboard.';
   const open = ['Open your dashboard', `${INSIGHT}/welcome/`];
   if (kind === 'upgrade') return {
-    pic: t.id, subject: free ? `${FOUNDER} invited you to ${t.name}, free for ${GUEST_DAYS} days` : `You are now on ${t.name}`,
+    pic: t.id, subject: free ? `A personal invite from our founder: ${t.name}, free for ${GUEST_DAYS} days` : `You are now on ${t.name}`,
     head: free ? 'you are personally invited' : `you are now on ${t.name}`,
     lead: free ? guest(`use ${t.name}`) + ' Your XpertInsight dashboard has already switched to it.' : `Thank you for upgrading. Your XpertInsight dashboard has switched to ${t.name}, ${t.for.toLowerCase()} for your website.`,
     pass: free ? pass : '', reach: free ? reach : member, tiles: careTiles,
@@ -80,7 +81,7 @@ export function content(d) {
     incTitle: `${t.name} includes`, inc: t.rows, cta: open,
   };
   return { // xpertrank, a website built elsewhere
-    pic: t.id, subject: free ? `${FOUNDER} invited you to ${t.name}, free for ${GUEST_DAYS} days` : `Welcome to ${t.name}`,
+    pic: t.id, subject: free ? `A personal invite from our founder: ${t.name}, free for ${GUEST_DAYS} days` : `Welcome to ${t.name}`,
     head: free ? 'you are personally invited' : `welcome to ${t.name}`,
     lead: free ? guest(`use ${t.name}, our expert SEO service${d.site ? `, on ${esc(d.site)}` : ''}`) : `Thank you for choosing ${t.name}, our expert SEO service${d.site ? `, for ${esc(d.site)}` : ''}. You now have a team working on your website every month.`,
     pass: free ? pass : '', reach: free ? reach : member, tiles: careTiles,
@@ -95,7 +96,7 @@ export function orderMail(o, opts) {
   const c = content(d), pic = `${SITE}/img/mail/${c.pic}${d.free ? '-free' : ''}.jpg`, sub = d.kind === 'xpertrank' || d.kind === 'upgrade';
   const guestRun = d.free && d.kind !== 'build';
   const summary = d.free
-    ? [['Invite', d.t.name], ['From', `${FOUNDER}, founder of SEOXpert`], ...(guestRun ? [['Runs', `${GUEST_DAYS} days, until ${d.ends}`]] : []), ['You pay', `Nothing (worth ${d.full})`], ...(d.site ? [['Website', d.site]] : [])]
+    ? [['Invite', d.t.name], ['From', FOUNDER], ...(guestRun ? [['Runs', `${GUEST_DAYS} days, until ${d.ends}`]] : []), ['You pay', `Nothing (worth ${d.full})`], ...(d.site ? [['Website', d.site]] : [])]
     : [['Package', d.t.name], ['Paid', d.paid], ...(sub ? [['Billing', d.bill === 'year' ? 'Yearly' : 'Monthly']] : []), ['Date', d.date], ...(d.site ? [['Website', d.site]] : [])];
   const P = 'margin:0 0 14px;font-size:15px;line-height:1.6;color:#3a2f48', H2 = 'margin:24px 0 10px;font:700 17px Arial,sans-serif;color:#7b18c1';
   const gold = 'background:#fdf3dc;background:linear-gradient(120deg,#fff3d1,#f8dc97)';
@@ -124,10 +125,10 @@ ${c.cta ? `<table role="presentation" cellpadding="0" cellspacing="0" style="mar
 ${c.hosting ? `<p style="${P};margin-top:8px">${esc(c.hosting)}</p>` : ''}
 ${d.free ? '' : card}
 ${c.reach ? `<p style="margin:18px 0 0;padding:14px 16px;border-radius:12px;background:#f7f2fc;font-size:14.5px;line-height:1.55;color:#3a2f48">${esc(c.reach)}</p>` : ''}
-<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px"><tr><td valign="middle" style="padding-right:12px"><div style="width:44px;height:44px;border-radius:50%;background:#7b18c1;color:#fff;font:700 18px/44px Arial,sans-serif;text-align:center">${FOUNDER[0]}</div></td><td style="font-size:14.5px;line-height:1.45;color:#3a2f48">${d.free ? 'Glad to have you as my guest,' : 'Thank you for your trust,'}<br><b>${FOUNDER}</b>, Founder, SEOXpert<br><span style="color:#786c88;font-size:13px">Just reply to this email to reach me.</span></td></tr></table>
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px"><tr><td valign="middle" style="padding-right:12px"><img src="${SITE}/apple-touch-icon.png" width="44" height="44" alt="SEOXpert" style="display:block;width:44px;height:44px;border-radius:50%"></td><td style="font-size:14.5px;line-height:1.45;color:#3a2f48">${d.free ? 'Glad to have you as my guest,' : 'Thank you for your trust,'}<br><b>The Founder</b>, SEOXpert<br><span style="color:#786c88;font-size:13px">Just reply to this email to reach me.</span></td></tr></table>
 </td></tr>
 <tr><td style="padding:18px 32px 26px;border-top:1px solid #efe6f8;font-size:13px;color:#786c88">SEOXpert · Websites built to rank on Google and AI · <a href="${SITE}" style="color:#7b18c1">seoxpert.my</a>${d.kind === 'build' ? '' : ` · <a href="${INSIGHT}/welcome/" style="color:#7b18c1">XpertInsight</a>`}${d.free ? '' : '<br>Stripe emails your receipt separately.'}</td></tr>
 </table></td></tr></table></body></html>`;
-  const text = [`Hi ${d.first}, ${c.head}.`, '', plain(c.lead), '', ...summary.map((r) => `${r[0]}: ${r[1]}`), ...(c.pass ? [c.pass] : []), ...(c.billing ? [`${c.billing} ${c.manage}`] : []), ...(c.offer ? ['', c.offer] : []), '', 'What happens next', ...c.steps.map((s, i) => `${i + 1}. ${plain(s)}`), ...(c.cta ? ['', `${c.cta[0]}: ${c.cta[1]}`] : []), '', c.incTitle, ...c.inc.map((r) => `- ${plain(r)}`), ...(c.hosting ? ['', c.hosting] : []), ...(c.reach ? ['', c.reach] : []), '', d.free ? 'Glad to have you as my guest,' : 'Thank you for your trust,', `${FOUNDER}, Founder, SEOXpert`, SITE].join('\n');
+  const text = [`Hi ${d.first}, ${c.head}.`, '', plain(c.lead), '', ...summary.map((r) => `${r[0]}: ${r[1]}`), ...(c.pass ? [c.pass] : []), ...(c.billing ? [`${c.billing} ${c.manage}`] : []), ...(c.offer ? ['', c.offer] : []), '', 'What happens next', ...c.steps.map((s, i) => `${i + 1}. ${plain(s)}`), ...(c.cta ? ['', `${c.cta[0]}: ${c.cta[1]}`] : []), '', c.incTitle, ...c.inc.map((r) => `- ${plain(r)}`), ...(c.hosting ? ['', c.hosting] : []), ...(c.reach ? ['', c.reach] : []), '', d.free ? 'Glad to have you as my guest,' : 'Thank you for your trust,', 'The Founder, SEOXpert', SITE].join('\n');
   return { to: d.email, subject: c.subject, html, text };
 }
