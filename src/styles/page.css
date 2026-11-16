@@ -669,3 +669,7 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
   .fcard p{font-size:15.5px}
   .grid3{gap:12px}
 }
+/* The smallest card says where it sits instead of leaving its "step up" row empty (Suhen 2026-11-16: "this looks weird") */
+.pkup.pkfirst{padding-left:0;color:var(--mute)}
+.pkup.pkfirst::before{display:none}
+.pkcard:is(:hover,.hot:not(.pkcards:hover *)) .pkup.pkfirst{color:#cbb8ea}
