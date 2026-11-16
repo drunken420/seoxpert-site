@@ -1,0 +1,83 @@
+---
+// AI SEO services in Malaysia (DRAFT, keyword round 5, 2026-11-16; XpertForesight data, Google Malaysia):
+// ai seo malaysia 390 a month (difficulty 0), ai seo agency 170, generative engine optimization 170, ai seo services 70.
+// The guide /blog/ai-seo-malaysia/ answers "what is AI SEO"; this page is the service. Only claim what XpertRank really does:
+// monthly AI answer checks (ChatGPT, Gemini, Perplexity, Google AI Overviews), the AI ranking file, structured data, answer first copy.
+// Never promise to appear in AI answers. Never write the AI ranking file's file name in visible copy.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import PageFaq from '../components/PageFaq.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
+import Packages from '../components/Packages.astro';
+import '../styles/page.css';
+import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
+import { care, fmt, offersLd } from '../data/packages';
+import { pageFaq } from '../lib/faq';
+const [basic, , , elite] = care.tiers;
+const q = (t: typeof basic) => t.rows.join(' ').match(/<b>(\d+)<\/b> AI search questions/)?.[1];
+const pf = pageFaq(['How do you make my website ready for AI search?', 'How do I know if AI tools mention my business?', 'What is an AI ranking file?', 'What is structured data?', 'What is answer first writing?', 'Can you guarantee first page on Google?']);
+const extraLd = [{ '@type': 'Service', name: 'AI SEO services in Malaysia: XpertRank', serviceType: 'AI search optimisation (AI SEO, generative engine optimisation)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/ai-seo-services-malaysia/`, areaServed: areaLd, description: 'XpertRank optimises your website for AI search (LLM) as well as Google: answer first content, structured data, an AI ranking file, and monthly checks of what ChatGPT, Gemini, Perplexity and Google AI Overviews say.', offers: offersLd(care) }, pf.ld];
+---
+<Base image={`/img/${pictures["ai-seo-services-malaysia"].file}.jpg`} title="AI SEO Services Malaysia: Rank in AI Search | SEOXpert" description={`AI SEO services in Malaysia from ${fmt(basic)} a month. XpertRank optimises your website for ChatGPT, Gemini, Perplexity and Google AI Overviews, and checks them monthly.`} path="/ai-seo-services-malaysia/" crumb="AI SEO services" extraLd={extraLd}>
+<main id="main">
+<PageHero kicker="AI SEO services" brand="XpertRank" art="aiseo" crumb="AI SEO services" word="AI">
+  <Fragment slot="title">AI SEO services in Malaysia, <em>for Google and AI search</em>.</Fragment>
+  <Fragment slot="lede">More people now ask ChatGPT, Gemini, Perplexity and Google's AI answers instead of scrolling results. XpertRank, our expert SEO service, makes your website easy for those AI tools to read, trust and quote, and checks every month what they say about you.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="#plans">See XpertRank plans</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">What is AI SEO?</span>
+  <h2 class="rv">SEO for the answers, not only the links.</h2>
+  <p class="sub rv">AI SEO (also called generative engine optimisation, or GEO) is the work of making your website the source AI tools use when they answer a question. It builds on normal SEO: a fast, clear website that Google already trusts. We do both, for businesses in {areaText}. New to it? Read our guide to <a href="/blog/ai-seo-malaysia/">AI SEO in Malaysia</a>.</p>
+  <div class="grid3">
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Answer first content</h3><p>Every page opens with a clear, quotable answer to the question it covers, written as highly rankable content and checked by our experts.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Structured data</h3><p>Code that tells search engines and AI tools who you are, what you offer and what each page answers, matching the words people see.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>AI ranking file</h3><p>A short file that sums up your business for AI tools in plain words, kept true to your website. XpertInsight shows whether it is found.</p></div>
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>Monthly AI answer checks</h3><p>We ask ChatGPT, Gemini, Perplexity and Google AI Overviews the questions your customers ask: {q(basic)} questions on {basic.name.replace('XpertRank ', '')}, up to {q(elite)} on {elite.name.replace('XpertRank ', '')}.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>Target keywords</h3><p>{basic.kw} to {elite.kw} target keywords we optimise for Google and AI search (LLM), with Google positions tracked every week.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Guided by XpertCore</h3><p><a href="/ai-seo-advisor/">XpertCore</a>, our own AI SEO advisor, guides what we plan, write and mark up on every page. Our experts check it.</p></div>
+  </div>
+</div></section>
+
+<section class="dark band"><div class="wrap split pshotsplit">
+  <div>
+    <span class="eyebrow rv">See it in your dashboard</span>
+    <h2 class="rv">Know when AI tools name your business.</h2>
+    <p class="sub rv">The AI answers view in your <a href="/website-report-dashboard/">XpertInsight dashboard</a> shows, question by question, whether each AI tool mentioned you this month, and the visits AI tools sent your website.</p>
+  </div>
+  <figure class="pshot rv"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>ai-answers</b></span></div><img src="/img/xi-shot-ai-answers.webp" srcset="/img/xi-shot-ai-answers-720.webp 720w, /img/xi-shot-ai-answers.webp 1200w" sizes="(max-width: 1000px) 94vw, 640px" width="1200" height="750" loading="lazy" decoding="async" alt="The AI answers view of XpertInsight for the Sample Bakery, showing which AI tools named the business" /></figure>
+</div></section>
+
+<section class="solid tint band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">How it works</span>
+    <h2 class="rv">Our AI SEO services, month by month.</h2>
+    <p class="sub rv">You always see what we checked and what we changed, in plain words.</p>
+  </div>
+  <ol class="nsteps">
+    <li class="rv"><h3>We pick the questions</h3><p>The real questions your customers ask, chosen with you from our keyword research.</p></li>
+    <li class="rv" style="--d:1"><h3>We ask the AI tools</h3><p>Every month, in ChatGPT, Gemini, Perplexity and Google AI Overviews.</p></li>
+    <li class="rv" style="--d:2"><h3>We improve your pages</h3><p>Where you are missing, we make your answers clearer and easier to quote.</p></li>
+    <li class="rv" style="--d:3"><h3>You see the change</h3><p>In XpertInsight and your monthly XpertRecap PDF, in plain words.</p></li>
+  </ol>
+</div></section>
+
+<section id="plans" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">XpertRank plans</span>
+  <h2 class="rv">AI SEO service prices in Malaysia.</h2>
+  <p class="sub rv">AI SEO is part of every XpertRank plan, not an extra. We never promise that an AI tool will name you; we show you honestly where you stand and what we are doing about it. See also our <a href="/seo-services-malaysia/">SEO services</a>.</p>
+  <Packages show="care" pickHref="/packages/#plan" />
+</div></section>
+
+<Glance page="ai-seo-services-malaysia" guides={['ai-seo-malaysia', 'seo-malaysia-guide']} />
+<PageFaq title="AI SEO questions, answered." items={pf.items} tint />
+<Related skip="/ai-seo-services-malaysia/" />
+<Cta title="Ready to show up in AI search?" />
+</main>
+<script slot="scripts" src="/js/packages.js" defer></script>
+<script slot="scripts" src="/js/pay.js" defer></script>
+</Base>

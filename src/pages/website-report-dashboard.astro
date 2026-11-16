@@ -19,7 +19,8 @@ const views = [
   ['leads', 'Leads', 'WhatsApp clicks, form messages and call clicks, week by week, and the pages that bring them.'],
   ['keywords', 'Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and how you compare with competitors.'],
   ['ai-answers', 'AI answers', 'Whether ChatGPT, Gemini, Perplexity and Google AI Overviews name your business, and the visits AI tools send you.'],
-  ['health', 'Site health', 'A weekly technical SEO audit of your pages, with errors, warnings and what our team fixed, plus speed on phones, uptime, your security certificate and domain renewal dates.'],
+  ['links', 'Backlinks', 'The websites that link to yours, with their authority, the links you gained and lost each month, and twelve months of history.'],
+  ['health', 'Site health', 'Your site health score from a weekly technical SEO audit, with errors, warnings and notices and the change on last week, plus speed on phones, uptime, your security certificate and domain renewal dates.'],
   ['xpertrank', 'XpertRank', 'Your XpertRank SEO service this month: what your plan includes, the SEO and AI search work our team has done, and what comes next.'],
   ['reports', 'Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
   ['plan', 'Your plan', 'What your XpertRank plan includes, how much of it you use, and how it compares with the other plans.'],
@@ -27,19 +28,19 @@ const views = [
 const vmap = Object.fromEntries(views.map(([f, h, p]) => [f, [h, p]]));
 const groups = [
   ['Visits and leads', 'See how many people find your website, and how many of them get in touch.', ['overview', 'visitors', 'leads']],
-  ['Google and AI search', 'See where you show up on Google, and whether AI tools name your business.', ['keywords', 'ai-answers']],
+  ['Google and AI search', 'See where you show up on Google, whether AI tools name your business, and who links to you.', ['keywords', 'ai-answers', 'links']],
   ['Health and SEO work', 'See that your website is healthy, the SEO work our team did this month, your reports and your plan.', ['health', 'xpertrank', 'reports', 'plan']],
 ];
 // One tab per view, in group order; each tab knows its group name.
 const tabs = groups.flatMap(([g, , fs]) => (fs as string[]).map((f) => ({ f, h: vmap[f][0], p: vmap[f][1], g: g as string })));
-const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF.' }];
+const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers, backlinks and site health, plus a monthly XpertRecap PDF.' }];
 const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'How do I log in to XpertInsight?', 'Can I check XpertInsight on my phone?', 'What is XpertRecap?']);
 ---
-<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertRank: visitors, leads, keywords, AI answers and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={[...extraLd, pf.ld]}>
+<Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertRank: visitors, leads, keywords, AI answers, backlinks and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Website report dashboard" brand="XpertInsight" art="insight" crumb="Website report dashboard" word="Insight">
   <Fragment slot="title">See how your website is doing, <em>any time</em>.</Fragment>
-  <Fragment slot="lede">XpertInsight is our own live website report dashboard, included with every XpertRank plan. Log in to see your visitors, leads, keywords, AI answers and site health in plain words, and download your monthly XpertRecap as a PDF.</Fragment>
+  <Fragment slot="lede">XpertInsight is our own live website report dashboard, included with every XpertRank plan. Log in to see your visitors, leads, keywords, AI answers, backlinks and site health in plain words, and download your monthly XpertRecap as a PDF.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#inside">Look inside</a><a class="btn ghost" href="/website-maintenance/#xpertrank">See XpertRank plans</a></Fragment>
 </PageHero>
 
@@ -69,15 +70,15 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
     <li class="rv"><b>Speed</b><span>Google's own speed scores, on phone and computer.</span></li>
     <li class="rv"><b>Visitors</b><span>Who came to your website, and where from.</span></li>
     <li class="rv"><b>Leads</b><span>Who got in touch through your website.</span></li>
-    <li class="rv"><b>Google searches</b><span>The words people searched before they clicked on you.</span></li>
+    <li class="rv"><b>Backlinks</b><span>Which websites link to yours, and the links you gained or lost.</span></li>
     <li class="rv"><b>Keyword positions</b><span>Where you rank on Google, checked every week.</span></li>
     <li class="rv"><b>AI answers</b><span>Whether ChatGPT, Gemini, Perplexity and Google's AI mention you.</span></li>
-    <li class="rv"><b>Site health</b><span>Problems found on your pages, and what our team fixed.</span></li>
+    <li class="rv"><b>Site health</b><span>A health score from a weekly audit of your pages.</span></li>
   </ul>
 </div></section>
 
 <section class="dark band xitabb"><div class="wrap">
-  <span class="eyebrow rv">Nine views, one login</span>
+  <span class="eyebrow rv">{tabs.length} views, one login</span>
   <h2 class="rv">A closer look at every view.</h2>
   <p class="sub rv">Pick a view to see the real screen, just as it looks on a computer. <span class="xihint-ph">Swipe the screen to move to the next one.</span></p>
   <div class="xitabs" data-xitabs={JSON.stringify(tabs)}>
@@ -93,7 +94,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
       </div>
       <div class="xitwin">
         <div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b data-xitu>{tabs[0].f}</b></span></div>
-        <div class="xitshots">{tabs.map(({ f, h }, i) => <img class={i ? '' : 'on'} data-i={i} src={`/img/xi-screen-${f}.webp`} srcset={`/img/xi-screen-${f}-720.webp 720w, /img/xi-screen-${f}.webp 1200w`} sizes="(max-width: 1000px) 94vw, 760px" width="1200" height="750" loading={i ? 'lazy' : 'eager'} decoding="async" alt={`The ${h} view of XpertInsight on a computer`} />)}</div>
+        <div class="xitshots">{tabs.map(({ f, h }, i) => <img class={i ? '' : 'on'} data-i={i} src={`/img/xi-shot-${f}.webp`} srcset={`/img/xi-shot-${f}-720.webp 720w, /img/xi-shot-${f}.webp 1200w`} sizes="(max-width: 1000px) 94vw, 760px" width="1200" height="750" loading={i ? 'lazy' : 'eager'} decoding="async" alt={`The ${h} view of XpertInsight on a computer`} />)}</div>
       </div>
     </div>
   </div>
@@ -133,7 +134,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
     <li class="rv"><b>Run your own site audit</b><span>Check your pages again from Site health, as often as your plan allows.</span></li>
     <li class="rv"><b>Your plan</b><span>What your XpertRank plan includes, how much you use, and how it compares.</span></li>
     <li class="rv"><b>Guided tour</b><span>A one minute walk through every page, any time you press Tour.</span></li>
-    <li class="rv"><b>This month</b><span>See this month so far next to 7 days, 28 days and 3 months.</span></li>
+    <li class="rv"><b>Upgrade by card</b><span>Move to a bigger plan from Your plan, paid securely by card, and manage your billing there.</span></li>
   </ul>
 </div></section>
 
@@ -145,7 +146,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
     <p class="rv"><a class="btn" href="/xpertrecap.pdf" target="_blank" rel="noopener">See what an XpertRecap looks like (PDF)</a></p>
   </div>
   <ul class="xisrc">
-    <li class="rv"><b>Updated every day</b>Your visitors, leads, Google search data, speed checks and uptime are read every morning. Keyword positions and the site audit are checked every week.</li>
+    <li class="rv"><b>Updated every day</b>Your visitors, leads, Google search data, speed checks and uptime are read every morning. Keyword positions and the site audit are checked every week, and backlinks every week or month, depending on your plan.</li>
     <li class="rv" style="--d:1"><b>Worked on by our team</b>Your target keywords are optimised for Google and AI search and tracked every week, and each month we ask AI tools the questions your customers ask.</li>
     <li class="rv" style="--d:2"><b>Private to you</b>A secure login with a fresh code sent to your email each time, and you only ever see your own website.</li>
     <li class="rv" style="--d:3"><b>Explained in plain words</b>Insights from our experts say what changed, what it means and what we will do next.</li>

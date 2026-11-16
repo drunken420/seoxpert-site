@@ -3,8 +3,10 @@
 // show="both" adds the Build / XpertRank switch; show="care" shows the care plans only.
 import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, yearly, type Tier } from '../data/packages';
 import { site } from '../config';
-interface Props { show?: 'both' | 'care'; pickHref?: string }
-const { show = 'both', pickHref = '/packages/#plan' } = Astro.props;
+import TrialBox from './TrialBox.astro';
+// noTrial: leave the Trial box out (a page that shows <TrialBox /> itself, like the SEO audit page).
+interface Props { show?: 'both' | 'care'; pickHref?: string; noTrial?: boolean }
+const { show = 'both', pickHref = '/packages/#plan', noTrial = false } = Astro.props;
 const sets = show === 'care' ? [care] : [build, care];
 const on = offerOn();
 const maxKw = Math.max(...care.tiers.map((t) => t.kw || 0));
@@ -76,20 +78,8 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
       <div class="pkswipe" aria-hidden="true">{S.tiers.map((t, i) => <i class:list={[t.hot ? 'on' : i === 0 && !S.tiers.some((x) => x.hot) && 'on']} />)}</div>
       {/* The Trial sits under the care cards, and on /packages/ under the build cards too, so it is never missed
           (Suhen 2026-11-16: "no trial option on the packages page"). */}
-      {(S.key === 'care' || show === 'both') && (
-        <div class="pktrial rv">
-          <div><span class="pktag">New</span><h3>{trial.name}</h3>
-            {/* What the Trial includes as short ticks instead of a long sentence (Suhen 2026-11-16 polish); the last row is what it leaves out. */}
-            <ul class="pktrows">{trial.rows.map((r, i) => <li class:list={[i === trial.rows.length - 1 && 'no']} set:html={r} />)}</ul>
-            <p>Choose a paid XpertRank plan after your trial and the trial price comes off your first month.</p></div>
-          <div class="pktside">
-            <p class="pktprice"><span {...price(trial)}>{fmt(trial)}</span><small>for {trial.days} days</small></p>
-            {site.payments && <a class="btn payon-only" href="/contact/?need=trial" data-pay="trial" data-track="pay-trial"><span>Pay <span {...price(trial)}>{fmt(trial)}</span> and start</span></a>}
-            <a class:list={['btn', site.payments && 'payoff-only']} href="/contact/?need=trial" data-track="start-trial">Start your trial</a>
-            {/* A quiet trust line (Suhen 2026-11-16: "remove it unless it's a good thing, then enhance it"): lock, Stripe, the ways to pay. */}
-            {site.payments && <p class="pktpay payon-only"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg><span>Secure checkout by Stripe</span><span class="pkways"><i>Card</i><i>FPX</i><i>GrabPay</i></span></p>}
-          </div>
-        </div>
+      {(S.key === 'care' || show === 'both') && !noTrial && (
+        <TrialBox />
       )}
       {S.key === 'care' && (
         <div class="pkpromise rv" id="money-back"><span class="pkptag">Money-back promise</span><p><b>If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.</b> It covers every paid XpertRank plan, Basic, Plus, Pro and Elite, on websites we build. Websites built elsewhere and the 14-day Trial are not covered, because we need at least a month to work on your website and help it rank. We check your website every day, and you can see every keyword position in your XpertInsight dashboard.</p></div>
