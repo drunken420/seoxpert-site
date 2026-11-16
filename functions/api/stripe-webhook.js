@@ -36,7 +36,11 @@ export function mail(ev) {
     const what = { trial: 'XpertRank Trial', xpertrank: 'XpertRank (website built elsewhere)', build: 'XpertForge website build', upgrade: 'XpertRank upgrade from the XpertInsight dashboard' }[m.kind] || 'A payment';
     const rows = [['Paid', money(o.amount_total || 0, o.currency)], ['For', `${what}: ${m.item || ''}${m.bill && m.bill !== 'once' ? `, every ${m.bill}` : ''}`], ['Name', box.name || who.name], ['Company', box.company], ['Email', who.email], ['Phone', who.phone], ['Website', site]];
     const next = { trial: 'Next: set up their XpertInsight Trial (setup page, "Let the client set it up") and email them.', xpertrank: 'Next: add them in XpertInsight with "Who built the website?" set to elsewhere, and email them.', build: 'Next: email them to start planning their website. It is paid in full.', upgrade: `Their dashboard (${m.slug || 'their link'}) switches to the new plan by itself. Nothing to change; maybe say thank you.` }[m.kind] || '';
-    return { subject: `New payment: ${what}, ${money(o.amount_total || 0, o.currency)}${ev.livemode ? '' : ' (TEST)'}`, reply: who.email, rows, next, link: dash(o.payment_intent ? `payments/${o.payment_intent}` : o.subscription ? `subscriptions/${o.subscription}` : 'payments') };
+    // A free test code (XpertInsight team home "Free test codes"): 100% off, so nothing was paid.
+    const free = (o.amount_total || 0) === 0 && (o.amount_subtotal || 0) > 0;
+    if (free) { rows[0] = ['Paid', `Nothing: a free test code took off ${money(o.amount_subtotal, o.currency)}`]; }
+    const why = free ? (m.kind === 'build' ? 'A free test code was used, so nothing was paid. Check with them before starting any work.' : next) : next;
+    return { free, subject: `${free ? 'Free test order' : 'New payment'}: ${what}, ${money(o.amount_total || 0, o.currency)}${ev.livemode ? '' : ' (TEST)'}`, reply: who.email, rows, next: why, link: dash(o.payment_intent ? `payments/${o.payment_intent}` : o.subscription ? `subscriptions/${o.subscription}` : 'payments') };
   }
   if (ev.type === 'invoice.payment_failed') return { subject: `XpertRank payment failed${ev.livemode ? '' : ' (TEST)'}`, reply: o.customer_email, rows: [['Amount', money(o.amount_due || 0, o.currency)], ['Email', o.customer_email], ['Attempt', o.attempt_count]], next: 'Stripe tries again and emails the client. You may want to check in with them.', link: dash(`invoices/${o.id}`) };
   if (ev.type === 'customer.subscription.deleted') return { subject: `XpertRank plan cancelled${ev.livemode ? '' : ' (TEST)'}`, rows: [['Plan', (o.metadata || {}).item], ['Customer', o.customer]], next: 'Change their plan or end their account on the XpertInsight setup page.', link: dash(`subscriptions/${o.id}`) };
@@ -48,9 +52,10 @@ export async function invite(env, session, f = fetch) {
   try {
     const r = await f(`${env.INSIGHT_URL || 'https://insight.seoxpert.my'}/hooks/paid`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ session }), redirect: 'manual' });
     const j = await r.json().catch(() => ({}));
-    if (r.ok && j.ok) return { ok: true, invited: j.invited, plan: j.plan };
-    if (j.already) return { already: true };
-    return { why: j.skip || j.error || (j.notes && j.notes[0]) || (r.status >= 300 && r.status < 400 ? 'the dashboard asked for a login: the /hooks Bypass is not set up yet' : `error ${r.status}`), plan: j.plan };
+    const t = { test: !!j.test, testError: j.testError || '' };
+    if (r.ok && j.ok) return { ok: true, invited: j.invited, plan: j.plan, ...t };
+    if (j.already) return { already: true, ...t };
+    return { ...t, why: j.skip || j.error || (j.notes && j.notes[0]) || (r.status >= 300 && r.status < 400 ? 'the dashboard asked for a login: the /hooks Bypass is not set up yet' : `error ${r.status}`), plan: j.plan };
   } catch (e) { return { why: e.message }; }
 }
 
@@ -61,11 +66,14 @@ export async function onRequestPost({ request, env }) {
   const m = mail(ev);
   // Trial and XpertRank for a website built elsewhere: XpertInsight sends the dashboard invite by itself (Suhen 2026-11-16,
   // "Yes, automatic"). It asks Stripe about the session with its own key, so we only pass the id. Builds stay manual.
-  if (m && ev.type === 'checkout.session.completed' && ['trial', 'xpertrank'].includes((ev.data.object.metadata || {}).kind)) {
+  const kind = m && ev.type === 'checkout.session.completed' ? ((ev.data.object.metadata || {}).kind || '') : '';
+  // A free test code on a dashboard upgrade: XpertInsight still has to stop that plan after its first month.
+  if (['trial', 'xpertrank'].includes(kind) || (kind === 'upgrade' && m.free)) {
     const r = await invite(env, ev.data.object.id);
-    m.next = r.ok ? `Done for you: ${r.invited} got their XpertInsight invite (${r.plan}). They set up their dashboard at /start/ and you get an email when it is ready. Next: choose their target keywords on the setup page.`
+    m.next = kind === 'upgrade' ? m.next : r.ok ? `Done for you: ${r.invited} got their XpertInsight invite (${r.plan}). They set up their dashboard at /start/ and you get an email when it is ready. Next: choose their target keywords on the setup page.`
       : r.already ? 'Their XpertInsight invite was already sent.'
       : `The automatic XpertInsight invite did not go out (${r.why}). Send it on the setup page: "Let the client set it up" with ${r.plan || 'their plan'}.`;
+    if (m.free && ev.data.object.mode === 'subscription') m.next = (m.next ? m.next + ' ' : '') + (r.test ? 'Free test code: this plan stops by itself after its first month, so they are never charged.' : `Free test code: please check in Stripe that this plan is set to cancel after its first month${r.testError ? ` (${r.testError})` : ''}.`);
   }
   if (!m || !env.RESEND_API_KEY) return new Response('ok');
   const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1026">
