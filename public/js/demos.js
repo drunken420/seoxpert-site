@@ -570,30 +570,65 @@
     });
   });
 
-  // 08 A carousel that turns in 3D, and folds flat into a gallery at the press of a button
+  // 08 A carousel that turns in 3D, and folds flat into a gallery at the press of a button.
+  // The ring is turned here every frame (not by a CSS transition), so a drag can be flung with momentum,
+  // it always settles on a card, and each card can be shaded by how much it faces us (--f) with a light that slides across it (--s).
   (function () {
-    var el = stage('ring'); if (!el) return; var ring = el.querySelector('.ringin'), cards = [].slice.call(el.querySelectorAll('.rc')), mode = el.querySelector('.ringmode');
-    var a = 0, down = false, lx = 0, auto = null, seen = false, flat = false;
-    function size() { var w = ring.getBoundingClientRect().width || ring.offsetWidth; if (w) ring.style.setProperty('--r', (w * 0.5 / Math.tan(Math.PI / 6) + w * 0.12) / 16 + 'rem'); }
-    function set(v, snap) { a = snap ? Math.round(v / 60) * 60 : v; ring.style.setProperty('--a', a + 'deg'); }
-    function rest() { clearInterval(auto); auto = null; } function play() { if (!auto && seen && !flat) auto = setInterval(function () { if (!still) set(a - 60, true); }, 2600); }
-    function fold(on) {
-      rest(); flat = on;
-      if (on) { // start from the same angle less a few full turns, so every card takes the shortest way to the front
-        var n = ((a % 360) + 360) % 360; if (n > 180) n -= 360;
-        ring.style.transition = 'none'; set(n); void ring.offsetWidth; ring.style.transition = '';
-        cards.forEach(function (c, i) { c.style.setProperty('--fr', Math.round((a + i * 60) / 360) * 360 + 'deg'); });
-      }
-      el.classList.toggle('flat', on); mode.setAttribute('aria-pressed', String(on)); mode.textContent = on ? 'Back to the ring' : 'Fold into a gallery';
-      if (!on) play();
+    var el = stage('ring'); if (!el) return;
+    var ring = el.querySelector('.ringin'), cards = [].slice.call(el.querySelectorAll('.rc')), mode = el.querySelector('.ringmode'), dots = [].slice.call(el.querySelectorAll('.ringdots button'));
+    var N = cards.length, STEP = 360 / N;
+    var a = 0, ta = 0, raf = 0, lt = 0, down = false, moved = 0, lx = 0, vel = 0, lastMove = 0, auto = null, seen = false, flat = false, front = -1, morphT = 0;
+    function size() { var w = ring.offsetWidth; if (w) ring.style.setProperty('--r', (w * 1.1 / 16) + 'rem'); } // neighbours sit about a quarter card apart
+    function wrap(d) { d = ((d % 360) + 360) % 360; return d > 180 ? d - 360 : d; }
+    function paint() {
+      ring.style.setProperty('--a', a.toFixed(2) + 'deg');
+      cards.forEach(function (c, i) { var rel = wrap(a + i * STEP) * Math.PI / 180, f = flat ? 1 : Math.max(0, Math.cos(rel)); c.style.setProperty('--f', f.toFixed(3)); c.style.setProperty('--s', (flat ? 0 : Math.sin(rel)).toFixed(3)); });
+      var k = ((Math.round(-a / STEP) % N) + N) % N;
+      if (k !== front) { front = k; dots.forEach(function (d, i) { d.setAttribute('aria-pressed', String(i === k)); }); }
     }
-    size(); if (window.ResizeObserver) new ResizeObserver(size).observe(el);
-    el.addEventListener('pointerdown', function (e) { if (flat || e.target.closest('.ringnav,.ringmode')) return; down = true; lx = e.clientX; rest(); el.classList.add('drag'); try { el.setPointerCapture(e.pointerId); } catch (x) {} });
-    el.addEventListener('pointermove', function (e) { if (!down) return; var d = e.clientX - lx; lx = e.clientX; set(a + d * 0.45); });
-    var up = function () { if (!down) return; down = false; el.classList.remove('drag'); set(a, true); }; el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
-    [].forEach.call(el.querySelectorAll('.ringnav button'), function (b) { b.addEventListener('click', function () { rest(); set(a - 60 * +b.dataset.dir, true); }); });
+    function tick(t) {
+      raf = 0; var dt = lt ? Math.min(0.05, (t - lt) / 1000) : 0.016; lt = t;
+      if (!down) { var d = ta - a; a = still || Math.abs(d) < 0.02 ? ta : a + d * (1 - Math.exp(-dt * 7.5)); }
+      paint();
+      if (down || a !== ta) raf = requestAnimationFrame(tick); else lt = 0;
+    }
+    function go() { if (!raf) raf = requestAnimationFrame(tick); }
+    function to(v) { ta = Math.round(v / STEP) * STEP; go(); }
+    function rest() { clearInterval(auto); auto = null; }
+    function play() { if (!auto && seen && !flat && !still) auto = setInterval(function () { if (!down && !document.hidden) to(ta - STEP); }, 3200); }
+    function morph() { el.classList.add('morph'); clearTimeout(morphT); morphT = setTimeout(function () { el.classList.remove('morph'); }, 1100); }
+    function fold(on, pick) {
+      rest(); flat = on;
+      if (on) { // start from the same angle less a few full turns, so every card takes the shortest way to its place
+        el.classList.remove('morph'); a = ta = wrap(ta); paint(); void ring.offsetWidth;
+        cards.forEach(function (c, i) { c.style.setProperty('--fr', Math.round((a + i * STEP) / 360) * 360 + 'deg'); });
+      } else if (pick != null) { a = ta = -pick * STEP; }
+      morph(); el.classList.toggle('flat', on); mode.setAttribute('aria-pressed', String(on)); mode.textContent = on ? 'Back to the ring' : 'Fold into a gallery';
+      paint(); if (!on) play();
+    }
+    size(); paint(); if (window.ResizeObserver) new ResizeObserver(size).observe(el);
+    el.addEventListener('pointerdown', function (e) {
+      if (flat || e.button > 0 || e.target.closest('.ringnav,.ringmode,.ringdots')) return;
+      if (e.pointerType === 'mouse') e.preventDefault(); // no text selection while dragging
+      down = true; moved = 0; vel = 0; lx = e.clientX; lastMove = now(); rest(); el.classList.add('drag'); try { el.setPointerCapture(e.pointerId); } catch (x) {} go();
+    });
+    el.addEventListener('pointermove', function (e) {
+      if (!down) return; var dx = e.clientX - lx, t = now(), w = el.offsetWidth || 600, k = 300 / w; lx = e.clientX; moved += Math.abs(dx);
+      a += dx * k; ta = a; vel = vel * 0.6 + (dx * k / Math.max(8, t - lastMove)) * 0.4; lastMove = t; // degrees per ms
+    });
+    var up = function (e) {
+      if (!down) return; down = false; el.classList.remove('drag');
+      if (moved < 6) { // a tap on a side card brings it to the front
+        var hit = e && document.elementFromPoint(e.clientX, e.clientY), c = hit && hit.closest('.rc'); if (c) { var i = cards.indexOf(c); to(a - wrap(a + i * STEP)); } else to(a);
+      } else { var fling = now() - lastMove > 90 ? 0 : vel * 220; to(a + Math.max(-STEP * 2, Math.min(STEP * 2, fling))); }
+    };
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    [].forEach.call(el.querySelectorAll('.ringnav button'), function (b) { b.addEventListener('click', function () { rest(); to(ta - STEP * +b.dataset.dir); }); });
+    dots.forEach(function (d, i) { d.addEventListener('click', function () { rest(); to(ta - wrap(ta + i * STEP)); }); });
+    el.addEventListener('keydown', function (e) { if (flat || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return; if (!e.target.closest('.ringnav,.ringdots')) return; e.preventDefault(); rest(); to(ta - STEP * (e.key === 'ArrowRight' ? 1 : -1)); });
     mode.addEventListener('click', function () { fold(!flat); });
-    cards.forEach(function (c, i) { c.addEventListener('click', function () { if (!flat) return; fold(false); set(-i * 60); }); });
+    cards.forEach(function (c, i) { c.addEventListener('click', function () { if (flat) fold(false, i); }); });
     new IntersectionObserver(function (es) { seen = es[0].isIntersecting; if (seen) play(); else rest(); }, { threshold: 0.4 }).observe(el);
   })();
 

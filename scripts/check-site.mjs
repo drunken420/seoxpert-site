@@ -23,7 +23,7 @@ for (const p of pages) {
   const n = (text.match(/\[(PLACEHOLDER|DRAFT)\]/g) || []).length; placeholders += n;
   if (n) console.log(`NOTE ${p}: ${n} placeholder(s) still to fill in`);
 }
-for (const f of ['robots.txt', 'sitemap-index.xml', 'favicon.svg']) if (!fs.existsSync(path.join(dist, f))) fail(f, 'missing');
+for (const f of ['robots.txt', 'sitemap-index.xml', 'favicon.svg', 'llms.txt', 'chat.json']) // llms.txt and chat.json also feed the AI chat (functions/api/chat.js) if (!fs.existsSync(path.join(dist, f))) fail(f, 'missing');
 console.log(`${pages.length} page(s) checked, ${errors} problem(s), ${placeholders} placeholder(s).`);
 if (process.env.STRICT && placeholders) { console.log('STRICT: placeholders must be filled before going live.'); process.exit(1); }
 process.exit(errors ? 1 : 0);

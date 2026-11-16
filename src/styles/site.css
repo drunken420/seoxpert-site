@@ -254,11 +254,19 @@ button.btn{font-family:var(--f-b)}
 .cp-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:180px;overscroll-behavior:contain}
 .cp-log .bub{font-size:15px;max-width:90%}
 .cp-log .bub a{color:#e9d8ff;font-weight:600}
-.cp-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}
-.cp-chips button{border:0;cursor:pointer;font:600 13px/1.2 var(--f-b);padding:8px 11px;border-radius:99px;background:rgba(255,255,255,.1);color:#fff;text-align:left}
+/* one row of chips that scrolls sideways, with soft faded edges (Suhen 2026-11-16: the old wrapped topic area looked crowded) */
+.cp-chips{flex:none;display:flex;flex-wrap:nowrap;gap:6px;padding:2px 16px 10px;overflow-x:auto;overflow-y:hidden;overscroll-behavior:contain;scrollbar-width:none;scroll-padding:0 16px;-webkit-mask:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent);mask:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent)}
+.cp-chips::-webkit-scrollbar{display:none}
+.cp-chips:empty{display:none}
+.cp-chips button{flex:none;white-space:nowrap;border:0;cursor:pointer;font:600 13px/1.2 var(--f-b);padding:8px 12px;border-radius:99px;background:rgba(255,255,255,.1);color:#fff;text-align:left}
+.cp-chips a.tp{flex:none;white-space:nowrap}
+.cp-chips .bk{color:#bba9d6}
+.cp-log{scrollbar-width:thin;scrollbar-color:rgba(217,184,255,.35) transparent}
+.cp-log::-webkit-scrollbar{width:6px}.cp-log::-webkit-scrollbar-thumb{background:rgba(217,184,255,.35);border-radius:6px}.cp-log::-webkit-scrollbar-track{background:transparent}
+.cp-log .bub.md p{margin:0}.cp-log .bub.md p+p,.cp-log .bub.md ul+p,.cp-log .bub.md p+ul{margin-top:8px}
+.cp-log .bub.md ul{margin:0;padding-left:18px}.cp-log .bub.md li+li{margin-top:4px}
+.cp-note{display:block;margin-top:8px;font-size:12.5px;color:#cbb8ea}
 .cp-chips button:hover{background:rgba(255,255,255,.2)}
-.cp-chips{max-height:42%;overflow-y:auto;overscroll-behavior:contain}
-.cp-chips small{flex-basis:100%;margin:4px 0 0;font:600 11.5px/1 var(--f-m);letter-spacing:.04em;text-transform:uppercase;color:#bba9d6}
 .cp-chips .tp{background:transparent;box-shadow:inset 0 0 0 1.5px rgba(217,184,255,.4);color:#e9d8ff}
 .cp-chips a.tp{display:inline-flex;align-items:center;font:600 13px/1.2 var(--f-b);padding:8px 11px;border-radius:99px;text-decoration:none}
 .cp-chips .tp:hover{background:rgba(255,255,255,.1)}
