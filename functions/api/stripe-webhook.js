@@ -34,7 +34,7 @@ export function mail(ev) {
     // The boxes from checkout.js fields(): name, company, website (older payments had one box, website or business name).
     const box = {}; (o.custom_fields || []).forEach((f) => { if (f.text && f.text.value) box[f.key] = f.text.value; });
     const site = box.website || (m.slug ? `insight.seoxpert.my/${m.slug}/` : m.kind === 'build' ? 'None yet' : 'Not given');
-    const what = { trial: 'XpertRank Trial', xpertrank: 'XpertRank (website built elsewhere)', build: 'XpertForge website build', upgrade: 'XpertRank upgrade from the XpertInsight dashboard' }[m.kind] || 'A payment';
+    const what = { foresight: m.plan || 'XpertForesight', trial: 'XpertRank Trial', xpertrank: 'XpertRank (website built elsewhere)', build: 'XpertForge website build', upgrade: 'XpertRank upgrade from the XpertInsight dashboard' }[m.kind] || 'A payment';
     const rows = [['Paid', money(o.amount_total || 0, o.currency)], ['For', `${what}: ${m.item || ''}${m.bill && m.bill !== 'once' ? `, every ${m.bill}` : ''}`], ['Name', box.name || who.name], ['Company', box.company], ['Email', who.email], ['Phone', who.phone], ['Website', site]];
     const next = { trial: 'Next: set up their XpertInsight Trial (setup page, "Let the client set it up") and email them.', xpertrank: 'Next: add them in XpertInsight with "Who built the website?" set to elsewhere, and email them.', build: 'Next: email them to start planning their website. It is paid in full.', upgrade: `Their dashboard (${m.slug || 'their link'}) switches to the new plan by itself. Nothing to change; maybe say thank you.` }[m.kind] || '';
     // A free test code (XpertInsight team home "Free test codes"): 100% off, so nothing was paid.
@@ -44,6 +44,7 @@ export function mail(ev) {
     return { free, subject: `${free ? 'Free test order' : 'New payment'}: ${what}, ${money(o.amount_total || 0, o.currency)}${ev.livemode ? '' : ' (TEST)'}`, reply: who.email, rows, next: why, link: dash(o.payment_intent ? `payments/${o.payment_intent}` : o.subscription ? `subscriptions/${o.subscription}` : 'payments') };
   }
   if (ev.type === 'invoice.payment_failed') return { subject: `XpertRank payment failed${ev.livemode ? '' : ' (TEST)'}`, reply: o.customer_email, rows: [['Amount', money(o.amount_due || 0, o.currency)], ['Email', o.customer_email], ['Attempt', o.attempt_count]], next: 'Stripe tries again and emails the client. You may want to check in with them.', link: dash(`invoices/${o.id}`) };
+  if (ev.type === 'customer.subscription.deleted' && (o.metadata || {}).kind === 'foresight') return { subject: `XpertForesight plan cancelled${ev.livemode ? '' : ' (TEST)'}`, rows: [['Plan', (o.metadata || {}).plan], ['Customer', o.customer]], next: 'Their XpertForesight account stops by itself at the end of the paid time. Nothing to change.', link: dash(`subscriptions/${o.id}`) };
   if (ev.type === 'customer.subscription.deleted') return { subject: `XpertRank plan cancelled${ev.livemode ? '' : ' (TEST)'}`, rows: [['Plan', (o.metadata || {}).item], ['Customer', o.customer]], next: 'Change their plan or end their account on the XpertInsight setup page.', link: dash(`subscriptions/${o.id}`) };
   return null;
 }
@@ -78,6 +79,10 @@ export async function onRequestPost({ request, env }) {
       : `The automatic XpertInsight invite did not go out (${r.why}). Send it on the setup page: "Let the client set it up" with ${r.plan || 'their plan'}.`;
     if (m.free && ev.data.object.mode === 'subscription') m.next = (m.next ? m.next + ' ' : '') + (r.test ? 'Free code (founder\'s invite): this plan stops by itself after 14 days, so they are never charged.' : `Free code: please check in Stripe that this plan is set to cancel after 14 days${r.testError ? ` (${r.testError})` : ''}.`);
   }
+  // XpertForesight (Suhen 2026-11-17, ready to sell): XpertInsight makes the account, sends the welcome email and emails
+  // our team itself (finish() in its lib/fscheckout.js). We only pass the session on, in case the buyer closed the page
+  // before it came back from Stripe, and send no second email.
+  if (kind === 'foresight') { const r = await invite(env, ev.data.object.id); if (r.ok || r.already) return new Response('ok'); m.next = `XpertForesight did not confirm this order (${r.why || 'no answer'}). Open the XpertForesight team page and check the customer's plan.`; }
   if (!m || !env.RESEND_API_KEY) return new Response('ok');
   const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1026">
     <p style="margin:0 0 6px;color:#7b18c1;font-weight:700;letter-spacing:.08em;font-size:12px">SEOXPERT PAYMENTS${ev.livemode ? '' : ' · TEST MODE'}</p>
