@@ -6,7 +6,7 @@
 .dmgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:72px 40px;margin-top:56px}
 .dm{display:flex;flex-direction:column;min-width:0;scroll-margin-top:calc(var(--head-h) + 16px)}
 .dminfo{margin-bottom:18px}
-.dmstage{position:relative;aspect-ratio:16/10;border-radius:28px;overflow:hidden;background:linear-gradient(160deg,#f3e9fd,#fff 60%);box-shadow:inset 0 0 0 1px var(--line),0 30px 60px rgba(90,20,160,.10);touch-action:pan-y;min-width:0}
+.dmstage{-webkit-user-select:none;user-select:none;position:relative;aspect-ratio:16/10;border-radius:28px;overflow:hidden;background:linear-gradient(160deg,#f3e9fd,#fff 60%);box-shadow:inset 0 0 0 1px var(--line),0 30px 60px rgba(90,20,160,.10);touch-action:pan-y;min-width:0}
 .dmstage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .dmstage[data-demo="wave"],.dmstage[data-demo="name"],.dmstage[data-demo="spot"]{background:linear-gradient(160deg,var(--plum),var(--plum2) 70%,#3d0a66);box-shadow:0 30px 60px rgba(60,10,110,.28)}
 .dminfo h3{font-size:clamp(24px,2.4vw,34px);line-height:1.08;margin:12px 0 8px}
@@ -144,30 +144,45 @@
 .tsw:focus-visible,.ringnav button:focus-visible{outline:3px solid var(--acc2);outline-offset:3px}
 
 /* 3D carousel */
-.dmstage[data-demo="ring"]{cursor:grab}
-.dmring{position:absolute;inset:0;display:grid;place-items:center;perspective:1100px;perspective-origin:50% 42%}
-.ringin{position:relative;width:27%;aspect-ratio:3/4;transform-style:preserve-3d;transform:translateZ(calc(var(--r,200px) * -1)) rotateY(var(--a,0deg));transition:transform .75s cubic-bezier(.5,0,.2,1)}
-.dmstage.drag .ringin{transition:none}
-.rc{position:absolute;inset:0;border-radius:16px;padding:12%;background:#fff;box-shadow:inset 0 0 0 1px var(--line),0 14px 30px rgba(90,20,160,.14);display:flex;flex-direction:column;gap:7%;transform:translate3d(0,0,0) rotateY(calc(var(--i) * 60deg)) translateZ(var(--r,200px)) scale(1);transition:transform .75s cubic-bezier(.5,0,.2,1) calc(var(--i) * 40ms),box-shadow .3s ease;backface-visibility:hidden}
-.dmstage.flat{cursor:default}
+/* 10 3D ring. JS turns the ring every frame (--a) and gives each card how much it faces us (--f, 1 = front, 0 = side or back) */
+.dmstage[data-demo="ring"]{cursor:grab;-webkit-tap-highlight-color:transparent}
+.dmstage[data-demo="ring"].drag{cursor:grabbing}
+.dmring{position:absolute;inset:0 0 9% 0;display:grid;place-items:center;perspective:1000px;perspective-origin:50% 38%}
+.ringfloor{position:absolute;left:50%;top:76%;width:62%;height:16%;translate:-50% -50%;border-radius:50%;background:radial-gradient(closest-side,rgba(110,30,180,.26),rgba(110,30,180,.09) 55%,transparent);filter:blur(6px);pointer-events:none;transition:opacity .6s ease,scale .8s cubic-bezier(.5,0,.2,1)}
+.dmstage.flat .ringfloor{opacity:0;scale:.6}
+.ringin{position:relative;width:26%;aspect-ratio:5/7;transform-style:preserve-3d;transform:translateZ(calc(var(--r,200px) * -1)) rotateY(var(--a,0deg));will-change:transform}
+.rc{position:absolute;inset:0;border-radius:18px;padding:12%;background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line),0 4px 10px rgba(90,20,160,calc(.04 + var(--f,1) * .08)); /* keep this shadow small: big shadows on turned 3D cards draw as pale bands in Chrome; the floor glow grounds the ring */display:flex;flex-direction:column;gap:6%;transform:translate3d(0,0,0) rotateY(calc(var(--i) * 60deg)) translateZ(var(--r,200px)) scale(1);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;isolation:isolate}
+/* depth: side cards fade back into the stage, the front one catches a soft light that slides as the ring turns */
+.rc::before,.rc::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.rc::before{background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 48%,transparent 62%) calc(50% + var(--s,0) * 160%) 0/250% 100% no-repeat;opacity:calc(.25 + var(--f,1) * .5);mix-blend-mode:soft-light;z-index:1}
+.rc::after{background:#efe4fb;opacity:calc((1 - var(--f,1)) * .62);z-index:2}
+.rc.hot::after{background:#2a0b47}
+.dmstage.morph .ringin{transition:transform .8s cubic-bezier(.5,0,.2,1)}
+.dmstage.morph .rc{transition:transform .8s cubic-bezier(.5,0,.2,1) calc(var(--i) * 40ms),box-shadow .3s ease}
 .dmstage.flat .ringin{transform:translateZ(0px) rotateY(0deg)}
-.dmstage.flat .rc{transform:translate3d(calc(var(--c) * 84%),calc(var(--w) * 40% - 6%),0) rotateY(var(--fr,0deg)) translateZ(0px) scale(.66);cursor:pointer}
-.dmstage.flat .rc:hover{box-shadow:inset 0 0 0 2px var(--acc2),0 14px 30px rgba(90,20,160,.2)}
-.dmstage.flat .ringnav{opacity:0;pointer-events:none}
-.ringnav{transition:opacity .3s ease}
-.ringmode{position:absolute;left:16px;bottom:14px;border:0;cursor:pointer;font:600 14px/1 var(--f-b);padding:13px 16px;border-radius:99px;background:#fff;color:var(--acc);box-shadow:inset 0 0 0 1.5px var(--line),0 8px 18px rgba(90,20,160,.12);z-index:2}
+.dmstage.flat .rc{transform:translate3d(calc(var(--c) * 80%),calc(var(--w) * 37% + 1%),0) rotateY(var(--fr,0deg)) translateZ(0px) scale(.62);cursor:pointer}
+.dmstage.flat .rc:hover{box-shadow:inset 0 0 0 2px var(--acc2),0 6px 14px rgba(90,20,160,.16)}
+.dmstage.flat .ringnav,.dmstage.flat .ringdots{opacity:0;pointer-events:none}
+.ringmode{position:absolute;left:16px;bottom:14px;border:0;cursor:pointer;font:600 14px/1 var(--f-b);padding:13px 16px;border-radius:99px;background:#fff;color:var(--acc);box-shadow:inset 0 0 0 1.5px var(--line),0 8px 18px rgba(90,20,160,.12);z-index:3;transition:background .25s ease,color .25s ease}
 .ringmode[aria-pressed="true"]{background:var(--acc);color:#fff;box-shadow:none}
-.rc svg.mark{width:34%;height:auto}
-.rc b{font:700 clamp(14px,1.7vw,24px)/1.1 var(--f-d);letter-spacing:-.03em}
-.rc span{font:500 clamp(11px,1vw,14px)/1.3 var(--f-b);color:var(--soft);margin:-3% 0 auto}
+.rc svg.mark{width:34%;height:auto;flex:none}
+.rc b{font:700 clamp(14px,1.6vw,23px)/1.1 var(--f-d);letter-spacing:-.03em}
+.rc span{font:500 clamp(11px,.95vw,14px)/1.3 var(--f-b);color:var(--soft);margin:-3% 0 auto}
 .rc.hot span{color:#d9cbee}
-.rc i{height:6%;border-radius:99px;background:#e6d5f8}.rc i:nth-of-type(2){width:74%}.rc i:nth-of-type(3){width:48%}
-.rc.hot{background:linear-gradient(160deg,var(--plum),var(--plum2) 70%,#3d0a66);color:#fff;box-shadow:0 14px 30px rgba(60,10,110,.3)}
+.rc i{height:5%;flex:none;border-radius:99px;background:#e6d5f8}.rc i:nth-of-type(2){width:74%}.rc i:nth-of-type(3){width:48%}
+.rc.hot{background:linear-gradient(160deg,var(--plum),var(--plum2) 70%,#3d0a66);color:#fff}
 .rc.hot i{background:#4b2a70}
-.ringnav{position:absolute;right:16px;bottom:14px;display:flex;gap:8px}
-.ringnav button{width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;background:var(--acc);position:relative}
+.dmring,.dmring *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.ringnav{position:absolute;right:16px;bottom:14px;display:flex;gap:8px;z-index:3;transition:opacity .3s ease}
+.ringnav button{width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;background:var(--acc);position:relative;box-shadow:0 8px 18px rgba(123,24,193,.3);transition:transform .2s ease,background .2s ease}
+.ringnav button:hover{background:var(--acc2)}.ringnav button:active{transform:scale(.92)}
 .ringnav button::before{content:"";position:absolute;left:50%;top:50%;width:9px;height:9px;border-top:2.5px solid #fff;border-right:2.5px solid #fff;translate:-65% -50%;rotate:45deg}
 .ringnav button[data-dir="-1"]::before{rotate:-135deg;translate:-35% -50%}
+.ringdots{position:absolute;left:50%;bottom:28px;translate:-50% 0;display:flex;gap:4px;z-index:3;transition:opacity .3s ease}
+.ringdots button{width:22px;height:22px;border:0;padding:0;background:none;cursor:pointer;display:grid;place-items:center}
+.ringdots button::before{content:"";width:7px;height:7px;border-radius:99px;background:#d3bdf0;transition:width .35s cubic-bezier(.5,0,.2,1),background .35s ease}
+.ringdots button[aria-pressed="true"]::before{width:22px;background:var(--acc)}
+.ringdots button:focus-visible{outline:3px solid var(--acc2);outline-offset:1px;border-radius:99px}
 
 /* magnetic buttons */
 .dmmag{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:44px 56px;padding:6%}
@@ -197,7 +212,7 @@
   .dmgrid{grid-template-columns:minmax(0,1fr);gap:54px;margin-top:40px}
   .dmstage{aspect-ratio:4/3;border-radius:22px}
   .dmtilt{width:92%;gap:3%}.tf{border-radius:14px;padding:10%}.tp{display:none}.tf.back .tk{display:none}
-  .ringin{width:32%}
+  .ringin{width:30%}
   .tbar i{display:none}
 }
 @media (prefers-reduced-motion:reduce){.dmchart *{transition:none!important}}
@@ -236,8 +251,8 @@ canvas.wx.page{position:fixed;inset:0;width:100vw;height:100vh;z-index:35;pointe
 .dmstage[data-demo="logo3d"][data-bg="grid"]{background:linear-gradient(rgba(123,24,193,.16) 1px,transparent 1px) 0 0/32px 32px,linear-gradient(90deg,rgba(123,24,193,.16) 1px,transparent 1px) 0 0/32px 32px,#fff}
 .dmstage[data-demo="logo3d"]{cursor:grab}
 .dmstage[data-demo="logo3d"]:active{cursor:grabbing}
-@media (max-width:560px){.dmstage[data-demo="logo3d"],.dmstage[data-demo="weather"]{aspect-ratio:1/1}.dmctl b{width:100%;padding:6px 10px 2px}.dmctl button{padding:8px 10px;font-size:12.5px}.dmprod button,.dmfx button{padding:8px 10px;font-size:12px}.ringmode{padding:11px 13px;font-size:13px}}
-@media (prefers-reduced-motion:reduce){.tin,.tcard,.rc,.ringin{transition:none!important}}
+@media (max-width:560px){.dmstage[data-demo="logo3d"],.dmstage[data-demo="weather"]{aspect-ratio:1/1}.dmctl b{width:100%;padding:6px 10px 2px}.dmctl button{padding:8px 10px;font-size:12.5px}.dmprod button,.dmfx button{padding:8px 10px;font-size:12px}.ringmode{padding:11px 13px;font-size:13px}.ringdots{display:none}.dmring{inset:0 0 14% 0}.dmstage[data-demo="ring"]{aspect-ratio:1/1}.dmstage[data-demo="ring"] .ringin{width:34%}}
+@media (prefers-reduced-motion:reduce){.tin,.tcard,.rc,.ringin,.ringfloor{transition:none!important}}
 
 /* New badges, the motion bar */
 .dmnav a em,.dmnew{font:700 10.5px/1 var(--f-m);font-style:normal;text-transform:uppercase;letter-spacing:.05em;padding:4px 7px;border-radius:99px;background:var(--acc);color:#fff}
@@ -317,3 +332,5 @@ canvas.wx.page{position:fixed;inset:0;width:100vw;height:100vh;z-index:35;pointe
 .dmstage[data-demo="wave"] .dmsw button{box-shadow:0 0 0 2px #2a0d47,0 0 0 3px rgba(255,255,255,.3)}
 .dmstage[data-demo="wave"] .dmsw button[aria-pressed="true"]{box-shadow:0 0 0 2px #2a0d47,0 0 0 4.5px #fff}
 .dmstage[data-demo="wave"]{cursor:crosshair}
+
+.dmstage input,.dmstage textarea{-webkit-user-select:text;user-select:text}
