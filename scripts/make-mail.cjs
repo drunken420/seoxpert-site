@@ -1,5 +1,5 @@
 // Makes the header pictures for the order emails (functions/api/order-mail.js): public/img/mail/<package>.jpg (paid)
-// and <package>-free.jpg (free test code). Suhen 2026-11-16: "different email replies and images ... for free codes and
+// and <package>-free.jpg (founder's invite = a free code). Suhen 2026-11-16: "different email replies and images ... for free codes and
 // paid codes for all packages". Run: node scripts/make-mail.cjs   (1200 x 480, shown at 600 x 240 in the email)
 // Emails need JPG or PNG (many email apps cannot show webp). No prices in pictures.
 const { chromium } = require('playwright');
@@ -44,6 +44,10 @@ body{margin:0;width:1200px;height:480px;overflow:hidden;position:relative;font-f
 .brand .bi path:nth-of-type(1){fill:#fff}
 .chip{display:inline-block;margin-top:30px;font:700 19px I;letter-spacing:.12em;text-transform:uppercase;padding:9px 18px;border-radius:999px;background:rgba(255,255,255,.14);color:${p.soft}}
 .chip.free{background:linear-gradient(120deg,#f8dc97,#e7ad45);color:#3a2400}
+.chip.paid{background:#fff;color:${p.grad[0]};box-shadow:0 10px 24px -12px rgba(0,0,0,.5)}
+.chip em{font-style:normal;display:inline-block;width:24px;height:24px;line-height:24px;margin:-4px 6px -4px -6px;border-radius:50%;background:${p.gold ? '#c9a14e' : '#12a05c'};color:#fff;text-align:center;letter-spacing:0}
+.spark i{position:absolute;width:14px;height:14px;background:${p.gold ? '#f6e2a8' : '#fff'};clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:.9}
+.spark i:nth-child(1){right:560px;top:92px;width:22px;height:22px}.spark i:nth-child(2){right:60px;top:300px}.spark i:nth-child(3){right:590px;top:380px;width:10px;height:10px;opacity:.6}
 .fam{font:600 30px S;color:${p.soft};margin-top:18px;letter-spacing:-.01em}
 h1{font:700 92px/1 S;letter-spacing:-.045em;margin:4px 0 0;color:${p.ink}}
 .tag{font:500 26px I;color:${p.soft};margin-top:10px}
@@ -70,10 +74,10 @@ h1{font:700 92px/1 S;letter-spacing:-.045em;margin:4px 0 0;color:${p.ink}}
 .rib{position:absolute;right:-74px;top:44px;width:330px;transform:rotate(36deg);text-align:center;font:800 22px I;letter-spacing:.16em;padding:12px 0;color:#3a2400;background:linear-gradient(120deg,#f8dc97,#f2c66d 50%,#e7ad45);box-shadow:0 12px 30px -10px rgba(0,0,0,.5)}
 </style><div class="dots"></div>
 <div class="t"><div class="brand"><span class="bi">${icon}</span>SEOXpert</div>
-<span class="chip${free ? ' free' : ''}">${free ? 'Free test order' : 'Order confirmed'}</span>
+<span class="chip${free ? ' free' : ' paid'}">${free ? (p.art === 'site' ? "Founder's invite" : "Founder's invite · 14 days") : '<em>✓</em> Paid · Thank you'}</span>
 <div class="fam">${p.fam}</div><h1>${p.name}</h1><div class="tag">${p.tag}</div></div>
 ${p.art === 'ring' ? '' : `<div class="stat"><b>${p.stat}</b>${p.sub}</div>`}
-${art(p)}${free ? '<div class="rib">FREE TEST</div>' : ''}`; };
+${art(p)}${free ? '<div class="rib">INVITED</div>' : '<div class="spark"><i></i><i></i><i></i></div>'}`; };
 
 (async () => {
   const b = await chromium.launch(); const pg = await b.newPage({ viewport: { width: 1200, height: 480 } });

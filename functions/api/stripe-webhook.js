@@ -76,7 +76,7 @@ export async function onRequestPost({ request, env }) {
     m.next = kind === 'upgrade' ? m.next : r.ok ? `Done for you: ${r.invited} got their XpertInsight invite (${r.plan}). They set up their dashboard at /start/ and you get an email when it is ready. Next: choose their target keywords on the setup page.`
       : r.already ? 'Their XpertInsight invite was already sent.'
       : `The automatic XpertInsight invite did not go out (${r.why}). Send it on the setup page: "Let the client set it up" with ${r.plan || 'their plan'}.`;
-    if (m.free && ev.data.object.mode === 'subscription') m.next = (m.next ? m.next + ' ' : '') + (r.test ? 'Free test code: this plan stops by itself after its first month, so they are never charged.' : `Free test code: please check in Stripe that this plan is set to cancel after its first month${r.testError ? ` (${r.testError})` : ''}.`);
+    if (m.free && ev.data.object.mode === 'subscription') m.next = (m.next ? m.next + ' ' : '') + (r.test ? 'Free code (founder\'s invite): this plan stops by itself after 14 days, so they are never charged.' : `Free code: please check in Stripe that this plan is set to cancel after 14 days${r.testError ? ` (${r.testError})` : ''}.`);
   }
   if (!m || !env.RESEND_API_KEY) return new Response('ok');
   const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1026">
