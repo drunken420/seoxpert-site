@@ -38,7 +38,7 @@ ${line(trial, `for ${trial.days} days`)}
 Every XpertRank plan includes: ${care.all.join(', ')}.
 
 ## XpertAdvice: website design and SEO guides
-${posts.map((p) => `- [${p.h1}](${site.url}${postUrl(p)}): ${p.card}`).join('\n')}
+${posts.map((p) => `- [${p.h1}](${site.url}${postUrl(p)}): ${p.card.replace(/<[^>]+>/g, "")}`).join('\n')}
 
 ## Company
 - [About](${site.url}/about/): Founder led, selective, white hat only. Clarity over complexity, transparency over buzzwords, strategy over shortcuts.

@@ -9,7 +9,7 @@ import { pageFaq } from '../lib/faq';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Work from '../components/Work.astro';
-import { build, fmt } from '../data/packages';
+import { build, fmt, px } from '../data/packages';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
 const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Website design and building', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-design/`, areaServed: areaLd, description: 'Website design for businesses in Malaysia, planned for Google and AI search before it is designed, guided by XpertCore, our own AI SEO advisor, and finished by hand.' }];
 const pf = pageFaq(['How does a website project start?', 'How much does a website cost?', 'Is copywriting included?', 'Can you redesign my current website?', 'Which areas do you work in?']);
@@ -53,9 +53,9 @@ const pf = pageFaq(['How does a website project start?', 'How much does a websit
 <section id="packages" class="solid band"><div class="wrap">
   <span class="eyebrow rv">Packages</span>
   <h2 class="rv">Website design packages.</h2>
-  <p class="sub rv">How much does website design cost? Our <a href="/packages/">website design packages</a> start at {fmt(build.tiers[0])}, one time, with copywriting and keyword research included.</p>
+  <p class="sub rv">How much does website design cost? Our <a href="/packages/">website design packages</a> start at <Fragment set:html={px(build.tiers[0])} />, one time, with copywriting and keyword research included.</p>
   <div class="grid3">
-    {build.tiers.map((t, i) => <div class="fcard rv" style={`--d:${i}`}><h3>{t.name}</h3><p><b>{fmt(t)}</b>. {t.short} at launch.</p></div>)}
+    {build.tiers.map((t, i) => <div class="fcard rv" style={`--d:${i}`}><h3>{t.name}</h3><p><b set:html={px(t)} />. {t.short} at launch.</p></div>)}
   </div>
   <p class="sub rv" style="margin-top:28px"><a href="/packages/">Compare the packages and build your plan</a>.</p>
 </div></section>

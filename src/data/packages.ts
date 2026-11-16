@@ -59,8 +59,15 @@ export const trial: Tier & { days: number } = { id: 'trial', kw: 5, name: 'Xpert
 export const offersLd = (set: typeof build | typeof care) =>
   (set.key === 'care' ? [trial, ...set.tiers] : set.tiers).map((t) => ({ '@type': 'Offer', name: t.name, price: now(t).rm, priceCurrency: 'MYR', description: t.short }));
 
-/** Fills {{price:<tier id>}} and {{kw:<tier id>}} in hand-written HTML (the homepage) with today's price, so prices are never typed twice. */
-export const fillPrices = (html: string) =>
-  html.replace(/\{\{price:(\w+)\}\}/g, (all, id) => { const t = [...build.tiers, ...care.tiers, trial].find((x) => x.id === id); if (!t) throw new Error('Unknown price ' + all); return fmt(t); })
+/** A price people SEE on a page (Suhen 2026-11-16: prices by the visitor's country). The HTML always says RM; the browser
+    swaps it to USD for visitors outside Malaysia (the inline script at the end of Base.astro, country from functions/_middleware.js).
+    Only for visible HTML: titles, descriptions, structured data and llms.txt keep plain RM text (fmt and friends). */
+const kinds = { now: fmt, new: fmtNew, year: fmtYear, yearNew: fmtYearNew, other: fmtOther, yearOther: fmtYearOther };
+export const px = (t: Tier, kind: keyof typeof kinds = 'now') => { const f = kinds[kind]; return `<span data-rm="${f(t, 'RM')}" data-usd="${f(t, 'USD')}">${f(t, 'RM')}</span>`; };
+
+/** Fills {{price:<tier id>}} and {{kw:<tier id>}} in hand-written HTML (the homepage) with today's price, so prices are never typed twice.
+    show = true for the visible page (prices the browser can swap to USD); false for plain text (structured data, chat). */
+export const fillPrices = (html: string, show = false) =>
+  html.replace(/\{\{price:(\w+)\}\}/g, (all, id) => { const t = [...build.tiers, ...care.tiers, trial].find((x) => x.id === id); if (!t) throw new Error('Unknown price ' + all); return show ? px(t) : fmt(t); })
     // {{kw:<care tier id>}} = that plan's target keywords (Suhen 2026-11-16)
     .replace(/\{\{kw:(\w+)\}\}/g, (all, id) => { const t = [...care.tiers, trial].find((x) => x.id === id); if (!t || !t.kw) throw new Error('Unknown keywords ' + all); return String(t.kw); });

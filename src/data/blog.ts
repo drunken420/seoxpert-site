@@ -3,7 +3,7 @@
 // Never promise rankings. No invented numbers, clients or results: examples are clearly marked as examples.
 // Add a new guide at the TOP of the list. Headings use single quotes and no apostrophes (scripts/make-pics.cjs reads them).
 // Styling helpers inside html: <h3>, <ol>, <div class="btip"><b>Tip</b>...</div>, <ul class="bcheck"> (tick list).
-import { build, care, fmt, fmtYear, yearly, offer, offerOn } from './packages';
+import { build, care, fmt, px, yearly, offer, offerOn } from './packages';
 
 export interface Post {
   slug: string; tag: string; art: 'cost' | 'care' | 'ai' | 'seo' | 'pick' | 'map' | 'city' | 'stack';
@@ -19,15 +19,15 @@ export interface Post {
 const [starter, business, growth] = build.tiers;
 const [basic, plus, pro, elite] = care.tiers;
 const buildTable = `<div class="btable" tabindex="0" role="region" aria-label="XpertForge packages table"><table><thead><tr><th>Package</th><th>Price, paid once</th><th>Pages</th><th>Blog posts at launch, on top</th></tr></thead><tbody>
-<tr><td>${starter.name}</td><td>${fmt(starter)}</td><td>Up to 5</td><td>2</td></tr>
-<tr><td>${business.name}</td><td>${fmt(business)}</td><td>Up to 10</td><td>5</td></tr>
-<tr><td>${growth.name}</td><td>${fmt(growth)}</td><td>Up to 20</td><td>10</td></tr>
+<tr><td>${starter.name}</td><td>${px(starter)}</td><td>Up to 5</td><td>2</td></tr>
+<tr><td>${business.name}</td><td>${px(business)}</td><td>Up to 10</td><td>5</td></tr>
+<tr><td>${growth.name}</td><td>${px(growth)}</td><td>Up to 20</td><td>10</td></tr>
 </tbody></table></div>`;
 const careTable = `<div class="btable" tabindex="0" role="region" aria-label="XpertRank plans table"><table><thead><tr><th>Plan</th><th>Price a month</th><th>Paid yearly</th><th>What changes each month</th></tr></thead><tbody>
-<tr><td>${basic.name}</td><td>${fmt(basic)}</td><td>${fmtYear(basic)}</td><td>2 on-page SEO edits, 1 new SEO blog post, 10 target keywords optimised and tracked weekly</td></tr>
-<tr><td>${plus.name}</td><td>${fmt(plus)}</td><td>${fmtYear(plus)}</td><td>4 on-page SEO edits, 2 new SEO blog posts, 20 target keywords optimised and tracked weekly</td></tr>
-<tr><td>${pro.name}</td><td>${fmt(pro)}</td><td>${fmtYear(pro)}</td><td>6 on-page SEO edits, 4 new SEO blog posts, 30 target keywords optimised and tracked weekly</td></tr>
-<tr><td>${elite.name}</td><td>${fmt(elite)}</td><td>${fmtYear(elite)}</td><td>10 on-page SEO edits, 8 new SEO blog posts, 50 target keywords optimised and tracked weekly</td></tr>
+<tr><td>${basic.name}</td><td>${px(basic)}</td><td>${px(basic, 'year')}</td><td>2 on-page SEO edits, 1 new SEO blog post, 10 target keywords optimised and tracked weekly</td></tr>
+<tr><td>${plus.name}</td><td>${px(plus)}</td><td>${px(plus, 'year')}</td><td>4 on-page SEO edits, 2 new SEO blog posts, 20 target keywords optimised and tracked weekly</td></tr>
+<tr><td>${pro.name}</td><td>${px(pro)}</td><td>${px(pro, 'year')}</td><td>6 on-page SEO edits, 4 new SEO blog posts, 30 target keywords optimised and tracked weekly</td></tr>
+<tr><td>${elite.name}</td><td>${px(elite)}</td><td>${px(elite, 'year')}</td><td>10 on-page SEO edits, 8 new SEO blog posts, 50 target keywords optimised and tracked weekly</td></tr>
 </tbody></table></div>`;
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
@@ -178,7 +178,7 @@ ${careTable}
     title: 'Website Design in Kuala Lumpur and Selangor: A Checklist',
     description: 'Getting a website designed for a business in Kuala Lumpur, Selangor or Petaling Jaya? Use this checklist before you choose a designer and before you pay.',
     card: 'A practical checklist for businesses in Kuala Lumpur, Selangor and Petaling Jaya before they pay for a website.',
-    short: `Before you pay for website design in Kuala Lumpur, Selangor or Petaling Jaya, check seven things: the website will say where you work, the price is clear and in ringgit, the writing is included, it works well on a phone, it is planned for Google and AI search, you know what you will own, and someone looks after it after launch. With SEOXpert a website costs from ${fmt(starter)}, paid once.`,
+    short: `Before you pay for website design in Kuala Lumpur, Selangor or Petaling Jaya, check seven things: the website will say where you work, the price is clear and in ringgit, the writing is included, it works well on a phone, it is planned for Google and AI search, you know what you will own, and someone looks after it after launch. With SEOXpert a website costs from ${px(starter)}, paid once.`,
     sections: [
       { id: 'before-you-start', h: 'Before you start: decide what the website is for', html: `<p>The best websites have one main job. Decide yours before you talk to any designer, because it shapes every page:</p>
 <ul><li><b>Calls and WhatsApp messages,</b> for services people need soon, like repairs.</li>
@@ -207,18 +207,18 @@ ${careTable}
 <li><b>Accounts:</b> who has access to things like Google Search Console and Google Analytics for your website?</li></ul>
 <p>Clear answers now save a lot of trouble later, for example if you ever want to change providers.</p>` },
       { id: 'after-launch', h: '7. Someone looks after it after launch', html: `<p>A website needs updates, backups and fixes once it is live, and it needs new content to keep growing. Ask who does this work, what it costs, and how you ask for a change.</p>
-<p>With us that is <a href="/website-maintenance/">XpertRank</a>, our optional expert SEO service, from ${fmt(basic)} a month, with free high speed cloud hosting for websites we build. We actively check your website every few days, fix what we find and make SEO and AI search improvements when they are needed.</p>` },
+<p>With us that is <a href="/website-maintenance/">XpertRank</a>, our optional expert SEO service, from ${px(basic)} a month, with free high speed cloud hosting for websites we build. We actively check your website every few days, fix what we find and make SEO and AI search improvements when they are needed.</p>` },
       { id: 'do-you-need-to-meet', h: 'Do you need to meet in person?', html: `<p>No. We work remotely, with businesses in Kuala Lumpur, Selangor, Petaling Jaya, across Malaysia and all around the world. Everything starts with a friendly conversation by email or chat: tell us a little about your business and what you would love your website to do, and we take it from there.</p>` },
       { id: 'the-checklist', h: 'The whole checklist on one screen', html: `<ul class="bcheck"><li>I know the one main job of my website</li><li>The website will say clearly where I work</li><li>I have the full price in writing, in ringgit</li><li>I know what is paid once and what is paid every month</li><li>The writing is included and planned around real searches</li><li>Their websites load quickly and work well on my phone</li><li>Every page is planned for Google and AI search before design</li><li>I know who owns the domain name, the content and the accounts</li><li>I know who looks after the website after launch</li></ul>` },
     ],
     faqs: [
-      { q: 'How much does website design cost in Kuala Lumpur?', a: `With SEOXpert it costs ${fmt(starter)} to ${fmt(growth)}, paid once, wherever you are. The price depends mostly on how many pages you need.` },
+      { q: 'How much does website design cost in Kuala Lumpur?', a: `With SEOXpert it costs ${px(starter)} to ${px(growth)}, paid once, wherever you are. The price depends mostly on how many pages you need.` },
       { q: 'Do you only work with businesses in Kuala Lumpur and Selangor?', a: 'No. We work remotely, so we work with businesses across Malaysia and all around the world.' },
       { q: 'Is the writing included?', a: 'Yes. Every XpertForge package includes highly rankable content, written for you from keyword research and checked by our experts.' },
       { q: 'What should I prepare before I contact a designer?', a: 'Decide the one main job of your website, then gather your logo, real photos, a list of your services and the questions customers ask you most.' },
       { q: 'How do I start?', a: 'Just send us a message. Tell us a little about your business and what you would love your website to do, and we will happily suggest the package that fits you best.' },
     ],
-    cta: { pill: 'XpertForge', title: `Website design from ${fmt(starter)}, paid once`, href: '/packages/', label: 'See packages' },
+    cta: { pill: 'XpertForge', title: `Website design from ${px(starter)}, paid once`, href: '/packages/', label: 'See packages' },
   },
   {
     slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11',
@@ -226,7 +226,7 @@ ${careTable}
     title: 'Website Design Packages in Malaysia: Which One Fits?',
     description: `Compare website design packages in Malaysia: Starter, Business and Growth, from ${fmt(starter)}. See what each includes, with examples of which one fits which business.`,
     card: 'Starter, Business or Growth? What each website design package includes, with examples of who it suits.',
-    short: `Choose a website design package by counting the pages you need. ${starter.name} (${fmt(starter)}) covers up to 5 pages, ${business.name} (${fmt(business)}) up to 10 pages, and ${growth.name} (${fmt(growth)}) up to 20 pages. Every package also has a blog, counted separately from the pages. Each is paid once, and highly rankable content and keyword research are included in all three.`,
+    short: `Choose a website design package by counting the pages you need. ${starter.name} (${px(starter)}) covers up to 5 pages, ${business.name} (${px(business)}) up to 10 pages, and ${growth.name} (${px(growth)}) up to 20 pages. Every package also has a blog, counted separately from the pages. Each is paid once, and highly rankable content and keyword research are included in all three.`,
     sections: [
       { id: 'side-by-side', h: 'The three packages side by side', html: `<p>Our website builds are called XpertForge. Prices are in ringgit and paid once.</p>${buildTable}
 <p>The size changes. The quality does not. Every package includes:</p>${inEvery}` },
@@ -256,8 +256,8 @@ ${careTable}
 <p>If you are still unsure, <a href="/contact/">tell us about your business</a> and we will say honestly which size fits. If a smaller package is enough, we will tell you.</p>` },
     ],
     faqs: [
-      { q: 'What is the cheapest website design package?', a: `${starter.name} at ${fmt(starter)}, paid once, for up to 5 pages.` },
-      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${fmt(basic)} a month.` },
+      { q: 'What is the cheapest website design package?', a: `${starter.name} at ${px(starter)}, paid once, for up to 5 pages.` },
+      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month.` },
       { q: 'Do blog posts count as pages?', a: 'No. Every package comes with its own blog, counted separately from your pages, with 2, 5 or 10 posts written at launch depending on the package.' },
       { q: 'Do all packages include the writing?', a: 'Yes. Highly rankable content and full keyword research are included in every XpertForge package.' },
       { q: 'Can I take a small website with the biggest care plan?', a: `No. A care plan can be as big as the website, not bigger. ${starter.name} takes ${basic.name}.` },
@@ -269,8 +269,8 @@ ${careTable}
     h1: 'Website design price in Malaysia: what does it cost?',
     title: 'Website Design Price in Malaysia: What It Costs | SEOXpert',
     description: `Website design in Malaysia costs from ${fmt(starter)} with SEOXpert, paid once. See what changes the price, the costs to ask about and what it costs each month.`,
-    card: `A new business website in Malaysia costs from ${fmt(starter)}, paid once. The price depends mostly on how many pages you need.`,
-    short: `Website design in Malaysia with SEOXpert costs ${fmt(starter)} to ${fmt(growth)}, paid once. The price depends mostly on how many pages you need. Highly rankable content, keyword research, and Google and AI search optimisation are included in every package. When you compare quotes, compare what is included, not only the price.`,
+    card: `A new business website in Malaysia costs from ${px(starter)}, paid once. The price depends mostly on how many pages you need.`,
+    short: `Website design in Malaysia with SEOXpert costs ${px(starter)} to ${px(growth)}, paid once. The price depends mostly on how many pages you need. Highly rankable content, keyword research, and Google and AI search optimisation are included in every package. When you compare quotes, compare what is included, not only the price.`,
     sections: [
       { id: 'what-changes-the-price', h: 'What changes the price of a website', html: `<p>Website design prices in Malaysia vary widely from one company to the next, which makes quotes hard to compare. Most of the cost is the amount of work, and five things decide how much work there is.</p>
 <h3>How many pages you need</h3><p>A five page website for a new business is far less work than a twenty page website with a blog. Each page needs planning, writing, design and checking.</p>
@@ -288,7 +288,7 @@ ${careTable}
 <li><b>Changes after launch.</b> What it costs to update a price, a photo or a page later.</li>
 <li><b>Photos and licences.</b> Whether stock photos, fonts or paid plugins are included.</li></ul>
 <p>With us, websites we build get free high speed cloud hosting with every XpertRank plan, and changes, new blog posts and active checks are part of the plan.</p>` },
-      { id: 'monthly-cost', h: 'What a website costs after launch', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertRank. It costs ${fmt(basic)} to ${fmt(elite)} a month for websites we build and includes free high speed cloud hosting, backups, security, active checks every few days with fixes, SEO and AI search optimisation when needed, new blog posts and a monthly Google and AI visibility report.</p>${careTable}
+      { id: 'monthly-cost', h: 'What a website costs after launch', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertRank. It costs ${px(basic)} to ${px(elite)} a month for websites we build and includes free high speed cloud hosting, backups, security, active checks every few days with fixes, SEO and AI search optimisation when needed, new blog posts and a monthly Google and AI visibility report.</p>${careTable}
 <p>If you pay yearly you get ${yearly.text}. These prices are for websites we build; a website built elsewhere has its own price. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
       { id: 'cheap-or-good-value', h: 'A cheap website or a good value one?', html: `<p>A very low price usually means something has been left out. It might be the writing, the search planning, the phone testing, or any help after launch. None of that shows on day one, but all of it shows over the following months, when the website brings few enquiries.</p>
 <p>A good value website is one that pays for itself: people can find it, understand it quickly and get in touch easily. When you compare two quotes, line them up against the same list of what is included, and ask about anything missing.</p>` },
@@ -298,13 +298,13 @@ ${careTable}
 <p>For worked examples, read <a href="/blog/website-design-packages-malaysia/">website design packages in Malaysia</a>. Not sure? <a href="/contact/">Tell us about your business</a> and we will say honestly which size fits.</p>` },
     ],
     faqs: [
-      { q: 'How much does a website cost in Malaysia?', a: `With SEOXpert a website costs ${fmt(starter)} to ${fmt(growth)}, paid once, depending mostly on how many pages you need.` },
-      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${fmt(basic)} a month.` },
+      { q: 'How much does a website cost in Malaysia?', a: `With SEOXpert a website costs ${px(starter)} to ${px(growth)}, paid once, depending mostly on how many pages you need.` },
+      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month.` },
       { q: 'Is the writing included in the price?', a: 'Yes. Highly rankable content is included in every XpertForge package. We write answer first copy for each page and our experts check it.' },
       { q: 'Do I have to take a monthly plan?', a: 'No. XpertRank is optional.' },
       { q: 'Are the prices in ringgit?', a: 'Yes. Prices are shown in RM first. The packages page also has a switch to US dollars.' },
     ],
-    cta: { pill: 'XpertForge', title: `Get a website from ${fmt(starter)}`, href: '/packages/', label: 'See packages' },
+    cta: { pill: 'XpertForge', title: `Get a website from ${px(starter)}`, href: '/packages/', label: 'See packages' },
   },
   {
     slug: 'seo-malaysia-guide', tag: 'SEO', art: 'seo', date: '2026-11-11', updated: '2026-11-15',
@@ -419,7 +419,7 @@ ${careTable}
     title: 'Website Maintenance in Malaysia: Cost and What It Covers',
     description: `Website maintenance in Malaysia: the regular work that keeps a website safe, up to date and growing: what it covers, what can go wrong and the cost, from ${fmt(basic)} a month.`,
     card: 'The regular work that keeps a website safe, up to date and growing after launch, and what it costs.',
-    short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${fmt(basic)} to ${fmt(elite)} a month for websites we build, with free high speed cloud hosting included. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
+    short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${px(basic)} to ${px(elite)} a month for websites we build, with free high speed cloud hosting included. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
     sections: [
       { id: 'what-it-covers', h: 'What website maintenance covers', html: `<ul><li><b>Hosting.</b> A fast, reliable home for your website.</li>
 <li><b>Backups.</b> Regular copies are saved, so nothing is lost if something goes wrong.</li>
@@ -458,7 +458,7 @@ ${careTable}
       { q: 'Can I pay for a year at once?', a: `Yes. Pay yearly and you get ${yearly.text}.` },
       { q: 'Does maintenance guarantee better rankings?', a: 'No. Nobody can promise rankings. Maintenance keeps your website healthy and improves the pages that are not ranking yet.' },
     ],
-    cta: { pill: 'XpertRank', title: `Expert SEO from ${fmt(basic)}, free cloud hosting for websites we build`, href: '/website-maintenance/', label: 'See XpertRank plans' },
+    cta: { pill: 'XpertRank', title: `Expert SEO from ${px(basic)}, free cloud hosting for websites we build`, href: '/website-maintenance/', label: 'See XpertRank plans' },
   },
   {
     slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-15',

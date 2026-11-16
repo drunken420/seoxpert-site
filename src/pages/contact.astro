@@ -4,24 +4,26 @@ import PageHero from '../components/PageHero.astro';
 import Related from '../components/Related.astro';
 import '../styles/page.css';
 import { site, whatsappLink, emailLink, ways } from '../config';
-import { build, care, trial, fmt, fmtOther, offerOn } from '../data/packages';
+import { build, care, trial, fmt, fmtOther, px, offerOn } from '../data/packages';
 // Contact page redone for the current offer (Suhen 2026-11-15): three ways we can help, with real prices from
 // packages.ts, and form choices that match them. Each choice shows a short line of what it is.
 const starter = build.tiers[0], growth = build.tiers[build.tiers.length - 1], basic = care.tiers[0];
 const total = (t) => t.short.match(/^(\d+) pages/)?.[1];
 const on = offerOn();
 const picks = [
-  { need: 'Website design', tag: 'XpertForge', title: 'A new website', price: `From ${fmt(starter)}`, text: `Planned, written, designed and built to rank on Google and AI search. ${total(starter)} to ${total(growth)} pages in total.`, extra: on ? 'Launch offer: free months of XpertRank and 1 year of free high speed cloud hosting.' : '', link: ['/packages/', 'See website packages'] },
-  { need: 'XpertRank for my website', tag: 'XpertRank', title: 'SEO for my website', price: `From ${fmt(basic)} a month`, text: `Our expert SEO service: target keywords optimised for Google and AI search, new SEO blog posts, fixes and AI search optimisation. Already have a website built elsewhere? XpertRank works on it too, from ${fmtOther(basic)} a month.`, extra: 'Money-back promise on websites we build.', link: ['/seo-services-malaysia/', 'See the SEO service'] },
-  { need: 'XpertRank Trial', tag: `${trial.days}-day Trial`, title: 'Try XpertRank first', price: `${fmt(trial)} for ${trial.days} days`, text: 'Your own XpertInsight dashboard, 5 keywords tracked and a technical SEO audit of up to 20 pages.', extra: 'The trial price comes off your first paid month.', link: ['/website-maintenance/#xpertrank', 'See XpertRank plans'] },
+  { need: 'Website design', tag: 'XpertForge', title: 'A new website', price: `From ${px(starter)}`, text: `Planned, written, designed and built to rank on Google and AI search. ${total(starter)} to ${total(growth)} pages in total.`, extra: on ? 'Launch offer: free months of XpertRank and 1 year of free high speed cloud hosting.' : '', link: ['/packages/', 'See website packages'] },
+  { need: 'XpertRank for my website', tag: 'XpertRank', title: 'SEO for my website', price: `From ${px(basic)} a month`, text: `Our expert SEO service: target keywords optimised for Google and AI search, new SEO blog posts, fixes and AI search optimisation. Already have a website built elsewhere? XpertRank works on it too, from ${px(basic, 'other')} a month.`, extra: 'Money-back promise on websites we build.', link: ['/seo-services-malaysia/', 'See the SEO service'] },
+  { need: 'XpertRank Trial', tag: `${trial.days}-day Trial`, title: 'Try XpertRank first', price: `${px(trial)} for ${trial.days} days`, text: 'Your own XpertInsight dashboard, 5 keywords tracked and a technical SEO audit of up to 20 pages.', extra: 'The trial price comes off your first paid month.', link: ['/website-maintenance/#xpertrank', 'See XpertRank plans'] },
 ];
-const needs = [
-  ['Website design', 'A new website', `XpertForge website, from ${fmt(starter)}. Tell us what your business does and roughly how many pages you need.`],
-  ['Website and XpertRank', 'A website and SEO', `An XpertForge website with XpertRank, our expert SEO service, from ${fmt(basic)} a month.`],
-  ['XpertRank for my website', 'SEO for my website', `XpertRank on a website you already have, from ${fmtOther(basic)} a month. Add your website address above.`],
-  ['XpertRank Trial', `${trial.days}-day Trial`, `${fmt(trial)} for ${trial.days} days, taken off your first paid month. Add your website address above.`],
+/** The form choices and their hint lines; the hint is written for RM and USD (contact.js shows the visitor's one). */
+const needsIn = (cur: 'RM' | 'USD') => [
+  ['Website design', 'A new website', `XpertForge website, from ${fmt(starter, cur)}. Tell us what your business does and roughly how many pages you need.`],
+  ['Website and XpertRank', 'A website and SEO', `An XpertForge website with XpertRank, our expert SEO service, from ${fmt(basic, cur)} a month.`],
+  ['XpertRank for my website', 'SEO for my website', `XpertRank on a website you already have, from ${fmtOther(basic, cur)} a month. Add your website address above.`],
+  ['XpertRank Trial', `${trial.days}-day Trial`, `${fmt(trial, cur)} for ${trial.days} days, taken off your first paid month. Add your website address above.`],
   ['Not sure yet', 'Not sure yet', 'No problem. Tell us about your business and we will suggest what fits.'],
 ];
+const needs = needsIn('RM'), needsUsd = needsIn('USD');
 ---
 <Base title="Contact SEOXpert | Start With a Conversation" description={`Talk to SEOXpert about a new website or XpertRank, our expert SEO service. Reach us by ${ways.toLowerCase().replace("whatsapp", "WhatsApp")}. No pressure, just honest insight, always.`} path="/contact/" crumb="Contact">
 <main id="main">
@@ -37,8 +39,8 @@ const needs = [
     {picks.map((k, i) => <div class="cpick rv" style={`--d:${i}`}>
       <span class="cptag">{k.tag}</span>
       <h3>{k.title}</h3>
-      <p class="cpprice">{k.price}</p>
-      <p>{k.text}</p>
+      <p class="cpprice" set:html={k.price} />
+      <p set:html={k.text} />
       {k.extra && <p class="cpextra">{k.extra}</p>}
       <div class="cpact"><a class="btn sm" href="#ways" data-need={k.need}>Ask about this</a><a class="cplink" href={k.link[0]}>{k.link[1]}</a></div>
     </div>)}
@@ -65,7 +67,7 @@ const needs = [
         <label class="cf"><span>Your website <small>(if you have one)</small></span><input name="site" type="text" inputmode="url" autocomplete="url" maxlength="200" placeholder="yourbusiness.com.my"></label>
       </div>
       <fieldset class="cf cneed"><legend>What do you need?</legend>
-        {needs.map((n, i) => <label><input type="radio" name="need" value={n[0]} data-hint={n[2]} checked={i === 0}><span>{n[1]}</span></label>)}
+        {needs.map((n, i) => <label><input type="radio" name="need" value={n[0]} data-hint={n[2]} data-hint-usd={needsUsd[i][2]} checked={i === 0}><span>{n[1]}</span></label>)}
         <p class="chint" id="chint">{needs[0][2]}</p>
       </fieldset>
       <label class="cf"><span>Your message</span><textarea name="message" rows="5" required maxlength="3000" placeholder="What does your business do, and what should your website help with? If you want SEO, which searches do you want to be found for?"></textarea></label>
