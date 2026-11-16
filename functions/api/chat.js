@@ -5,7 +5,7 @@
 //
 // Settings live in the Cloudflare Pages project (Settings > Variables and Secrets), never in this repo:
 //   ANTHROPIC_API_KEY  required, from console.anthropic.com. Without it the chat keeps the instant FAQ answers only.
-//   CHAT_MODEL         optional, default claude-opus-5-5. claude-haiku-5-5 is about 40 times cheaper per message.
+//   CHAT_MODEL         optional, default claude-haiku-5-5 (Suhen 2026-11-16). claude-opus-5-5 gives sharper answers at about 40 times the cost.
 //   CHAT               optional, "off" turns the AI off (FAQ answers only) without a rebuild.
 //   CHAT_DAILY         optional, most AI answers a day for the whole site (default 500); after that FAQ answers only.
 //   CHAT_KV            optional KV binding: makes the limits below exact across Cloudflare's servers.
@@ -84,7 +84,7 @@ export async function onRequestPost({ request, env }) {
   let brief;
   try { brief = await getBrief(env, request); } catch { return json({ ok: false, error: 'brief' }, 503); }
 
-  const model = env.CHAT_MODEL || 'claude-opus-5-5';
+  const model = env.CHAT_MODEL || 'claude-haiku-5-5'; // Suhen picked Haiku 5.5 (cheapest) on 2026-11-16
   const client = new Anthropic({ apiKey: String(env.ANTHROPIC_API_KEY).trim(), baseURL: env.CHAT_API || 'https://api.anthropic.com', maxRetries: 1, timeout: 25000 }) // CHAT_API: a stand-in for local tests only;
   const params = {
     model,
