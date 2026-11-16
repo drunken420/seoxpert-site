@@ -23,7 +23,21 @@ for (const p of pages) {
   const n = (text.match(/\[(PLACEHOLDER|DRAFT)\]/g) || []).length; placeholders += n;
   if (n) console.log(`NOTE ${p}: ${n} placeholder(s) still to fill in`);
 }
-for (const f of ['robots.txt', 'sitemap-index.xml', 'favicon.svg', 'llms.txt', 'chat.json']) // llms.txt and chat.json also feed the AI chat (functions/api/chat.js) if (!fs.existsSync(path.join(dist, f))) fail(f, 'missing');
+// llms.txt and chat.json also feed the AI chat (functions/api/chat.js)
+for (const f of ['robots.txt', 'sitemap-index.xml', 'favicon.svg', 'llms.txt', 'chat.json']) if (!fs.existsSync(path.join(dist, f))) fail(f, 'missing');
+
+// The AI chat's facts and fact check (src/lib/chat-ai.js), free to run: no AI call. The paid test with real answers is scripts/chat-eval.mjs.
+{
+  const { priceFacts, checkReply } = await import('../src/lib/chat-ai.js');
+  const { build, care } = await import('../src/data/packages.ts');
+  const facts = priceFacts();
+  for (const t of build.tiers) { const n = t.short.match(/(\d+) pages in total/)[1]; if (!facts.includes(`${n} pages in total`)) fail('chat-ai.js', `${t.name}: total pages missing from the chat facts`); }
+  for (const t of care.tiers) if (!facts.includes(`${t.kw} target keywords`)) fail('chat-ai.js', `${t.name}: keywords missing from the chat facts`);
+  const bad = 'For the rebuild: RM799 (Starter, up to 5 pages), RM1,499 (Business, up to 10 pages) or RM2,499 (Growth, up to 20 pages). Pro is RM350 a month.';
+  if (checkReply(bad).length !== 4) fail('chat-ai.js', 'the fact check missed a wrong page count or price: ' + JSON.stringify(checkReply(bad)));
+  const good = 'XpertForge Growth is **RM2,499** for 30 pages in total (20 website pages + 10 blog posts), then XpertRank Pro **RM349** a month (US$79). Starter is 7 pages in total: up to 5 website pages and 2 blog posts.';
+  if (checkReply(good).length) fail('chat-ai.js', 'the fact check flagged a correct answer: ' + JSON.stringify(checkReply(good)));
+}
 console.log(`${pages.length} page(s) checked, ${errors} problem(s), ${placeholders} placeholder(s).`);
 if (process.env.STRICT && placeholders) { console.log('STRICT: placeholders must be filled before going live.'); process.exit(1); }
 process.exit(errors ? 1 : 0);

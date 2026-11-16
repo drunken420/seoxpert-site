@@ -12,7 +12,7 @@
 //   RESEND_API_KEY     already set for the contact form: used to email us the chat when a visitor leaves their email.
 // Hard money cap: set a monthly spend limit on the API key's workspace in console.anthropic.com.
 import Anthropic from '@anthropic-ai/sdk';
-import { systemPrompt, replySchema, cleanHistory, findEmail } from '../../src/lib/chat-ai.js';
+import { systemPrompt, replySchema, cleanHistory, findEmail, checkReply } from '../../src/lib/chat-ai.js';
 
 const TO = 'contact@seoxpert.my';
 const FROM = 'SEOXpert <hello@seoxpert.my>';
@@ -77,9 +77,15 @@ export async function onRequestPost({ request, env }) {
   if (email && env.RESEND_API_KEY && !(body.sent || []).includes(email.toLowerCase())) {
     lead = await sendLead(env, email, messages, page).catch(() => false);
   }
-  const extra = email ? [{ role: 'system', content: lead
+  // Website notes go after the visitor's message (a mid-conversation system message), so the cached brief stays the same for everyone.
+  const country = String((request.cf && request.cf.country) || request.headers.get('CF-IPCountry') || '').toUpperCase();
+  const notes = [country && country !== 'MY' && country !== 'XX' && country !== 'T1'
+    ? 'Website note: this visitor is outside Malaysia. Show prices in US$ first, with RM in brackets.'
+    : 'Website note: show prices in RM (add US$ only if the visitor asks).'];
+  if (email) notes.push(lead
     ? 'Website note: the visitor\'s email was passed to the SEOXpert team together with this chat. A real person will reply by email.'
-    : 'Website note: the visitor typed an email address, but it could not be passed on automatically. Ask them to use the contact page (/contact/) so a real person can reply.' }] : [];
+    : 'Website note: the visitor typed an email address, but it could not be passed on automatically. Ask them to use the contact page (/contact/) so a real person can reply.');
+  const extra = [{ role: 'system', content: notes.join('\n') }];
 
   let brief;
   try { brief = await getBrief(env, request); } catch { return json({ ok: false, error: 'brief' }, 503); }
@@ -91,23 +97,39 @@ export async function onRequestPost({ request, env }) {
     max_tokens: 3000,
     system: [{ type: 'text', text: brief, cache_control: { type: 'ephemeral' } }], // the facts are the same for everyone: cached
     messages: [...messages, ...extra],
-    output_config: { effort: 'low', format: { type: 'json_schema', schema: replySchema } },
+    output_config: { effort: 'medium', format: { type: 'json_schema', schema: replySchema } },
   };
   // Opus, Sonnet and Fable can hand a declined answer to another model on the server (Haiku cannot).
   if (/opus|sonnet|fable/.test(model)) Object.assign(params, { betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' });
 
-  let msg;
+  const ask = async (p) => {
+    const msg = await client.beta.messages.create(p);
+    if (msg.stop_reason === 'refusal') return null;
+    const text = msg.content.filter((b) => b.type === 'text').map((b) => b.text).join('');
+    try { return JSON.parse(text); } catch { return { reply: text, suggestions: [] }; }
+  };
+  let out;
   try {
-    msg = await client.beta.messages.create(params);
+    out = await ask(params);
+    // Fact check (2026-11-16): a price that is not in packages.ts, or a build described with the wrong page count, gets one more try with the problems named.
+    const problems = out ? checkReply(out.reply) : [];
+    if (problems.length) {
+      console.log('chat fact check', problems.join(' | '));
+      const fix = `Website note: a draft of this answer had mistakes: ${problems.join(' ')} Avoid them, and copy every number exactly from the WEBSITE FACTS.`;
+      const again = await ask({ ...params, messages: [...messages, { role: 'system', content: `${extra[0].content}\n${fix}` }] });
+      if (again && checkReply(again.reply).length) {
+        // Still wrong: better the instant FAQ answers (the browser falls back to them) than a wrong price.
+        console.log('chat fact check failed twice', checkReply(again.reply).join(' | '));
+        return json({ ok: false, error: 'facts', lead }, 502);
+      }
+      out = again;
+    }
   } catch (e) {
     const status = e instanceof Anthropic.RateLimitError ? 'busy' : e instanceof Anthropic.AuthenticationError ? 'key' : 'ai';
     console.log('chat error', status, e && e.status, e && e.message);
     return json({ ok: false, error: status, lead }, 502);
   }
-  if (msg.stop_reason === 'refusal') return json({ ok: true, lead, reply: 'I can only help with questions about SEOXpert, our websites and our SEO service. What would you like to know?', suggestions: ['How much does a website cost?', 'What is XpertRank?'] });
-  const text = msg.content.filter((b) => b.type === 'text').map((b) => b.text).join('');
-  let out;
-  try { out = JSON.parse(text); } catch { out = { reply: text, suggestions: [] }; }
+  if (!out) return json({ ok: true, lead, reply: 'I can only help with questions about SEOXpert, our websites and our SEO service. What would you like to know?', suggestions: ['How much does a website cost?', 'What is XpertRank?'] });
   const reply = String(out.reply || '').trim().slice(0, 2000);
   if (!reply) return json({ ok: false, error: 'ai', lead }, 502);
   const suggestions = (Array.isArray(out.suggestions) ? out.suggestions : []).map((s) => String(s).trim().slice(0, 60)).filter(Boolean).slice(0, 3);
