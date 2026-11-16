@@ -40,12 +40,14 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
 })();
 
-/* Chat helper: instant answers from our own questions and answers (fetched from /chat.json when the chat first opens).
-   It is not an AI, and it sends nothing anywhere: matching happens here in the browser. */
+/* Chat helper. Typed questions go to our AI assistant (/api/chat, a Cloudflare Pages Function that answers only from this
+   website's own facts; Suhen 2026-11-16). Picked questions answer instantly from our own questions and answers (/chat.json,
+   fetched when the chat first opens), and so does every question while the AI is off, busy or not set up. */
 (function () {
   var panel = document.getElementById('chatpanel'); if (!panel) return;
   var log = panel.querySelector('.cp-log'), chips = panel.querySelector('.cp-chips'), form = panel.querySelector('.cp-form'), input = form.querySelector('input'), fab = document.querySelector('.chatfab');
   var data = null, loading = null, index = [], asked = {}, started = false, dq = {}, da = {};
+  var hist = [], sent = [], aiOn = true, aiCount = 0, busy = false; // the conversation, for the AI
   function uniq(a) { return a.filter(function (w, i) { return a.indexOf(w) === i; }); }
   var STOP = 'a an and are as at be by can do does for from how i in is it me my of on or our that the this to we what when who will with you your about have has get any there much myself offer offers provide sell need want also just like'.split(' ');
   // words that mean the same thing for matching
@@ -55,9 +57,9 @@
     redo: 'redesign', revamp: 'redesign',  revisions: 'revision', edit: 'revision', edits: 'revision', promise: 'guarantee', guaranteed: 'guarantee', mobile: 'phone', responsive: 'phone', schema: 'structured', markup: 'structured', update: 'change', updates: 'change',
     animation: '3d', animations: '3d', effects: '3d', demos: '3d', xpertlab: '3d', usd: 'dollar', discount: 'yearly', annual: 'yearly', year: 'yearly',
     portfolio: 'built', examples: 'built', site: 'website', sites: 'website', websites: 'website', webpage: 'page', pages: 'page', look: 'care', after: 'care',
-    another: 'else', other: 'else', someone: 'else', elsewhere: 'else', existing: 'else', agency: 'else', previous: 'else', team: 'founder', owner: 'founder', who: 'founder', blogs: 'blog', posts: 'blog', articles: 'blog', start: 'start', begin: 'start', process: 'start', steps: 'start', area: 'areas', location: 'areas', overseas: 'areas', abroad: 'areas', international: 'areas', worldwide: 'areas', world: 'areas', global: 'areas', remote: 'areas', remotely: 'areas', countries: 'areas', country: 'areas' };
+    another: 'else', other: 'else', someone: 'else', elsewhere: 'else', existing: 'else', agency: 'else', previous: 'else', team: 'founder', owner: 'founder', who: 'founder', blogs: 'blog', posts: 'blog', articles: 'blog', start: 'start', begin: 'start', process: 'start', steps: 'start', area: 'areas', location: 'areas', overseas: 'areas', abroad: 'areas', international: 'areas', worldwide: 'areas', world: 'areas', global: 'areas', remote: 'areas', remotely: 'areas', countries: 'areas', country: 'areas', build: 'start', make: 'start', create: 'start', new: 'start' };
   // a few questions people ask in many ways: these phrases go straight to their answer
-  var INTENT = [[/guarantee|promise|page (1|one)|first page|top of google|number one|#1/, 'Can you guarantee first page on Google?'], [/someone else|another (company|agency|developer|designer)|built elsewhere|wordpress|wix|shopify/, 'Can you look after a website built by someone else?'], [/^how much\b(?!.*(hosting|care|month|usd|dollar))|^what does (it|a website) cost|^(cost|costs|price|prices|pricing)\??$/, 'How much does a website cost?'], [/overseas|abroad|international|worldwide|outside malaysia|other countr|remote|which areas|where do you work/, 'Which areas do you work in?']];
+  var INTENT = [[/guarantee|promise|page (1|one)|first page|top of google|number one|#1/, 'Can you guarantee first page on Google?'], [/someone else|another (company|agency|developer|designer)|built elsewhere|wordpress|wix|shopify|already have a (web)?site/, 'Can you look after a website built by someone else?'], [/^how much\b(?!.*(hosting|care|month|usd|dollar))|^what does (it|a website) cost|^(cost|costs|price|prices|pricing)\??$/, 'How much does a website cost?'], [/overseas|abroad|international|worldwide|outside malaysia|other countr|remote|which areas|where do you work/, 'Which areas do you work in?'], [/(want|need|like) (to )?(build|make|create|get|have) (a |my |an )?(new )?(web)?site|new website/, 'How does a website project start?']];
   function words(t) { return t.toLowerCase().replace(/how much/g, 'cost').replace(/who (are|is) (you|seoxpert|behind)/g, 'founder').replace(/[^a-z0-9 ]+/g, ' ').split(/\s+/).filter(function (w) { return w.length > 1 && STOP.indexOf(w) < 0; }).map(function (w) { var b = w.length > 3 ? w.replace(/s$/, '') : w; return SAME[w] || SAME[b] || b; }); }
   function contact() {
     var parts = [];
@@ -68,6 +70,24 @@
   }
   function bubble(cls, html) { var d = document.createElement('div'); d.className = 'bub ' + cls; d.innerHTML = html; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  function plain(html) { var d = document.createElement('div'); d.innerHTML = html; return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
+  // The AI writes a little Markdown: **bold**, [links](/path/), short lists. Everything else is shown as plain text,
+  // and links may only point at this website or an email address.
+  function md(t) {
+    var h = esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (all, txt, url) {
+      url = url.replace(/^https?:\/\/(www\.)?seoxpert\.my/, '') || '/';
+      return /^\/(?!\/)|^mailto:/.test(url) ? '<a href="' + url + '">' + txt + '</a>' : txt;
+    });
+    var out = [], list = false;
+    h.split(/\n/).forEach(function (l) {
+      var m = l.match(/^\s*(?:[-*•]|\d+\.)\s+(.*)/);
+      if (m) { if (!list) { out.push('<ul>'); list = true; } out.push('<li>' + m[1] + '</li>'); return; }
+      if (list) { out.push('</ul>'); list = false; }
+      if (l.trim()) out.push('<p>' + l + '</p>');
+    });
+    if (list) out.push('</ul>');
+    return out.join('');
+  }
   function load() {
     if (!loading) loading = fetch('/chat.json').then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (d) {
       data = d; index = d.faqs.map(function (f) { return { f: f, q: words(f.q), a: words(f.t) }; });
@@ -76,17 +96,32 @@
     });
     return loading;
   }
-  // the chips under the chat: questions, topics, and a link to every question
-  function chip(label, fn, cls) { var b = document.createElement('button'); b.type = 'button'; b.textContent = label; if (cls) b.className = cls; b.addEventListener('click', fn); chips.appendChild(b); }
-  function show(list, withTopics) {
-    chips.innerHTML = '';
-    list.forEach(function (f) { chip(f.q, function () { ask(f.q, f); }); });
-    if (withTopics) { var s = document.createElement('small'); s.textContent = 'Or pick a topic'; chips.appendChild(s); data.topics.forEach(function (t) { chip(t, function () { topic(t); }, 'tp'); }); }
-    else { chip('Other topics', function () { show([], true); }, 'tp'); var a = document.createElement('a'); a.href = '/faq/'; a.className = 'tp'; a.textContent = 'All questions'; chips.appendChild(a); }
+  // The chips under the chat: ONE row that scrolls sideways (Suhen 2026-11-16: the old topic area looked crowded).
+  // Next questions first, then "Topics" (opens the topic row) and "Talk to a person".
+  function chip(label, fn, cls) { var b = document.createElement('button'); b.type = 'button'; b.textContent = label; if (cls) b.className = cls; b.addEventListener('click', fn); chips.appendChild(b); return b; }
+  function show(list) {
+    chips.innerHTML = ''; chips.scrollLeft = 0;
+    list.forEach(function (f) { if (typeof f === 'string') chip(f, function () { ask(f); }); else chip(f.q, function () { ask(f.q, f); }); });
+    chip('Topics', topics, 'tp');
+    chip('Talk to a person', person, 'tp');
+    chips.scrollLeft = 0;
+  }
+  function topics() {
+    chips.innerHTML = ''; chips.scrollLeft = 0;
+    chip('← Back', function () { show([]); }, 'tp bk');
+    data.topics.forEach(function (t) { chip(t, function () { topic(t); }); });
+    var a = document.createElement('a'); a.href = '/faq/'; a.className = 'tp'; a.textContent = 'All questions'; chips.appendChild(a);
+    chips.scrollLeft = 0;
+  }
+  function person() {
+    bubble('me', 'Talk to a person');
+    var r = 'Happy to. Type your <b>email</b> and a short note here, and a real person from our team will reply by email. Or use <a href="/contact/">the contact page</a>.';
+    bubble('ai', r); hist.push({ role: 'user', text: 'I would like to talk to a person.' }, { role: 'assistant', text: plain(r) });
+    show([]); input.placeholder = 'Your email and a short note'; input.focus();
   }
   function topic(t) {
     bubble('me', esc(t)); var list = data.faqs.filter(function (f) { return f.topic === t; });
-    bubble('ai', '<b>' + esc(t) + '</b><br>Pick a question, or type your own.'); show(list.filter(function (f) { return !asked[f.q]; }).slice(0, 5), false);
+    bubble('ai', '<b>' + esc(t) + '</b><br>Pick a question, or type your own.'); show(list.filter(function (f) { return !asked[f.q]; }).slice(0, 5));
   }
   function related(f) { return data.faqs.filter(function (o) { return o !== f && o.topic === f.topic && !asked[o.q]; }).slice(0, 3); }
   function answer(text, pick) {
@@ -96,22 +131,53 @@
     if (!pick && /^(hi|hello|hey|good (morning|afternoon|evening))\b/.test(t)) return ['Hello. Ask me about website design, prices, website maintenance or how we work.', null];
     if (!pick && /\b(contact|whatsapp|call|talk|speak|human|person|reach)\b/.test(t) && score < 4) return ['You can reach us on ' + contact() + '. A real person reads every message.', null];
     if (best && score >= 1.3) { asked[best.q] = 1; return [best.ready ? best.a : 'We are still finalising this answer. Message us on ' + contact() + ' and we will tell you directly.', best]; }
-    return ['I do not have a ready answer for that yet. Message us on ' + contact() + ' and a real person will reply, or pick a topic below.', null];
+    return ['I do not have a ready answer for that yet. Message us on ' + contact() + ' and a real person will reply, or tap Topics below.', null];
+  }
+  function track(name) { try { if (window.gtag) window.gtag('event', name, { place: 'chat' }); } catch (e) {} }
+  // Ask the AI. Resolves with its answer, or rejects (then the instant answers take over).
+  function askAi() {
+    if (!aiOn) return Promise.reject(new Error('off'));
+    var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 30000);
+    return fetch('/api/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, signal: ctl ? ctl.signal : undefined, body: JSON.stringify({ messages: hist.slice(-16), page: location.pathname, sent: sent }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { clearTimeout(tm); d.status = r.status; return d; }); })
+      .then(function (d) {
+        if (d.lead) { var e = (hist[hist.length - 1].text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i) || [''])[0].toLowerCase(); if (e) sent.push(e); track('generate_lead'); input.placeholder = 'Type your question'; }
+        if (d.ok && d.reply) return d;
+        if (d.error === 'off' || d.error === 'key' || d.status === 404 || d.status === 405) aiOn = false; // not set up here: instant answers only
+        var err = new Error(d.error || 'ai'); err.lead = d.lead; throw err;
+      }, function (e) { clearTimeout(tm); throw e; });
   }
   function ask(text, pick) {
+    if (busy) return; busy = true;
     bubble('me', esc(text)); var ai = bubble('ai', '<span class="dots"><i></i><i></i><i></i></span>'); chips.innerHTML = '';
+    hist.push({ role: 'user', text: text });
+    var t0 = Date.now();
+    function done() { busy = false; log.scrollTop = log.scrollHeight; }
+    function instant(note) {
+      var r = answer(text, pick); ai.innerHTML = r[0] + (note ? '<small class="cp-note">' + note + '</small>' : ''); hist.push({ role: 'assistant', text: plain(r[0]) });
+      if (r[1]) { var rel = related(r[1]); show(rel); } else show([]);
+      done();
+    }
     load().then(function () {
-      setTimeout(function () { var r = answer(text, pick); ai.innerHTML = r[0]; if (r[1]) { var rel = related(r[1]); show(rel, !rel.length); } else show([], true); log.scrollTop = log.scrollHeight; }, 420);
-    }).catch(function () { ai.innerHTML = 'The answers did not load. Message us on ' + contact() + ' and a real person will reply.'; });
+      if (pick) { setTimeout(function () { instant(''); }, 380); return; } // a picked question has a ready answer
+      askAi().then(function (d) {
+        ai.classList.add('md'); ai.innerHTML = md(d.reply); hist.push({ role: 'assistant', text: d.reply }); aiCount++;
+        show(d.suggestions || []); done();
+      }, function (e) {
+        // still a helpful answer, from our own questions and answers
+        setTimeout(function () { instant(e && e.lead ? 'We passed your email to our team, and a real person will reply.' : ''); }, Math.max(0, 380 - (Date.now() - t0)));
+      });
+    }).catch(function () { ai.innerHTML = 'The answers did not load. Message us on ' + contact() + ' and a real person will reply.'; hist.pop(); done(); });
   }
   function open() {
     panel.hidden = false; if (fab) fab.setAttribute('aria-expanded', 'true');
     if (!started) {
       started = true; var hi = bubble('ai', '<span class="dots"><i></i><i></i><i></i></span>');
       load().then(function () {
-        hi.innerHTML = 'Hello. I can give you quick answers about SEOXpert, from ' + data.faqs.length + ' questions people ask us. Pick one, choose a topic, or type your own.';
-        var pop = ['How much does a website cost?', 'How does a website project start?', 'Is hosting included?', 'Can you guarantee first page on Google?'];
-        show(pop.map(function (q) { return data.faqs.filter(function (f) { return f.q === q; })[0]; }).filter(Boolean), true);
+        hi.innerHTML = 'Hello. Ask me anything about our websites, prices or SEO, and I will point you to the right package. A real person can also reply by email.';
+        hist.push({ role: 'assistant', text: plain(hi.innerHTML) });
+        var pop = ['How much does a website cost?', 'Can you look after a website built by someone else?', 'Is hosting included?', 'Can you guarantee first page on Google?'];
+        show(pop.map(function (q) { return data.faqs.filter(function (f) { return f.q === q; })[0]; }).filter(Boolean));
       }).catch(function () { hi.innerHTML = 'Hello. The quick answers did not load. Message us on ' + contact() + ' and a real person will reply.'; });
     }
     if (window.matchMedia('(min-width: 901px)').matches) input.focus();
@@ -124,7 +190,9 @@
   if (fab && promptBox && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { fab.classList.toggle('tuck', es[0].isIntersecting && window.matchMedia('(max-width: 900px)').matches && panel.hidden); }).observe(promptBox);
   document.addEventListener('click', function (e) { var o = e.target.closest('[data-chat-open]'); if (o) { e.preventDefault(); if (panel.hidden) open(); else if (o === fab) close(); } else if (e.target.closest('.cp-x')) { close(); if (fab) fab.focus(); } });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { close(); if (fab) fab.focus(); } });
-  form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value.trim(); if (!v) return; input.value = ''; ask(v); });
+  form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value.trim(); if (!v || busy) return; input.value = ''; ask(v.slice(0, 600)); });
+  // the mouse wheel moves the chip row sideways
+  chips.addEventListener('wheel', function (e) { if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && chips.scrollWidth > chips.clientWidth) { chips.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 })();
 
 /* Our work: play a short silent loop of the real website over its screenshot, only while it is on screen.
