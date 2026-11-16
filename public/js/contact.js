@@ -6,7 +6,8 @@
   // the cards above the form (data-need) or from a link such as /contact/?need=trial.
   var hint = document.getElementById('chint'), radios = [].slice.call(f.querySelectorAll('input[name=need]'));
   function pick(v) { radios.forEach(function (x) { if (x.value === v) x.checked = true; }); show(); }
-  function show() { var c = radios.filter(function (x) { return x.checked; })[0]; if (hint && c) hint.textContent = c.getAttribute('data-hint') || ''; }
+  function show() { var c = radios.filter(function (x) { return x.checked; })[0]; if (hint && c) hint.textContent = c.getAttribute(window.sxCur && window.sxCur.get() === 'USD' && c.hasAttribute('data-hint-usd') ? 'data-hint-usd' : 'data-hint') || ''; }
+  if (window.sxCur) { window.sxCur.on(show); show(); } // the hint follows the RM / USD choice (prices by country, Suhen 2026-11-16)
   radios.forEach(function (x) { x.addEventListener('change', show); });
   [].forEach.call(document.querySelectorAll('[data-need]'), function (a) { a.addEventListener('click', function () { pick(a.getAttribute('data-need')); }); });
   var want = (/[?&]need=([a-z]+)/.exec(location.search) || [])[1];

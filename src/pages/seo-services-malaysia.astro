@@ -14,7 +14,7 @@ import Packages from '../components/Packages.astro';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
-import { care, fmt, offersLd, offerOn } from '../data/packages';
+import { care, fmt, px, offersLd, offerOn } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic, , , elite] = care.tiers;
 const promise = "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.";
@@ -25,7 +25,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
 <main id="main">
 <PageHero kicker="SEO services" brand="XpertRank" art="seo" crumb="SEO services" word="SEO">
   <Fragment slot="title">SEO services in Malaysia, <em>built into your website</em>.</Fragment>
-  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back, from {fmt(basic)} a month, backed by a money-back promise for websites we build.</Fragment>
+  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back, from <Fragment set:html={px(basic)} /> a month, backed by a money-back promise for websites we build.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#plans">See XpertRank plans</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 
@@ -91,6 +91,28 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
     <p class="rv">Already have a website? XpertRank works on it too, at its own price. Or start fresh with <a href="/website-design/">website design</a>{offerOn() ? ', and every new website gets free months of XpertRank during the launch offer' : ''}.</p>
     <p class="rv">See real numbers in our <a href="/case-studies/">SEO case studies</a>, taken straight from Google.</p>
     <p class="rv">Want to learn the basics first? Read our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a> and our guide to <a href="/blog/local-seo-malaysia/">local SEO in Malaysia</a>.</p>
+  </div>
+</div></section>
+<section class="solid band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">Your SEO expert in Malaysia</span>
+    <h2 class="rv">An SEO expert and consultant, not a call centre.</h2>
+  </div>
+  <div class="prose">
+    <p class="rv">SEOXpert is founder led. Your SEO is planned and overseen by our founder, after more than 7 years of hands-on SEO, with no outsourcing and no white labelling. You talk to the person who does the work.</p>
+    <p class="rv">Like a good SEO consultant, we start with research: the keywords your customers type, how hard each one is, and which ones your website can realistically win. Then, unlike most consultants, we do the work ourselves, every month, and show it in your <a href="/website-report-dashboard/">XpertInsight dashboard</a>.</p>
+    <p class="rv">We use white hat methods only, and we never promise rankings. The one promise we make is our money-back promise, in the exact words above.</p>
+  </div>
+</div></section>
+
+<section class="solid tint band"><div class="wrap">
+  <span class="eyebrow rv">SEO in Kuala Lumpur and Selangor</span>
+  <h2 class="rv">SEO services for Kuala Lumpur, Selangor and Petaling Jaya.</h2>
+  <p class="sub rv">We are based in {site.country} and work with businesses in {areaText}. Local searches like "near me" depend on your Google Business Profile as much as your website, so every XpertForge build sets it up for you. Read our guide to <a href="/blog/local-seo-malaysia/">local SEO in Malaysia</a>.</p>
+  <div class="grid3">
+    <a class="fcard rv" href="/ai-seo-services-malaysia/" style="--d:0;text-decoration:none;color:inherit"><div class="pet" style="--r:0deg"></div><h3>AI SEO services</h3><p>Get named in ChatGPT, Gemini, Perplexity and Google AI answers, checked every month.</p><span class="more">AI SEO services</span></a>
+    <a class="fcard rv" href="/seo-packages-malaysia/" style="--d:1;text-decoration:none;color:inherit"><div class="pet" style="--r:90deg"></div><h3>SEO packages</h3><p>Four XpertRank SEO packages, with the monthly price on every one.</p><span class="more">Compare SEO packages</span></a>
+    <a class="fcard rv" href="/seo-audit-malaysia/" style="--d:2;text-decoration:none;color:inherit"><div class="pet" style="--r:180deg"></div><h3>SEO audit</h3><p>A technical SEO audit of your website every week, with fixes by our team.</p><span class="more">See the SEO audit</span></a>
   </div>
 </div></section>
 <Glance page="seo-services-malaysia" guides={['seo-malaysia-guide', 'ai-seo-malaysia', 'local-seo-malaysia']} />
