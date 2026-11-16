@@ -14,7 +14,7 @@ import Packages from '../components/Packages.astro';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
-import { care, fmt, offersLd, offerOn } from '../data/packages';
+import { care, fmt, px, offersLd, offerOn } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic, , , elite] = care.tiers;
 const promise = "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.";
@@ -25,7 +25,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
 <main id="main">
 <PageHero kicker="SEO services" brand="XpertRank" art="seo" crumb="SEO services" word="SEO">
   <Fragment slot="title">SEO services in Malaysia, <em>built into your website</em>.</Fragment>
-  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back, from {fmt(basic)} a month, backed by a money-back promise for websites we build.</Fragment>
+  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back, from <Fragment set:html={px(basic)} /> a month, backed by a money-back promise for websites we build.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#plans">See XpertRank plans</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 

@@ -219,6 +219,15 @@ html.menu-open .chatfab{opacity:0;pointer-events:none}
 .foot nav a:hover,.fbar a:hover{color:var(--acc)}
 .fbar{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--line);padding-block:18px 24px;font-size:14px;color:var(--mute)}
 .fbar a{color:var(--mute);text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
+/* Prices in RM or USD (Suhen 2026-11-16): the visitor's country picks one, this switch changes it on every page */
+.fend{display:inline-flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center}
+.fcur{display:inline-flex;align-items:center;gap:4px}
+.fcur[hidden]{display:none}
+.fcur button{font:600 13px/1 var(--f-b);color:var(--mute);background:none;border:1px solid var(--line);border-radius:999px;padding:7px 11px;min-height:32px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.fcur button:first-of-type{margin-left:6px}
+.fcur button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.fcur button:hover:not([aria-pressed="true"]){color:var(--acc);border-color:var(--acc)}
+.fcur button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 @media (max-width:700px){.foot>.wrap:first-child{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}}
 .mmenu{position:absolute;left:0;right:0;top:100%}
 .svc h3 a{color:inherit;text-decoration:none}

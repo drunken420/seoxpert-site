@@ -25,9 +25,9 @@ const extraLd = [{ '@type': 'Blog', name: 'XpertAdvice, the SEOXpert blog', url:
   <span class="eyebrow rv">Latest guides</span>
   <h2 class="rv">New this month.</h2>
   <div class="bmag">
-    <a class="bfeat rv" href={postUrl(lead)}><BlogArt kind={lead.art} size="big" /><span class="btag lt">{lead.tag}</span><h3>{lead.h1}</h3><p>{lead.card}</p><span class="bmore lt">Read the guide</span></a>
+    <a class="bfeat rv" href={postUrl(lead)}><BlogArt kind={lead.art} size="big" /><span class="btag lt">{lead.tag}</span><h3>{lead.h1}</h3><p set:html={lead.card} /><span class="bmore lt">Read the guide</span></a>
     <div class="bside">
-      {side.map((p, i) => <a class="brow rv" style={`--d:${i + 1}`} href={postUrl(p)}><BlogArt kind={p.art} size="sm" /><div><span class="btag">{p.tag}</span><h3>{p.h1}</h3><p>{p.card}</p></div></a>)}
+      {side.map((p, i) => <a class="brow rv" style={`--d:${i + 1}`} href={postUrl(p)}><BlogArt kind={p.art} size="sm" /><div><span class="btag">{p.tag}</span><h3>{p.h1}</h3><p set:html={p.card} /></div></a>)}
     </div>
   </div>
 </div></section>
@@ -36,7 +36,7 @@ const extraLd = [{ '@type': 'Blog', name: 'XpertAdvice, the SEOXpert blog', url:
   <span class="eyebrow rv">More guides</span>
   <h2 class="rv">Keep reading.</h2>
   <div class="bgrid">
-    {older.map((p, i) => <a class="bcard rv" style={`--d:${i}`} href={postUrl(p)}><BlogArt kind={p.art} /><div class="cb"><span class="btag">{p.tag}</span><h3>{p.h1}</h3><p>{p.card}</p><span class="bmore">Read the guide</span></div></a>)}
+    {older.map((p, i) => <a class="bcard rv" style={`--d:${i}`} href={postUrl(p)}><BlogArt kind={p.art} /><div class="cb"><span class="btag">{p.tag}</span><h3>{p.h1}</h3><p set:html={p.card} /><span class="bmore">Read the guide</span></div></a>)}
     <a class="bcard cta rv" style={`--d:${older.length}`} href="/packages/"><span class="xp lt">XpertForge</span><h3>Ready for a website of your own?</h3><p>See what each website design package includes and what it costs.</p><b>See packages</b></a>
   </div>
 </div></section>

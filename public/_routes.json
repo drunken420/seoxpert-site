@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/js/*",
+    "/img/*",
+    "/work/*",
+    "/f/*",
+    "/vendor/*",
+    "/_astro/*",
+    "/favicon.svg",
+    "/logo.svg",
+    "/apple-touch-icon.png",
+    "/og.png",
+    "/xpertrecap.pdf",
+    "/robots.txt",
+    "/llms.txt",
+    "/sitemap-0.xml",
+    "/sitemap-index.xml",
+    "/chat.json",
+    "/contact-us",
+    "/contact-us/",
+    "/about-us",
+    "/about-us/",
+    "/pricing",
+    "/pricing/",
+    "/services",
+    "/services/",
+    "/faqs",
+    "/faqs/",
+    "/ai-website-builder",
+    "/ai-website-builder/"
+  ]
+}

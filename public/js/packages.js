@@ -2,8 +2,8 @@
 // The page is complete without this file: every price is already in the HTML in RM.
 (function () {
   var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
-  var cur = 'RM';
-  try { cur = localStorage.getItem('sx-cur') || (/^Asia\/(Kuala_Lumpur|Kuching)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone) ? 'RM' : 'USD'); } catch (e) {}
+  // RM or USD: picked by the visitor's country (or their own choice) in the inline script at the end of Base.astro (window.sxCur)
+  var cur = window.sxCur ? window.sxCur.get() : 'RM';
   if (cur !== 'USD') cur = 'RM';
   var key = function () { return cur === 'USD' ? 'usd' : 'rm'; };
   var bill = 'month'; // XpertRank: pay monthly, or yearly with 2 months free
@@ -95,8 +95,9 @@
     all('span[data-rm][data-usd]').forEach(function (el) { if (el.hasAttribute('data-rm-o')) return; el.textContent = el.getAttribute('data-' + key() + (bill === 'year' && el.hasAttribute('data-rm-y') ? '-y' : '')); });
     all('[data-unit]').forEach(function (el) { el.textContent = bill === 'year' ? 'a year' : 'a month'; });
     draw();
-    if (save) try { localStorage.setItem('sx-cur', c); } catch (e) {}
+    if (save && window.sxCur) window.sxCur.set(c, true); // remembered, and the footer switch and other prices follow
   }
+  if (window.sxCur) window.sxCur.on(function (c) { if (c !== cur) setCur(c, false); }); // the footer switch
   all('[data-pk-curbar]').forEach(function (el) { el.hidden = false; });
   // Pay monthly or yearly (XpertRank)
   var billBtns = all('[data-pk-bill] button');

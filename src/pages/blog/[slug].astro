@@ -27,7 +27,7 @@ const extraLd = [
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">XpertAdvice</a><span aria-hidden="true">/</span><span aria-current="page">{post.tag}</span></nav>
   <div class="bmeta"><span class="btag">{post.tag}</span><time class="bdate" datetime={post.date}>{niceDate(post.date)}</time>{post.updated && <span class="bdate">Updated <time datetime={post.updated}>{niceDate(post.updated)}</time></span>}<span class="bdate">By SEOXpert</span></div>
   <h1>{post.h1}</h1>
-  <div class="bshort"><b>Short answer</b><p>{post.short}</p></div>
+  <div class="bshort"><b>Short answer</b><p set:html={post.short} /></div>
 </div></header>
 
 <section class="solid band"><div class="wrap bart">
@@ -41,7 +41,7 @@ const extraLd = [
   </div>
   <div class="baside">
     <nav class="bbox toc" aria-label="In this guide"><b>In this guide</b><ol>{post.sections.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}<li><a href="#questions">Questions people ask</a></li></ol></nav>
-    <div class="bbox dk"><span class="xp lt">{post.cta.pill}</span><h3>{post.cta.title}</h3><a class="btn" href={post.cta.href}>{post.cta.label}</a></div>
+    <div class="bbox dk"><span class="xp lt">{post.cta.pill}</span><h3 set:html={post.cta.title} /><a class="btn" href={post.cta.href}>{post.cta.label}</a></div>
   </div>
 </div></section>
 </article>
@@ -50,7 +50,7 @@ const extraLd = [
   <span class="eyebrow rv">More guides</span>
   <h2 class="rv">Keep reading.</h2>
   <div class="bgrid">
-    {others.map((p, i) => <a class="bcard rv" style={`--d:${i}`} href={postUrl(p)}><BlogArt kind={p.art} /><div class="cb"><span class="btag">{p.tag}</span><h3>{p.h1}</h3><p>{p.card}</p><span class="bmore">Read the guide</span></div></a>)}
+    {others.map((p, i) => <a class="bcard rv" style={`--d:${i}`} href={postUrl(p)}><BlogArt kind={p.art} /><div class="cb"><span class="btag">{p.tag}</span><h3>{p.h1}</h3><p set:html={p.card} /><span class="bmore">Read the guide</span></div></a>)}
   </div>
 </div></section>
 <Cta />
