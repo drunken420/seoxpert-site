@@ -2,3 +2,10 @@ node_modules
 dist
 .astro
 .wrangler/
+
+# Secrets: never commit (Cloudflare secrets live in Pages settings)
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
