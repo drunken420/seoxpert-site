@@ -3,6 +3,7 @@
 // It costs a few cents a run (each question is one AI answer), so it is NOT part of npm test.
 //   node scripts/chat-eval.mjs https://<branch>.seoxpert-site.pages.dev
 //   node scripts/chat-eval.mjs https://seoxpert.my  only (runs the cases whose name contains "only")
+// Behind a proxy (the cloud test machine) add NODE_USE_ENV_PROXY=1. Each case sends the currency the page would show (cur, RM unless set).
 import { build, care, trial } from '../src/data/packages.ts';
 import { checkReply } from '../src/lib/chat-ai.js';
 
