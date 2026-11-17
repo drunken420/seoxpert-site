@@ -38,6 +38,20 @@ for (const f of ['robots.txt', 'sitemap-index.xml', 'favicon.svg', 'llms.txt', '
   const good = 'XpertForge Growth is **RM2,499** for 30 pages in total (20 website pages + 10 blog posts), then XpertRank Pro **RM349** a month (US$79). Starter is 7 pages in total: up to 5 website pages and 2 blog posts.';
   if (checkReply(good).length) fail('chat-ai.js', 'the fact check flagged a correct answer: ' + JSON.stringify(checkReply(good)));
 }
+// Code protection (scripts/obfuscate.mjs): no source maps anywhere, our scripts are obfuscated, three.js is left alone.
+{
+  const fs2 = await import('node:fs'), path2 = await import('node:path');
+  const walk = (d) => fs2.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path2.join(d, e.name)) : [path2.join(d, e.name)]));
+  for (const f of walk('dist')) {
+    if (f.endsWith('.map')) fail(f, 'source map in the build: never ship source maps');
+    if (/\.(js|html)$/.test(f) &&fs2.readFileSync(f, 'utf8').includes('sourceMappingURL') && !f.includes('vendor')) fail(f, 'sourceMappingURL found: never ship source maps');
+  }
+  if (process.env.OBFUSCATE !== 'off') for (const f of fs2.readdirSync('dist/js')) {
+    if (f === 'land.js' || !f.endsWith('.js')) continue;
+    const code = fs2.readFileSync(path2.join('dist/js', f), 'utf8'); // the hidden word list is rotated with push/shift at the top of every obfuscated file
+    if (!(code.includes("['push']") && code.includes("['shift']"))) fail('js/' + f, 'script does not look obfuscated (did scripts/obfuscate.mjs run?)');
+  }
+}
 console.log(`${pages.length} page(s) checked, ${errors} problem(s), ${placeholders} placeholder(s).`);
 if (process.env.STRICT && placeholders) { console.log('STRICT: placeholders must be filled before going live.'); process.exit(1); }
 process.exit(errors ? 1 : 0);
