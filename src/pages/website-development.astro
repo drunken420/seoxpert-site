@@ -5,12 +5,13 @@ import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
+import Secure from '../components/Secure.astro';
 import { pageFaq } from '../lib/faq';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
-const extraLd = [{ '@type': 'Service', name: 'Website development', serviceType: 'Website development', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-development/`, areaServed: areaLd, description: 'Website development in Malaysia: websites coded for Google and AI search from the ground up, with fast pages, structured data and an AI ranking file.' }];
-const pf = pageFaq(['What is the difference between website design and website development?', 'Do I pay extra for website development?', 'What is structured data?', 'What is an AI ranking file?', 'Will my website work well on phones?']);
+const extraLd = [{ '@type': 'Service', name: 'Website development', serviceType: 'Website development', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-development/`, areaServed: areaLd, description: 'Website development in Malaysia: websites coded for Google and AI search from the ground up, with fast pages, structured data and an AI ranking file, secure by design with no database or admin login to break into.' }];
+const pf = pageFaq(['What is the difference between website design and website development?', 'Do I pay extra for website development?', 'What is structured data?', 'What is an AI ranking file?', 'Are your websites secure?', 'Can someone hack my website through a login page?', 'What happens if something goes wrong with my website?', 'Will my website work well on phones?']);
 ---
 <Base title="Website Development Malaysia: Coded for SEO and AI | SEOXpert" image={`/img/${pictures["website-development"].file}.jpg`} description="Website development in Malaysia, coded for Google and AI search from the ground up: fast pages, clean structure, structured data and an AI ranking file." path="/website-development/" crumb="Website development" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
@@ -69,11 +70,12 @@ const pf = pageFaq(['What is the difference between website design and website d
     <h2 class="rv">This website is built the same way.</h2>
   </div>
   <div class="prose">
-    <p class="rv">You are looking at an example. This website has one main heading on every page, its own title and description on every page, structured data, a sitemap and an <a href="/llms.txt">AI ranking file</a> you can open.</p>
+    <p class="rv">You are looking at an example. This website has one main heading on every page, its own title and description on every page, structured data, a sitemap and an <a href="/llms.txt">AI ranking file</a> you can open. It is secured the same way too: no database, no admin login, HTTPS and safety headers on every page.</p>
     <p class="rv">The 3D logo on the home page and the effects in <a href="/demos/">XpertLab</a> load only when they are needed, so the pages stay quick on phones.</p>
     <p class="rv">We never promise rankings, because nobody controls Google or AI tools. What we promise is the work: a website that is clear, fast and easy for both to read. After launch, <a href="/website-maintenance/">XpertRank website maintenance</a> keeps it that way.</p>
   </div>
 </div></section>
+<Secure />
 <Glance page="website-development" guides={['seo-malaysia-guide', 'ai-seo-malaysia']} tint />
 <PageFaq title="Website development questions, answered." items={pf.items} />
 <Related skip="/website-development/" />
