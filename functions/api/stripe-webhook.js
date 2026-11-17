@@ -33,6 +33,9 @@ export function paymentMail(ev, m) {
 }
 const FROM = 'SEOXpert <hello@seoxpert.my>';
 const TO = 'contact@seoxpert.my';
+// Suhen 2026-11-17: a copy of every purchase and free-code alert to his personal email as well. The address lives only in
+// the Cloudflare Pages variable ALERT_TO (comma list allowed), never in this repo. Sent as a hidden copy (Bcc).
+export const alertCopy = (env) => { const to = String(env.ALERT_TO || '').split(',').map((s) => s.trim()).filter((s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)); return to.length ? { bcc: to } : {}; };
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const money = (n, c) => (String(c).toLowerCase() === 'usd' ? 'US$' : 'RM') + (n / 100).toLocaleString('en-US', { minimumFractionDigits: n % 100 ? 2 : 0 });
 
@@ -109,7 +112,7 @@ export async function onRequestPost({ request, env }) {
   if (!m || !env.RESEND_API_KEY) return new Response('ok');
   const html = paymentMail(ev, m);
   // If the email fails, Stripe still has the payment; answer 500 so Stripe tries this message again later.
-  const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ from: FROM, to: [env.CONTACT_TO || TO], ...(m.reply ? { reply_to: m.reply } : {}), subject: m.subject, text: m.rows.map((r) => `${r[0]}: ${r[1] ?? ''}`).join('\n') + `\n\n${m.next}\n${m.link}`, html }) });
+  const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ from: FROM, to: [env.CONTACT_TO || TO], ...alertCopy(env), ...(m.reply ? { reply_to: m.reply } : {}), subject: m.subject, text: m.rows.map((r) => `${r[0]}: ${r[1] ?? ''}`).join('\n') + `\n\n${m.next}\n${m.link}`, html }) });
   if (!r.ok) return new Response('mail failed', { status: 500 });
   // The buyer's own email (order-mail.js), only after ours went out, so a Stripe retry never sends it twice.
   const om = ev.type === 'checkout.session.completed' ? orderMail(ev.data.object, { invited }) : null;
