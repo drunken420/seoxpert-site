@@ -3,8 +3,11 @@
 // brand = which product name to show as a pill next to the kicker; art = which picture (see HeroArt.astro);
 // word = the big outlined word that drifts behind the banner (decoration only).
 import HeroArt from './HeroArt.astro';
+import { updated, niceDate } from '../data/updated';
 interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertRank' | 'XpertLab' | 'XpertAdvice' | 'XpertInsight'; art?: string; word?: string }
 const { kicker, crumb, brand, art, word } = Astro.props;
+// "Updated" line under the breadcrumbs (the Case studies page shows its own date in the text).
+const upd = Astro.url.pathname === '/case-studies/' ? undefined : updated[Astro.url.pathname];
 ---
 <section class="phero band" data-phero>
   <div class="phfx" aria-hidden="true">
@@ -14,6 +17,7 @@ const { kicker, crumb, brand, art, word } = Astro.props;
   </div>
   <div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{crumb}</span></nav>
+  {upd && <p class="phupd">Updated <time datetime={upd}>{niceDate(upd)}</time></p>}
   <div class="pgrid">
     <div class="ptext">
       <p class="krow">{brand && <span class="xp">{brand}</span>}<span class="kicker">{kicker}</span></p>

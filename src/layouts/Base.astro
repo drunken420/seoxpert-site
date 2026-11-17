@@ -7,6 +7,7 @@ import soraFont from '@fontsource-variable/sora/files/sora-latin-wght-normal.wof
 import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '../styles/site.css';
 import logo from '../fragments/logo.svg?raw';
+import { updated, pageType } from '../data/updated';
 import { site, whatsappLink, talkLabel, emailLink, areaText, areaLd } from '../config';
 
 interface Props { title: string; description?: string; path?: string; crumb?: string; extraLd?: object[]; noindex?: boolean; image?: string; article?: { published: string; modified: string } }
@@ -63,6 +64,8 @@ const ld = {
       knowsAbout: ['Website design', 'Website development', 'Search engine optimisation (SEO)', 'AI search optimisation', 'Website maintenance'],
       contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', url: `${site.url}/contact/`, availableLanguage: 'English' } },
     { '@type': 'WebSite', '@id': `${site.url}/#website`, url: site.url, name: site.name, publisher: { '@id': `${site.url}/#org` }, inLanguage: 'en' },
+    // The page itself, with its true "last updated" date (src/data/updated.ts). Guides describe themselves as BlogPosting instead.
+    ...(!noindex && !article && updated[path] ? [{ '@type': pageType[path] || 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: 'en', isPartOf: { '@id': `${site.url}/#website` }, about: { '@id': `${site.url}/#org` }, dateModified: updated[path] }] : []),
     ...(crumb ? [{ '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' }, { '@type': 'ListItem', position: 2, name: crumb, item: canonical }] }] : []),
     ...extraLd,
   ],

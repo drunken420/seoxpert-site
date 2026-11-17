@@ -99,3 +99,7 @@
 .btoc ol{margin:0;padding:0 18px 16px;list-style:none;display:grid;gap:10px;font-size:15.5px}
 .btoc a{color:var(--soft);text-decoration:none}.btoc a:hover{color:var(--acc)}
 @media (max-width:980px){.btoc{display:block}}
+
+/* Row names in a table are headers too (screen readers read them with each cell); they look like the first column */
+.btable tbody th{font:inherit;font-weight:600;color:var(--ink);background:none;white-space:nowrap}
+.btable tr:last-child th{border-bottom:0}

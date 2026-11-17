@@ -33,7 +33,7 @@
 .xitag{display:inline-block;font:600 11px/1 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:#1d7a46;background:#e3f6ea;padding:5px 8px;border-radius:6px;margin-bottom:8px}
 .xiwin{border-top:3px solid var(--acc)}
 .xihero{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;color:#fff;border-radius:20px;padding:20px 22px;background:radial-gradient(80% 140% at 100% 0,rgba(176,108,255,.5),transparent 60%),linear-gradient(135deg,#2a0d47,#5a12a0 60%,#9a35e8)}
-.xihero h4{font-size:20px;line-height:1.15;margin:0 0 6px;color:#fff}.xihero p{margin:0 0 12px;color:#e6d6fa;font-size:14px;line-height:1.45}
+.xihero .xihl{font-family:var(--f-d);font-weight:700;letter-spacing:-.035em;text-wrap:balance;font-size:20px;line-height:1.15;margin:0 0 6px;color:#fff}.xihero p:not(.xihl){margin:0 0 12px;color:#e6d6fa;font-size:14px;line-height:1.45}
 .xiring{position:relative;width:118px;text-align:center}.xiring svg{width:100%;rotate:-90deg}
 .xiring circle{fill:none;stroke:rgba(255,255,255,.18);stroke-width:8}.xiring circle.v{stroke:#fff;stroke-linecap:round;stroke-dasharray:var(--p) 100;transition:stroke-dasharray 1.2s ease}
 .xiring>b{position:absolute;left:0;right:0;top:34%;font:700 34px/1 var(--f-d);letter-spacing:-.03em}.xiring small{display:block;font:500 10px/1 var(--f-m);letter-spacing:.08em;text-transform:uppercase;color:#d9b8ff;margin-top:6px}

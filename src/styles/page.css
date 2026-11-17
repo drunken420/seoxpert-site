@@ -741,3 +741,6 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
 .pshot.sm{margin-top:28px;transform:none;box-shadow:0 30px 60px -30px rgba(74,14,120,.45),0 0 0 1px var(--line)}
 .atrial{margin-top:28px}.atrial .pktrial{margin-top:0}
 .atrialh{margin:56px 0 0;font-size:24px;line-height:1.25;max-width:760px}
+
+/* "Updated <date>" under the breadcrumbs (PageHero.astro, dates in src/data/updated.ts) */
+.phupd{margin:-20px 0 22px;font-size:13px;color:var(--mute)}

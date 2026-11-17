@@ -52,11 +52,11 @@ export const posts: Post[] = [
 <li><b>Staying online.</b> If one server has a problem, another one answers instead.</li>
 <li><b>Room to grow.</b> A busy day, such as a sale or a post that gets shared, does not slow the website down the way it can on one small server.</li></ul>` },
       { id: 'cloud-vs-shared', h: 'Cloud hosting compared with shared hosting', html: `<p>Shared hosting is the most common cheap hosting. Your website shares one server with many other websites. It works, and for a small website it can be enough, but you share the speed too: when a neighbour is busy, your website can slow down.</p>
-<div class="btable" tabindex="0" role="region" aria-label="Shared hosting compared with cloud hosting"><table><thead><tr><th></th><th>Shared hosting</th><th>Cloud hosting</th></tr></thead><tbody>
-<tr><td>Where the website lives</td><td>One server, shared with many websites</td><td>A network of many servers</td></tr>
-<tr><td>If a server has a problem</td><td>The website can go offline</td><td>Another server answers</td></tr>
-<tr><td>Busy days</td><td>Can slow down</td><td>Handles more visitors at once</td></tr>
-<tr><td>Visitors far away</td><td>Everyone is served from one place</td><td>Served from a place near them</td></tr>
+<div class="btable" tabindex="0" role="region" aria-label="Shared hosting compared with cloud hosting"><table><thead><tr><td></td><th scope="col">Shared hosting</th><th scope="col">Cloud hosting</th></tr></thead><tbody>
+<tr><th scope="row">Where the website lives</th><td>One server, shared with many websites</td><td>A network of many servers</td></tr>
+<tr><th scope="row">If a server has a problem</th><td>The website can go offline</td><td>Another server answers</td></tr>
+<tr><th scope="row">Busy days</th><td>Can slow down</td><td>Handles more visitors at once</td></tr>
+<tr><th scope="row">Visitors far away</th><td>Everyone is served from one place</td><td>Served from a place near them</td></tr>
 </tbody></table></div>
 <p>Neither kind makes a badly built website fast. Heavy pictures and too many add-ons slow a website down on any hosting. Good hosting and a well built website work together. See how we build for speed in <a href="/website-development/">website development</a>.</p>` },
       { id: 'what-to-check', h: 'What to check in cloud hosting in Malaysia', html: `<p>Hosting plans are sold with long lists of technical words. These are the questions that matter for a business website in Malaysia:</p>
