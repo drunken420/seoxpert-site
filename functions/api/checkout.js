@@ -96,7 +96,9 @@ export async function onRequestPost({ request, env }) {
     // a new build may not have a website yet, so there it is optional. Stripe allows 3 custom fields, labels up to 50 letters.
     custom_fields: fields(it.kind),
     phone_number_collection: { enabled: 'true' },
-    allow_promotion_codes: 'true', // e.g. a code that takes the Trial price off the first month, or a free test code
+    // codes (e.g. the Trial price off a first month, or a free test code) only for XpertRank and the Trial: website builds
+    // are always paid in full, so Stripe shows no code box for them (Suhen 2026-11-17: "no trial for website builds")
+    ...(it.kind === 'build' ? {} : { allow_promotion_codes: 'true' }),
     metadata: meta,
     // A free test code (made on the XpertInsight team home) takes 100% off the first payment: then Stripe asks for no card,
     // and XpertInsight stops that plan after its first month, so nobody is charged later.
