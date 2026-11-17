@@ -498,8 +498,6 @@ main :where(p,li,dd,figcaption,td,small) a:where(:not([class])):hover{text-decor
 .secfig{grid-area:f;margin:0;position:sticky;top:calc(var(--head-h) + 24px);aspect-ratio:320/380;max-width:520px;width:100%;justify-self:center}
 .secsvg{width:100%;height:100%;overflow:visible;display:block}
 .seclist{grid-area:l;list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
-.seclist li{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:16px;padding:18px 20px;border-radius:20px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(217,184,255,.16);transition:background .3s ease,box-shadow .3s ease,transform .3s ease;outline-offset:2px}
-.seclist li>b{grid-row:1/3;width:40px;height:40px;border-radius:0 100% 0 0;display:grid;place-items:center;font:700 16px var(--f-d);color:#fff;background:linear-gradient(135deg,var(--acc2),var(--acc))}
 .seclist h3{font-size:19px;line-height:1.25;margin:2px 0 4px}
 .seclist p{margin:0;font-size:15.5px;color:#cbbbe2}
 .seclist li:is(:hover,:focus-visible){background:rgba(176,108,255,.16);box-shadow:inset 0 0 0 1.5px rgba(217,184,255,.5);transform:translateX(4px)}
@@ -536,16 +534,44 @@ main :where(p,li,dd,figcaption,td,small) a:where(:not([class])):hover{text-decor
 /* the three extras and the honest note (Website development only) */
 .secmore{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:44px}
 .secx{padding:22px;border-radius:22px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(217,184,255,.16)}
-.secx svg{width:30px;height:30px;fill:none;stroke:#d9b8ff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
 .secx h3{font-size:18px;line-height:1.25;margin-bottom:6px}
 .secx p{margin:0;font-size:15px;color:#cbbbe2}
-.secnote{margin:26px 0 0;padding:18px 22px;border-radius:18px;border:1px dashed rgba(217,184,255,.35);color:#e6d8f7;font-size:15.5px;max-width:860px}
-.secnote b{color:#fff}
 @media (max-width:900px){
   .secgrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"t" "f" "l"}
-  .secfig{position:static;max-width:400px;margin-top:34px}
+  .secfig{position:relative;top:auto;max-width:400px;margin-top:34px}
   .secmore{grid-template-columns:minmax(0,1fr)}
 }
-@media (max-width:560px){.secfig{max-width:330px}.seclist li{grid-template-columns:34px minmax(0,1fr);padding:16px;column-gap:12px}.seclist li>b{width:34px;height:34px;font-size:14px}}
+@media (max-width:560px){.secfig{max-width:330px}.seclist li{grid-template-columns:46px minmax(0,1fr);padding:16px;column-gap:14px}.secb{width:46px;height:46px}.secb svg{width:22px;height:22px}.seclist::before{left:39px}.seclist::after{left:36px}}
 @media (prefers-reduced-motion:reduce){.sl,.secfig .sl{transform:none;transition:none;animation:none!important}.sle,.sllock{animation:none!important}}
 .secx a{color:#e9d8ff;font-weight:600}
+
+/* Layer rows (Suhen 2026-11-17: "numbers and bullets can be better and animated"): each layer has a round badge with
+   a turning purple ring, its own line icon that draws itself in, and a small 01 to 04 tag. A rail joins the badges and
+   a light runs down it, like the sweep in the 3D picture. */
+@property --sa{syntax:'<angle>';inherits:false;initial-value:0deg}
+.seclist{position:relative}
+.seclist::before{content:"";position:absolute;left:47px;top:44px;bottom:44px;width:2px;border-radius:2px;background:linear-gradient(rgba(217,184,255,.05),rgba(217,184,255,.4) 15%,rgba(217,184,255,.4) 85%,rgba(217,184,255,.05));z-index:0}
+.seclist::after{content:"";position:absolute;left:44px;top:44px;width:8px;height:44px;border-radius:8px;background:linear-gradient(transparent,#fff 60%,transparent);filter:drop-shadow(0 0 6px #b06cff);opacity:0;z-index:0;animation:secrail 4.2s cubic-bezier(.5,0,.5,1) 1.5s infinite}
+@keyframes secrail{0%{top:44px;opacity:0}10%{opacity:1}55%{opacity:1}62%{top:calc(100% - 88px);opacity:0}100%{top:calc(100% - 88px);opacity:0}}
+.seclist li{position:relative;z-index:1;display:grid;grid-template-columns:54px minmax(0,1fr);column-gap:18px;align-items:start;padding:18px 20px;border-radius:20px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(217,184,255,.16);transition:background .3s ease,box-shadow .3s ease,opacity .7s ease calc(var(--d,0)*110ms),transform .8s cubic-bezier(.2,.7,.2,1) calc(var(--d,0)*110ms);outline-offset:2px}
+.secb{position:relative;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(from var(--sa),#e9d8ff,#b06cff 25%,rgba(123,24,193,.2) 55%,rgba(123,24,193,.2) 75%,#e9d8ff);animation:secspin 6s linear infinite;animation-delay:calc(var(--d,0)*-1.5s);box-shadow:0 8px 22px rgba(123,24,193,.35);transition:box-shadow .3s ease}
+.secb::before{content:"";position:absolute;inset:2px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#9a35e8,#4a1180 70%)}
+@keyframes secspin{to{--sa:360deg}}
+.secb svg{position:relative;width:26px;height:26px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:80;stroke-dashoffset:80;transition:stroke-dashoffset 1.4s cubic-bezier(.3,.7,.2,1) calc(var(--d,0)*140ms + .35s)}
+.seclist li.in .secb svg{stroke-dashoffset:0}
+.secb i{position:absolute;right:-8px;bottom:-5px;font:700 10.5px/1 var(--f-d);font-style:normal;letter-spacing:.02em;color:#3d0a66;background:#fff;padding:4px 6px;border-radius:999px;box-shadow:0 3px 10px rgba(20,8,31,.35);transform:scale(.4);opacity:0;transition:transform .5s cubic-bezier(.2,1.4,.4,1) calc(var(--d,0)*140ms + .9s),opacity .3s ease calc(var(--d,0)*140ms + .9s)}
+.seclist li.in .secb i{transform:none;opacity:1}
+.seclist li:is(:hover,:focus-visible) .secb{box-shadow:0 0 0 6px rgba(176,108,255,.18),0 10px 28px rgba(176,108,255,.55);animation-duration:2s}
+.seclist li:is(:hover,:focus-visible) .secb i{background:#e9d8ff}
+.secz.solid .seclist::before{background:linear-gradient(rgba(123,24,193,.05),rgba(123,24,193,.3) 15%,rgba(123,24,193,.3) 85%,rgba(123,24,193,.05))}
+/* the three extras: icon tiles that draw themselves in */
+.secxi{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;margin-bottom:14px;background:linear-gradient(135deg,rgba(176,108,255,.35),rgba(123,24,193,.25));box-shadow:inset 0 0 0 1px rgba(217,184,255,.3)}
+.secxi svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:70;stroke-dashoffset:70;transition:stroke-dashoffset 1.4s cubic-bezier(.3,.7,.2,1) calc(var(--d,0)*140ms + .4s)}
+.secx.in .secxi svg{stroke-dashoffset:0}
+.secx{transition:transform .3s ease,box-shadow .3s ease}
+.secx:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1.5px rgba(217,184,255,.45),0 20px 40px rgba(20,8,31,.35)}
+/* the 3D scene (public/js/secure3d.js) takes over from the SVG once it has drawn */
+.seccv{position:absolute;inset:-12% -14%;width:128%!important;height:124%!important;opacity:0;transition:opacity .8s ease;pointer-events:none}
+.secfig.on .seccv{opacity:1}
+.secfig.on .secsvg{opacity:0;transition:opacity .5s ease}
+@media (prefers-reduced-motion:reduce){.secb,.seclist::after{animation:none}.secb svg,.secxi svg{stroke-dashoffset:0;transition:none}.secb i{transform:none;opacity:1;transition:none}}
