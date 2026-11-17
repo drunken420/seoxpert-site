@@ -486,3 +486,92 @@ main :where(p,li,dd,figcaption,td,small) a:where(:not([class])):hover{text-decor
 /* Homepage "What we do" panels: the link sits at the bottom, so links line up across a row */
 .panel.svc,.panel:has(>.minip){display:flex;flex-direction:column}
 .panel.svc>.more,.panel:has(>.minip)>.more{margin-top:auto;padding-top:16px}
+
+/* "Secure by design" layers (src/components/Secure.astro; Suhen 2026-11-17). Dark on Website development, light on Home.
+   The plates start pressed together and open up when the picture scrolls into view (.rv.in); a light runs round each edge in turn.
+   Hovering or focusing a layer in the list lights up its plate. */
+.secz{--sp:rgba(176,108,255,.14);--ss:rgba(176,108,255,.07);--sd:rgba(90,20,150,.28);--se:rgba(217,184,255,.55);--sk:#fff;--sx:#d9b8ff}
+.secz.solid{--sp:rgba(176,108,255,.13);--ss:rgba(123,24,193,.16);--sd:rgba(123,24,193,.3);--se:rgba(123,24,193,.45);--sx:var(--acc)}
+.secgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"t f" "l f";column-gap:clamp(28px,5vw,80px);align-items:start}
+.sectext{grid-area:t}
+.sectext .btn{margin-top:6px}
+.secfig{grid-area:f;margin:0;position:sticky;top:calc(var(--head-h) + 24px);aspect-ratio:320/380;max-width:520px;width:100%;justify-self:center}
+.secsvg{width:100%;height:100%;overflow:visible;display:block}
+.seclist{grid-area:l;list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
+.seclist h3{font-size:19px;line-height:1.25;margin:2px 0 4px}
+.seclist p{margin:0;font-size:15.5px;color:#cbbbe2}
+.seclist li:is(:hover,:focus-visible){background:rgba(176,108,255,.16);box-shadow:inset 0 0 0 1.5px rgba(217,184,255,.5);transform:translateX(4px)}
+.secz.solid .seclist li{background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.secz.solid .seclist p{color:var(--soft)}
+.secz.solid .seclist li:is(:hover,:focus-visible){background:#fbf7ff;box-shadow:inset 0 0 0 1.5px var(--acc2),0 16px 34px rgba(123,24,193,.1)}
+/* plates */
+.sl{transform:translateY(var(--c));transition:transform 1.2s cubic-bezier(.2,.8,.2,1) calc(var(--i)*90ms + .15s)}
+.secfig.in .sl{transform:none}
+.secfig.in .sl:not(.slw){animation:slf 7s ease-in-out calc(1.6s + var(--i)*.5s) infinite alternate}
+@keyframes slf{to{translate:0 -4px}}
+.slt{fill:var(--sp);stroke:var(--se);stroke-width:1;transition:fill .35s ease}
+.sll{fill:var(--ss)}
+.slr{fill:var(--sd)}
+.sle{fill:none;stroke:var(--sk);stroke-width:2;stroke-linecap:round;stroke-dasharray:46 482;stroke-dashoffset:0;opacity:0;filter:drop-shadow(0 0 4px #b06cff)}
+.secfig.in .sle{animation:sle 6s linear calc(1.4s + (3 - var(--i))*1.5s) infinite}
+@keyframes sle{0%{stroke-dashoffset:0;opacity:0}6%{opacity:1}30%{opacity:1}36%{stroke-dashoffset:-528;opacity:0}100%{stroke-dashoffset:-528;opacity:0}}
+.secz.solid .sle{stroke:var(--acc2)}
+.sln circle{fill:var(--acc);stroke:rgba(255,255,255,.7);stroke-width:1.5}
+.sln text{fill:#fff;font:700 12px var(--f-d)}
+.slw .slt{stroke:rgba(255,255,255,.9)}
+.secz.solid .slw .slt{stroke:var(--acc2)}
+.slw .slr{fill:#c9a6f2}.slw .sll{fill:#e4d2fa}
+.slbar{fill:var(--acc)}.slln{fill:#d6c1f0}.slbox{fill:#efe3ff;stroke:#c9a6f2;stroke-width:1.5}
+.sllock{animation:slk 5s ease-in-out infinite alternate}
+@keyframes slk{to{translate:0 -6px}}
+.slsh{fill:var(--acc);stroke:#fff;stroke-width:2.5;filter:drop-shadow(0 6px 12px rgba(123,24,193,.45))}
+.sllock rect,.sllock>path:last-child{fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.sllock rect{fill:#fff}
+.secglow{opacity:.9}
+.secz.solid .secglow{opacity:.55}
+.secgrid:has(li[data-l="1"]:is(:hover,:focus-visible)) .sl1 .slt,.secgrid:has(li[data-l="2"]:is(:hover,:focus-visible)) .sl2 .slt,.secgrid:has(li[data-l="3"]:is(:hover,:focus-visible)) .sl3 .slt,.secgrid:has(li[data-l="4"]:is(:hover,:focus-visible)) .sl4 .slt{fill:rgba(176,108,255,.55);stroke:#fff;stroke-width:1.6}
+.secgrid:has(li[data-l="1"]:is(:hover,:focus-visible)) .sl1,.secgrid:has(li[data-l="2"]:is(:hover,:focus-visible)) .sl2,.secgrid:has(li[data-l="3"]:is(:hover,:focus-visible)) .sl3,.secgrid:has(li[data-l="4"]:is(:hover,:focus-visible)) .sl4{translate:10px 0;transition:translate .35s ease,transform 1.2s cubic-bezier(.2,.8,.2,1)}
+/* the three extras and the honest note (Website development only) */
+.secmore{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:44px}
+.secx{padding:22px;border-radius:22px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(217,184,255,.16)}
+.secx h3{font-size:18px;line-height:1.25;margin-bottom:6px}
+.secx p{margin:0;font-size:15px;color:#cbbbe2}
+@media (max-width:900px){
+  .secgrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"t" "f" "l"}
+  .secfig{position:relative;top:auto;max-width:400px;margin-top:34px}
+  .secmore{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.secfig{max-width:330px}.seclist li{grid-template-columns:46px minmax(0,1fr);padding:16px;column-gap:14px}.secb{width:46px;height:46px}.secb svg{width:22px;height:22px}.seclist::before{left:39px}.seclist::after{left:36px}}
+@media (prefers-reduced-motion:reduce){.sl,.secfig .sl{transform:none;transition:none;animation:none!important}.sle,.sllock{animation:none!important}}
+.secx a{color:#e9d8ff;font-weight:600}
+
+/* Layer rows (Suhen 2026-11-17: "numbers and bullets can be better and animated"): each layer has a round badge with
+   a turning purple ring, its own line icon that draws itself in, and a small 01 to 04 tag. A rail joins the badges and
+   a light runs down it, like the sweep in the 3D picture. */
+@property --sa{syntax:'<angle>';inherits:false;initial-value:0deg}
+.seclist{position:relative}
+.seclist::before{content:"";position:absolute;left:47px;top:44px;bottom:44px;width:2px;border-radius:2px;background:linear-gradient(rgba(217,184,255,.05),rgba(217,184,255,.4) 15%,rgba(217,184,255,.4) 85%,rgba(217,184,255,.05));z-index:0}
+.seclist::after{content:"";position:absolute;left:44px;top:44px;width:8px;height:44px;border-radius:8px;background:linear-gradient(transparent,#fff 60%,transparent);filter:drop-shadow(0 0 6px #b06cff);opacity:0;z-index:0;animation:secrail 4.2s cubic-bezier(.5,0,.5,1) 1.5s infinite}
+@keyframes secrail{0%{top:44px;opacity:0}10%{opacity:1}55%{opacity:1}62%{top:calc(100% - 88px);opacity:0}100%{top:calc(100% - 88px);opacity:0}}
+.seclist li{position:relative;z-index:1;display:grid;grid-template-columns:54px minmax(0,1fr);column-gap:18px;align-items:start;padding:18px 20px;border-radius:20px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(217,184,255,.16);transition:background .3s ease,box-shadow .3s ease,opacity .7s ease calc(var(--d,0)*110ms),transform .8s cubic-bezier(.2,.7,.2,1) calc(var(--d,0)*110ms);outline-offset:2px}
+.secb{position:relative;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(from var(--sa),#e9d8ff,#b06cff 25%,rgba(123,24,193,.2) 55%,rgba(123,24,193,.2) 75%,#e9d8ff);animation:secspin 6s linear infinite;animation-delay:calc(var(--d,0)*-1.5s);box-shadow:0 8px 22px rgba(123,24,193,.35);transition:box-shadow .3s ease}
+.secb::before{content:"";position:absolute;inset:2px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#9a35e8,#4a1180 70%)}
+@keyframes secspin{to{--sa:360deg}}
+.secb svg{position:relative;width:26px;height:26px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:80;stroke-dashoffset:80;transition:stroke-dashoffset 1.4s cubic-bezier(.3,.7,.2,1) calc(var(--d,0)*140ms + .35s)}
+.seclist li.in .secb svg{stroke-dashoffset:0}
+.secb i{position:absolute;right:-8px;bottom:-5px;font:700 10.5px/1 var(--f-d);font-style:normal;letter-spacing:.02em;color:#3d0a66;background:#fff;padding:4px 6px;border-radius:999px;box-shadow:0 3px 10px rgba(20,8,31,.35);transform:scale(.4);opacity:0;transition:transform .5s cubic-bezier(.2,1.4,.4,1) calc(var(--d,0)*140ms + .9s),opacity .3s ease calc(var(--d,0)*140ms + .9s)}
+.seclist li.in .secb i{transform:none;opacity:1}
+.seclist li:is(:hover,:focus-visible) .secb{box-shadow:0 0 0 6px rgba(176,108,255,.18),0 10px 28px rgba(176,108,255,.55);animation-duration:2s}
+.seclist li:is(:hover,:focus-visible) .secb i{background:#e9d8ff}
+.secz.solid .seclist::before{background:linear-gradient(rgba(123,24,193,.05),rgba(123,24,193,.3) 15%,rgba(123,24,193,.3) 85%,rgba(123,24,193,.05))}
+/* the three extras: icon tiles that draw themselves in */
+.secxi{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;margin-bottom:14px;background:linear-gradient(135deg,rgba(176,108,255,.35),rgba(123,24,193,.25));box-shadow:inset 0 0 0 1px rgba(217,184,255,.3)}
+.secxi svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:70;stroke-dashoffset:70;transition:stroke-dashoffset 1.4s cubic-bezier(.3,.7,.2,1) calc(var(--d,0)*140ms + .4s)}
+.secx.in .secxi svg{stroke-dashoffset:0}
+.secx{transition:transform .3s ease,box-shadow .3s ease}
+.secx:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1.5px rgba(217,184,255,.45),0 20px 40px rgba(20,8,31,.35)}
+/* the 3D scene (public/js/secure3d.js) takes over from the SVG once it has drawn */
+.seccv{position:absolute;inset:-12% -14%;width:128%!important;height:124%!important;opacity:0;transition:opacity .8s ease;pointer-events:none}
+.secfig.on .seccv{opacity:1}
+.secfig.on .secsvg{opacity:0;transition:opacity .5s ease}
+@media (prefers-reduced-motion:reduce){.secb,.seclist::after{animation:none}.secb svg,.secxi svg{stroke-dashoffset:0;transition:none}.secb i{transform:none;opacity:1;transition:none}}

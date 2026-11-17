@@ -3,7 +3,7 @@
 // sx-cc=MY for example, and the inline script at the end of src/layouts/Base.astro shows RM in Malaysia and USD
 // everywhere else. The page itself is never changed: everyone, Google too, gets exactly the same HTML, with RM prices
 // and RM structured data. Pictures, scripts and other files never come here (public/_routes.json), so they stay as fast.
-const SAFE = { 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'SAMEORIGIN' };
+const SAFE = { 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'SAMEORIGIN', 'Strict-Transport-Security': 'max-age=31536000', 'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()' };
 
 export async function onRequest({ request, next }) {
   const res = await next();
