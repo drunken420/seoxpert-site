@@ -12,6 +12,7 @@
 // Rules (CLAUDE.md): free high speed cloud hosting only for websites we build; no money-back promise in these emails
 // (it covers only a first paid month on websites we build, which is never bought here); never promise rankings.
 import { build, care, trial, yearly, offerOn } from '../../src/data/packages.ts';
+import { clientMail } from '../../src/lib/client-mail.js';
 
 /** A founder's invite (free code) and the Trial both run this long. Keep matching GUEST_DAYS in xpertinsight lib/stripe.js. */
 export const GUEST_DAYS = 14;
@@ -34,7 +35,7 @@ export function orderOf(o, { invited } = {}) {
   const t = kind === 'trial' ? trial : kind === 'build' ? build.tiers.find((x) => x.id === id) : care.tiers.find((x) => x.id === id);
   if (!t) return null;
   const at = (o.created ? o.created * 1000 : Date.now()), day = (ms) => new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kuala_Lumpur' });
-  return { date: day(at), ends: day(at + GUEST_DAYS * 864e5), ref: String(o.id || '').slice(-8).toUpperCase(), kind, id, t, free, email, first: name.split(/\s+/)[0] || 'there', site: box.website || '', company: box.company || '', bill: m.bill || 'once', built: m.built === 'us' ? 'us' : 'other', paid: money(o.amount_total || 0, o.currency), full: money(o.amount_subtotal || o.amount_total || 0, o.currency), invited: invited !== false };
+  return { date: day(at), ends: day(at + GUEST_DAYS * 864e5), ref: String(o.id || '').slice(-8).toUpperCase(), kind, id, t, free, email, first: name.split(/\s+/)[0] || 'there', site: box.website || '', company: box.company || '', bill: m.bill || 'once', built: m.built === 'us' ? 'us' : 'other', from: m.from || '', guestDays: GUEST_DAYS, paid: money(o.amount_total || 0, o.currency), full: money(o.amount_subtotal || o.amount_total || 0, o.currency), invited: invited !== false };
 }
 
 /** Subject, header picture, words and lists for one order. */
@@ -99,39 +100,8 @@ export function orderMail(o, opts) {
   const summary = d.free
     ? [['Invite', d.t.name], ['From', FOUNDER], ...(guestRun ? [['Runs', `${GUEST_DAYS} days, until ${d.ends}`]] : []), ['You pay', `Nothing (worth ${d.full})`], ...(d.site ? [['Website', d.site]] : [])]
     : [['Package', d.t.name], ['Paid', d.paid], ...(sub ? [['Billing', d.bill === 'year' ? 'Yearly' : 'Monthly']] : []), ['Date', d.date], ...(d.site ? [['Website', d.site]] : [])];
-  const P = 'margin:0 0 14px;font-size:15px;line-height:1.6;color:#3a2f48', H2 = 'margin:24px 0 10px;font:700 17px Arial,sans-serif;color:#7b18c1';
-  const gold = 'background:#fdf3dc;background:linear-gradient(120deg,#fff3d1,#f8dc97)';
-  const tiles = `<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:6px 0 4px"><tr>${c.tiles.map((x, i) => `<td width="33%" style="padding:0 ${i < 2 ? 8 : 0}px 0 0"><div style="border:1px solid #e8dcf5;border-radius:14px;padding:14px 8px;text-align:center"><div style="font:700 26px Arial,sans-serif;color:#7b18c1">${esc(x[0])}</div><div style="font-size:12.5px;color:#786c88;line-height:1.35">${esc(x[1])}</div></div></td>`).join('')}</tr></table>`;
-  const card = `<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:20px 0 6px;border-radius:16px;${d.free ? gold : 'background:#2a0d47;background:linear-gradient(120deg,#2a0d47,#6a12ad)'}"><tr><td style="padding:18px 20px">
-<div style="font:700 12px Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:${d.free ? '#7a5200' : '#d9c2f5'};margin-bottom:10px">${d.free ? "Founder's invite" : '&#10003; Payment received'}</div>
-<table role="presentation" cellpadding="0" cellspacing="0">${summary.map((r) => `<tr><td style="padding:3px 18px 3px 0;color:${d.free ? '#7a5200' : '#d9c2f5'};font-size:14px">${esc(r[0])}</td><td style="padding:3px 0;font-size:14px;font-weight:700;color:${d.free ? '#3a2400' : '#ffffff'}">${esc(r[1])}</td></tr>`).join('')}</table>
-${c.pass ? `<p style="margin:10px 0 0;font-size:13.5px;line-height:1.5;color:#5a3a00">${esc(c.pass)}</p>` : ''}${c.billing ? `<p style="margin:10px 0 0;font-size:13.5px;line-height:1.5;color:#e6d6f8">${esc(c.billing)} ${esc(c.manage)}</p>` : ''}
-</td></tr></table>`;
-  const html = `<!doctype html><html><body style="margin:0;background:#f4eefb;padding:24px 12px;font-family:Inter,Arial,sans-serif;color:#1a1026">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 50px -30px rgba(90,20,160,.45)">
-<tr><td><img src="${pic}" width="600" alt="${esc(d.t.name)}${d.free ? ", founder's invite" : ', paid, thank you'}" style="display:block;width:100%;height:auto;border:0"></td></tr>
-<tr><td style="padding:30px 32px 8px">
-${d.free ? `<div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a36b00;margin:0 0 8px">A personal invite from our founder</div>` : ''}
-<h1 style="margin:0 0 14px;font:700 24px/1.25 Arial,sans-serif;color:#1a1026">Hi ${esc(d.first)}, ${esc(c.head)}.</h1>
-<p style="${P}">${c.lead}</p>
-${d.free ? card : ''}
-${c.offer ? `<p style="margin:0 0 6px;padding:14px 16px;border-radius:12px;background:#f1e6ff;color:#4b0d80;font-size:14.5px;line-height:1.55"><b>${esc(c.offer)}</b></p>` : ''}
-${d.free && d.kind === 'build' ? '' : `<h2 style="${H2}">${d.free ? 'Your invite at a glance' : d.kind === 'build' ? 'Your website at a glance' : 'Your plan at a glance'}</h2>${tiles}`}
-<h2 style="${H2}">What happens next</h2>
-<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%">${c.steps.map((s, i) => `<tr><td valign="top" style="width:34px;padding:0 0 12px"><div style="width:24px;height:24px;border-radius:50%;background:#7b18c1;color:#fff;font:700 13px/24px Arial,sans-serif;text-align:center">${i + 1}</div></td><td style="padding:2px 0 12px;font-size:15px;line-height:1.55;color:#3a2f48">${s}</td></tr>`).join('')}</table>
-${c.cta ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0 4px"><tr><td style="border-radius:999px;background:#7b18c1"><a href="${c.cta[1]}" style="display:inline-block;padding:13px 26px;font:700 15px Arial,sans-serif;color:#fff;text-decoration:none">${esc(c.cta[0])}</a></td></tr></table>` : ''}
-<h2 style="${H2}">${esc(c.incTitle)}</h2>
-<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%">${c.inc.map((r) => `<tr><td valign="top" style="width:26px;padding:0 0 8px;color:#7b18c1;font-weight:700">&#10003;</td><td style="padding:0 0 8px;font-size:14.5px;line-height:1.5;color:#3a2f48">${r}</td></tr>`).join('')}</table>
-${c.hosting ? `<p style="${P};margin-top:8px">${esc(c.hosting)}</p>` : ''}
-${d.free ? '' : card}
-${c.reach ? `<p style="margin:18px 0 0;padding:14px 16px;border-radius:12px;background:#f7f2fc;font-size:14.5px;line-height:1.55;color:#3a2f48">${esc(c.reach)}</p>` : ''}
-<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px"><tr><td valign="middle" style="padding-right:12px"><img src="${SITE}/apple-touch-icon.png" width="44" height="44" alt="SEOXpert" style="display:block;width:44px;height:44px;border-radius:50%"></td><td style="font-size:14.5px;line-height:1.45;color:#3a2f48">${d.free ? 'Glad to have you as my guest,' : 'Thank you for your trust,'}<br><b>The Founder</b>, SEOXpert<br><span style="color:#786c88;font-size:13px">Just reply to this email to reach me.</span></td></tr></table>
-</td></tr>
-<tr><td style="padding:18px 32px 26px;border-top:1px solid #efe6f8;font-size:13px;color:#786c88">SEOXpert · Websites built to rank on Google and AI · <a href="${SITE}" style="color:#7b18c1">seoxpert.my</a>${d.kind === 'build' ? '' : ` · <a href="${INSIGHT}/welcome/" style="color:#7b18c1">XpertInsight</a>`}${d.free ? '' : '<br>Stripe emails your receipt separately.'}</td></tr>
-</table></td></tr></table></body></html>`
-    // mail apps do not pass the font down into table cells, so every cell names it (without this the text shows in a serif font)
-    .replace(/<td([^>]*?) style="/g, '<td$1 style="font-family:Arial,Helvetica,sans-serif;');
+  // the look depends on the kind of order (src/lib/client-mail.js): member, countdown (Trial), letter (free code), levelup (upgrade)
+  const html = clientMail(d, c, pic);
   const text = [`Hi ${d.first}, ${c.head}.`, '', plain(c.lead), '', ...summary.map((r) => `${r[0]}: ${r[1]}`), ...(c.pass ? [c.pass] : []), ...(c.billing ? [`${c.billing} ${c.manage}`] : []), ...(c.offer ? ['', c.offer] : []), '', 'What happens next', ...c.steps.map((s, i) => `${i + 1}. ${plain(s)}`), ...(c.cta ? ['', `${c.cta[0]}: ${c.cta[1]}`] : []), '', c.incTitle, ...c.inc.map((r) => `- ${plain(r)}`), ...(c.hosting ? ['', c.hosting] : []), ...(c.reach ? ['', c.reach] : []), '', d.free ? 'Glad to have you as my guest,' : 'Thank you for your trust,', 'The Founder, SEOXpert', SITE].join('\n');
   return { to: d.email, subject: c.subject, html, text };
 }

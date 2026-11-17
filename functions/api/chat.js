@@ -13,6 +13,7 @@
 // Hard money cap: set a monthly spend limit on the API key's workspace in console.anthropic.com.
 import Anthropic from '@anthropic-ai/sdk';
 import { systemPrompt, replySchema, cleanHistory, findEmail, checkReply } from '../../src/lib/chat-ai.js';
+import { teamMail } from '../../src/lib/team-mail.js';
 
 const TO = 'contact@seoxpert.my';
 const FROM = 'SEOXpert <hello@seoxpert.my>';
@@ -144,7 +145,6 @@ export const onRequest = () => json({ ok: false, error: 'post_only' }, 405);
 
 /** Emails the chat to our inbox, with Reply-To the visitor, so pressing Reply answers them. */
 async function sendLead(env, email, messages, page) {
-  const rows = messages.map((m) => `<p style="margin:0 0 10px"><b style="color:${m.role === 'user' ? '#7b18c1' : '#786c88'}">${m.role === 'user' ? 'Visitor' : 'Assistant'}:</b> ${esc(m.content)}</p>`).join('');
   const r = await fetch(`${env.RESEND_API || 'https://api.resend.com'}/emails`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
@@ -152,11 +152,13 @@ async function sendLead(env, email, messages, page) {
       from: FROM, to: [env.CONTACT_TO || TO], reply_to: email,
       subject: `Chat lead: ${email}`,
       text: `A visitor left their email in the website chat.\nEmail: ${email}\nPage: ${page || 'unknown'}\n\n` + messages.map((m) => `${m.role === 'user' ? 'Visitor' : 'Assistant'}: ${m.content}`).join('\n\n'),
-      html: `<div style="font-family:Inter,Segoe UI,Arial,sans-serif;color:#1a1026;max-width:600px;margin:0 auto;padding:24px 16px"><div style="background:#fff;border-radius:20px;padding:24px;border:1px solid #eadcf7">
-        <h1 style="margin:0 0 12px;font-size:20px">New chat lead</h1>
-        <p style="margin:0 0 4px">Email: <b>${esc(email)}</b></p><p style="margin:0 0 16px;color:#786c88">Page: ${esc(page || 'unknown')}</p>
-        <div style="background:#f7f2fc;border-radius:12px;padding:16px;font-size:14px;line-height:1.55">${rows}</div>
-        <p style="color:#786c88;font-size:13px;margin:16px 0 0">Press Reply to answer the visitor directly. The assistant's answers come from the website's own facts.</p></div></div>`,
+      html: teamMail({
+        tone: 'chat', kicker: 'New chat lead', title: email, sub: 'Left their email in the website chat. A real person should reply.', chip: page ? `On ${page}` : 'Website chat',
+        actions: [[`mailto:${email}?subject=${encodeURIComponent('Your question on seoxpert.my')}`, 'Reply by email'], page ? [`https://seoxpert.my${page.startsWith('/') ? page : '/'}`, 'Open that page'] : null],
+        rows: [['Email', email, `mailto:${email}`], ['Page', page || 'unknown'], ['Messages', String(messages.length)]],
+        chat: messages.map((m) => ({ role: m.role, content: m.content })),
+        foot: "Our assistant's answers come from the website's own facts. Pressing Reply in your email app also answers the visitor.",
+      }),
     }),
   });
   return r.ok;

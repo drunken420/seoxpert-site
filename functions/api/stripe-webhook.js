@@ -8,6 +8,29 @@
 // Settings (Cloudflare Pages > Settings > Variables and Secrets): STRIPE_WEBHOOK_SECRET (whsec_..., from the webhook
 // you add in Stripe for https://seoxpert.my/api/stripe-webhook) and RESEND_API_KEY (already there for the contact form).
 import { orderMail } from './order-mail.js';
+import { teamMail } from '../../src/lib/team-mail.js';
+
+/** Our own payment alert (src/lib/team-mail.js layout): the amount big in the band, a status chip, Open in Stripe. */
+export function paymentMail(ev, m) {
+  const type = ev.type, failed = type === 'invoice.payment_failed', ended = type === 'customer.subscription.deleted';
+  const tone = failed ? 'failed' : ended ? 'ended' : m.free ? 'free' : 'paid';
+  const money = m.rows.find((r) => r[0] === 'Paid' || r[0] === 'Amount');
+  // "build:business" style ids read as a name ("Business"), so the title says what was bought in plain words
+  const pretty = (s) => String(s ?? '').replace(/(?:build|care|xpertrank|trial|fs):([a-z_]+)/g, (_, id) => id.charAt(0).toUpperCase() + id.slice(1).replace(/_/g, ' '));
+  const what = pretty((m.rows.find((r) => r[0] === 'For' || r[0] === 'Plan') || [])[1] || '');
+  const name = (m.rows.find((r) => r[0] === 'Name') || [])[1];
+  const email = m.reply || (m.rows.find((r) => r[0] === 'Email') || [])[1];
+  return teamMail({
+    tone, test: !ev.livemode,
+    kicker: failed ? 'Payment failed' : ended ? 'Plan cancelled' : m.free ? 'Free test order' : 'New payment',
+    title: what || m.subject, big: !ended && money && !m.free ? money[1] : '', sub: name ? `From ${name}` : '',
+    chip: failed ? 'Stripe will retry' : ended ? 'Cancelled' : m.free ? 'Nothing charged' : 'Paid',
+    actions: [[m.link, 'Open in Stripe'], email ? [`mailto:${email}`, 'Email them'] : null],
+    rows: m.rows.filter((r) => r !== money || m.free).map((r) => (r[0] === 'Email' && r[1] ? [r[0], r[1], `mailto:${r[1]}`] : r[0] === 'For' || r[0] === 'Plan' ? [r[0], pretty(r[1])] : r)),
+    note: String(m.next || '').replace(/^Next:\s*/, ''), // the box already says "Next step"
+    foot: 'Sent by Stripe through seoxpert.my. Stripe emails the client their own receipt.',
+  });
+}
 const FROM = 'SEOXpert <hello@seoxpert.my>';
 const TO = 'contact@seoxpert.my';
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -84,12 +107,7 @@ export async function onRequestPost({ request, env }) {
   // before it came back from Stripe, and send no second email.
   if (kind === 'foresight') { const r = await invite(env, ev.data.object.id); if (r.ok || r.already) return new Response('ok'); m.next = `XpertForesight did not confirm this order (${r.why || 'no answer'}). Open the XpertForesight team page and check the customer's plan.`; }
   if (!m || !env.RESEND_API_KEY) return new Response('ok');
-  const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1026">
-    <p style="margin:0 0 6px;color:#7b18c1;font-weight:700;letter-spacing:.08em;font-size:12px">SEOXPERT PAYMENTS${ev.livemode ? '' : ' · TEST MODE'}</p>
-    <h1 style="margin:0 0 16px;font-size:22px">${esc(m.subject)}</h1>
-    <table role="presentation" style="border-collapse:collapse;font-size:15px;margin-bottom:16px">${m.rows.filter((r) => r[1] !== undefined && r[1] !== null && r[1] !== '').map((r) => `<tr><td style="padding:4px 16px 4px 0;color:#786c88">${esc(r[0])}</td><td style="padding:4px 0"><b>${esc(r[1])}</b></td></tr>`).join('')}</table>
-    ${m.next ? `<p style="background:#f7f2fc;border-radius:12px;padding:14px 16px;font-size:15px;margin:0 0 16px">${esc(m.next)}</p>` : ''}
-    <a href="${esc(m.link)}" style="display:inline-block;background:#7b18c1;color:#fff;text-decoration:none;padding:12px 20px;border-radius:999px;font-weight:700">Open in Stripe</a></div>`;
+  const html = paymentMail(ev, m);
   // If the email fails, Stripe still has the payment; answer 500 so Stripe tries this message again later.
   const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ from: FROM, to: [env.CONTACT_TO || TO], ...(m.reply ? { reply_to: m.reply } : {}), subject: m.subject, text: m.rows.map((r) => `${r[0]}: ${r[1] ?? ''}`).join('\n') + `\n\n${m.next}\n${m.link}`, html }) });
   if (!r.ok) return new Response('mail failed', { status: 500 });

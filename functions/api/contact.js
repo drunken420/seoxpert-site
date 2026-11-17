@@ -7,6 +7,21 @@
 const FROM = 'SEOXpert <hello@seoxpert.my>';
 const TO = 'contact@seoxpert.my';
 const SITE = 'https://seoxpert.my';
+import { teamMail } from '../../src/lib/team-mail.js';
+
+/** Our own "New enquiry" email (src/lib/team-mail.js layout): reply button, their details, their message. */
+export function enquiryMail({ name, first, email, biz, site, need, message, page }) {
+  const web = site ? (/^https?:\/\//i.test(site) ? site : `https://${site}`) : '';
+  const from = (() => { try { return new URL(page).pathname; } catch { return '/contact/'; } })();
+  return teamMail({
+    tone: 'lead', kicker: 'New enquiry', title: biz ? `${name}, ${biz}` : name, sub: 'Wrote to us through the website contact form.', chip: need,
+    actions: [[`mailto:${email}?subject=${encodeURIComponent('Re: your message to SEOXpert')}`, `Reply to ${first}`], web ? [web, 'Open their website'] : null],
+    rows: [['Name', name], ['Company', biz || 'Not given'], ['Email', email, `mailto:${email}`], ['Website', site || 'None given', web || undefined], ['Needs', need]],
+    message: { title: `${first}'s message`, text: message },
+    foot: `Sent from seoxpert.my${from}. Pressing Reply in your email app also answers ${first} directly.`,
+  });
+}
+
 const NEEDS = ['Website design', 'Website and XpertRank', 'XpertRank for my website', 'XpertRank Trial', 'Website redesign', 'XpertRank', 'Not sure yet']; // keep in step with the choices in src/pages/contact.astro
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
@@ -68,10 +83,7 @@ export async function onRequestPost({ request, env }) {
     from: FROM, to: [env.CONTACT_TO || TO], reply_to: email,
     subject: `New enquiry from ${name}: ${need}`,
     text: rows.map((r) => `${r[0]}: ${r[1]}`).join('\n') + `\n\n${message}`,
-    html: shell(`<h1 style="margin:0 0 16px;font-size:22px">New enquiry from ${esc(name)}</h1>
-      <table role="presentation" style="border-collapse:collapse;font-size:15px;margin-bottom:18px">${rows.map((r) => `<tr><td style="padding:4px 16px 4px 0;color:#786c88">${r[0]}</td><td style="padding:4px 0"><b>${esc(r[1])}</b></td></tr>`).join('')}</table>
-      <div style="white-space:pre-wrap;background:#f7f2fc;border-radius:12px;padding:16px;font-size:15px;line-height:1.6">${esc(message)}</div>
-      <p style="color:#786c88;font-size:13px;margin:18px 0 0">Press Reply to answer ${esc(first)} directly.</p>`),
+    html: enquiryMail({ name, first, email, biz, site, need, message, page: request.headers.get('referer') }),
   });
   if (!inbox.ok) return json({ ok: false, error: 'send_failed' }, 502);
 
