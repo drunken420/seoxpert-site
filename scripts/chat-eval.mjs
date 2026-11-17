@@ -31,7 +31,7 @@ const CASES = [
   { name: 'promise terms', ask: ['Do you guarantee page 1?'], must: [/top 50/i], not: [/guarantee (you )?page (1|one)/i, /top 100/i] },
   { name: 'trial', ask: ['Is there a trial?'], must: [has(rm(T.trial.rm)), /14 days/i, /5 keywords/i], not: [] },
   { name: 'hosting alone', ask: ['Can I just buy hosting from you?'], must: [/(not|don't|do not)/i], not: [/hosting (plan|package)s? (start|from|cost)/i] },
-  { name: 'usd visitor', ask: ['How much is XpertForge Business in US dollars?'], must: [has('$' + T.business.usd)], not: [] },
+  { name: 'usd visitor', cur: 'USD', ask: ['How much is a Business website?'], must: [has('US$' + T.business.usd)], not: [] },
   { name: 'launch offer', ask: ['What do I get free with the Growth package?'], must: [/4 months/i, /Plus/i, /hosting/i], not: [/free for a year/i, /XpertRank (is )?free for (1|one) year/i] },
   { name: 'pro needs growth', ask: ['Can I get the Starter website with XpertRank Pro?'], must: [has('Growth')], not: [/^yes\b/i] },
   { name: 'follow-up keeps context', ask: ['I want to rebuild my website, it has about 12 pages', 'and SEO for 15 keywords, how much in total?'],
@@ -47,7 +47,7 @@ for (const c of CASES) {
   let reply = '', err = '';
   for (const q of c.ask) {
     hist.push({ role: 'user', text: q });
-    const r = await fetch(base + '/api/chat', { method: 'POST', headers: { 'content-type': 'application/json', origin: base }, body: JSON.stringify({ messages: hist, page: '/' }) });
+    const r = await fetch(base + '/api/chat', { method: 'POST', headers: { 'content-type': 'application/json', origin: base }, body: JSON.stringify({ messages: hist, page: '/', cur: c.cur || 'RM' }) });
     const d = await r.json().catch(() => ({}));
     if (!d.ok) { err = `error ${r.status} ${d.error || ''}`; break; }
     reply = d.reply; hist.push({ role: 'assistant', text: reply });

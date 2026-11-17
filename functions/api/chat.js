@@ -78,9 +78,11 @@ export async function onRequestPost({ request, env }) {
     lead = await sendLead(env, email, messages, page).catch(() => false);
   }
   // Website notes go after the visitor's message (a mid-conversation system message), so the cached brief stays the same for everyone.
+  // The currency the visitor's page shows (picked by their country or their own switch; Suhen 2026-11-16), else their country.
   const country = String((request.cf && request.cf.country) || request.headers.get('CF-IPCountry') || '').toUpperCase();
-  const notes = [country && country !== 'MY' && country !== 'XX' && country !== 'T1'
-    ? 'Website note: this visitor is outside Malaysia. Show prices in US$ first, with RM in brackets.'
+  const usd = body.cur ? body.cur === 'USD' : !!country && !['MY', 'XX', 'T1'].includes(country);
+  const notes = [usd
+    ? 'Website note: this visitor sees prices in USD (outside Malaysia, or they chose USD). Give prices in US$ first, with RM in brackets.'
     : 'Website note: show prices in RM (add US$ only if the visitor asks).'];
   if (email) notes.push(lead
     ? 'Website note: the visitor\'s email was passed to the SEOXpert team together with this chat. A real person will reply by email.'
@@ -95,9 +97,7 @@ export async function onRequestPost({ request, env }) {
   const params = {
     model,
     max_tokens: 3000,
-    system: [{ type: 'text', text: brief, cache_control: { type: 'ephemeral' } }, // the facts are the same for everyone: cached
-      // the currency the visitor's page shows (picked by their country or their own switch; Suhen 2026-11-16)
-      { type: 'text', text: body.cur === 'USD' ? 'This visitor sees prices in USD (they are outside Malaysia or chose USD). Give prices in US$ first, with RM after in brackets.' : 'This visitor sees prices in RM.' }],
+    system: [{ type: 'text', text: brief, cache_control: { type: 'ephemeral' } }], // the facts are the same for everyone: cached
     messages: [...messages, ...extra],
     output_config: { effort: 'medium', format: { type: 'json_schema', schema: replySchema } },
   };
