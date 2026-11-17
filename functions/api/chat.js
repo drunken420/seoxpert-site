@@ -82,7 +82,7 @@ export async function onRequestPost({ request, env }) {
   const country = String((request.cf && request.cf.country) || request.headers.get('CF-IPCountry') || '').toUpperCase();
   const usd = body.cur ? body.cur === 'USD' : !!country && !['MY', 'XX', 'T1'].includes(country);
   const notes = [usd
-    ? 'Website note: this visitor sees prices in USD (outside Malaysia, or they chose USD). Give prices in US$ first, with RM in brackets.'
+    ? 'Website note: this visitor sees prices in USD (outside Malaysia, or they chose USD). Write EVERY price with US$ first and RM after it in brackets, for example "US$349 (RM1,499)".'
     : 'Website note: show prices in RM (add US$ only if the visitor asks).'];
   if (email) notes.push(lead
     ? 'Website note: the visitor\'s email was passed to the SEOXpert team together with this chat. A real person will reply by email.'
