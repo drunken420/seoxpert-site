@@ -10,21 +10,21 @@ import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Packages from '../components/Packages.astro';
 import { site, whatsappLink, talkLabel, areaLd } from '../config';
-import { care, offersLd } from '../data/packages';
-const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertRank, a monthly website maintenance service with expert SEO for websites built by SEOXpert, with high speed cloud hosting included: updates, backups, fixes, new content and SEO and AI search optimisation.', offers: offersLd(care) }];
+import { care, offersLd, fmt } from '../data/packages';
+const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertRank, a monthly website maintenance service with expert SEO for any website: updates, backups, fixes, new content and SEO and AI search optimisation. Websites built by SEOXpert also get free high speed cloud hosting.', offers: offersLd(care) }];
 const pf = pageFaq(['What does XpertRank include?', 'What is the difference between the XpertRank plans?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
 ---
-<Base title="Website Maintenance Malaysia with Expert SEO | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description="XpertRank is a monthly website maintenance service in Malaysia with expert SEO, for websites built by SEOXpert: hosted, updated, backed up and growing." path="/website-maintenance/" crumb="Website maintenance" extraLd={[...extraLd, pf.ld]}>
+<Base title="Website Maintenance Malaysia: Monthly Service with SEO | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description={`Website maintenance in Malaysia from ${fmt(care.tiers[0])} a month. XpertRank keeps any website updated, backed up, checked every few days and growing with expert SEO.`} path="/website-maintenance/" crumb="Website maintenance" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Expert SEO and maintenance" brand="XpertRank" art="care" crumb="Website maintenance" word="Care">
   <Fragment slot="title">Website maintenance in Malaysia, <em>month after month</em>.</Fragment>
-  <Fragment slot="lede">A website is not finished on launch day. XpertRank keeps the website we built for you hosted, updated, backed up and growing, so you can get on with running your business.</Fragment>
+  <Fragment slot="lede">Website maintenance is the regular work that keeps a website safe, up to date and growing after launch. XpertRank does it for any website: we check it every few days, fix what we find and add new SEO content every month. Websites we build also get free high speed cloud hosting.</Fragment>
   <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#xpertrank">See XpertRank plans</a></Fragment>
 </PageHero>
 
 <section id="what" class="solid band"><div class="wrap">
-  <span class="eyebrow rv">What is website maintenance?</span>
-  <h2 class="rv">The regular work that keeps a website healthy.</h2>
+  <span class="eyebrow rv">The regular work that keeps a website healthy</span>
+  <h2 class="rv">What is website maintenance?</h2>
   <p class="sub rv">Website maintenance means keeping your website up to date, safe and useful after it goes live. XpertRank is our website maintenance service and expert SEO service in one, developed in house, so that work is done for you by our own team.</p>
   <div class="grid3">
     <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Updates</h3><p>Your website is kept up to date, so it keeps working the way it should.</p></div>
@@ -38,7 +38,7 @@ const pf = pageFaq(['What does XpertRank include?', 'What is the difference betw
 
 <section id="xpertrank" class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">XpertRank plans</span>
-  <h2 class="rv">Website maintenance cost in Malaysia, month by month.</h2>
+  <h2 class="rv">How much does website maintenance cost in Malaysia?</h2>
   <p class="sub rv">XpertRank is our expert SEO and maintenance service for any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so the website lives with us and we look after all of it. Pick the size that fits how often your website changes, and add it to any of our <a href="/packages/">website design packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
   <Packages show="care" pickHref="/packages/#plan" />
   <div class="note rv"><h3>Built by us, or built elsewhere</h3><p>For websites we build with XpertForge, Basic fits any size, Plus needs Business or Growth, and Pro and Elite need Growth, with free high speed cloud hosting. Already have a website? Any XpertRank plan works on it, at its own price and without hosting. See both prices on the <a href="/packages/#plan">packages page</a>.</p></div>

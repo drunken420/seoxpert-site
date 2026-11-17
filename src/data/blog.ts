@@ -38,14 +38,14 @@ const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first co
 
 export const posts: Post[] = [
   {
-    slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15',
+    slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15', updated: '2026-11-18',
     h1: 'Cloud hosting in Malaysia: what it is, and when it is free',
     title: 'Cloud Hosting in Malaysia: What It Is and When It Is Free',
     description: 'Cloud hosting in Malaysia in plain words: what it is, how it differs from shared hosting, what to check before you pay, and when free cloud hosting is real.',
     card: 'What cloud hosting is, how it differs from shared hosting, and when free cloud hosting is real.',
     short: `Cloud hosting keeps your website on a network of many computers instead of one, so it stays fast and online even when one of them has a problem or many people visit at once. Free cloud hosting is real, but it usually comes with limits or as part of another service. At SEOXpert, free high speed cloud hosting is included with every XpertRank plan on websites we build${offerOn() ? `, and every website we build that is ordered before ${offer.endsText} gets 1 year of free high speed cloud hosting` : ''}. We do not sell hosting on its own.`,
     sections: [
-      { id: 'what-is-cloud-hosting', h: 'What cloud hosting is', html: `<p>Every website lives on a computer that is always switched on and connected to the internet. That computer is called a server, and renting space on one is called hosting.</p>
+      { id: 'what-is-cloud-hosting', h: 'What is cloud hosting?', html: `<p>Every website lives on a computer that is always switched on and connected to the internet. That computer is called a server, and renting space on one is called hosting.</p>
 <p>With older kinds of hosting, your website sits on one server in one building. With <b>cloud hosting</b>, your website is kept on a network of many servers, often in many places. When someone opens your website, the network answers from a server that is close to them and free to respond.</p>
 <p>For a business owner, that means three things:</p>
 <ul class="bcheck"><li><b>Speed.</b> Pages are sent from a place near the visitor, so they open quickly.</li>
@@ -67,14 +67,14 @@ export const posts: Post[] = [
 <li><b>What does it cost after the first year?</b> Some plans are cheap at the start and renew at a much higher price. Read the renewal price before you pay.</li>
 <li><b>Who do you call when something breaks?</b> With hosting bought on its own, the answer is often you.</li></ul>
 <div class="btip"><b>Good to know</b>Your domain name (your address, like yourbusiness.com.my) and your hosting are two different things. Both have renewal dates, and a website goes offline if either one runs out.</div>` },
-      { id: 'free-cloud-hosting', h: 'Is free cloud hosting real', html: `<p>Yes, but it helps to know which kind you are looking at.</p>
+      { id: 'free-cloud-hosting', h: 'Is free cloud hosting real?', html: `<p>Yes, but it helps to know which kind you are looking at.</p>
 <h3>Free plans from hosting companies</h3>
 <p>Some cloud companies offer a free plan. These are real and can be very good, but they are made for people who can set up and look after a website themselves. They usually have limits, and there is nobody to call when something goes wrong.</p>
 <h3>Free hosting that comes with another service</h3>
 <p>Here the hosting is included in something else you pay for, such as a website build or a monthly SEO plan. You do not pay for it separately, and the people who built the website also look after where it lives.</p>
 <p>That second kind is how we do it${offerOn() ? `. Every website ordered before ${offer.endsText} gets <b>1 year of free high speed cloud hosting</b>, and websites we build keep free high speed cloud hosting with every XpertRank plan` : ': websites we build get free high speed cloud hosting with every XpertRank plan'}. See the <a href="/packages/">packages and prices</a>.</p>
 <div class="btip"><b>Before you choose free</b>Ask what happens when the free period ends, what the limits are, and who fixes it if the website goes down. Free hosting with nobody looking after it can cost more in lost customers than paid hosting.</div>` },
-      { id: 'hosting-and-google', h: 'Does hosting help you on Google', html: `<p>Hosting alone does not put a website on page 1, and nobody can promise that. But it does affect two things Google and your visitors both care about:</p>
+      { id: 'hosting-and-google', h: 'Does hosting help you rank on Google?', html: `<p>Hosting alone does not put a website on page 1, and nobody can promise that. But it does affect two things Google and your visitors both care about:</p>
 <ul><li><b>Speed.</b> Google measures how quickly real pages load, and uses it as one of many signals. Visitors also leave slow pages, especially on mobile data.</li>
 <li><b>Being online.</b> A website that is often down cannot be visited by customers or read by Google.</li></ul>
 <p>The words on your pages and how well they answer what people search for still matter most. Read our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a> for the full picture.</p>` },
@@ -97,7 +97,7 @@ ${careTable}
     cta: { pill: 'XpertRank', title: 'High speed cloud hosting, included with your website care', href: '/packages/', label: 'See packages and prices' },
   },
   {
-    slug: 'local-seo-malaysia', tag: 'Local SEO', art: 'map', date: '2026-11-11',
+    slug: 'local-seo-malaysia', tag: 'Local SEO', art: 'map', date: '2026-11-11', updated: '2026-11-18',
     h1: 'Local SEO in Malaysia: how to be found in your area',
     title: 'Local SEO in Malaysia: How to Be Found in Your Area',
     description: 'Local SEO in Malaysia, step by step: say where you work, complete your Google Business Profile, keep your details the same, earn real reviews and make contact easy.',
@@ -108,7 +108,7 @@ ${careTable}
 <p>Local SEO is the work that helps your business appear in both. It matters most if customers come to you, or you go to them:</p>
 <ul><li>Shops, restaurants, cafes and salons</li><li>Clinics, dentists and other health services</li><li>Tuition centres, schools and studios</li><li>Contractors, repair services, movers and cleaners</li><li>Professional offices such as lawyers and accountants</li></ul>
 <p>If you sell only online to customers anywhere, normal SEO matters more. Start with our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a>.</p>` },
-      { id: 'how-google-picks', h: 'How Google chooses local results', html: `<p>Google explains that local results are based mainly on three things. Knowing them shows you where to put your effort.</p>
+      { id: 'how-google-picks', h: 'How does Google choose local results?', html: `<p><a href="https://support.google.com/business/answer/7091" rel="noopener">Google explains</a> that local results are based mainly on three things. Knowing them shows you where to put your effort.</p>
 <h3>Relevance</h3><p>How well your business matches what was searched. If someone searches "wedding cake" and your profile and website only say "bakery", Google has less to go on. Describe what you actually offer, in the words customers use.</p>
 <h3>Distance</h3><p>How far your business is from the person searching, or from the place they named. You cannot change where you are, but you can say clearly which areas you cover.</p>
 <h3>Prominence</h3><p>How well known and trusted your business looks. Reviews, mentions on other websites and a website with real, useful content all add to it.</p>
@@ -131,7 +131,7 @@ ${careTable}
 <li><b>Phone number and website,</b> the same as on your website.</li>
 <li><b>Services or products,</b> listed one by one with short descriptions.</li>
 <li><b>Real photos</b> of your work, your team and your premises. Customers trust real pictures far more than stock images.</li>
-<li><b>A short description</b> in plain words: what you do, who it is for and where.</li></ul>` },
+<li><b>A short description</b> in plain words: what you do, who it is for and where.</li></ul><p>Google Business Profile set up is included with every <a href="/packages/">website design package</a> we build. Want help with the rest? See our <a href="/seo-services-malaysia/">local SEO services in Malaysia</a>.</p>` },
       { id: 'same-details-everywhere', h: '3. Keep your details the same everywhere', html: `<p>Your business name, address and phone number appear in many places: your website, your Google profile, your Facebook page, map apps, directories and old listings you may have forgotten about. When they disagree, both customers and search engines become less sure which one is right.</p>
 <ul class="bcheck"><li>Write your name, address and phone number once, exactly as you want them, and use that version everywhere.</li>
 <li>Search for your business name and old phone numbers to find listings that need updating.</li>
@@ -173,7 +173,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'A website that says clearly where you work', href: '/website-design/', label: 'Website design in Malaysia' },
   },
   {
-    slug: 'website-design-kuala-lumpur-selangor', tag: 'Website design', art: 'city', date: '2026-11-11',
+    slug: 'website-design-kuala-lumpur-selangor', tag: 'Website design', art: 'city', date: '2026-11-11', updated: '2026-11-18',
     h1: 'Website design in Kuala Lumpur and Selangor: a checklist',
     title: 'Website Design in Kuala Lumpur and Selangor: A Checklist',
     description: 'Getting a website designed for a business in Kuala Lumpur, Selangor or Petaling Jaya? Use this checklist before you choose a designer and before you pay.',
@@ -200,7 +200,7 @@ ${careTable}
 <ul class="bcheck"><li>Does it load quickly, even away from Wi-Fi?</li><li>Can you read the text without zooming in?</li><li>Are buttons big enough to tap easily?</li><li>Can you call or message the business in one or two taps?</li></ul>
 <p>Google also offers a free tool called PageSpeed Insights that tests any page and explains what slows it down. Speed is part of <a href="/website-development/">website development</a>, and it is easiest to get right when a website is built for it from the start.</p>` },
       { id: 'planned-for-search', h: '5. It is planned for Google and AI search', html: `<p>A website nobody can find does not help your business. Ask how each page is planned: which searches it answers, what the title and headings say, and how the facts about your business are labelled for search engines and AI tools.</p>
-<p>If the answer is "we can do SEO later", be careful. Adding search after the design is finished often means rewriting pages and paying twice. We plan every page for Google and AI search before it is designed, guided by <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>.</p>` },
+<p>If the answer is "we can do SEO later", be careful. Adding search after the design is finished often means rewriting pages and paying twice. We plan every page for Google and AI search before it is designed, guided by <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>.</p><p>This is how we work as a <a href="/website-design/">website design company in Malaysia</a>.</p>` },
       { id: 'what-you-own', h: '6. You know what you will own', html: `<p>Ask these before you sign, whoever you work with:</p>
 <ul><li><b>The domain name:</b> whose name is it registered in, and who pays to renew it each year?</li>
 <li><b>Your content:</b> the words and photos made for your website.</li>
@@ -221,7 +221,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: `Website design from ${px(starter)}, paid once`, href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11',
+    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11', updated: '2026-11-18',
     h1: 'Website design packages in Malaysia: which one fits?',
     title: 'Website Design Packages in Malaysia: Which One Fits?',
     description: `Compare website design packages in Malaysia: Starter, Business and Growth, from ${fmt(starter)}. See what each includes, with examples of which one fits which business.`,
@@ -251,7 +251,7 @@ ${careTable}
 <p>To get the most from each round, collect all your changes in one list before you send them, and ask anyone else who needs to approve the website to add theirs to the same list. Clear, complete feedback in one go gives a better result than many small messages.</p>` },
       { id: 'add-xpertrank', h: 'Adding XpertRank after launch', html: `<p>After launch you can add XpertRank, our optional expert SEO service, with free high speed cloud hosting for the websites we build. With every plan we actively check your website every few days, fix what we find, and make SEO and AI search improvements when they are needed.</p>${careTable}
 <p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} and ${elite.name} need Growth. Pay yearly and you get ${yearly.text}.</p>
-<p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p>` },
+<p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p><p>See what the monthly <a href="/website-maintenance/">website maintenance and SEO service</a> includes, or <a href="/packages/">compare website design packages</a>.</p>` },
       { id: 'still-not-sure', h: 'Between two sizes?', html: `<p>Think about the next year, not only launch day. If you plan to add services, or want a page for each type of job you do, the bigger size gives you room.</p>
 <p>If you are still unsure, <a href="/contact/">tell us about your business</a> and we will say honestly which size fits. If a smaller package is enough, we will tell you.</p>` },
     ],
@@ -265,14 +265,14 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'Compare the packages and build your plan', href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11',
+    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-18',
     h1: 'Website design price in Malaysia: what does it cost?',
     title: 'Website Design Price in Malaysia: What It Costs | SEOXpert',
     description: `Website design in Malaysia costs from ${fmt(starter)} with SEOXpert, paid once. See what changes the price, the costs to ask about and what it costs each month.`,
     card: `A new business website in Malaysia costs from ${px(starter)}, paid once. The price depends mostly on how many pages you need.`,
-    short: `Website design in Malaysia with SEOXpert costs ${px(starter)} to ${px(growth)}, paid once. The price depends mostly on how many pages you need. Highly rankable content, keyword research, and Google and AI search optimisation are included in every package. When you compare quotes, compare what is included, not only the price.`,
+    short: `The price of website design in Malaysia depends mostly on how many pages you need, whether the writing is included, and extra features such as booking or online payments. At SEOXpert a business website costs ${px(starter)} to ${px(growth)}, paid once. Highly rankable content, keyword research, and Google and AI search optimisation are included in every package. When you compare quotes, compare what is included, not only the price.`,
     sections: [
-      { id: 'what-changes-the-price', h: 'What changes the price of a website', html: `<p>Website design prices in Malaysia vary widely from one company to the next, which makes quotes hard to compare. Most of the cost is the amount of work, and five things decide how much work there is.</p>
+      { id: 'what-changes-the-price', h: 'What changes the price of a website?', html: `<p>Website design prices in Malaysia vary widely from one company to the next, which makes quotes hard to compare. Most of the cost is the amount of work, and five things decide how much work there is.</p>
 <h3>How many pages you need</h3><p>A five page website for a new business is far less work than a twenty page website with a blog. Each page needs planning, writing, design and checking.</p>
 <h3>Who writes the words</h3><p>Many quotes leave the writing to you. Writing is slow, and a website with thin writing is hard to find. A quote that includes proper writing will look higher, but it saves you weeks.</p>
 <h3>Whether search is planned in</h3><p>Keyword research, titles, descriptions, headings and structured data take time to do properly. Some quotes charge extra for this, and some skip it.</p>
@@ -280,7 +280,7 @@ ${careTable}
 <h3>How many rounds of changes you get</h3><p>Every round of changes is more work, so most companies set a number. Check it before you agree.</p>` },
       { id: 'package-prices', h: 'Our website design prices in Malaysia', html: `<p>Our website builds are called XpertForge. There are three sizes, and each one is a single price, paid once.</p>${buildTable}
 <p>Every package includes:</p>${inEvery}
-<p>You can compare them on the <a href="/packages/">website design packages</a> page, where prices show in ringgit (RM) first, with US dollars as an option.</p>` },
+<p>You can compare them on the <a href="/packages/">website design packages</a> page, where prices show in ringgit (RM) first, with US dollars as an option.</p><p>See how our <a href="/website-design/">website design in Malaysia</a> works, from the first call to launch.</p>` },
       { id: 'costs-to-ask-about', h: 'Costs to ask about before you agree', html: `<p>The build price is only part of what a website costs. Whoever you work with, ask about these before you sign:</p>
 <ul><li><b>Domain name.</b> Your address on the web is renewed every year with a registrar. Ask who pays, and make sure it is registered in your name.</li>
 <li><b>Hosting.</b> Where the website lives, and what it costs each month or year.</li>
@@ -288,7 +288,7 @@ ${careTable}
 <li><b>Changes after launch.</b> What it costs to update a price, a photo or a page later.</li>
 <li><b>Photos and licences.</b> Whether stock photos, fonts or paid plugins are included.</li></ul>
 <p>With us, websites we build get free high speed cloud hosting with every XpertRank plan, and changes, new blog posts and active checks are part of the plan.</p>` },
-      { id: 'monthly-cost', h: 'What a website costs after launch', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertRank. It costs ${px(basic)} to ${px(elite)} a month for websites we build and includes free high speed cloud hosting, backups, security, active checks every few days with fixes, SEO and AI search optimisation when needed, new blog posts and a monthly Google and AI visibility report.</p>${careTable}
+      { id: 'monthly-cost', h: 'How much does a website cost after launch?', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertRank. It costs ${px(basic)} to ${px(elite)} a month for websites we build and includes free high speed cloud hosting, backups, security, active checks every few days with fixes, SEO and AI search optimisation when needed, new blog posts and a monthly Google and AI visibility report.</p>${careTable}
 <p>If you pay yearly you get ${yearly.text}. These prices are for websites we build; a website built elsewhere has its own price. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
       { id: 'cheap-or-good-value', h: 'A cheap website or a good value one?', html: `<p>A very low price usually means something has been left out. It might be the writing, the search planning, the phone testing, or any help after launch. None of that shows on day one, but all of it shows over the following months, when the website brings few enquiries.</p>
 <p>A good value website is one that pays for itself: people can find it, understand it quickly and get in touch easily. When you compare two quotes, line them up against the same list of what is included, and ask about anything missing.</p>` },
@@ -307,17 +307,17 @@ ${careTable}
     cta: { pill: 'XpertForge', title: `Get a website from ${px(starter)}`, href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'seo-malaysia-guide', tag: 'SEO', art: 'seo', date: '2026-11-11', updated: '2026-11-15',
+    slug: 'seo-malaysia-guide', tag: 'SEO', art: 'seo', date: '2026-11-11', updated: '2026-11-18',
     h1: 'SEO in Malaysia: how search engine optimisation works',
     title: 'SEO in Malaysia: How Search Engine Optimisation Works',
     description: 'SEO in Malaysia in plain words: how Google finds pages, keyword research, on page and technical SEO, content, links, local SEO and the free tools to start with.',
     card: 'How Google finds and ranks pages, and what you can do about it: keywords, pages, speed, content and links.',
     short: 'SEO (search engine optimisation) is the work of making your website easy for Google to find, understand and show to people who are searching. It has five parts: knowing what people search for (keyword research), clear and well built pages (on page and technical SEO), useful content that keeps growing, being trusted by other websites, and being visible in your area (local SEO).',
     sections: [
-      { id: 'what-is-seo', h: 'What SEO means', html: `<p>SEO stands for search engine optimisation, also spelled search engine optimization.</p>
+      { id: 'what-is-seo', h: 'What is SEO?', html: `<p>SEO stands for search engine optimisation, also spelled search engine optimization.</p>
 <p>When someone searches Google for something you sell, Google chooses which websites to show and in what order. SEO is everything you do to help Google choose yours: the right words, clear pages, a fast website and genuinely useful answers.</p>
 <p>It is not a trick, and it is not instant. Nobody can buy a place in the normal results, and nobody can honestly promise page 1. What you can do is make your website the clearest, most useful answer you can, and keep improving it.</p>` },
-      { id: 'how-google-works', h: 'How Google finds and ranks pages', html: `<p>Google works in three steps, and SEO helps with each one.</p>
+      { id: 'how-google-works', h: 'How does Google find and rank pages?', html: `<p>Google works in three steps, and SEO helps with each one.</p>
 <ol><li><b>Finding.</b> Google follows links and reads sitemaps to discover pages. A page nothing links to may never be found.</li>
 <li><b>Understanding.</b> Google reads each page and stores what it is about. Clear titles, headings and writing make this easy. Words hidden inside pictures make it hard.</li>
 <li><b>Ranking.</b> When someone searches, Google picks the pages it thinks answer best, looking at how relevant, useful and trustworthy each one seems, and whether it works well on the device being used.</li></ol>` },
@@ -348,8 +348,8 @@ ${careTable}
       { id: 'local-seo', h: 'Local SEO: being found in your area', html: `<p>If customers come to you, or you go to them, local SEO helps people nearby find you, including on Google Maps. The basics: say clearly where you work, complete your free Google Business Profile, keep your details the same everywhere, and earn real reviews.</p>
 <p>Our <a href="/blog/local-seo-malaysia/">local SEO guide</a> goes through it step by step.</p>` },
       { id: 'starts-with-the-website', h: 'Why SEO starts with how the website is built', html: `<p>Most websites are designed first and fixed for search later. That order causes the same problems again and again: pages with no clear topic, important words placed inside pictures where machines cannot read them, heavy pages that load slowly on phones.</p>
-<p>Fixing these later often means rebuilding pages, so you pay twice. Our <a href="/website-design/">website design in Malaysia</a> works the other way round: every page is planned for Google and AI search before it is designed. Planning for search does not mean a plain website. You can try live animation and 3D in <a href="/demos/">XpertLab</a>.</p>` },
-      { id: 'how-long', h: 'How long SEO takes', html: `<p>SEO is slow by nature. Google needs time to find and trust new pages, and how long it takes depends on how many others compete for the same searches and how much useful content you have. Think in months, not days, and be wary of anyone who promises fast results.</p>
+<p>Fixing these later often means rebuilding pages, so you pay twice. Our <a href="/website-design/">website design in Malaysia</a> works the other way round: every page is planned for Google and AI search before it is designed. Planning for search does not mean a plain website. You can try live animation and 3D in <a href="/demos/">XpertLab</a>.</p><p>Want it done for you? See our <a href="/seo-services-malaysia/">SEO services in Malaysia</a>, the <a href="/seo-audit-malaysia/">weekly technical SEO audit</a>, and <a href="/seo-packages-malaysia/">SEO packages and prices</a>.</p>` },
+      { id: 'how-long', h: 'How long does SEO take?', html: `<p>SEO is slow by nature. Google needs time to find and trust new pages, and how long it takes depends on how many others compete for the same searches and how much useful content you have. Think in months, not days, and be wary of anyone who promises fast results.</p>
 <p>Search visibility also builds on itself, which is why a website needs looking after once it is live. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>. More and more people also ask AI tools instead of searching, and the same clear website helps there too. See <a href="/blog/ai-seo-malaysia/">AI SEO in Malaysia</a>.</p>` },
       { id: 'free-tools', h: 'Free tools to start with', html: `<ul><li><b>Google Search Console:</b> which searches you appear for, which pages are found, and any problems Google sees.</li>
 <li><b>Google Business Profile:</b> your listing on Google Search and Maps.</li>
@@ -366,16 +366,16 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'A website planned for search from day one', href: '/website-design/', label: 'Website design in Malaysia' },
   },
   {
-    slug: 'ai-seo-malaysia', tag: 'AI search', art: 'ai', date: '2026-11-11', updated: '2026-11-15',
+    slug: 'ai-seo-malaysia', tag: 'AI search', art: 'ai', date: '2026-11-11', updated: '2026-11-18',
     h1: 'AI SEO in Malaysia: what it is, and does it work?',
     title: 'AI SEO in Malaysia: What It Is, and Does It Work?',
     description: 'AI SEO means making your website easy for AI tools like ChatGPT and Gemini to read, trust and quote. How it works, how to write for it, and how to check it.',
     card: 'AI SEO means making your website easy for AI tools to read, trust and quote. Here is how.',
     short: 'AI SEO means making your website easy for AI tools such as ChatGPT, Gemini, Perplexity and the AI answers in Google to read, understand and quote. It works best as an addition to normal SEO, not a replacement. Clear facts, short direct answers, good structure and the same details everywhere help with both.',
     sections: [
-      { id: 'how-ai-search-is-different', h: 'How AI search is different', html: `<p>On Google, people type a few words and choose from a list of links. With an AI tool, people ask a full question, like "Which web design company should I use for a small clinic?", and get one written answer, often naming only a few sources or businesses.</p>
+      { id: 'how-ai-search-is-different', h: 'How is AI search different?', html: `<p>On Google, people type a few words and choose from a list of links. With an AI tool, people ask a full question, like "Which web design company should I use for a small clinic?", and get one written answer, often naming only a few sources or businesses.</p>
 <p>That changes the goal. It is no longer only about being on the list. It is about being one of the sources the answer is built from. To be used, your website has to be easy to read and safe to quote.</p>` },
-      { id: 'where-answers-come-from', h: 'Where AI answers get their information', html: `<p>Different tools work in different ways, but most answers come from a mix of two sources:</p>
+      { id: 'where-answers-come-from', h: 'Where do AI answers get their information?', html: `<p>Different tools work in different ways, but most answers come from a mix of two sources:</p>
 <ul><li><b>What the tool learned in training,</b> from a very large amount of text read in the past.</li>
 <li><b>A live search of the web,</b> where the tool reads current pages and often shows links to them.</li></ul>
 <p>The AI answers inside Google draw on pages Google has found. So the basics still apply: if search engines cannot find and understand your pages, AI tools are less likely to use them.</p>` },
@@ -402,7 +402,7 @@ ${careTable}
 <p>What you can control is how clear, consistent and well structured your website is. The good news is that the same work also helps on Google, so nothing is wasted. Be careful with anyone who guarantees results in AI answers.</p>` },
       { id: 'other-names', h: 'Other names you may hear', html: `<p>AI SEO goes by several names. GEO means generative engine optimisation (also spelled generative engine optimization). AEO means answer engine optimisation. Some people say LLM optimisation, after the large language models behind the AI tools. They all describe the same idea: helping AI tools understand and use your content.</p>` },
       { id: 'how-we-do-it', h: 'How we build it in', html: `<p>Every website we build is planned for Google and AI search before it is designed. <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>, drafts the page plan, headings and answer first copy, and adds structured data and an AI ranking file. Then our experts check and refine every page.</p>
-<p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places.</p>` },
+<p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places.</p><p>To have it done for you every month, see our <a href="/ai-seo-services-malaysia/">AI SEO services in Malaysia</a>.</p>` },
     ],
     faqs: [
       { q: 'Is AI SEO different from normal SEO?', a: 'It builds on normal SEO. The basics are the same: clear pages, good structure and useful answers. AI SEO adds short answer blocks, consistent facts, structured data and an AI ranking file.' },
@@ -414,14 +414,14 @@ ${careTable}
     cta: { pill: 'XpertCore', title: 'See how our AI SEO advisor guides every page', href: '/ai-seo-advisor/', label: 'How XpertCore works' },
   },
   {
-    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11',
+    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-18',
     h1: 'Website maintenance in Malaysia: what it covers and costs',
     title: 'Website Maintenance in Malaysia: Cost and What It Covers',
     description: `Website maintenance in Malaysia: the regular work that keeps a website safe, up to date and growing: what it covers, what can go wrong and the cost, from ${fmt(basic)} a month.`,
     card: 'The regular work that keeps a website safe, up to date and growing after launch, and what it costs.',
     short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${px(basic)} to ${px(elite)} a month for websites we build, with free high speed cloud hosting included. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
     sections: [
-      { id: 'what-it-covers', h: 'What website maintenance covers', html: `<ul><li><b>Hosting.</b> A fast, reliable home for your website.</li>
+      { id: 'what-it-covers', h: 'What does website maintenance include?', html: `<ul><li><b>Hosting.</b> A fast, reliable home for your website.</li>
 <li><b>Backups.</b> Regular copies are saved, so nothing is lost if something goes wrong.</li>
 <li><b>Uptime watch and security.</b> Someone notices when the website is down or at risk.</li>
 <li><b>Active checks.</b> We check the website every few days, fix what we find, and make SEO and AI search (LLM) improvements when they are needed.</li>
@@ -440,7 +440,7 @@ ${careTable}
 <h3>Every few days</h3><p>We actively check your website: that it is up, working and fast, that forms send and links work. We fix what we find, and when a page needs it, we make SEO and AI search (LLM) improvements.</p>
 <h3>Every week</h3><p>Your keywords are tracked, so we can see which pages are rising and which need work.</p>
 <h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand.</p>` },
-      { id: 'what-it-costs', h: 'What website maintenance costs', html: `<p>Website maintenance prices vary a lot, so check what is included before you compare. XpertRank has four plans. For websites we build, free high speed cloud hosting is included in every one; websites built elsewhere keep their own hosting.</p>${careTable}
+      { id: 'what-it-costs', h: 'How much does website maintenance cost?', html: `<p>Website maintenance prices vary a lot, so check what is included before you compare. XpertRank has four plans. For websites we build, free high speed cloud hosting is included in every one; websites built elsewhere keep their own hosting.</p>${careTable}
 <p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>` },
       { id: 'choosing-a-plan', h: 'How to choose a plan size', html: `<p>Choose by how often your website needs to change and how fast you want it to grow:</p>
 <ul><li><b>${basic.name}</b> keeps the website healthy, with a few changes and a new blog post each month. It fits any XpertForge website.</li>
@@ -449,7 +449,7 @@ ${careTable}
 <li><b>${elite.name}</b> is our biggest plan, with the most changes, posts and keywords. It needs a Growth website.</li></ul>
 <p>Your care plan can be as big as your website, not bigger, because a small website does not need the biggest plan.</p>` },
       { id: 'who-it-is-for', h: 'Who XpertRank is for', html: `<p>XpertRank works on any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so we know every part of what we look after. A website built elsewhere can have XpertRank too, at its own price and without hosting.</p>
-<p>XpertRank is optional. See the plans on the <a href="/website-maintenance/">website maintenance</a> page.</p>` },
+<p>XpertRank is optional. See the plans on the <a href="/website-maintenance/">website maintenance</a> page.</p><p>See our <a href="/website-maintenance/">website maintenance service in Malaysia</a> and the <a href="/seo-audit-malaysia/">weekly technical SEO audit</a> that comes with it.</p>` },
     ],
     faqs: [
       { q: 'Is hosting included?', a: 'For websites we build, yes: free high speed cloud hosting is included with every XpertRank plan. Websites built elsewhere keep their own hosting.' },
@@ -461,7 +461,7 @@ ${careTable}
     cta: { pill: 'XpertRank', title: `Expert SEO from ${px(basic)}, free cloud hosting for websites we build`, href: '/website-maintenance/', label: 'See XpertRank plans' },
   },
   {
-    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-15',
+    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-18',
     h1: 'How to choose a web design company in Malaysia',
     title: 'How to Choose a Web Design Company in Malaysia | SEOXpert',
     description: 'Choose a web design company in Malaysia by checking real work, a clear price, a plan for search, who does the work, what you own and who looks after the website.',
@@ -473,7 +473,7 @@ ${careTable}
 <p>Send the same brief to every company you talk to, so you are comparing like with like.</p>` },
       { id: 'look-at-real-work', h: '1. Look at live work you can visit', html: `<p>Pictures of websites are easy to fake. Ask for links to live websites and open them on your phone:</p>
 <ul class="bcheck"><li>Does it load quickly on mobile data?</li><li>Can you tell what the business does within a few seconds?</li><li>Is it easy to call, message or book?</li><li>Does it still look right a year or two after launch?</li></ul>
-<p>We only show work we built ourselves. You can see it on our <a href="/website-design/#work">website design</a> page, and this website is built the same way.</p>` },
+<p>We only show work we built ourselves. You can see it on our <a href="/website-design/#work">website design we have built</a> page, and this website is built the same way.</p>` },
       { id: 'get-a-clear-price', h: '2. Get a clear price', html: `<p>A good web design company can tell you the price and what it includes before a long sales call. Check these points:</p>
 <ul><li>Is the writing included, or do you have to supply every word?</li><li>How many pages do you get?</li><li>How many rounds of changes are included?</li><li>Is anything charged every month or year, and is it optional?</li></ul>
 <p>Our prices are public on the <a href="/packages/">website design packages</a> page. Read more in <a href="/blog/website-design-price-malaysia/">website design price in Malaysia</a>.</p>` },

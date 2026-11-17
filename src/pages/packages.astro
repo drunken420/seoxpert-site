@@ -11,7 +11,11 @@ import '../styles/page.css';
 import Packages from '../components/Packages.astro';
 import PlanPicker from '../components/PlanPicker.astro';
 import { site } from '../config';
-import { build, care, offersLd, fmt } from '../data/packages';
+import { build, care, offersLd, fmt, px, offerOn } from '../data/packages';
+// A real table of the three builds (2026-11-18 SEO review: the "at a glance" version was only a picture, which Google and AI tools cannot read)
+const bshort = (n: string) => n.replace('XpertForge ', '');
+const num = (row: string) => (String(row || '').match(/[0-9]+/) || [''])[0];
+const brows: [string, (t: any) => string][] = [['Price', (t) => px(t)], ['Pages in total', (t) => num(t.rows[0])], ['At launch', (t) => t.rows[1].replace(/<[^>]+>/g, '').replace(/ at launch$/, '')], ['Revision rounds', (t) => num(t.rows[2])], ...(offerOn() ? [['Launch offer', (t: any) => t.free || '']] as [string, (t: any) => string][] : [])];
 const extraLd = [
   { '@type': 'Service', name: 'Website design packages', serviceType: 'Website design', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/packages/`, offers: offersLd(build) },
   { '@type': 'Service', name: 'XpertRank monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
@@ -31,6 +35,13 @@ const pf = pageFaq(['What is the difference between Starter, Business and Growth
   <h2 class="rv">Choose the size that fits your business.</h2>
   <p class="sub rv">XpertForge is our website build: one price, paid once. XpertRank is the optional plan to grow it every month, with free high speed cloud hosting for websites we build. Already have a website? XpertRank works on it too, at its own price. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by experts.</p>
   <Packages pickHref="#plan" />
+  <h3 class="rv" style="margin-top:34px">Website design packages compared</h3>
+  <div class="cmpwrap rv">
+    <table class="cmptab">
+      <thead><tr><th scope="col">XpertForge</th>{build.tiers.map((t) => <th scope="col" class:list={[t.hot && "hot"]}>{bshort(t.name)}<small>{t.for}</small></th>)}</tr></thead>
+      <tbody>{brows.map(([h, f]) => <tr><th scope="row">{h}</th>{build.tiers.map((t) => <td class:list={[t.hot && "hot"]}><b set:html={f(t)} /></td>)}</tr>)}</tbody>
+    </table>
+  </div>
 </div></section>
 
 <section id="plan" class="solid band" hidden><div class="wrap">

@@ -30,7 +30,7 @@ const rows: [string, (t: typeof basic) => string][] = [
 const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'What is the difference between the XpertRank plans?', 'Which XpertRank plan fits my website?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'Can I try XpertRank first?']);
 const extraLd = [{ '@type': 'Service', name: 'SEO packages in Malaysia: XpertRank', serviceType: 'Search engine optimisation (SEO)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/seo-packages-malaysia/`, areaServed: areaLd, description: 'XpertRank SEO packages with published monthly prices: Basic, Plus, Pro and Elite, plus a 14-day Trial.', offers: offersLd(care) }, pf.ld];
 ---
-<Base image={`/img/${pictures["seo-packages-malaysia"].file}.jpg`} title="SEO Packages Malaysia: Prices You Can See | SEOXpert" description={`SEO packages in Malaysia with real prices: XpertRank from ${fmt(basic)} a month, or try it for ${fmt(trial)}. Compare keywords, blog posts, audits and AI search checks.`} path="/seo-packages-malaysia/" crumb="SEO packages" extraLd={extraLd}>
+<Base image={`/img/${pictures["seo-packages-malaysia"].file}.jpg`} title="SEO Packages and SEO Price in Malaysia | SEOXpert" description={`SEO packages in Malaysia with real prices: XpertRank from ${fmt(basic)} a month, or try it for ${fmt(trial)}. Compare keywords, blog posts, audits and AI search checks.`} path="/seo-packages-malaysia/" crumb="SEO packages" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="SEO packages" brand="XpertRank" art="seopack" crumb="SEO packages" word="Price">
   <Fragment slot="title">SEO packages in Malaysia, <em>with the price on show</em>.</Fragment>
@@ -40,7 +40,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO packages in Malaysia: XpertRan
 
 <section id="plans" class="solid band"><div class="wrap">
   <span class="eyebrow rv">SEO price in Malaysia</span>
-  <h2 class="rv">Four SEO packages, one monthly price each.</h2>
+  <h2 class="rv">How much does SEO cost in Malaysia?</h2>
   <p class="sub rv">Prices shown are for websites we build with XpertForge{offerOn() ? ', at the launch price for our first 20 XpertRank clients' : ''}. Pay yearly and get 2 months free.</p>
   <Packages show="care" pickHref="/packages/#plan" />
 </div></section>

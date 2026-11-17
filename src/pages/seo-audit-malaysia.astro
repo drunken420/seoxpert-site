@@ -35,8 +35,8 @@ const extraLd = [{ '@type': 'Service', name: 'SEO audit in Malaysia: XpertCore s
 </PageHero>
 
 <section class="solid band"><div class="wrap">
-  <span class="eyebrow rv">What we check</span>
-  <h2 class="rv">{checks.reduce((n, c) => n + c[2].length, 0)} checks on every page, every week.</h2>
+  <span class="eyebrow rv">{checks.reduce((n, c) => n + c[2].length, 0)} checks on every page, every week</span>
+  <h2 class="rv">What does an SEO audit check?</h2>
   <p class="sub rv">Each problem is sorted by how much it matters, so the biggest fixes come first. For businesses in {areaText}.</p>
   <div class="grid3">
     {checks.map(([h, s, list], i) => <div class="fcard rv" style={`--d:${i}`}><div class="pet" style={`--r:${i * 90}deg`}></div><h3>{h}</h3><p><b>{s}</b></p><ul class="ticks" style="grid-template-columns:1fr;gap:8px;margin-top:12px">{list.map((x) => <li>{x}</li>)}</ul></div>)}
@@ -65,7 +65,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO audit in Malaysia: XpertCore s
 
 <section id="trial" class="solid band"><div class="wrap">
   <span class="eyebrow rv">Start small</span>
-  <h2 class="rv">SEO audit price in Malaysia: start with the Trial.</h2>
+  <h2 class="rv">How much does an SEO audit cost in Malaysia?</h2>
   <p class="sub rv">The {trial.name} is {fmt(trial)} for {trial.days} days, with a technical SEO audit of up to {pages(trial)} pages and your own XpertInsight dashboard. Choose a paid XpertRank plan after your trial and the trial price comes off your first month. See also our <a href="/seo-services-malaysia/">SEO services</a>.</p>
   <div class="atrial"><TrialBox /></div>
   <h3 class="rv atrialh">Or go straight to a paid XpertRank plan, with a weekly audit of up to {pages(elite)} pages</h3>
