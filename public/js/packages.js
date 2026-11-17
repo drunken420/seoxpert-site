@@ -32,6 +32,7 @@
   if (box && box.dataset.offerEnds && Date.now() >= new Date(box.dataset.offerEnds + 'T00:00:00+08:00').getTime() + 864e5) {
     all('.pkpick button[data-rm-n]', box).forEach(function (b) { ['rm', 'usd', 'rm-y', 'usd-y'].forEach(function (a) { var v = b.getAttribute('data-' + a + '-n'); if (!v) return; b.setAttribute('data-' + a, v); var sp = b.querySelector(':scope > span[data-rm]'); if (sp) sp.setAttribute('data-' + a, v); }); var sp = b.querySelector(':scope > span[data-rm]'); if (sp) sp.textContent = sp.getAttribute('data-rm'); });
     all('.pkn', box).forEach(function (el) { el.remove(); });
+    all('.pkpick button[data-free]', box).forEach(function (b) { b.removeAttribute('data-free'); }); // the summary's "Launch offer" row ends with the offer
   }
   // The biggest care plan a website size can take: the same position, and the biggest website (Growth) takes every plan.
   // "I already have a website" is the last card in step 1: any XpertRank plan, at the price for websites built elsewhere.

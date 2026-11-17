@@ -19,7 +19,8 @@ export const GUEST_DAYS = 14;
 export const FOUNDER = 'The founder of SEOXpert';
 const SITE = 'https://seoxpert.my', INSIGHT = 'https://insight.seoxpert.my';
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const plain = (s) => String(s).replace(/<[^>]+>/g, '');
+// the text-only copy of the email: tags out, and codes like &amp; back to real characters ("A & B", not "A &amp; B")
+const plain = (s) => String(s).replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 const money = (n, c) => (String(c).toLowerCase() === 'usd' ? 'US$' : 'RM') + (n / 100).toLocaleString('en-US', { minimumFractionDigits: n % 100 ? 2 : 0 });
 
 /** Everything the email needs, worked out from a completed Checkout Session. null = not one of our orders. */

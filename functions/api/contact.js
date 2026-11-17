@@ -12,15 +12,33 @@ const NEEDS = ['Website design', 'Website and XpertRank', 'XpertRank for my webs
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const clip = (v, n) => String(v || '').trim().slice(0, n);
+const line = (v, n) => clip(String(v || '').replace(/[\r\n\t]+/g, ' '), n); // one-line boxes: no line breaks (they end up in the email subject)
+
+// The form is only for our own pages: other websites may not post to it (same rule as the chat).
+function sameSite(request) {
+  const o = request.headers.get('origin');
+  if (!o) return true;
+  try { return new URL(o).host === new URL(request.url).host; } catch { return false; }
+}
+// A simple brake per visitor: 6 messages an hour (per server; enough to stop a loop sending our "Thanks" email to strangers).
+const sentBy = new Map();
+function tooMany(ip) {
+  const now = Date.now(), e = sentBy.get(ip);
+  const n = e && e.until > now ? e.n + 1 : 1;
+  sentBy.set(ip, { n, until: e && e.until > now ? e.until : now + 3600e3 });
+  if (sentBy.size > 5000) sentBy.clear();
+  return n > 6;
+}
 
 export async function onRequestPost({ request, env }) {
+  if (!sameSite(request)) return json({ ok: false, error: 'origin' }, 403);
   let form;
   try { form = await request.formData(); } catch { return json({ ok: false, error: 'bad_form' }, 400); }
   // Bots fill the hidden "company" box; say thanks and drop it.
   if (clip(form.get('company'), 200)) return json({ ok: true });
 
-  const name = clip(form.get('name'), 80), email = clip(form.get('email'), 120).toLowerCase();
-  const site = clip(form.get('site'), 200), biz = clip(form.get('biz'), 120), message = clip(form.get('message'), 3000);
+  const name = line(form.get('name'), 80), email = clip(form.get('email'), 120).toLowerCase();
+  const site = line(form.get('site'), 200), biz = line(form.get('biz'), 120), message = clip(form.get('message'), 3000);
   const need = NEEDS.includes(form.get('need')) ? form.get('need') : 'Not sure yet';
   if (!name || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ ok: false, error: 'missing' }, 400);
 
@@ -33,12 +51,15 @@ export async function onRequestPost({ request, env }) {
     if (!check.success) return json({ ok: false, error: 'spam_check' }, 400);
   }
   if (!env.RESEND_API_KEY) return json({ ok: false, error: 'not_set_up' }, 503);
+  const rawIp = request.headers.get('CF-Connecting-IP') || 'local';
+  if (tooMany(rawIp.includes(':') ? rawIp.split(':').slice(0, 4).join(':') : rawIp)) return json({ ok: false, error: 'too_many' }, 429);
 
+  // a network failure reaching the mail service answers "not ok" instead of crashing (the page then shows our email address)
   const send = (payload) => fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
     body: JSON.stringify(payload),
-  });
+  }).catch(() => ({ ok: false }));
   const first = name.split(/\s+/)[0];
   const rows = [['Name', name], ['Company', biz || 'Not given'], ['Email', email], ['Website', site || 'None given'], ['Needs', need]];
 

@@ -76,7 +76,8 @@
   function md(t) {
     var h = esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (all, txt, url) {
       url = url.replace(/^https?:\/\/(www\.)?seoxpert\.my/, '') || '/';
-      return /^\/(?!\/)|^mailto:/.test(url) ? '<a href="' + url + '">' + txt + '</a>' : txt;
+      // only our own pages or an email address, and never a quote, bracket or backslash inside the address (2026-11-17)
+      return /^(\/(?![\/\\])|mailto:)[^"'<>\\]*$/.test(url) ? '<a href="' + url + '">' + txt + '</a>' : txt;
     });
     var out = [], list = false;
     h.split(/\n/).forEach(function (l) {
@@ -154,7 +155,8 @@
     var t0 = Date.now();
     function done() { busy = false; log.scrollTop = log.scrollHeight; }
     function instant(note) {
-      var r = answer(text, pick); ai.innerHTML = r[0] + (note ? '<small class="cp-note">' + note + '</small>' : ''); if (window.sxCur) window.sxCur.paint(); // RM or USD, like the rest of the page hist.push({ role: 'assistant', text: plain(r[0]) });
+      var r = answer(text, pick); ai.innerHTML = r[0] + (note ? '<small class="cp-note">' + note + '</small>' : ''); if (window.sxCur) window.sxCur.paint(); // RM or USD, like the rest of the page
+      hist.push({ role: 'assistant', text: plain(r[0]) }); // so the AI sees this answer on the next question (was lost behind the note above until 2026-11-17)
       if (r[1]) { var rel = related(r[1]); show(rel); } else show([]);
       done();
     }

@@ -20,7 +20,7 @@ export const site = {
   googleVerify: '',
   // Cloudflare Turnstile site key (public) for the spam check on the contact form. Empty = no check box.
   // Its secret goes in the Cloudflare Pages settings as TURNSTILE_SECRET_KEY, never here.
-  turnstileSiteKey: '',
+  turnstileSiteKey: '0x4AAAAAAGFRvnOfNJla2jc5', // public key of the Turnstile widget "seoxpert.my contact form" (made 2026-11-17); its secret lives only in Cloudflare Pages (TURNSTILE_SECRET_KEY)
   // Online payments with Stripe (Suhen 2026-11-16). false = no pay buttons in the pages at all. true = the buttons are in
   // the pages but stay hidden until /api/checkout says ready: a live key (sk_live_) on seoxpert.my, a test key on previews.
   payments: true,

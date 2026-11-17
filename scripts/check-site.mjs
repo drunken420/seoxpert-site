@@ -20,6 +20,11 @@ for (const p of pages) {
   if ((html.match(/<h1[\s>]/g) || []).length !== 1) fail(p, 'needs exactly one h1');
   if (!/<link rel="canonical"/.test(html)) fail(p, 'no canonical link');
   if (/fonts\.googleapis|cdnjs\.cloudflare/.test(html)) fail(p, 'loads files from another website');
+  // ids must be unique on a page, and every "#section" link needs its section (2026-11-17: a dead "#plan" link sat on five pages)
+  const idList = [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+  const twice = [...new Set(idList.filter((x, i) => idList.indexOf(x) !== i))];
+  if (twice.length) fail(p, `the same id is used more than once: ${twice.slice(0, 5).join(', ')}`);
+  for (const m of html.matchAll(/href="#([^"]+)"/g)) if (!idList.includes(m[1])) fail(p, `link to #${m[1]} but nothing on the page has that id`);
   const n = (text.match(/\[(PLACEHOLDER|DRAFT)\]/g) || []).length; placeholders += n;
   if (n) console.log(`NOTE ${p}: ${n} placeholder(s) still to fill in`);
 }

@@ -2,6 +2,8 @@
 // The animated picture in an inner page banner. Pure CSS (styles: "banner art" in src/styles/page.css).
 // It is decoration only, so it is hidden from screen readers. Never put invented numbers in it.
 import icon from '../fragments/icon.svg?raw';
+// second copy of the mark on one page (back of the cube) needs its own gradient id
+const icon2 = icon.replace('id="pg"', 'id="pgb"').replace('url(#pg)', 'url(#pgb)');
 import { build, care, trial, fmt, offerOn } from '../data/packages';
 interface Props { kind: string }
 const { kind } = Astro.props;
@@ -148,7 +150,7 @@ const short = (n: string) => n.replace('XpertForge ', '');
   </>}
 
   {kind === 'demos' && <>
-    <div class="hscene"><div class="hcube"><em></em><i style="--f:rotateY(0deg)"><b><Fragment set:html={icon} /></b></i><i style="--f:rotateY(180deg)"><b><Fragment set:html={icon} /></b></i><i style="--f:rotateY(90deg)"><b><s></s></b></i><i style="--f:rotateY(-90deg)"><b><s></s></b></i><i style="--f:rotateX(90deg)"><b><u></u></b></i><i style="--f:rotateX(-90deg)"><b><u></u></b></i></div></div>
+    <div class="hscene"><div class="hcube"><em></em><i style="--f:rotateY(0deg)"><b><Fragment set:html={icon} /></b></i><i style="--f:rotateY(180deg)"><b><Fragment set:html={icon2} /></b></i><i style="--f:rotateY(90deg)"><b><s></s></b></i><i style="--f:rotateY(-90deg)"><b><s></s></b></i><i style="--f:rotateX(90deg)"><b><u></u></b></i><i style="--f:rotateX(-90deg)"><b><u></u></b></i></div></div>
     <i class="hball hfl" style={at(8, 12, '--t:6s')}></i>
     <i class="htor" style={at(66, 58)}></i>
     <span class="hchip plain hfl" style={at(62, 6, '--t:7s;--dl:-2s')}>Tap the cube</span>

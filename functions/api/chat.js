@@ -65,7 +65,8 @@ export async function onRequestPost({ request, env }) {
   if (!messages) return json({ ok: false, error: 'bad' }, 400);
   const page = String((body && body.page) || '').slice(0, 120);
 
-  const ip = request.headers.get('CF-Connecting-IP') || 'local';
+  const rawIp = request.headers.get('CF-Connecting-IP') || 'local';
+  const ip = rawIp.includes(':') ? rawIp.split(':').slice(0, 4).join(':') : rawIp;
   const hour = new Date().toISOString().slice(0, 13), day = hour.slice(0, 10);
   if ((await bump(env, `ip:${ip}:${hour}`, 3700)) > PER_HOUR) return json({ ok: false, error: 'limit' }, 429);
   if ((await bump(env, `day:${day}`, 90000)) > Number(env.CHAT_DAILY || 500)) return json({ ok: false, error: 'busy' }, 429);
@@ -74,7 +75,8 @@ export async function onRequestPost({ request, env }) {
   const last = messages[messages.length - 1].content;
   const email = findEmail(last);
   let lead = false;
-  if (email && env.RESEND_API_KEY && !(body.sent || []).includes(email.toLowerCase())) {
+  const sent = Array.isArray(body.sent) ? body.sent.slice(0, 20).map(String) : []; // never trust the shape the browser sends
+  if (email && env.RESEND_API_KEY && !sent.includes(email.toLowerCase())) {
     lead = await sendLead(env, email, messages, page).catch(() => false);
   }
   // Website notes go after the visitor's message (a mid-conversation system message), so the cached brief stays the same for everyone.
