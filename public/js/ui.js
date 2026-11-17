@@ -138,7 +138,7 @@
   function askAi() {
     if (!aiOn) return Promise.reject(new Error('off'));
     var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 30000);
-    return fetch('/api/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, signal: ctl ? ctl.signal : undefined, body: JSON.stringify({ messages: hist.slice(-16), page: location.pathname, sent: sent }) })
+    return fetch('/api/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, signal: ctl ? ctl.signal : undefined, body: JSON.stringify({ messages: hist.slice(-16), page: location.pathname, sent: sent, cur: window.__sxCur === 'USD' ? 'USD' : 'RM' }) })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { clearTimeout(tm); d.status = r.status; return d; }); })
       .then(function (d) {
         if (d.lead) { var e = (hist[hist.length - 1].text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i) || [''])[0].toLowerCase(); if (e) sent.push(e); track('generate_lead'); input.placeholder = 'Type your question'; }
@@ -154,7 +154,7 @@
     var t0 = Date.now();
     function done() { busy = false; log.scrollTop = log.scrollHeight; }
     function instant(note) {
-      var r = answer(text, pick); ai.innerHTML = r[0] + (note ? '<small class="cp-note">' + note + '</small>' : ''); hist.push({ role: 'assistant', text: plain(r[0]) });
+      var r = answer(text, pick); ai.innerHTML = r[0] + (note ? '<small class="cp-note">' + note + '</small>' : ''); if (window.sxCur) window.sxCur.paint(); // RM or USD, like the rest of the page hist.push({ role: 'assistant', text: plain(r[0]) });
       if (r[1]) { var rel = related(r[1]); show(rel); } else show([]);
       done();
     }

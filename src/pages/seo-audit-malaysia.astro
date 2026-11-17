@@ -1,0 +1,81 @@
+---
+// SEO audit in Malaysia (DRAFT, keyword round 5, 2026-11-16): seo audit malaysia 90 a month and rising (320 in October 2026).
+// Offer = the XpertCore site audit that runs every week in XpertRank (pages per plan from packages.ts), and the Trial (20 pages) as the way in.
+// The checks listed are the real ones in the dashboard (ISSUES in xpertinsight src/app.js). Insight shows the score and counts;
+// the full list is worked through by our team.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import PageFaq from '../components/PageFaq.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
+import Packages from '../components/Packages.astro';
+import TrialBox from '../components/TrialBox.astro';
+import '../styles/page.css';
+import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
+import { care, trial, fmt, offersLd } from '../data/packages';
+import { pageFaq } from '../lib/faq';
+const pages = (t: typeof trial) => t.rows.join(' ').match(/audit of up to <b>(\d+)<\/b>/)?.[1];
+const [basic, , , elite] = care.tiers;
+const checks: [string, string, string[]][] = [
+  ['Errors', 'Fix first', ['Pages that don\'t open (404)', 'Pages with server errors', 'Broken links', 'Broken images or files', 'Pages with no title', 'Pages pointing Google to a broken page']],
+  ['Warnings', 'Hold you back', ['Pages sharing the same title', 'Missing meta descriptions', 'Missing main heading (H1)', 'Titles too long for Google', 'Images without alt text', 'Slow or heavy pages', 'Pages with almost the same content', 'Redirect chains', 'Links to insecure (http) pages']],
+  ['Notices', 'Good to tidy', ['Very short titles', 'Links that go through a redirect', 'Thin pages', 'Pages nothing links to', 'Files that hold up the first paint', 'Pages hidden from Google', 'Missing browser tab icon']],
+];
+const pf = pageFaq(['Can I try XpertRank first?', 'How often do you check my website?', 'Can you look after a website built by someone else?', 'What is the difference between the XpertRank plans?']);
+const extraLd = [{ '@type': 'Service', name: 'SEO audit in Malaysia: XpertCore site audit', serviceType: 'Technical SEO audit', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/seo-audit-malaysia/`, areaServed: areaLd, description: 'A technical SEO audit of your website every week with XpertRank, checking for errors, warnings and notices, with fixes by our team. Try it with the 14-day XpertRank Trial.', offers: offersLd(care) }, pf.ld];
+---
+<Base image={`/img/${pictures["seo-audit-malaysia"].file}.jpg`} title="SEO Audit Malaysia: Weekly Technical SEO Check | SEOXpert" description={`An SEO audit in Malaysia that runs every week. Try it with the ${trial.name}: ${fmt(trial)} for ${trial.days} days, a technical SEO audit of up to ${pages(trial)} pages and your own dashboard.`} path="/seo-audit-malaysia/" crumb="SEO audit" extraLd={extraLd}>
+<main id="main">
+<PageHero kicker="SEO audit" brand="XpertRank" art="audit" crumb="SEO audit" word="Audit">
+  <Fragment slot="title">An SEO audit in Malaysia <em>every week</em>, not once a year.</Fragment>
+  <Fragment slot="lede">An SEO audit finds what stops Google and AI tools from reading your website: broken pages, missing titles, slow pages and more. With XpertRank, the XpertCore site audit checks your pages every week and our team fixes what it finds.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="#trial">Try it for {fmt(trial)}</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">What we check</span>
+  <h2 class="rv">{checks.reduce((n, c) => n + c[2].length, 0)} checks on every page, every week.</h2>
+  <p class="sub rv">Each problem is sorted by how much it matters, so the biggest fixes come first. For businesses in {areaText}.</p>
+  <div class="grid3">
+    {checks.map(([h, s, list], i) => <div class="fcard rv" style={`--d:${i}`}><div class="pet" style={`--r:${i * 90}deg`}></div><h3>{h}</h3><p><b>{s}</b></p><ul class="ticks" style="grid-template-columns:1fr;gap:8px;margin-top:12px">{list.map((x) => <li>{x}</li>)}</ul></div>)}
+  </div>
+</div></section>
+
+<section class="dark band"><div class="wrap">
+  <span class="eyebrow rv">Why every week</span>
+  <p class="creed rv">A one-off audit is out of date the week after. <em>Ours runs every Monday</em>, and our team fixes what it finds.</p>
+</div></section>
+
+<section class="solid tint band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">How it works</span>
+    <h2 class="rv">From audit to fixed, week by week.</h2>
+    <p class="sub rv">Your <a href="/website-report-dashboard/">XpertInsight dashboard</a> shows your site health score and how many errors, warnings and notices were found, with the change on last week.</p>
+    <figure class="pshot sm rv"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>health</b></span></div><img src="/img/xi-shot-health-720.webp" srcset="/img/xi-shot-health-720.webp 720w, /img/xi-shot-health.webp 1200w" sizes="(max-width: 900px) 94vw, 520px" width="1200" height="750" loading="lazy" decoding="async" alt="The Site health view of XpertInsight for the Sample Bakery: a health score of 92 with errors, warnings and notices" /></figure>
+  </div>
+  <ol class="nsteps">
+    <li class="rv"><h3>Every Monday</h3><p>The XpertCore site audit checks up to {pages(basic)} pages on {basic.name.replace('XpertRank ', '')}, up to {pages(elite)} on {elite.name.replace('XpertRank ', '')}.</p></li>
+    <li class="rv" style="--d:1"><h3>We fix what we find</h3><p>Our team works through the list, biggest problems first.</p></li>
+    <li class="rv" style="--d:2"><h3>Speed, uptime and dates</h3><p>Google's speed scores on phone and computer, uptime, and your domain and security certificate renewal dates.</p></li>
+    <li class="rv" style="--d:3"><h3>Run it again yourself</h3><p>Check your pages again from Site health, as often as your plan allows.</p></li>
+  </ol>
+</div></section>
+
+<section id="trial" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Start small</span>
+  <h2 class="rv">SEO audit price in Malaysia: start with the Trial.</h2>
+  <p class="sub rv">The {trial.name} is {fmt(trial)} for {trial.days} days, with a technical SEO audit of up to {pages(trial)} pages and your own XpertInsight dashboard. Choose a paid XpertRank plan after your trial and the trial price comes off your first month. See also our <a href="/seo-services-malaysia/">SEO services</a>.</p>
+  <div class="atrial"><TrialBox /></div>
+  <h3 class="rv atrialh">Or go straight to a paid XpertRank plan, with a weekly audit of up to {pages(elite)} pages</h3>
+  <Packages show="care" pickHref="/packages/#plan" noTrial />
+</div></section>
+<Glance page="seo-audit-malaysia" guides={['seo-malaysia-guide', 'website-maintenance-malaysia']} />
+<PageFaq title="SEO audit questions, answered." items={pf.items} tint />
+<Related skip="/seo-audit-malaysia/" />
+<Cta title="Find out what holds your website back." />
+</main>
+<script slot="scripts" src="/js/packages.js" defer></script>
+<script slot="scripts" src="/js/pay.js" defer></script>
+</Base>

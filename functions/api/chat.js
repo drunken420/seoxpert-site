@@ -95,7 +95,9 @@ export async function onRequestPost({ request, env }) {
   const params = {
     model,
     max_tokens: 3000,
-    system: [{ type: 'text', text: brief, cache_control: { type: 'ephemeral' } }], // the facts are the same for everyone: cached
+    system: [{ type: 'text', text: brief, cache_control: { type: 'ephemeral' } }, // the facts are the same for everyone: cached
+      // the currency the visitor's page shows (picked by their country or their own switch; Suhen 2026-11-16)
+      { type: 'text', text: body.cur === 'USD' ? 'This visitor sees prices in USD (they are outside Malaysia or chose USD). Give prices in US$ first, with RM after in brackets.' : 'This visitor sees prices in RM.' }],
     messages: [...messages, ...extra],
     output_config: { effort: 'medium', format: { type: 'json_schema', schema: replySchema } },
   };

@@ -7,6 +7,7 @@
 //
 // Settings (Cloudflare Pages > Settings > Variables and Secrets): STRIPE_WEBHOOK_SECRET (whsec_..., from the webhook
 // you add in Stripe for https://seoxpert.my/api/stripe-webhook) and RESEND_API_KEY (already there for the contact form).
+import { orderMail } from './order-mail.js';
 const FROM = 'SEOXpert <hello@seoxpert.my>';
 const TO = 'contact@seoxpert.my';
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -68,13 +69,15 @@ export async function onRequestPost({ request, env }) {
   // Trial and XpertRank for a website built elsewhere: XpertInsight sends the dashboard invite by itself (Suhen 2026-11-16,
   // "Yes, automatic"). It asks Stripe about the session with its own key, so we only pass the id. Builds stay manual.
   const kind = m && ev.type === 'checkout.session.completed' ? ((ev.data.object.metadata || {}).kind || '') : '';
+  let invited; // did XpertInsight send the dashboard invite? (the buyer's email says so)
   // A free test code on a dashboard upgrade: XpertInsight still has to stop that plan after its first month.
   if (['trial', 'xpertrank'].includes(kind) || (kind === 'upgrade' && m.free)) {
     const r = await invite(env, ev.data.object.id);
+    invited = !!(r.ok || r.already);
     m.next = kind === 'upgrade' ? m.next : r.ok ? `Done for you: ${r.invited} got their XpertInsight invite (${r.plan}). They set up their dashboard at /start/ and you get an email when it is ready. Next: choose their target keywords on the setup page.`
       : r.already ? 'Their XpertInsight invite was already sent.'
       : `The automatic XpertInsight invite did not go out (${r.why}). Send it on the setup page: "Let the client set it up" with ${r.plan || 'their plan'}.`;
-    if (m.free && ev.data.object.mode === 'subscription') m.next = (m.next ? m.next + ' ' : '') + (r.test ? 'Free test code: this plan stops by itself after its first month, so they are never charged.' : `Free test code: please check in Stripe that this plan is set to cancel after its first month${r.testError ? ` (${r.testError})` : ''}.`);
+    if (m.free && ev.data.object.mode === 'subscription') m.next = (m.next ? m.next + ' ' : '') + (r.test ? 'Free code (founder\'s invite): this plan stops by itself after 14 days, so they are never charged.' : `Free code: please check in Stripe that this plan is set to cancel after 14 days${r.testError ? ` (${r.testError})` : ''}.`);
   }
   // XpertForesight (Suhen 2026-11-17, ready to sell): XpertInsight makes the account, sends the welcome email and emails
   // our team itself (finish() in its lib/fscheckout.js). We only pass the session on, in case the buyer closed the page
@@ -89,5 +92,9 @@ export async function onRequestPost({ request, env }) {
     <a href="${esc(m.link)}" style="display:inline-block;background:#7b18c1;color:#fff;text-decoration:none;padding:12px 20px;border-radius:999px;font-weight:700">Open in Stripe</a></div>`;
   // If the email fails, Stripe still has the payment; answer 500 so Stripe tries this message again later.
   const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ from: FROM, to: [env.CONTACT_TO || TO], ...(m.reply ? { reply_to: m.reply } : {}), subject: m.subject, text: m.rows.map((r) => `${r[0]}: ${r[1] ?? ''}`).join('\n') + `\n\n${m.next}\n${m.link}`, html }) });
-  return new Response(r.ok ? 'ok' : 'mail failed', { status: r.ok ? 200 : 500 });
+  if (!r.ok) return new Response('mail failed', { status: 500 });
+  // The buyer's own email (order-mail.js), only after ours went out, so a Stripe retry never sends it twice.
+  const om = ev.type === 'checkout.session.completed' ? orderMail(ev.data.object, { invited }) : null;
+  if (om) { try { await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ from: FROM, to: [om.to], reply_to: env.CONTACT_TO || TO, subject: om.subject, text: om.text, html: om.html }) }); } catch { /* the payment and our email are safe */ } }
+  return new Response('ok');
 }
