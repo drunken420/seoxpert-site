@@ -77,7 +77,17 @@ export function onRequestGet({ request, env }) {
   return json({ on: ready(env, request.url), key: kindOf(keyOf(env)) });
 }
 
+/** Same website only (Suhen 2026-11-17, like the contact form and the chat): the pay buttons on our own pages, never
+    another website starting checkouts in our Stripe account. A request with no Origin (not from a browser page) is
+    still answered, because the prices are always worked out here and nothing is charged until Stripe's page is paid. */
+function sameSite(request) {
+  const o = request.headers.get('origin');
+  if (!o) return true;
+  try { return new URL(o).host === new URL(request.url).host; } catch { return false; }
+}
+
 export async function onRequestPost({ request, env }) {
+  if (!sameSite(request)) return json({ ok: false, error: 'origin' }, 403);
   if (!ready(env, request.url)) return json({ ok: false, error: 'not_set_up' }, 503);
   let body = {};
   try { body = await request.json(); } catch { return json({ ok: false, error: 'bad_request' }, 400); }
