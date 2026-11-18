@@ -647,6 +647,16 @@ a.pkmbadge:hover,a.pkmbadge:focus-visible{transform:translateY(-1px);box-shadow:
 .pkall li::before{content:"";flex:none;width:18px;height:18px;margin-top:-1px;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center/12px no-repeat}
 @media (max-width:1100px){.pkall ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.pkall ul{grid-template-columns:1fr}.pkall{padding:20px}}
+/* "Good to know before you order" under the build cards (2026-11-19): longer notes, two columns, a purple label instead of a tick */
+.pkknow ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pkknow li{display:block;font-weight:500;color:var(--soft)}
+.pkknow li::before{display:none}
+.pkknow li b{display:block;margin-bottom:4px;color:var(--acc);font-weight:700}
+.pkknow .more{justify-self:start}
+@media (max-width:600px){.pkknow ul{grid-template-columns:1fr}}
+/* "What happens after you pay" (/packages/ and /paid/) */
+.aftnote{margin-top:18px}
+.paidsteps{max-width:760px;margin:34px auto 0;text-align:left}
 /* Online payments (Stripe, Suhen 2026-11-16): pay buttons in the plan picker and the Trial box, and the thank-you page */
 .pksum .btn+.btn{margin-top:12px}
 .pksum .pkmb{margin-top:20px}

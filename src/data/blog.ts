@@ -38,6 +38,115 @@ const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first co
 
 export const posts: Post[] = [
   {
+    // Keyword research (our own research tool, Google Malaysia, 19 Nov 2026): payment gateway malaysia 1,600, payment gateway in malaysia 1,300,
+    // malaysia payment gateway 1,300, stripe payment gateway malaysia 90, online payment gateway malaysia 70, cheapest payment gateway malaysia 50,
+    // best payment gateway malaysia 40. Every fee below is copied from the provider's own pricing page on 19 Nov 2026 (links in the Sources section).
+    // We only set up Stripe: never say we have used the other gateways. A provider with no published fees says "fees on request".
+    slug: 'payment-gateway-malaysia', tag: 'Payments', art: 'cost', date: '2026-11-19',
+    h1: 'Payment gateways in Malaysia: fees, methods and how to choose',
+    title: 'Payment Gateway in Malaysia: Fees, Methods and How to Choose',
+    description: 'Payment gateways in Malaysia compared: Stripe, Billplz, toyyibPay, CHIP, senangPay, HitPay, iPay88, Fiuu and eGHL, with published fees for cards, FPX and e-wallets.',
+    card: 'What a payment gateway does, the ways Malaysians pay, published fees from nine gateways and how to choose one.',
+    short: `A payment gateway is the service that takes a customer's payment on your website and sends the money to your bank account. In Malaysia it should accept the ways people here pay: cards, FPX online banking, e-wallets such as Touch 'n Go eWallet, GrabPay, ShopeePay and Boost, and DuitNow QR. Businesses here use gateways such as Stripe, Billplz, toyyibPay, CHIP, senangPay, HitPay, iPay88, Fiuu (formerly Razer Merchant Services) and eGHL. There is no single best one: compare the fee for the way your customers pay, how fast the money reaches you, any yearly fee, the documents you need and how it connects to your website. Fees below were checked on 19 November 2026 and can change.`,
+    sections: [
+      { id: 'what-is-a-payment-gateway', h: 'What is a payment gateway?', html: `<p>A payment gateway is the part of an online payment that sits between your customer, their bank or e-wallet, and your business. When a customer clicks Pay, the gateway shows the payment page, sends the payment to the right bank or wallet, tells your website whether it worked, and later pays the money into your bank account, minus its fee.</p>
+<p>For a business owner, it does four jobs:</p>
+<ul class="bcheck"><li><b>Shows the payment page</b> with the payment methods you switched on.</li>
+<li><b>Checks the payment</b> with the card network, bank or e-wallet.</li>
+<li><b>Tells your website</b> the result, so an order is confirmed or access unlocks.</li>
+<li><b>Pays you out</b> on a schedule, called settlement.</li></ul>
+<div class="btip"><b>Good to know</b>The gateway's fee is usually taken before the money is paid out, so what reaches your bank is the payment minus the fee. Count that in your prices.</div>` },
+      { id: 'payment-methods', h: 'Which payment methods do Malaysians use?', html: `<p>Customers in Malaysia expect more than cards. A good payment page in Malaysia offers most of these:</p>
+<h3>Credit and debit cards</h3><p>Visa and Mastercard everywhere, plus MyDebit, the local debit card network, and others such as American Express on some gateways. Cards are also the usual way to pay for subscriptions that renew by themselves.</p>
+<h3>FPX online banking</h3><p>FPX lets customers pay straight from their online banking. It is run by PayNet with Malaysian banks (<a href="https://docs.stripe.com/payments/fpx" rel="noopener">Stripe's FPX page</a> explains it). Customers pick their bank, log in and approve. Gateways charge separately for B2C (personal accounts) and B2B (company accounts).</p>
+<h3>E-wallets</h3><p>Touch 'n Go eWallet, GrabPay, ShopeePay and Boost are among the e-wallets Malaysian gateways list. Each gateway supports a different set, so check the ones your customers use.</p>
+<h3>DuitNow QR</h3><p>DuitNow QR is Malaysia's national QR code standard: one QR code that works with participating banking and e-wallet apps (<a href="https://knowledgebase.paynet.my/hc/en-us/articles/49581289084185-What-is-DuitNow-QR" rel="noopener">PayNet explains it here</a>). Online, the customer scans a QR code shown on the payment page.</p>
+<h3>Buy now, pay later</h3><p>Some gateways add instalment options such as Atome or PayLater by Grab. On the pricing pages below, these two are listed at 5% or more per payment, far above most card and FPX fees, so only switch them on if your customers want them.</p>` },
+      { id: 'gateways-in-malaysia', h: 'Which payment gateways are used in Malaysia?', html: `<p>These are the gateways businesses in Malaysia most often compare. We set up <b>Stripe</b> for the websites and web apps we build, so we describe the others only from their own published pages. Fees are the standard published rates, checked on 19 November 2026.</p>
+<h3>Stripe</h3><p><b>Methods:</b> cards (domestic and international), FPX, GrabPay and Alipay. <b>Fees:</b> 3% + RM1.00 for domestic cards and for FPX, 1% more for international cards and 2% more if currency conversion is needed; GrabPay 3%. Stripe says it charges no setup, monthly or hidden fees. Subscriptions use Stripe Billing, which adds 0.7% of billing volume (<a href="https://stripe.com/en-my/pricing" rel="noopener">Stripe pricing</a>). <b>May suit:</b> businesses that want one-time payments, subscriptions, payment links, receipts and a billing portal from one provider, or sell to customers abroad. Its published fees are higher per payment than most local gateways below. Stripe asks for your Business Registration Number before you can take FPX (<a href="https://docs.stripe.com/payments/fpx" rel="noopener">Stripe FPX</a>).</p>
+<h3>Billplz</h3><p><b>Methods:</b> FPX, cards, e-wallets and DuitNow QR (e-wallets and its Auto-Deduct option need a separate application). <b>Fees, free Basic plan:</b> FPX RM1.25 (B2C), cards in ringgit (MYR) 1.8%, e-wallets and DuitNow QR 1.5%. A Standard plan at RM999 a year lowers FPX to RM0.75 and cards to 1.5%. FPX pays out the next business day, cards two business days after (<a href="https://main.billplz.com/pricing" rel="noopener">Billplz pricing</a>). <b>May suit:</b> businesses that collect mostly by FPX and want a flat fee per payment.</p>
+<h3>toyyibPay</h3><p><b>Methods:</b> FPX, cards (with toyyibPay's partners) and DuitNow QR. <b>Fees:</b> on the Standard plan, FPX RM1.00 (B2C) or RM2.00 (B2B). Cards are offered through toyyibPay's partners: local cards 1.50% and foreign cards 3.5%, with a RM100 onboarding fee and RM100 a year from the second year. DuitNow QR is "1.00% or RM 1.00 per transaction", as its page puts it, subject to the provider's approval. Its Santai plan charges RM0.00 for FPX B2C, only for non-profit organisations (<a href="https://www.toyyibpay.com/pricing-plans/" rel="noopener">toyyibPay pricing</a>). <b>May suit:</b> small businesses and non-profits that mainly take FPX.</p>
+<h3>CHIP</h3><p><b>Methods:</b> FPX, cards, DuitNow QR and e-wallets (Touch 'n Go, GrabPay, ShopeePay). <b>Fees:</b> FPX RM1.00 (B2C) or RM2.00 (B2B); local credit cards 2.0%, local debit cards 1.0%, foreign cards 3.0%; DuitNow QR 1.0%; e-wallets 1.4%. CHIP says it charges no setup, monthly or annual fees. Its pricing page also says transaction fees are subject to 8% SST, in a note beside its buy now, pay later rates, so ask CHIP which fees it covers (<a href="https://www.chip-in.asia/pricing" rel="noopener">CHIP pricing</a>). <b>May suit:</b> businesses that want low flat FPX fees and no fixed costs.</p>
+<h3>senangPay</h3><p><b>Methods:</b> FPX, cards, e-wallets and buy now, pay later. <b>Fees:</b> a yearly plan, Starter RM199 a year (online banking and e-wallets) or Advance RM349 a year (all payment options and API integration), with promotions from time to time. FPX is RM1 or 1.5%, local cards RM0.65 or 2.5%, e-wallets RM0.65 or 1.5%, whichever is higher in each case (<a href="https://senangpay.com/pricing/" rel="noopener">senangPay pricing</a>). <b>May suit:</b> sellers who want payment forms and a product catalogue, including social media sellers without a website.</p>
+<h3>HitPay</h3><p><b>Methods:</b> cards, FPX, DuitNow QR and many e-wallets. <b>Fees:</b> domestic cards 1.2% + RM1, international cards 3% + RM1 (2% more for a foreign currency), FPX 1.8% + RM0.40, DuitNow 1.2%, Touch 'n Go 1.9%, GrabPay 2%, ShopeePay 2.2%. No setup or monthly fees, but its payment links, invoices and shop plugins add 0.2% per payment (its Shopify app 0.5%) (<a href="https://www.hitpayapp.com/my/pricing" rel="noopener">HitPay pricing</a>). <b>May suit:</b> businesses that take bigger payments by Malaysian card, because its card fee is a lower percentage with RM1 added (see the example below).</p>
+<h3>iPay88</h3><p>iPay88 joined the NTT DATA group in 2015 (<a href="https://www.nttdata.com/global/en/news/press-release/2015/september/2015/ipay88-of-malaysia-joins-ntt-data-group" rel="noopener">NTT DATA</a>), and ipay88.com now opens NTT DATA Payment Services' ADAPTIS e-commerce page. <b>Methods:</b> cards including Visa, Mastercard, MyDebit, UnionPay, American Express, Diners Club and JCB, online banking, e-wallets, 0% instalment plans and buy now, pay later (<a href="https://my.nttdatapay.com/en/payment-services/adaptis-e-commerce" rel="noopener">ADAPTIS e-commerce</a>). <b>Fees:</b> on request; no rates are published there.</p>
+<h3>Fiuu (formerly Razer Merchant Services)</h3><p>Razer Merchant Services announced its new name, Fiuu, in March 2024 (<a href="https://www.lowyat.net/2024/318327/fiuu-razer-fintech-merchant-services/" rel="noopener">Lowyat.NET</a>). <b>Methods:</b> FPX (B2C and B2B), e-wallets, DuitNow, Apple Pay, Google Pay, instalments and buy now, pay later, and it says it offers over 110 payment methods across Southeast Asia (<a href="https://fiuu.com/" rel="noopener">Fiuu</a>). <b>Fees:</b> on request.</p>
+<h3>eGHL</h3><p>eGHL is the online payment gateway of GHL Systems, which became NTT DATA Payment Services in November 2024 (<a href="https://fintechnews.my/50468/payments-remittance-malaysia/ntt-data-adaptis/" rel="noopener">Fintech News Malaysia</a>). Its Shopify app is now listed as ADAPTIS Payment Gateway (eGHL) (<a href="https://apps.shopify.com/eghl-payment-gateway" rel="noopener">Shopify App Store</a>). <b>Fees:</b> on request; we found no published rates.</p>` },
+      { id: 'fees-compared', h: 'Payment gateway fees compared', html: `<p>Published fees use two shapes: a flat amount per payment (like RM1.00), or a percentage, sometimes with a small amount added. Flat fees cost the same on a big payment as on a small one; percentages grow with the payment. That is why the cheapest payment gateway in Malaysia depends on how your customers pay and how much they spend.</p>
+<div class="btable" tabindex="0" role="region" aria-label="Published payment gateway fees in Malaysia"><table><thead><tr><th scope="col">Gateway</th><th scope="col">Malaysian cards</th><th scope="col">FPX (B2C)</th><th scope="col">E-wallets and DuitNow QR</th><th scope="col">Fixed fees</th></tr></thead><tbody>
+<tr><th scope="row">Stripe</th><td>3% + RM1.00</td><td>3% + RM1.00</td><td>GrabPay 3%</td><td>None (Billing 0.7% for subscriptions)</td></tr>
+<tr><th scope="row">Billplz Basic</th><td>1.8% (MYR)</td><td>RM1.25</td><td>1.5%</td><td>None (Standard plan RM999 a year)</td></tr>
+<tr><th scope="row">toyyibPay Standard</th><td>1.50% (through partners)</td><td>RM1.00</td><td>DuitNow QR 1.00% or RM1.00</td><td>Cards: RM100 onboarding, RM100 a year from year two</td></tr>
+<tr><th scope="row">CHIP</th><td>Credit 2.0%, debit 1.0%</td><td>RM1.00</td><td>E-wallets 1.4%, DuitNow QR 1.0%</td><td>None (ask about 8% SST)</td></tr>
+<tr><th scope="row">senangPay</th><td>2.5%, at least RM0.65</td><td>1.5%, at least RM1</td><td>1.5%, at least RM0.65</td><td>RM199 or RM349 a year</td></tr>
+<tr><th scope="row">HitPay</th><td>1.2% + RM1</td><td>1.8% + RM0.40</td><td>DuitNow 1.2%, e-wallets 1.9% to 2.2%</td><td>None (plugins and links add 0.2%)</td></tr>
+<tr><th scope="row">iPay88, Fiuu, eGHL</th><td colspan="4">Fees on request</td></tr>
+</tbody></table></div>
+<h3>An example with real numbers</h3>
+<p>Here is what one payment would cost at those published rates, before any SST. It is arithmetic, not a quote.</p>
+<div class="btable" tabindex="0" role="region" aria-label="Example fee on one payment"><table><thead><tr><th scope="col">Gateway</th><th scope="col">RM100 by FPX</th><th scope="col">RM1,000 by FPX</th><th scope="col">RM100 by Malaysian credit card</th><th scope="col">RM1,000 by Malaysian credit card</th></tr></thead><tbody>
+<tr><th scope="row">Stripe</th><td>RM4.00</td><td>RM31.00</td><td>RM4.00</td><td>RM31.00</td></tr>
+<tr><th scope="row">Billplz Basic</th><td>RM1.25</td><td>RM1.25</td><td>RM1.80</td><td>RM18.00</td></tr>
+<tr><th scope="row">toyyibPay Standard</th><td>RM1.00</td><td>RM1.00</td><td>RM1.50</td><td>RM15.00</td></tr>
+<tr><th scope="row">CHIP</th><td>RM1.00</td><td>RM1.00</td><td>RM2.00</td><td>RM20.00</td></tr>
+<tr><th scope="row">senangPay</th><td>RM1.50</td><td>RM15.00</td><td>RM2.50</td><td>RM25.00</td></tr>
+<tr><th scope="row">HitPay</th><td>RM2.20</td><td>RM18.40</td><td>RM2.20</td><td>RM13.00</td></tr>
+</tbody></table></div>
+<div class="btip"><b>Before you compare</b>Add any yearly or onboarding fee, check which plan the rate belongs to, and ask about SST, refund fees and chargeback fees. Fees were checked on 19 November 2026 from each provider's own pricing page and can change, so check the provider's page before you sign up.</div>` },
+      { id: 'how-to-choose', h: 'How to choose a payment gateway', html: `<p>Start from your customers, not from the gateway. Then check these points for each one you consider:</p>
+<ul><li><b>Fees for the methods your customers use.</b> If most pay by FPX, a flat FPX fee matters most. If most pay by card, compare card percentages. Work it out with your own average payment, like the example above.</li>
+<li><b>Payment methods.</b> Make sure the cards, banks and e-wallets your customers use are included, and whether some need a separate application.</li>
+<li><b>Settlement time.</b> How soon the money reaches your bank. Published examples range from the next business day to several business days, and can differ by method.</li>
+<li><b>Setup, monthly and yearly fees.</b> Some gateways have none, some charge a yearly plan, some charge to switch on cards.</li>
+<li><b>Documents needed.</b> Expect to be asked for your SSM registration, a bank account in the business name (or the owner's name for a sole proprietor), the owner's IC and a website or page that shows your terms and refund policy. senangPay, for example, lists bank statements, proof of address and policy pages (<a href="https://guide.senangpay.com/required-documents-to-register" rel="noopener">senangPay documents</a>), and HitPay asks for an SSM Business Profile (<a href="https://docs.hitpayapp.com/onboarding/requirements-my" rel="noopener">HitPay requirements</a>).</li>
+<li><b>Subscriptions.</b> If customers pay every month, check that the gateway supports payments that renew by themselves, and with which methods.</li>
+<li><b>How it connects.</b> Plugins for your shop platform, payment links, or an API for a custom website or web app.</li></ul>
+<div class="btip"><b>Avoid this</b>Do not pick on the lowest headline rate alone. A gateway that is cheaper on cards can cost more on FPX, and a low rate can sit behind a yearly fee.</div>` },
+      { id: 'how-it-connects', h: 'How does a gateway connect to a website?', html: `<p>There are four common ways, from simplest to most flexible:</p>
+<ol><li><b>Payment link.</b> The gateway gives you a link to its own payment page. You put it on a button or send it in a message. No code on your website.</li>
+<li><b>Plugin.</b> For shop platforms and website builders, many gateways offer a plugin you switch on and fill in with your account keys.</li>
+<li><b>Hosted checkout page.</b> Your website asks the gateway to open a payment page for this exact order, the customer pays there and comes back to your website. The price is set on your server, so nobody can change it in the browser.</li>
+<li><b>Embedded form or API.</b> The payment form sits inside your own page. This gives the most control, and needs the most care.</li></ol>
+<p>Whichever way you choose, your website should only treat an order as paid when the gateway confirms it. Gateways do this with a message to your server, called a webhook, which your server checks before it confirms the order or unlocks access.</p>` },
+      { id: 'security-basics', h: 'Is a payment gateway safe for your customers?', html: `<p>A good set up keeps the risky part away from your website. Card payments must follow a security standard called PCI DSS. <a href="https://docs.stripe.com/security/guide" rel="noopener">Stripe explains</a> that a business that handles card details itself can face more than 300 security controls, while low risk integrations send the payment details straight to Stripe without passing through the business's servers.</p>
+<ul class="bcheck"><li><b>Use a hosted payment page.</b> The customer types their card details on the gateway's own page, so the details never touch your website.</li>
+<li><b>Use HTTPS everywhere.</b> Your website and payment pages should show the padlock in the browser.</li>
+<li><b>Keep secret keys on the server.</b> Never put a gateway's secret key in your website's pages.</li>
+<li><b>Check every webhook.</b> Confirm it really came from the gateway before you mark an order as paid.</li>
+<li><b>Keep your own records small.</b> Store the order and the gateway's payment reference, never full card numbers.</li></ul>
+<p>Read how we build websites in layers in <a href="/website-development/#secure">website development</a>.</p>` },
+      { id: 'how-we-set-up-stripe', h: 'How we set up Stripe payments', html: `<p>For the websites and web apps we build, we set up Stripe. It is the same set up seoxpert.my uses to take payments. Your customers pay on Stripe's own secure payment page, and your website never sees their card details.</p>
+<ul class="bcheck"><li><b>Card, FPX and GrabPay</b> on one payment page</li>
+<li><b>One-time payments</b> for a product, a service or a booking</li>
+<li><b>Subscriptions</b> that renew monthly or yearly by card (FPX and GrabPay are for single payments)</li>
+<li><b>Payment links</b> you can send in a message</li>
+<li><b>Receipts by email</b> from Stripe, and a billing portal where customers change their card or plan</li>
+<li><b>Prices checked on the server</b> and every payment confirmed by a checked webhook before an order or access goes through</li></ul>
+<p>Payments, logins and dashboards are quoted on their scope. See <a href="/web-app-development-malaysia/">web app and payment gateway development in Malaysia</a>. For a business website, our website design packages start from ${px(starter)}: see the <a href="/packages/">packages and prices</a>. Online shops and booking systems get their own quote.</p>` },
+      { id: 'sources', h: 'Where these fees come from', html: `<p>Every fee in this guide was copied from the provider's own page on 19 November 2026. Fees and plans change, so check the latest version before you sign up.</p>
+<ul><li><a href="https://stripe.com/en-my/pricing" rel="noopener">Stripe pricing, Malaysia</a> and <a href="https://stripe.com/en-my/pricing/local-payment-methods" rel="noopener">Stripe local payment methods pricing</a></li>
+<li><a href="https://docs.stripe.com/payments/fpx" rel="noopener">Stripe: FPX payments</a> and <a href="https://docs.stripe.com/payments/grabpay" rel="noopener">Stripe: GrabPay payments</a></li>
+<li><a href="https://main.billplz.com/pricing" rel="noopener">Billplz pricing</a></li>
+<li><a href="https://www.toyyibpay.com/pricing-plans/" rel="noopener">toyyibPay pricing plans</a></li>
+<li><a href="https://www.chip-in.asia/pricing" rel="noopener">CHIP pricing</a></li>
+<li><a href="https://senangpay.com/pricing/" rel="noopener">senangPay pricing</a></li>
+<li><a href="https://www.hitpayapp.com/my/pricing" rel="noopener">HitPay pricing, Malaysia</a></li>
+<li><a href="https://my.nttdatapay.com/en/payment-services/adaptis-e-commerce" rel="noopener">NTT DATA Payment Services: ADAPTIS e-commerce</a> (where ipay88.com leads)</li>
+<li><a href="https://fiuu.com/" rel="noopener">Fiuu</a> and <a href="https://apps.shopify.com/eghl-payment-gateway" rel="noopener">ADAPTIS Payment Gateway (eGHL) on the Shopify App Store</a></li>
+<li><a href="https://knowledgebase.paynet.my/hc/en-us/articles/49581289084185-What-is-DuitNow-QR" rel="noopener">PayNet: What is DuitNow QR?</a></li>
+<li><a href="https://docs.stripe.com/security/guide" rel="noopener">Stripe: integration security guide</a></li></ul>` },
+    ],
+    faqs: [
+      { q: 'What is the cheapest payment gateway in Malaysia?', a: 'It depends on how your customers pay. For FPX, CHIP and toyyibPay (Standard plan) publish a flat RM1.00 per B2C payment, and Billplz RM0.75 on its Standard plan, which costs RM999 a year. For cards, the published percentages differ by gateway and plan. Work it out with your own average payment and add any yearly fee. Fees were checked on 19 November 2026 and can change.' },
+      { q: 'Does Stripe work in Malaysia?', a: 'Yes. Businesses in Malaysia can take cards, FPX and GrabPay with Stripe. Its published fees are 3% + RM1.00 for domestic cards and FPX and 3% for GrabPay, with no setup or monthly fee. Stripe asks for a Business Registration Number before you can take FPX.' },
+      { q: 'Do I need SSM registration to use a payment gateway?', a: 'Usually, yes. Most gateways ask for your SSM registration, a bank account in the business name (or the owner\'s name for a sole proprietor) and the owner\'s IC. Check each gateway\'s own list of documents before you apply.' },
+      { q: 'Can customers pay a subscription with FPX?', a: 'Not with Stripe: FPX and GrabPay are for single payments, so subscriptions renew by card. Other gateways have their own rules, so ask before you choose.' },
+      { q: 'Will my website see my customers\' card details?', a: 'Not if you use a hosted payment page. The customer types their card details on the gateway\'s own page, and your website only receives the result.' },
+      { q: 'Which payment gateway does SEOXpert set up?', a: 'Stripe, with card, FPX and GrabPay, one-time payments, subscriptions, payment links, receipts and a billing portal. It is the same set up seoxpert.my uses.' },
+    ],
+    cta: { pill: 'Payments', title: 'Stripe payments set up on your website or web app', href: '/web-app-development-malaysia/', label: 'Web app development' },
+  },
+  {
     slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15', updated: '2026-11-18',
     h1: 'Cloud hosting in Malaysia: what it is, and when it is free',
     title: 'Cloud Hosting in Malaysia: What It Is and When It Is Free',

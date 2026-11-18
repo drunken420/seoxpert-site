@@ -1,6 +1,6 @@
 // Packages and prices, in one place. Every page that shows a price reads it from here.
 // Prices come from Suhen (2026-11). Never change a number here without asking.
-export interface Tier { id: string; name: string; rm: number; usd: number; /** price from 1 February 2027 (Suhen picked the moderate rise, 2026-11-12) */ rmNew: number; usdNew: number; for: string; rows: string[]; short: string; free?: string; /** why this one is worth it over the package below */ up?: string; /** what only bigger plans have, shown greyed with a lock (Suhen 2026-11-15) */ locked?: string[]; /** the smallest care plan says what every plan starts with, in the same slot (2026-11-16) */ start?: string; hot?: boolean; /** XpertRank target keywords, the main difference between the plans (Suhen 2026-11-16); keep matching lib/plans.js in xpertinsight */ kw?: number; /** XpertRank for a website built elsewhere: monthly price, no launch price (Suhen 2026-11-15) */ rmOther?: number; usdOther?: number }
+export interface Tier { id: string; name: string; rm: number; usd: number; /** price from 1 February 2027 (Suhen picked the moderate rise, 2026-11-12) */ rmNew: number; usdNew: number; for: string; rows: string[]; short: string; free?: string; /** why this one is worth it over the package below */ up?: string; /** what only bigger plans have, shown greyed with a lock (Suhen 2026-11-15) */ locked?: string[]; /** the smallest care plan says what every plan starts with, in the same slot (2026-11-16) */ start?: string; hot?: boolean; /** XpertRank target keywords, the main difference between the plans (Suhen 2026-11-16); keep matching lib/plans.js in xpertinsight */ kw?: number; /** XpertRank for a website built elsewhere: monthly price, no launch price (Suhen 2026-11-15) */ rmOther?: number; usdOther?: number; /** how long a build usually takes (Suhen 2026-11-19, usual times, not a promise) */ time?: string }
 
 
 /** Launch offer: free months of XpertRank (Starter 1, Business 2, Growth 4; Suhen 2026-11-15) and 1 year of free hosting with every build, until this date (inclusive). */
@@ -24,15 +24,47 @@ export const own = { name: 'I already have a website', short: 'Keep your website
 
 export const build = {
   key: 'build', label: 'XpertForge website build', unit: '', allTitle: 'In every XpertForge build',
-  all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Secure by design: no database or admin login to break into while we manage it, HTTPS on every page', 'Full keyword research with XpertCore, with a keyword plan for you', 'WhatsApp button + contact', 'Google Business Profile set up, so you show on Google Maps', 'Google Search Console and Analytics set up', 'A business email address on your domain, forwarded to your inbox', '30 days of free fixes after launch', 'Live help with your setup'],
+  all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Secure by design: no database or admin login to break into while we manage it with XpertRank, HTTPS on every page', 'Full keyword research with XpertCore, with a keyword plan for you', 'WhatsApp button + contact', 'Google Business Profile set up, so you show on Google Maps', 'Google Search Console and Analytics set up', 'A business email address on your domain, forwarded to your inbox', '30 days of free fixes after launch', 'Live help with your setup'],
   // Build prices raised and six extras added by Suhen 2026-11-15: RM799/1,499/2,499 now, RM1,199/1,999/2,999 from 1 Feb 2027 (Growth lowered from 3,499 by Suhen the same day). USD prices picked by Suhen 2026-11-15 (about RM4.45 to US$1, clean numbers).
   // `up` is the "why take the next package" line on each card (Suhen 2026-11-15). It must stay true for the launch and the later prices, in RM and USD.
   tiers: [
-    { id: 'starter', name: 'XpertForge Starter', rm: 799, usd: 199, rmNew: 1199, usdNew: 279, for: 'For a first website', start: 'A complete website with the six extras every build gets', short: '7 pages in total: up to 5 website pages and 2 blog posts', rows: ['<b>7 pages in total</b>', 'Up to <b>5</b> website pages and <b>2</b> blog posts at launch', '<b>2</b> revision rounds'], free: '1 month of XpertRank Basic free, plus 1 year of free high speed cloud hosting' },
-    { id: 'business', name: 'XpertForge Business', rm: 1499, usd: 349, rmNew: 1999, usdNew: 449, for: 'For a growing business', hot: true, up: 'Double the pages of Starter, at a lower price per page', short: '15 pages in total: up to 10 website pages and 5 blog posts', rows: ['<b>15 pages in total</b>', 'Up to <b>10</b> website pages and <b>5</b> blog posts at launch', '<b>3</b> revision rounds'], free: '2 months of XpertRank Basic free, plus 1 year of free high speed cloud hosting' },
-    { id: 'growth', name: 'XpertForge Growth', rm: 2499, usd: 549, rmNew: 2999, usdNew: 699, for: 'For a bigger website', up: 'Double the pages and blog posts of Business, at our lowest price per page', short: '30 pages in total: up to 20 website pages and 10 blog posts', rows: ['<b>30 pages in total</b>', 'Up to <b>20</b> website pages and <b>10</b> blog posts at launch', '<b>3</b> revision rounds'], free: '4 months of XpertRank Plus free, plus 1 year of free high speed cloud hosting' },
+    // `time` = how long the build usually takes, counted from the day we have the client's details (Suhen 2026-11-19: "give realistic ones").
+    { id: 'starter', name: 'XpertForge Starter', rm: 799, usd: 199, rmNew: 1199, usdNew: 279, time: '1 to 2 weeks', for: 'For a first website', start: 'A complete website with the six extras every build gets', short: '7 pages in total: up to 5 website pages and 2 blog posts', rows: ['<b>7 pages in total</b>', 'Up to <b>5</b> website pages and <b>2</b> blog posts at launch', '<b>2</b> revision rounds'], free: '1 month of XpertRank Basic free, plus 1 year of free high speed cloud hosting' },
+    { id: 'business', name: 'XpertForge Business', rm: 1499, usd: 349, rmNew: 1999, usdNew: 449, time: '2 to 3 weeks', for: 'For a growing business', hot: true, up: 'Double the pages of Starter, at a lower price per page', short: '15 pages in total: up to 10 website pages and 5 blog posts', rows: ['<b>15 pages in total</b>', 'Up to <b>10</b> website pages and <b>5</b> blog posts at launch', '<b>3</b> revision rounds'], free: '2 months of XpertRank Basic free, plus 1 year of free high speed cloud hosting' },
+    { id: 'growth', name: 'XpertForge Growth', rm: 2499, usd: 549, rmNew: 2999, usdNew: 699, time: '4 to 6 weeks', for: 'For a bigger website', up: 'Double the pages and blog posts of Business, at our lowest price per page', short: '30 pages in total: up to 20 website pages and 10 blog posts', rows: ['<b>30 pages in total</b>', 'Up to <b>20</b> website pages and <b>10</b> blog posts at launch', '<b>3</b> revision rounds'], free: '4 months of XpertRank Plus free, plus 1 year of free high speed cloud hosting' },
   ] as Tier[],
 };
+
+/** Buyer answers (Suhen 2026-11-19, after the customer review): build times, the domain name, hosting after year one, changes after launch,
+    who owns what, and what happens after paying. One place, used by the FAQ (faq-more.ts), the package cards, /packages/, /website-design/,
+    /paid/, llms.txt and the chat facts (chat-ai.js). Times are usual times, never a promise. "No admin login" is only ever about websites we
+    build AND manage with XpertRank; a website we hand over gets a simple editing dashboard (with a login). */
+const shortName = (t: Tier) => t.name.replace('XpertForge ', '');
+const roundsOf = (t: Tier) => t.rows.join(' ').match(/<b>(\d+)<\/b> revision/)?.[1] ?? '';
+const [bStarter, bBusiness, bGrowth] = build.tiers;
+export const buyer = {
+  /** "Starter usually takes 1 to 2 weeks, Business 2 to 3 weeks and Growth 4 to 6 weeks" */
+  times: `${shortName(bStarter)} usually takes ${bStarter.time}, ${shortName(bBusiness)} ${bBusiness.time} and ${shortName(bGrowth)} ${bGrowth.time}`,
+  from: 'counted from the day we have your details: your business information, your logo and photos (or we use good stock photos)',
+  revision: 'Each revision round usually takes 2 to 3 working days once we have your feedback.',
+  rounds: `${roundsOf(bStarter)} with ${shortName(bStarter)}, ${roundsOf(bBusiness)} with ${shortName(bBusiness)} and Growth`,
+  bigger: 'For bigger websites, online shops, bookings and web apps, we agree the plan and the dates with you before we start.',
+  domain: 'The domain name (your website address) is not included: you pay for it and you own it. Prices differ by name and ending, so we guide you to buy it in your own name, or we can buy it for you and transfer it to you.',
+  hosting: offerOn() ? 'Free high speed cloud hosting comes with XpertRank, and with the launch offer for the first year.' : 'Free high speed cloud hosting comes with XpertRank.',
+  handover: 'If you do not continue XpertRank, we hand your website over to the hosting of your choice, with a simple editing dashboard, and guide you through the move. The new hosting is at your own cost.',
+  edits: 'With XpertRank, our team makes the changes for you. Without XpertRank, we hand your website over with a simple editing dashboard, so you can change your own content, on the hosting you prefer.',
+  owner: 'Your content, your data and your domain name are yours. If you stop working with us, we hand over your website or web app so you can host it wherever you like.',
+  /** What happens after paying for a website build, in order (the /packages/ list, /paid/ and the FAQ). */
+  steps: [] as { t: string; d: string }[],
+};
+buyer.steps = [
+  { t: 'We email you within one working day', d: 'Stripe emails your receipt straight away, and our team emails you within one working day to plan your website with you.' },
+  { t: 'A short call or a simple form', d: 'You give us your details: your business information, your logo and your photos. No photos yet? We use good stock photos.' },
+  { t: 'Your first draft', d: 'XpertCore, our own AI SEO advisor, guides the page plan and the words, and we design every page by hand.' },
+  { t: 'Your revision rounds', d: `You check the design and the words, and we refine them in your revision rounds (${buyer.rounds}). ${buyer.revision}` },
+  { t: 'Launch', d: 'Your website goes live with the Google and AI setup in place, and we set up the extras every build includes, like your Google Business Profile and your business email.' },
+  { t: '30 days of free fixes', d: 'If anything needs fixing in the first 30 days after launch, we fix it for free.' },
+];
 
 /** XpertRank paid yearly: 12 months for the price of 10 (Suhen, 2026-11-11). */
 export const yearly = { pay: 10, free: 2, text: '2 months free' };
@@ -75,4 +107,6 @@ export const px = (t: Tier, kind: keyof typeof kinds = 'now') => { const f = kin
 export const fillPrices = (html: string, show = false) =>
   html.replace(/\{\{price:(\w+)\}\}/g, (all, id) => { const t = [...build.tiers, ...care.tiers, trial].find((x) => x.id === id); if (!t) throw new Error('Unknown price ' + all); return show ? px(t) : fmt(t); })
     // {{kw:<care tier id>}} = that plan's target keywords (Suhen 2026-11-16)
-    .replace(/\{\{kw:(\w+)\}\}/g, (all, id) => { const t = [...care.tiers, trial].find((x) => x.id === id); if (!t || !t.kw) throw new Error('Unknown keywords ' + all); return String(t.kw); });
+    .replace(/\{\{kw:(\w+)\}\}/g, (all, id) => { const t = [...care.tiers, trial].find((x) => x.id === id); if (!t || !t.kw) throw new Error('Unknown keywords ' + all); return String(t.kw); })
+    // {{time:<build tier id>}} = how long that build usually takes (Suhen 2026-11-19)
+    .replace(/\{\{time:(\w+)\}\}/g, (all, id) => { const t = build.tiers.find((x) => x.id === id); if (!t || !t.time) throw new Error('Unknown build time ' + all); return t.time; });

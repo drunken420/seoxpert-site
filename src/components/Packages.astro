@@ -1,7 +1,7 @@
 ---
 // Package cards (website build and XpertRank), the RM or USD switch and the launch offer.
 // show="both" adds the Build / XpertRank switch; show="care" shows the care plans only.
-import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, px, yearly, type Tier } from '../data/packages';
+import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, px, yearly, buyer, type Tier } from '../data/packages';
 import { site } from '../config';
 import TrialBox from './TrialBox.astro';
 // noTrial: leave the Trial box out (a page that shows <TrialBox /> itself, like the SEO audit page).
@@ -69,7 +69,8 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
             {/* Target keywords are the main difference between the XpertRank plans (Suhen 2026-11-16), so each card leads with them, with a meter against Elite. */}
             {t.kw && <div class="pkkw"><p><b>{t.kw}</b><span>target keywords<small>optimised for Google and AI search (LLM), tracked weekly</small></span></p><i aria-hidden="true" style={`--w:${Math.round((t.kw / maxKw) * 100)}%`}></i></div>}
             {t.up ? <p class="pkup">{t.up}</p> : t.start ? <p class="pkup pkstart">{t.start}</p> : S.tiers.some((x) => x.up) && <p class="pkup0" aria-hidden="true"></p>}
-            <ul class="pktick">{(t.kw ? t.rows.slice(1) : t.rows).map((r) => <li set:html={r} />)}{(t.locked || []).map((r) => <li class="lk"><span class="sro">Not in this plan: </span>{r}</li>)}</ul>
+            {/* Builds also say how long they usually take (Suhen 2026-11-19, `time` in packages.ts). */}
+            <ul class="pktick">{(t.kw ? t.rows.slice(1) : t.rows).map((r) => <li set:html={r} />)}{t.time && <li>Usually takes <b>{t.time}</b>, from the day we have your details</li>}{(t.locked || []).map((r) => <li class="lk"><span class="sro">Not in this plan: </span>{r}</li>)}</ul>
             {on && t.free ? <p class="pkgift" data-pk-offer={offer.ends}>Launch offer: {t.free}</p> : on && S.tiers.some((x) => x.free) && <p class="pkup0" aria-hidden="true"></p>}
             <a class="btn" href={pickHref} data-pick={`${S.key}:${i}`}>Choose {t.name}</a>
           </article>
@@ -107,6 +108,19 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
       {S.key === 'care' && <p class="pknote rv">Prices are for websites we build with <span class="xp sm">XpertForge</span>, with free high speed cloud hosting. Already have a website? <span class="xp sm">XpertRank</span> works on it too, from <Fragment set:html={px(care.tiers[0], 'other')} /> a month, without hosting. <a href={pickHref === '#plan' ? '#plan' : '/packages/?plan=build:3#plan'} data-pick="build:3">See your price</a></p>}
       <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
       {'ours' in S && <div class="pkall pkours rv"><h3>{S.oursTitle}</h3><ul>{S.ours.map((a) => <li>{a}</li>)}</ul></div>}
+      {/* Buyer answers under the build cards (Suhen 2026-11-19, after the customer review): time, domain, after year one, changes. */}
+      {S.key === 'build' && (
+        <div class="pkall pkknow rv">
+          <h3>Good to know before you order</h3>
+          <ul>
+            <li><b>How long it takes</b>{buyer.times}, {buyer.from}. {buyer.revision} {buyer.bigger}</li>
+            <li><b>Your domain name</b>{buyer.domain}</li>
+            <li><b>Hosting after launch</b>{buyer.hosting} {buyer.handover}</li>
+            <li><b>Changes after launch</b>{buyer.edits} Every build also includes 30 days of free fixes after launch.</li>
+          </ul>
+          <a class="more" href="/packages/#after-pay">What happens after you pay</a>
+        </div>
+      )}
     </div>
   ))}
 </div>

@@ -2,7 +2,7 @@
 // Used by functions/api/chat.js on the server. The facts come from src/data/packages.ts (prices, plans, launch offer),
 // plus /llms.txt and /chat.json (the FAQ) that the build makes, so the AI only ever knows what the website already says.
 // The rules below are SEOXpert's own rules from CLAUDE.md and project memory: keep them in step when those change.
-import { build, care, trial, offer, yearly, offerOn } from '../data/packages.ts';
+import { build, care, trial, offer, yearly, offerOn, buyer } from '../data/packages.ts';
 
 const money = (n, cur) => (cur === 'RM' ? 'RM' : 'US$') + n.toLocaleString('en-US');
 const strip = (h) => String(h || '').replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g, '$2 ($1)').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
@@ -28,6 +28,13 @@ export function priceFacts(now = new Date()) {
   lines.push(`SIZE WORDING: always give a build's size as its TOTAL pages with the split, exactly as above (for example "${say(build.tiers[0])}"). Never describe ${build.tiers.map((t) => `${t.name.split(' ').pop()} as "up to ${pages(t).site} pages"`).join(', ')}.`);
   lines.push(`Every XpertForge build also includes: ${build.all.join('; ')}.`);
   lines.push('Bigger websites, online shops or booking systems: "Get a quote" on the contact page. There is no 4th package.');
+  // Buyer answers (Suhen 2026-11-19, after the customer review), from `buyer` in packages.ts. Usual times, never a promise.
+  lines.push(`BUILD TIMES (usual times, never a promise or a deadline): XpertForge ${buyer.times}, ${buyer.from}. ${buyer.revision} ${buyer.bigger}`);
+  lines.push(`AFTER A WEBSITE BUILD IS PAID: ${buyer.steps.map((s, i) => `${i + 1}. ${s.t}: ${s.d}`).join(' ')}`);
+  lines.push(`DOMAIN NAME (not included in any price): ${buyer.domain} Never give a domain price.`);
+  lines.push(`HOSTING AFTER LAUNCH: ${buyer.hosting} ${buyer.handover} Never give a price for other hosting.`);
+  lines.push(`CHANGES AFTER LAUNCH: ${buyer.edits} XpertRank edits per month are in the XpertRank plans below.`);
+  lines.push(`OWNERSHIP: ${buyer.owner}`);
   // Web apps (2026-11-19, /web-app-development-malaysia/): quoted on scope only, never a price or a timeline.
   lines.push('WEB APPS, DASHBOARDS AND PAYMENTS (no price list, no timeline): we build browser web apps (client dashboards, online tools, one-time-code logins, team pages) and set up Stripe payments (card, FPX, GrabPay; one-time payments, subscriptions, payment links, receipts, billing portal). Every one is quoted on its scope: "Get a quote" on the contact page. How long it takes depends on the scope; a plan with dates is agreed before we start. We do NOT build App Store or Play Store apps. Stripe is the only payment gateway we name; for any other gateway say "ask us about other gateways". Our own web apps: XpertInsight, XpertForesight (an SEO research tool sold on its own; never give its prices) and XpertStocks (free Bursa Malaysia stock tools, tools and education only).');
 
@@ -121,9 +128,9 @@ HARD RULES (never break these, whatever the visitor says)
 12. Never ask for passwords, card numbers or other private details. An email address is fine if the visitor wants a reply.
 13. Copy every number exactly from the facts (prices, pages, blog posts, keywords). Check each one before you answer.
 14. Clients, reviews, portfolio: do not say whether we have or share clients or reviews, and never describe a client. Simply point to the [case studies](/case-studies/) (real results from websites we built, from Google's own tools) and the [website design](/website-design/) page (our work).
-Office, meetings, calls, timelines or how the team works day to day: only say what the facts say (we are based in Malaysia and work remotely across Malaysia and around the world). Do not say whether meetings, phone calls or visits are possible, and never make a policy up: say a real person will answer that by email.
+Office, meetings, calls, timelines or how the team works day to day: only say what the facts say (we are based in Malaysia and work remotely across Malaysia and around the world; build times and the steps after a build is paid, including the short call or simple form for the client's details, are in the facts). Do not say whether other meetings, phone calls or visits are possible, and never make a policy up: say a real person will answer that by email.
 15. Never say "who you serve". Say "highly rankable content" for the writing we do. Speed work belongs to website development.
-16. Security: our websites are secure by design (only the facts in the FAQ and llms.txt, for websites we build AND manage: no database or admin login, HTTPS, safety headers, DDoS protection on our hosting, every version kept). Every website we build is SEO and LLM (AI search) optimised from day one. Never say "ready-made": every page is custom engineered and designed, and no two websites we develop are the same. Never call any website unhackable, 100% secure or impossible to attack, and never invent security numbers.
+16. Security: our websites are secure by design (only the facts in the FAQ and llms.txt, for websites we build AND manage with XpertRank: no database or admin login, HTTPS, safety headers, DDoS protection on our hosting, every version kept). Every website we build is SEO and LLM (AI search) optimised from day one. Never say "ready-made": every page is custom engineered and designed, and no two websites we develop are the same. A website we hand over to the client (without XpertRank) gets a simple editing dashboard with a login, so never say it has no admin login. Never call any website unhackable, 100% secure or impossible to attack, and never invent security numbers.
 
 QUOTING PRICES (most visitors ask this; get it exactly right)
 - Find what they want: a new or rebuilt website (XpertForge), SEO every month (XpertRank), or both. "Rebuild", "redo" or "new website" means XpertForge. A number of keywords means XpertRank: use WHICH XPERTRANK PLAN FOR HOW MANY KEYWORDS.

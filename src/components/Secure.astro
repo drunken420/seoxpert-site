@@ -1,7 +1,7 @@
 ---
 // "Secure by design" (Suhen 2026-11-17: "sell our website building service as super secure well made", "add new layers in pages if needed").
 // Every line here must stay TRUE for every XpertForge website we build AND manage (Suhen 2026-11-17; websites handed over
-// to the client may later get a simple content editor with a login, so tie "no admin login" to websites we manage): static pages, no database, no admin login, HTTPS,
+// to the client get a simple editing dashboard with a login (Suhen 2026-11-19), so tie "no admin login" to websites we build and manage with XpertRank): static pages, no database, no admin login, HTTPS,
 // the safety headers in public/_headers, our cloud hosting's built-in DDoS protection, Stripe's own payment page,
 // the code history that keeps every version. Never write "unhackable", "100% secure" or any number we did not measure.
 // The picture is drawn in SVG and moved by CSS only (styles `.sec*` in site.css): no script, no extra download.
@@ -14,7 +14,7 @@ const layers = [
   { n: 4, t: 'A global cloud network', d: 'Pages are sent from a network of servers near your visitors, with built-in protection against floods of fake traffic (DDoS) that try to knock a website offline.' },
   { n: 3, t: 'HTTPS on every page', d: 'The padlock on every page, renewed for you, and browsers are told to always use the secure address.' },
   { n: 2, t: 'Safety headers', d: 'Instructions sent with every page that stop other websites showing yours inside theirs to trick visitors, and block the camera, microphone and location your website never needs.' },
-  { n: 1, t: 'Nothing to break into', d: 'Every page is custom engineered and designed for your business, then built into secure static files with no database and no admin login when we build and manage it. There is no password to guess and no plugin to fall out of date.' },
+  { n: 1, t: 'Nothing to break into', d: 'Every page is custom engineered and designed for your business, then built into secure static files with no database and no admin login when we build and manage it with XpertRank. There is no password to guess and no plugin to fall out of date.' },
 ];
 // line icons per layer (24 x 24), drawn in when the row scrolls in
 const icons: Record<number, string> = {
@@ -40,7 +40,7 @@ const webY = 62;
       {compact
         ? <h2 class="rv">Built secure, layer by layer.</h2>
         : <h2 class="rv">Secure by design, one layer at a time.</h2>}
-      <p class="sub rv">Every XpertForge website is custom engineered and designed page by page, and no two are the same. When we build and manage it, each page is built into a secure static file with no database and no admin login, then sent over HTTPS from a global cloud network with built-in DDoS protection. There is very little to attack, four layers guard the rest, and every page is SEO and LLM (AI search) optimised from day one.</p>
+      <p class="sub rv">Every XpertForge website is custom engineered and designed page by page, and no two are the same. When we build and manage it with XpertRank, each page is built into a secure static file with no database and no admin login, then sent over HTTPS from a global cloud network with built-in DDoS protection. There is very little to attack, four layers guard the rest, and every page is SEO and LLM (AI search) optimised from day one.</p>
       {compact && <a class="btn rv" href="/website-development/#secure" data-track="secure-more">See how we secure every website</a>}
     </div>
 

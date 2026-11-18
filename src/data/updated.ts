@@ -20,7 +20,7 @@ export const updated: Record<string, string> = {
   '/website-development/': '2026-11-19',
   '/website-maintenance/': '2026-11-19',
   '/website-report-dashboard/': '2026-11-19',
-  '/blog/': '2026-11-18',
+  '/blog/': '2026-11-19',
 };
 
 // What kind of page it is, for structured data (default WebPage).
