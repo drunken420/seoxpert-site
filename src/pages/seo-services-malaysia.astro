@@ -14,18 +14,18 @@ import Packages from '../components/Packages.astro';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
-import { care, fmt, px, offersLd, offerOn } from '../data/packages';
+import { care, fmt, fmtOther, px, offersLd, offerOn } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic, , , elite] = care.tiers;
 const promise = "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.";
 const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'What is the difference between the XpertRank plans?', 'Is XpertRank an SEO service?', 'How is XpertRank different from an SEO agency?', 'Is there a money-back promise?', 'Can you guarantee first page on Google?', 'How long before I see results?', 'Can you look after a website built by someone else?']);
 const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRank', serviceType: 'Search engine optimisation (SEO)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/seo-services-malaysia/`, areaServed: areaLd, description: 'XpertRank, our expert SEO service for websites built by SEOXpert: keyword tracking, on page and technical SEO, new blog posts every month, AI search (LLM) optimisation and a live XpertInsight dashboard, with high speed cloud hosting included.', offers: offersLd(care) }, pf.ld];
 ---
-<Base title="SEO Services Malaysia: SEO Agency for Google and AI | SEOXpert" image={`/img/${pictures["seo-services-malaysia"].file}.jpg`} description={`SEO services in Malaysia from ${fmt(basic)} a month. XpertRank tracks your keywords, writes new content and optimises for Google and AI search, with a money-back promise.`} path="/seo-services-malaysia/" crumb="SEO services" extraLd={extraLd}>
+<Base title="SEO Services Malaysia: SEO Agency for Google and AI | SEOXpert" image={`/img/${pictures["seo-services-malaysia"].file}.jpg`} description={`SEO services in Malaysia: XpertRank from ${fmt(basic)} a month for websites we build, with a money-back promise, or ${fmtOther(basic)} for existing websites. Google and AI search SEO.`} path="/seo-services-malaysia/" crumb="SEO services" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="SEO services" brand="XpertRank" art="seo" crumb="SEO services" word="SEO">
   <Fragment slot="title">SEO services in Malaysia, <em>built into your website</em>.</Fragment>
-  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back, from <Fragment set:html={px(basic)} /> a month, backed by a money-back promise for websites we build.</Fragment>
+  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back. It starts from <Fragment set:html={px(basic)} /> a month for websites we build, backed by our money-back promise, and from <Fragment set:html={px(basic, 'other')} /> a month for a website you already have.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#plans">See XpertRank plans</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 
@@ -50,10 +50,10 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
     <p class="sub rv">You always see what we did and what changed, in plain words.</p>
   </div>
   <ol class="nsteps">
-    <li class="rv"><h3>Every few days</h3><p>We actively check your website, fix what we find and keep it fast and safe. Websites we build stay online on our high speed cloud hosting.</p></li>
-    <li class="rv" style="--d:1"><h3>Every week</h3><p>XpertCore rank tracking checks where each of your keywords sits in Google's top 100. On Plus and up we also track your competitors.</p></li>
-    <li class="rv" style="--d:2"><h3>Every month</h3><p>New blog posts and page changes go live, and we check what AI tools say about your business.</p></li>
-    <li class="rv" style="--d:3"><h3>Any time</h3><p>Your <a href="/website-report-dashboard/">XpertInsight dashboard</a> shows visitors, leads, keywords, AI answers and site health, with a monthly XpertRecap PDF.</p></li>
+    <li class="rv"><h3>Every few days</h3><p>We actively check your website, fix what we find and keep it fast and safe, as part of our <a href="/website-maintenance/">website maintenance</a>. Websites we build stay online on our high speed cloud hosting.</p></li>
+    <li class="rv" style="--d:1"><h3>Every week</h3><p>XpertCore rank tracking checks where each of your keywords sits in Google's top 100, and the XpertCore site audit checks your pages. On Plus and up we also track your competitors.</p></li>
+    <li class="rv" style="--d:2"><h3>Every month</h3><p>New blog posts and page changes go live, we check what AI tools say about your business, and we check your backlinks (every week on Pro and Elite).</p></li>
+    <li class="rv" style="--d:3"><h3>Any time</h3><p>Your <a href="/website-report-dashboard/">XpertInsight dashboard</a> shows visitors, leads, Google search data, speed and uptime, refreshed every day, plus keywords, AI answers and site health, with a monthly XpertRecap PDF.</p></li>
   </ol>
 </div></section>
 

@@ -12,3 +12,5 @@
 /faqs/ /faq/ 301
 /ai-website-builder /ai-seo-advisor/ 301
 /ai-website-builder/ /ai-seo-advisor/ 301
+# The sitemap lives at /sitemap-index.xml (made by the build); people and tools often try /sitemap.xml first (2026-11-19).
+/sitemap.xml /sitemap-index.xml 301

@@ -11,7 +11,7 @@ import { site } from '../config';
   <p class="paidtick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></p>
   <h1>Thank you, your payment went through.</h1>
   <p class="lede" id="paidnext">Stripe has emailed your receipt. Our team will email you the next step within one working day.</p>
-  <p class="sub">Questions? Write to <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  <p class="sub">Questions? Write to <Fragment set:html="<!--email_off-->" /><a href={`mailto:${site.email}`}>{site.email}</a><Fragment set:html="<!--/email_off-->" />.</p>
   <div class="cta-row"><a class="btn" href="/">Back to the homepage</a><a class="btn ghost" href="/blog/">Read our guides</a></div>
 </div></section>
 </main>

@@ -4,13 +4,13 @@ export interface Tier { id: string; name: string; rm: number; usd: number; /** p
 
 
 /** Launch offer: free months of XpertRank (Starter 1, Business 2, Growth 4; Suhen 2026-11-15) and 1 year of free hosting with every build, until this date (inclusive). */
-export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free XpertRank included with every website we build.', text: 'Every website we build gets 1 year of free high speed cloud hosting. Starter also gets 1 month of XpertRank Basic free, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.' };
+export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free months of XpertRank with every website we build.', text: 'Every website we build gets 1 year of free high speed cloud hosting. Starter also gets 1 month of XpertRank Basic free, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.' };
 export const offerOn = () => new Date() < new Date('2027-02-01T00:00:00+08:00');
 
 /** Prices: today's launch prices until the offer ends, then the new prices (both from Suhen; never change without asking).
     The site is built before it goes up, so the new prices appear at the first site update from 1 February 2027. */
 const now = (t: Tier) => (offerOn() ? { rm: t.rm, usd: t.usd } : { rm: t.rmNew, usd: t.usdNew });
-const money = (n: number, cur: 'RM' | 'USD') => (cur === 'RM' ? 'RM' : '$') + n.toLocaleString('en-US');
+const money = (n: number, cur: 'RM' | 'USD') => (cur === 'RM' ? 'RM' : 'US$') + n.toLocaleString('en-US'); // US$, never a bare $ (2026-11-19 review)
 export const fmt = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money(cur === 'RM' ? now(t).rm : now(t).usd, cur);
 /** The price after the launch offer, shown crossed out while the offer runs. */
 export const fmtNew = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money(cur === 'RM' ? t.rmNew : t.usdNew, cur);
@@ -41,7 +41,10 @@ export const fmtYearNew = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money((cur === 
 
 export const care = {
   key: 'care', label: 'XpertRank expert SEO, monthly', unit: 'a month', allTitle: 'In every XpertRank plan',
-  all: ['Money-back promise on websites we build: Google top 50 in your first month, or that month back', 'Keyword research and an SEO plan for your website', 'On-page and technical SEO, checked every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'Free high speed cloud hosting for websites we build', 'Pay yearly, get 2 months free', 'Backups, uptime watch and security', 'XpertInsight live report dashboard, data refreshed every day', 'Monthly XpertRecap PDF'],
+  all: ['Keyword research and an SEO plan for your website', 'On-page and technical SEO, checked every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'Pay yearly, get 2 months free', 'Backups, uptime watch and security', 'XpertInsight live report dashboard, data refreshed every day', 'Monthly XpertRecap PDF'],
+  // Only for websites we build (2026-11-19 review: these sat under "In every XpertRank plan", next to the built-elsewhere prices). Never websites built elsewhere; the promise never covers the Trial.
+  oursTitle: 'Only for websites we build',
+  ours: ['Our money-back promise, on every paid plan', 'Free high speed cloud hosting'],
   tiers: [
     { id: 'basic', kw: 10, name: 'XpertRank Basic', rm: 99, usd: 25, rmNew: 199, usdNew: 49, rmOther: 269, usdOther: 69, for: 'Essential SEO', start: 'The full XpertRank core: dashboard, SEO blog posts, AI checks and a monthly PDF report', short: '2 on-page SEO edits (text or photos), 1 new SEO blog post a month, 10 target keywords optimised for Google and AI search (LLM) and tracked weekly, 5 AI search questions checked monthly', rows: ['<b>10</b> target keywords we optimise for Google and AI search (LLM), tracked weekly', '<b>1</b> new SEO blog post a month, written for you', '<b>2</b> on-page SEO edits a month (text or photos)', '<b>5</b> AI search questions checked monthly (ChatGPT, Gemini and more)', 'Technical SEO audit of up to <b>50</b> pages weekly', 'Backlinks checked <b>every month</b>: new and lost links', 'Refresh your dashboard <b>every week</b>', '<b>XpertRadar Priority</b> keyword results in about 1 to 5 minutes'], locked: ['Competitor tracking, from Plus', 'Daily refresh and XpertRadar Live keyword results in under a minute, from Pro'] },
     { id: 'plus', kw: 20, name: 'XpertRank Plus', rm: 199, usd: 45, rmNew: 399, usdNew: 89, rmOther: 549, usdOther: 119, for: 'Growth SEO', hot: true, up: '20 target keywords instead of 10, with double the SEO blog posts and edits of Basic', short: '4 on-page SEO edits (text or photos), 2 new SEO blog posts a month, 20 target keywords optimised for Google and AI search (LLM) and tracked weekly, 10 AI search questions checked monthly', rows: ['<b>20</b> target keywords we optimise for Google and AI search (LLM), tracked weekly', '<b>2</b> new SEO blog posts a month, written for you', '<b>4</b> on-page SEO edits a month (text or photos)', '<b>10</b> AI search questions checked monthly (ChatGPT, Gemini and more)', 'Technical SEO audit of up to <b>100</b> pages weekly', 'Backlinks checked <b>every month</b>: new and lost links', 'Refresh your dashboard <b>twice a week</b>', '<b>XpertRadar Priority</b> keyword results in about 1 to 5 minutes', '<b>Competitor tracking</b> on Google page 1'], locked: ['Daily refresh and XpertRadar Live keyword results in under a minute, from Pro'] },
@@ -57,7 +60,9 @@ export const trial: Tier & { days: number } = { id: 'trial', kw: 5, name: 'Xpert
 
 /** Structured data: the same names and RM prices people see on the page. */
 export const offersLd = (set: typeof build | typeof care) =>
-  (set.key === 'care' ? [trial, ...set.tiers] : set.tiers).map((t) => ({ '@type': 'Offer', name: t.name, price: now(t).rm, priceCurrency: 'MYR', description: t.short }));
+  (set.key === 'care' ? [trial, ...set.tiers] : set.tiers).map((t) => ({ '@type': 'Offer', name: t.name, price: now(t).rm, priceCurrency: 'MYR', description: t.short,
+    // a launch price (it changes on 1 February 2027, as every card says) is valid until the last day of the offer (2026-11-19)
+    ...(offerOn() && t.rmNew !== t.rm ? { priceValidUntil: offer.ends } : {}) }));
 
 /** A price people SEE on a page (Suhen 2026-11-16: prices by the visitor's country). The HTML always says RM; the browser
     swaps it to USD for visitors outside Malaysia (the inline script at the end of Base.astro, country from functions/_middleware.js).

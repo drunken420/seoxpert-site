@@ -189,7 +189,14 @@
   if (fab) ['pointerenter', 'focus', 'touchstart'].forEach(function (ev) { fab.addEventListener(ev, function () { load().catch(function () {}); }, { passive: true, once: true }); });
   /* phones: keep the chat button out of the way while the homepage "Build it" box is on screen */
   var promptBox = document.getElementById('prompt');
-  if (fab && promptBox && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { fab.classList.toggle('tuck', es[0].isIntersecting && window.matchMedia('(max-width: 900px)').matches && panel.hidden); }).observe(promptBox);
+  // On phones the chat button steps aside while it would cover something to tap: the homepage prompt box, a pay button,
+  // the plan summary buttons or the footer (Back to top) (2026-11-19 review). It comes back as soon as they scroll away.
+  if (fab && 'IntersectionObserver' in window) {
+    var cover = [].slice.call(document.querySelectorAll('#prompt, [data-pay], [data-sum="send"], .fbar')), inView = [];
+    var tuck = function () { fab.classList.toggle('tuck', inView.length > 0 && window.matchMedia('(max-width: 900px)').matches && panel.hidden); };
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { var k = inView.indexOf(e.target); if (e.isIntersecting && k < 0) inView.push(e.target); else if (!e.isIntersecting && k > -1) inView.splice(k, 1); }); tuck(); });
+    cover.forEach(function (el) { io.observe(el); });
+  }
   document.addEventListener('click', function (e) { var o = e.target.closest('[data-chat-open]'); if (o) { e.preventDefault(); if (panel.hidden) open(); else if (o === fab) close(); } else if (e.target.closest('.cp-x')) { close(); if (fab) fab.focus(); } });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { close(); if (fab) fab.focus(); } });
   form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value.trim(); if (!v || busy) return; input.value = ''; ask(v.slice(0, 600)); });

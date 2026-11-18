@@ -49,8 +49,8 @@ export async function onRequestPost({ request, env }) {
   if (!sameSite(request)) return json({ ok: false, error: 'origin' }, 403);
   let form;
   try { form = await request.formData(); } catch { return json({ ok: false, error: 'bad_form' }, 400); }
-  // Bots fill the hidden "company" box; say thanks and drop it.
-  if (clip(form.get('company'), 200)) return json({ ok: true });
+  // Bots fill the hidden "sx_hold" box (2026-11-19: renamed from "company", which browsers autofilled for real people); say thanks and drop it.
+  if (clip(form.get('sx_hold'), 200)) return json({ ok: true });
 
   const name = line(form.get('name'), 80), email = clip(form.get('email'), 120).toLowerCase();
   const site = line(form.get('site'), 200), biz = line(form.get('biz'), 120), message = clip(form.get('message'), 3000);

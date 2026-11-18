@@ -17,9 +17,9 @@ const views = [
   ['overview', 'Overview', 'Your Xpert score out of 100, made from visits, leads, rankings, AI mentions and site health, plus insights from our experts in plain words.'],
   ['visitors', 'Visitors', 'Visits by day compared with the period before, where they came from, phone or computer, and your top pages on Google.'],
   ['leads', 'Leads', 'WhatsApp clicks, form messages and call clicks, week by week, and the pages that bring them.'],
-  ['keywords', 'Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and how you compare with competitors.'],
+  ['keywords', 'Keywords', 'Your tracked keywords checked every week, the ones almost on page 1, and, from XpertRank Plus up, how you compare with competitors.'],
   ['ai-answers', 'AI answers', 'Whether ChatGPT, Gemini, Perplexity and Google AI Overviews name your business, and the visits AI tools send you.'],
-  ['links', 'Backlinks', 'The websites that link to yours, with their authority, the links you gained and lost each month, and twelve months of history.'],
+  ['links', 'Backlinks', 'The websites that link to yours, with their authority, the links you gained and lost each month, and twelve months of history. Checked every month, or every week on Pro and Elite.'],
   ['health', 'Site health', 'Your site health score from a weekly technical SEO audit, with errors, warnings and notices and the change on last week, plus speed on phones, uptime, your security certificate and domain renewal dates.'],
   ['xpertrank', 'XpertRank', 'Your XpertRank SEO service this month: what your plan includes, the SEO and AI search work our team has done, and what comes next.'],
   ['reports', 'Reports', 'Your monthly XpertRecap PDF, with past months kept in one place.'],
@@ -31,6 +31,19 @@ const groups = [
   ['Google and AI search', 'See where you show up on Google, whether AI tools name your business, and who links to you.', ['keywords', 'ai-answers', 'links']],
   ['Health and SEO work', 'See that your website is healthy, the SEO work our team did this month, your reports and your plan.', ['health', 'xpertrank', 'reports', 'plan']],
 ];
+// Alt text for each screen picture (xi-shot2-*, taken 19 Nov 2026 on the 28 day range), saying what is really on it.
+const shotAlt: Record<string, string> = {
+  overview: 'The XpertInsight Overview for Sample Bakery: an Xpert score of 86, 1,629 visitors, 58 leads, 532 Google clicks, 4 of 10 keywords on page 1 and insights from our experts',
+  visitors: 'The Visitors view of XpertInsight: 1,629 people in the last 28 days and a visitors by day chart from 12 October to 8 November',
+  leads: 'The Leads view of XpertInsight: 58 leads from WhatsApp clicks, form messages and calls, leads by week and the pages that bring leads',
+  keywords: 'The Keywords view of XpertInsight: 4 keywords on page 1, 10 in the top 100, a table of tracked keywords with Google positions and weekly trends, and keywords almost on page 1',
+  'ai-answers': 'The AI answers view of XpertInsight: which questions ChatGPT, Gemini, Perplexity and Google AI Overview name Sample Bakery for, and visits sent by AI tools',
+  health: 'The Site health view of XpertInsight: a site health score of 92 with 3 errors, 14 warnings and 7 notices, the checks run every week and the site basics',
+  links: 'The Backlinks view of XpertInsight: 104 websites linking with 353 links, a list of linking websites with authority, and new and lost websites each month',
+  xpertrank: "The XpertRank view of XpertInsight: the plan's work this month, what our team did and what is coming next",
+  reports: 'The Reports view of XpertInsight: the six pages inside an XpertRecap PDF and the list of past monthly reports',
+  plan: 'The Your plan view of XpertInsight: XpertRank Plus with what the plan includes, such as 10 of 20 Google keywords and 5 of 10 AI answer checks',
+};
 // One tab per view, in group order; each tab knows its group name.
 const tabs = groups.flatMap(([g, , fs]) => (fs as string[]).map((f) => ({ f, h: vmap[f][0], p: vmap[f][1], g: g as string })));
 const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers, backlinks and site health, plus a monthly XpertRecap PDF.' }];
@@ -73,7 +86,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
     <li class="rv"><b>Backlinks</b><span>Which websites link to yours, and the links you gained or lost.</span></li>
     <li class="rv"><b>Keyword positions</b><span>Where you rank on Google, checked every week.</span></li>
     <li class="rv"><b>AI answers</b><span>Whether ChatGPT, Gemini, Perplexity and Google's AI mention you.</span></li>
-    <li class="rv"><b>Site health</b><span>A health score from a weekly audit of your pages.</span></li>
+    <li class="rv"><b>Site health</b><span>A health score from our weekly <a href="/seo-audit-malaysia/">technical SEO audit</a> of your pages.</span></li>
   </ul>
 </div></section>
 
@@ -94,7 +107,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
       </div>
       <div class="xitwin">
         <div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b data-xitu>{tabs[0].f}</b></span></div>
-        <div class="xitshots">{tabs.map(({ f, h }, i) => <img class={i ? '' : 'on'} data-i={i} src={`/img/xi-shot-${f}.webp`} srcset={`/img/xi-shot-${f}-720.webp 720w, /img/xi-shot-${f}.webp 1200w`} sizes="(max-width: 1000px) 94vw, 760px" width="1200" height="750" loading={i ? 'lazy' : 'eager'} decoding="async" alt={`The ${h} view of XpertInsight on a computer`} />)}</div>
+        <div class="xitshots">{tabs.map(({ f, h }, i) => <img class={i ? '' : 'on'} data-i={i} src={`/img/xi-shot2-${f}.webp`} srcset={`/img/xi-shot2-${f}-720.webp 720w, /img/xi-shot2-${f}.webp 1200w`} sizes="(max-width: 1000px) 94vw, 760px" width="1200" height="750" loading={i ? 'lazy' : 'eager'} decoding="async" alt={shotAlt[f] || `The ${h} view of XpertInsight on a computer`} />)}</div>
       </div>
     </div>
   </div>
@@ -113,10 +126,9 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
   </div>
   <div class="xiph rv" data-xiph>
     <i class="xiorb"></i><i class="xiorb b"></i><i class="xiglow"></i>
-    <div class="p1 xiphn" data-v="leads"><img src="/img/xi-phone-leads-28.webp" srcset="/img/xi-phone-leads-28-360.webp 360w, /img/xi-phone-leads-28.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Leads view on a phone" /></div>
-    <div class="p3 xiphn" data-v="health"><img src="/img/xi-phone-health-28.webp" srcset="/img/xi-phone-health-28-360.webp 360w, /img/xi-phone-health-28.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Site health view on a phone" /></div>
-    <div class="p2 xiphn" data-v="overview"><img src="/img/xi-phone-overview-28.webp" srcset="/img/xi-phone-overview-28-360.webp 360w, /img/xi-phone-overview-28.webp 640w" sizes="250px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Overview with the Xpert score on a phone" /></div>
-    <div class="xiseg" role="group" aria-label="Pick a range to see the phones change" data-r="28"><i></i><button type="button" data-r="7" aria-pressed="false">7 days</button><button type="button" data-r="28" aria-pressed="true">28 days</button><button type="button" data-r="90" aria-pressed="false">3 months</button></div>
+    <div class="p1 xiphn" data-v="leads"><img src="/img/xi-phone2-leads.webp" srcset="/img/xi-phone2-leads-360.webp 360w, /img/xi-phone2-leads.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Leads view on a phone: 58 leads, 33 WhatsApp clicks, 22 form messages and 3 call clicks" /></div>
+    <div class="p3 xiphn" data-v="health"><img src="/img/xi-phone2-health.webp" srcset="/img/xi-phone2-health-360.webp 360w, /img/xi-phone2-health.webp 640w" sizes="210px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Site health view on a phone: a score of 92 with errors, warnings, notices and the score trend" /></div>
+    <div class="p2 xiphn" data-v="overview"><img src="/img/xi-phone2-overview.webp" srcset="/img/xi-phone2-overview-360.webp 360w, /img/xi-phone2-overview.webp 640w" sizes="250px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertInsight Overview on a phone with an Xpert score of 86 for Sample Bakery" /></div>
     <span class="hchip xic1" aria-hidden="true">Code sent to your email</span>
     <span class="hchip plus xic2" aria-hidden="true">Download PDF</span>
   </div>
@@ -127,11 +139,11 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
   <h2 class="rv">Small tools that save you time.</h2>
   <p class="sub rv">Every XpertInsight account has these built in, on a computer or a phone.</p>
   <ul class="xivg">
-    <li class="rv"><b>Refresh button</b><span>Fresh Google numbers when you want them, as often as your plan allows.</span></li>
+    <li class="rv"><b>Refresh button</b><span>Fresh Google numbers when you want them: every week on Basic, twice a week on Plus and every day on Pro and Elite.</span></li>
     <li class="rv"><b>Updates</b><span>New keywords on Google, fixed problems, plan changes and reminders. A red number means something new.</span></li>
     <li class="rv"><b>Report button</b><span>Send our team a bug, an idea or a fix request from any page. We answer under Updates.</span></li>
     <li class="rv"><b>Since your last visit</b><span>What changed since you last looked, at the top of your Overview.</span></li>
-    <li class="rv"><b>Run your own site audit</b><span>Check your pages again from Site health, as often as your plan allows.</span></li>
+    <li class="rv"><b>Run your own site audit</b><span>Check your pages again from Site health, between the weekly audits, as often as your plan allows.</span></li>
     <li class="rv"><b>Your plan</b><span>What your XpertRank plan includes, how much you use, and how it compares.</span></li>
     <li class="rv"><b>Guided tour</b><span>A one minute walk through every page, any time you press Tour.</span></li>
     <li class="rv"><b>Upgrade by card</b><span>Move to a bigger plan from Your plan, paid securely by card, and manage your billing there.</span></li>
@@ -147,7 +159,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
   </div>
   <ul class="xisrc">
     <li class="rv"><b>Updated every day</b>Your visitors, leads, Google search data, speed checks and uptime are read every morning. Keyword positions and the site audit are checked every week, and backlinks every week or month, depending on your plan.</li>
-    <li class="rv" style="--d:1"><b>Worked on by our team</b>Your target keywords are optimised for Google and AI search and tracked every week, and each month we ask AI tools the questions your customers ask.</li>
+    <li class="rv" style="--d:1"><b>Worked on by our team</b>Your target keywords are optimised for Google and AI search and tracked every week through our <a href="/seo-services-malaysia/">SEO services</a>, and each month we ask AI tools the questions your customers ask (<a href="/ai-seo-services-malaysia/">AI SEO</a>).</li>
     <li class="rv" style="--d:2"><b>Private to you</b>A secure login with a fresh code sent to your email each time, and you only ever see your own website.</li>
     <li class="rv" style="--d:3"><b>Explained in plain words</b>Insights from our experts say what changed, what it means and what we will do next.</li>
   </ul>
@@ -158,6 +170,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
     <span class="eyebrow rv">Included with XpertRank</span>
     <h2 class="rv">No extra fee. It comes with your XpertRank plan.</h2>
     <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertRank</a> plan. It is not sold on its own. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
+    <p class="sub rv">Want a dashboard like this for your own business, with your own data and logins? We build those too: see our <a href="/web-app-development-malaysia/">web app and dashboard development</a>.</p>
     <p class="rv"><a class="btn" href="/website-maintenance/#xpertrank">Compare XpertRank plans</a></p>
   </div>
   <div class="xiplans">
@@ -170,7 +183,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
         <span class="xiopen">See everything included</span>
       </summary>
       <div class="xiall">
-        <ul>{care.tiers[i].rows.map((r) => <li set:html={r} />)}{care.all.map((a) => <li>{a}</li>)}</ul>
+        <ul>{care.tiers[i].rows.map((r) => <li set:html={r} />)}{care.all.map((a) => <li>{a}</li>)}{care.ours.map((a) => <li>{a}, for websites we build</li>)}</ul>
         <a class="xicmp" href="/website-maintenance/#xpertrank">Compare all XpertRank plans and prices</a>
       </div>
     </details>)}

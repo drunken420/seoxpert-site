@@ -52,9 +52,10 @@ const needs = needsIn('RM'), needsUsd = needsIn('USD');
   <div class="cgrid">
     <div class="cpanel rv">
       <div class="cpside"><i class="cppet" aria-hidden="true"></i><i class="cppet p2" aria-hidden="true"></i>
-        <h3>Let's talk about your website.</h3><p>No pressure, just honest insight.</p>
+        <h3>Let's talk about your website.</h3><p>No pressure, just honest insight. We reply within one working day.</p>
         <ol><li><div><b>You message us</b><span>Tell us what your business does and what you need.</span></div></li><li><div><b>We ask a few questions</b><span>Enough to understand your goals and whether we are the right fit.</span></div></li><li><div><b>You get a clear plan</b><span>What we would build or improve, how it works and what it costs, in plain language.</span></div></li></ol>
-        {emailLink && <a class="cpmail" href={emailLink}>{site.email}</a>}
+        {/* email_off: Cloudflare must never swap the address for "[email protected]" (it must read the same without JavaScript) */}
+        {emailLink && <><Fragment set:html="<!--email_off-->" /><a class="cpmail" href={emailLink}>{site.email}</a><Fragment set:html="<!--/email_off-->" /></>}
       </div>
     <form class="cform" id="cform" method="post" action="/api/contact" novalidate>
       <div class="cf2">
@@ -71,14 +72,17 @@ const needs = needsIn('RM'), needsUsd = needsIn('USD');
         <p class="chint" id="chint">{needs[0][2]}</p>
       </fieldset>
       <label class="cf"><span>Your message</span><textarea name="message" rows="5" required maxlength="3000" placeholder="What does your business do, and what should your website help with? If you want SEO, which searches do you want to be found for?"></textarea></label>
-      <label class="hp" aria-hidden="true">Leave this empty<input name="company" tabindex="-1" autocomplete="off"></label>
-      {site.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-size="flexible"></div>}
-      <div class="cfoot"><button class="btn" type="submit">Send message<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><p class="cnote">A real person reads every message and replies by email.</p></div>
+      <!-- Hidden bot trap (2026-11-19: renamed from "company", which browsers autofilled for real people). The name must stay matching functions/api/contact.js. -->
+      <label class="hp" aria-hidden="true">Leave this empty<input name="sx_hold" tabindex="-1" autocomplete="off"></label>
+      {/* Spam check: contact.js loads Turnstile only when the form comes near the screen or a box is used (2026-11-19, speed),
+          and it only shows itself when a visitor must click something (interaction-only), so no empty box sits above Send. */}
+      {site.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-size="flexible" data-appearance="interaction-only" data-before-interactive-callback="sxTsShow" data-after-interactive-callback="sxTsHide"></div>}
+      <div class="cfoot"><button class="btn" type="submit">Send message<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><p class="cnote">A real person reads every message and replies by email within one working day.</p></div>
       <p class="cstatus" role="status" aria-live="polite"></p>
     </form>
     </div>
     <div class="cside">
-      <div class="way rv" style="--d:1"><h3>Email</h3><p>Prefer your own email app? Write to us directly.</p>{emailLink ? <a class="cmail" href={emailLink}>{site.email}</a> : <p class="ph">[PLACEHOLDER] Your email address goes here.</p>}</div>
+      <div class="way rv" style="--d:1"><h3>Email</h3><p>Prefer your own email app? Write to us directly.</p>{emailLink ? <><Fragment set:html="<!--email_off-->" /><a class="cmail" href={emailLink}>{site.email}</a><Fragment set:html="<!--/email_off-->" /></> : <p class="ph">[PLACEHOLDER] Your email address goes here.</p>}</div>
       {site.whatsapp && <div class="way rv"><h3>WhatsApp</h3><p>The quickest way to start a conversation with a real person.</p><a class="btn" href={whatsappLink}>WhatsApp us</a></div>}
       <div class="way rv" style="--d:3"><h3>See your total first</h3><p>Pick a website and an SEO plan, and see the price before you write to us.</p><a class="btn ghost" href="/packages/#planpicker">Build your plan</a></div>
       <div class="way rv" style="--d:2"><h3>Chat</h3><p>Instant answers to common questions about website design, SEO and XpertRank.</p><button class="btn ghost" type="button" data-chat-open>Open the chat</button></div>
@@ -87,6 +91,5 @@ const needs = needsIn('RM'), needsUsd = needsIn('USD');
 </div></section>
 <Related skip="/contact/" />
 </main>
-{site.turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
 <script is:inline src="/js/contact.js" defer></script>
 </Base>

@@ -56,7 +56,7 @@
     var bp = b.dataset[k], cp = c ? c.dataset[(yr ? k + 'Y' : k) + (own ? 'O' : '')] : '';
     sum('bn').textContent = own ? 'Your own website' : b.dataset.name + ' website'; sum('bp').innerHTML = own ? '' : bp;
     var ends = box.dataset.offerEnds, live = ends && Date.now() < new Date(ends + 'T00:00:00+08:00').getTime() + 864e5, lt = sum('later');
-    if (lt) { lt.hidden = !live || own; if (live && !own) lt.innerHTML = 'Launch prices until ' + box.dataset.offerText + '. From 1 February 2027: <s>' + b.dataset[k + 'N'] + '</s>' + (c ? ' and <s>' + c.dataset[(yr ? k + 'YN' : k + 'N')] + '</s> ' + per : '') + '.'; }
+    if (lt) { lt.hidden = !live || own; if (live && !own) lt.innerHTML = 'Launch prices until ' + box.dataset.offerText + '. From 1 February 2027: ' + b.dataset[k + 'N'] + (c ? ' and ' + c.dataset[(yr ? k + 'YN' : k + 'N')] + ' ' + per : '') + '.'; }
     sum('cn').innerHTML = c ? c.dataset.name + (c.dataset.kw ? '<em class="pksumkw">' + c.dataset.kw + ' target keywords</em>' : '') : 'No SEO plan'; // keywords = the main difference (Suhen 2026-11-16) sum('cp').innerHTML = c ? cp + ' <small>' + per + '</small>' : (cur === 'USD' ? '$0' : 'RM0');
     var rows = (b.dataset.free ? ['<b>Launch offer:</b> ' + b.dataset.free] : []).concat(JSON.parse(b.dataset.rows)).concat(c ? JSON.parse(c.dataset.rows) : []).concat(own ? [] : JSON.parse(box.dataset.all)).concat(c ? ['Monthly Google + AI visibility report'] : []).concat(c && yr ? ['<b>Paid yearly:</b> 2 months free'] : []);
     sum('list').innerHTML = rows.map(function (r) { return '<li>' + r + '</li>'; }).join('');

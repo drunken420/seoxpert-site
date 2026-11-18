@@ -13,6 +13,28 @@
   var want = (/[?&]need=([a-z]+)/.exec(location.search) || [])[1];
   if (want) pick({ website: 'Website design', both: 'Website and XpertRank', seo: 'XpertRank for my website', trial: 'XpertRank Trial' }[want] || 'Not sure yet');
   function say(t, cls) { st.textContent = t; st.className = 'cstatus ' + (cls || ''); }
+  // Spam check (Cloudflare Turnstile, 2026-11-19): its script loads only when the form comes near the screen (600px) or a
+  // box in it is used, so the page itself stays fast. Sending waits until the check has given its token.
+  var ts = f.querySelector('.cf-turnstile'), tsOn = false;
+  function loadTs() {
+    if (!ts || tsOn) return; tsOn = true;
+    var s = document.createElement('script'); s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'; s.async = true; s.defer = true; document.head.appendChild(s);
+  }
+  if (ts) {
+    // the check box takes space only while it asks the visitor to click (data-before/after-interactive-callback in contact.astro)
+    window.sxTsShow = function () { ts.classList.add('on'); };
+    window.sxTsHide = function () { ts.classList.remove('on'); };
+    f.addEventListener('focusin', loadTs);
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { if (es.some(function (x) { return x.isIntersecting; })) { o.disconnect(); loadTs(); } }, { rootMargin: '600px 0px' }).observe(f);
+    else loadTs();
+  }
+  function token() { var t = f.querySelector('[name="cf-turnstile-response"]'); return t ? t.value : ''; }
+  // waits up to 30 seconds for the token (the check may ask the visitor to tick a box), then calls go(true) or go(false)
+  function ready(go) {
+    if (!ts || token()) return go(true);
+    loadTs(); say('Checking you are a real person…');
+    var tries = 0, tm = setInterval(function () { if (token()) { clearInterval(tm); go(true); } else if (++tries > 100) { clearInterval(tm); go(false); } }, 300);
+  }
   f.addEventListener('submit', function (e) {
     e.preventDefault();
     var bad = null;
@@ -21,7 +43,11 @@
       el.setAttribute('aria-invalid', ok ? 'false' : 'true'); if (!ok && !bad) bad = el;
     });
     if (bad) { say(bad.name === 'email' && bad.value ? 'Please check your email address.' : 'Please fill in your name, email and message.', 'err'); bad.focus(); return; }
-    btn.disabled = true; say('Sending…');
+    btn.disabled = true;
+    ready(function (ok) { if (ok) send(); else { btn.disabled = false; say('The spam check did not finish. Please complete it above the Send button, then press Send again.', 'err'); } });
+  });
+  function send() {
+    say('Sending…');
     fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || 'fail'); }); })
       .then(function () {
@@ -31,6 +57,6 @@
         f.appendChild(d); f.classList.add('sent'); f.scrollIntoView({ behavior: 'smooth', block: 'center' });
         if (window.gtag) gtag('event', 'generate_lead', { method: 'contact_form' });
       })
-      .catch(function () { btn.disabled = false; say('Sorry, that did not send. Please email us at contact@seoxpert.my instead.', 'err'); });
-  });
+      .catch(function () { btn.disabled = false; if (window.turnstile && ts) try { window.turnstile.reset(ts); } catch (x) {} say('Sorry, that did not send. Please email us at contact@seoxpert.my instead.', 'err'); });
+  }
 })();

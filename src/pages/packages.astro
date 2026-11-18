@@ -11,7 +11,7 @@ import '../styles/page.css';
 import Packages from '../components/Packages.astro';
 import PlanPicker from '../components/PlanPicker.astro';
 import { site } from '../config';
-import { build, care, offersLd, fmt, px, offerOn } from '../data/packages';
+import { build, care, offersLd, fmt, fmtOther, px, offerOn } from '../data/packages';
 // A real table of the three builds (2026-11-18 SEO review: the "at a glance" version was only a picture, which Google and AI tools cannot read)
 const bshort = (n: string) => n.replace('XpertForge ', '');
 const num = (row: string) => (String(row || '').match(/[0-9]+/) || [''])[0];
@@ -22,7 +22,7 @@ const extraLd = [
 ];
 const pf = pageFaq(['What is the difference between Starter, Business and Growth?', 'Is the website price paid once or every month?', 'Is there a launch offer?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'What is the difference between the XpertRank plans?', 'Can I try XpertRank first?']);
 ---
-<Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description={`Website design packages in Malaysia from ${fmt(build.tiers[0])}, with copywriting and keyword research included. XpertRank monthly website maintenance from ${fmt(care.tiers[0])} a month.`} path="/packages/" crumb="Packages" extraLd={[...extraLd, pf.ld]}>
+<Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description={`Website design packages in Malaysia from ${fmt(build.tiers[0])}, with copywriting and keyword research. XpertRank SEO from ${fmt(care.tiers[0])} a month for websites we build, ${fmtOther(care.tiers[0])} for others.`} path="/packages/" crumb="Packages" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Packages" brand="XpertForge" art="packages" crumb="Packages" word="Packages">
   <Fragment slot="title">Website design packages in Malaysia, <em>in plain language</em>.</Fragment>
@@ -64,7 +64,7 @@ const pf = pageFaq(['What is the difference between Starter, Business and Growth
     <li>A WhatsApp button and contact page, so customers can reach you</li>
     <li>Monthly <a href="/website-maintenance/">website maintenance</a> with XpertRank, if you want it</li>
   </ul>
-  <p class="sub rv" style="margin-top:28px">Forged by XpertCore, looked after by XpertRank. <a href="/website-maintenance/">See what website maintenance covers</a>, or read more about <a href="/website-design/">website design</a>.</p>
+  <p class="sub rv" style="margin-top:28px">Built with XpertForge, guided by XpertCore, grown by XpertRank. <a href="/website-maintenance/">See what website maintenance covers</a>, compare our <a href="/seo-packages-malaysia/">SEO packages</a>, or read more about <a href="/website-design/">website design</a> and <a href="/website-development/">website development</a>. Need a bigger website, an online shop, bookings, a web app or a dashboard? Those are quoted on their scope: see <a href="/web-app-development-malaysia/">web app and dashboard development</a> or <a href="/contact/">get a quote</a>.</p>
 </div></section>
 <Glance page="packages" guides={['website-design-packages-malaysia', 'website-design-price-malaysia']} />
 <PageFaq title="Package and price questions, answered." items={pf.items} tint />

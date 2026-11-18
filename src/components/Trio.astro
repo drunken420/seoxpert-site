@@ -1,5 +1,5 @@
 ---
-// The three product names side by side: XpertForge builds it, XpertCore powers it, XpertRank looks after it.
+// The three product names side by side: XpertForge builds it, XpertCore (our AI SEO advisor) guides it, XpertRank grows it.
 // Styles: "product trio" at the end of src/styles/site.css.
 interface Props { skip?: string }
 const { skip } = Astro.props;
@@ -11,8 +11,8 @@ const items = [
 ---
 <section class="solid tint band trio"><div class="wrap">
   <span class="eyebrow rv">Three names to know</span>
-  <h2 class="rv">Forged by XpertCore, looked after by XpertRank.</h2>
-  <p class="sub rv">We built all three ourselves, in house. Every website follows the same path: we build it, our AI core powers it, and we keep looking after it.</p>
+  <h2 class="rv">Built with XpertForge, guided by XpertCore, grown by XpertRank.</h2>
+  <p class="sub rv">We built all three ourselves, in house. Every website follows the same path: XpertForge builds it, XpertCore guides what we plan and write, and XpertRank keeps growing it.</p>
   <ol class="trio3">
     {items.map((it, i) => (
       <li class={'rv' + (i === 1 ? ' mid' : '')} style={`--d:${i}`}>

@@ -221,7 +221,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: `Website design from ${px(starter)}, paid once`, href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11', updated: '2026-11-19',
     h1: 'Website design packages in Malaysia: which one fits?',
     title: 'Website Design Packages in Malaysia: Which One Fits?',
     description: `Compare website design packages in Malaysia: Starter, Business and Growth, from ${fmt(starter)}. See what each includes, with examples of which one fits which business.`,
@@ -249,7 +249,7 @@ ${careTable}
 <p>Blog posts also help with AI tools, which look for clear, direct answers to quote. The posts written at launch give your blog a start, and an XpertRank plan adds new ones every month.</p>` },
       { id: 'revision-rounds', h: 'How revision rounds work', html: `<p>A revision round is one batch of changes you ask for after seeing the design and writing. ${starter.name} includes 2 rounds, and ${business.name} and ${growth.name} include 3.</p>
 <p>To get the most from each round, collect all your changes in one list before you send them, and ask anyone else who needs to approve the website to add theirs to the same list. Clear, complete feedback in one go gives a better result than many small messages.</p>` },
-      { id: 'add-xpertrank', h: 'Adding XpertRank after launch', html: `<p>After launch you can add XpertRank, our optional expert SEO service, with free high speed cloud hosting for the websites we build. With every plan we actively check your website every few days, fix what we find, and make SEO and AI search improvements when they are needed.</p>${careTable}
+      { id: 'add-xpertrank', h: 'Adding XpertRank after launch', html: `<p>After launch you can add XpertRank, our optional expert SEO service, with free high speed cloud hosting for the websites we build. With every plan we actively check your website every few days, fix what we find, and make SEO and AI search improvements when they are needed. Our <a href="/seo-packages-malaysia/">SEO packages</a> page compares every plan.</p>${careTable}
 <p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} and ${elite.name} need Growth. Pay yearly and you get ${yearly.text}.</p>
 <p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p><p>See what the monthly <a href="/website-maintenance/">website maintenance and SEO service</a> includes, or <a href="/packages/">compare website design packages</a>.</p>` },
       { id: 'still-not-sure', h: 'Between two sizes?', html: `<p>Think about the next year, not only launch day. If you plan to add services, or want a page for each type of job you do, the bigger size gives you room.</p>
@@ -265,7 +265,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'Compare the packages and build your plan', href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-19',
     h1: 'Website design price in Malaysia: what does it cost?',
     title: 'Website Design Price in Malaysia: What It Costs | SEOXpert',
     description: `Website design in Malaysia costs from ${fmt(starter)} with SEOXpert, paid once. See what changes the price, the costs to ask about and what it costs each month.`,
@@ -276,7 +276,7 @@ ${careTable}
 <h3>How many pages you need</h3><p>A five page website for a new business is far less work than a twenty page website with a blog. Each page needs planning, writing, design and checking.</p>
 <h3>Who writes the words</h3><p>Many quotes leave the writing to you. Writing is slow, and a website with thin writing is hard to find. A quote that includes proper writing will look higher, but it saves you weeks.</p>
 <h3>Whether search is planned in</h3><p>Keyword research, titles, descriptions, headings and structured data take time to do properly. Some quotes charge extra for this, and some skip it.</p>
-<h3>Custom design or a template</h3><p>A ready made template is quicker and cheaper. A design made for your business takes longer, but fits your brand and your content.</p>
+<h3>Custom design or a template</h3><p>An off-the-shelf template is quicker and cheaper to start with. A design made for your business takes longer, but fits your brand and your content.</p>
 <h3>How many rounds of changes you get</h3><p>Every round of changes is more work, so most companies set a number. Check it before you agree.</p>` },
       { id: 'package-prices', h: 'Our website design prices in Malaysia', html: `<p>Our website builds are called XpertForge. There are three sizes, and each one is a single price, paid once.</p>${buildTable}
 <p>Every package includes:</p>${inEvery}
@@ -366,7 +366,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'A website planned for search from day one', href: '/website-design/', label: 'Website design in Malaysia' },
   },
   {
-    slug: 'ai-seo-malaysia', tag: 'AI search', art: 'ai', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'ai-seo-malaysia', tag: 'AI search', art: 'ai', date: '2026-11-11', updated: '2026-11-19',
     h1: 'AI SEO in Malaysia: what it is, and does it work?',
     title: 'AI SEO in Malaysia: What It Is, and Does It Work?',
     description: 'AI SEO means making your website easy for AI tools like ChatGPT and Gemini to read, trust and quote. How it works, how to write for it, and how to check it.',
@@ -402,7 +402,7 @@ ${careTable}
 <p>What you can control is how clear, consistent and well structured your website is. The good news is that the same work also helps on Google, so nothing is wasted. Be careful with anyone who guarantees results in AI answers.</p>` },
       { id: 'other-names', h: 'Other names you may hear', html: `<p>AI SEO goes by several names. GEO means generative engine optimisation (also spelled generative engine optimization). AEO means answer engine optimisation. Some people say LLM optimisation, after the large language models behind the AI tools. They all describe the same idea: helping AI tools understand and use your content.</p>` },
       { id: 'how-we-do-it', h: 'How we build it in', html: `<p>Every website we build is planned for Google and AI search before it is designed. <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>, drafts the page plan, headings and answer first copy, and adds structured data and an AI ranking file. Then our experts check and refine every page.</p>
-<p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places.</p><p>To have it done for you every month, see our <a href="/ai-seo-services-malaysia/">AI SEO services in Malaysia</a>.</p>` },
+<p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places. AI SEO builds on normal SEO, so it is part of our <a href="/seo-services-malaysia/">SEO services</a> too.</p><p>To have it done for you every month, see our <a href="/ai-seo-services-malaysia/">AI SEO services in Malaysia</a>.</p>` },
     ],
     faqs: [
       { q: 'Is AI SEO different from normal SEO?', a: 'It builds on normal SEO. The basics are the same: clear pages, good structure and useful answers. AI SEO adds short answer blocks, consistent facts, structured data and an AI ranking file.' },
@@ -414,7 +414,7 @@ ${careTable}
     cta: { pill: 'XpertCore', title: 'See how our AI SEO advisor guides every page', href: '/ai-seo-advisor/', label: 'How XpertCore works' },
   },
   {
-    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-19',
     h1: 'Website maintenance in Malaysia: what it covers and costs',
     title: 'Website Maintenance in Malaysia: Cost and What It Covers',
     description: `Website maintenance in Malaysia: the regular work that keeps a website safe, up to date and growing: what it covers, what can go wrong and the cost, from ${fmt(basic)} a month.`,
@@ -439,7 +439,7 @@ ${careTable}
       { id: 'xpertrank-rhythm', h: 'What happens every few days, every week and every month', html: `<p>With XpertRank, the work follows a steady rhythm:</p>
 <h3>Every few days</h3><p>We actively check your website: that it is up, working and fast, that forms send and links work. We fix what we find, and when a page needs it, we make SEO and AI search (LLM) improvements.</p>
 <h3>Every week</h3><p>Your keywords are tracked, so we can see which pages are rising and which need work.</p>
-<h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand.</p>` },
+<h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand in <a href="/website-report-dashboard/">XpertInsight, your website report dashboard</a>.</p>` },
       { id: 'what-it-costs', h: 'How much does website maintenance cost?', html: `<p>Website maintenance prices vary a lot, so check what is included before you compare. XpertRank has four plans. For websites we build, free high speed cloud hosting is included in every one; websites built elsewhere keep their own hosting.</p>${careTable}
 <p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>` },
       { id: 'choosing-a-plan', h: 'How to choose a plan size', html: `<p>Choose by how often your website needs to change and how fast you want it to grow:</p>
