@@ -90,9 +90,12 @@ export const care = {
 /** XpertRank Trial: try XpertRank for 14 days (Suhen 2026-11-13: RM25 or US$5). The price after the launch offer is not decided; it stays RM25 until Suhen says otherwise. */
 export const trial: Tier & { days: number } = { id: 'trial', kw: 5, name: 'XpertRank Trial', rm: 25, usd: 5, rmNew: 25, usdNew: 5, days: 14, for: 'Try XpertRank first', short: 'XpertRank for 14 days, with your own XpertInsight dashboard, 5 keywords tracked, a technical SEO audit of up to 20 pages and 1 dashboard refresh. Your XpertRecap PDF carries a light watermark during the trial. AI answer checks and backlink checks come with the paid plans, and so does the money-back promise on websites we build. Choose a paid XpertRank plan after your trial and the trial price comes off your first month', rows: ['<b>14 days</b> of XpertRank', 'Your own <b>XpertInsight</b> dashboard', '<b>5</b> keywords tracked', 'Technical SEO audit of up to <b>20</b> pages', '<b>1</b> dashboard refresh', 'XpertRecap PDF with a light watermark', 'No AI answer checks or backlink checks'] };
 
-/** Structured data: the same names and RM prices people see on the page. */
+/** A monthly billing period for an Offer in structured data (P1M, UN/CEFACT unit MON). Never on a one-off price (Trials, builds). */
+const monthlyLd = (rm: number) => ({ priceSpecification: { '@type': 'UnitPriceSpecification', price: rm, priceCurrency: 'MYR', billingDuration: 'P1M', unitCode: 'MON' } });
+/** Structured data: the same names and RM prices people see on the page. XpertRank plans are monthly; the Trial and builds are paid once. */
 export const offersLd = (set: typeof build | typeof care) =>
   (set.key === 'care' ? [trial, ...set.tiers] : set.tiers).map((t) => ({ '@type': 'Offer', name: t.name, price: now(t).rm, priceCurrency: 'MYR', description: t.short,
+    ...(set.key === 'care' && t !== trial ? monthlyLd(now(t).rm) : {}),
     // a launch price (it changes on 1 February 2027, as every card says) is valid until the last day of the offer (2026-11-19)
     ...(offerOn() && t.rmNew !== t.rm ? { priceValidUntil: offer.ends } : {}) }));
 
@@ -110,3 +113,82 @@ export const fillPrices = (html: string, show = false) =>
     .replace(/\{\{kw:(\w+)\}\}/g, (all, id) => { const t = [...care.tiers, trial].find((x) => x.id === id); if (!t || !t.kw) throw new Error('Unknown keywords ' + all); return String(t.kw); })
     // {{time:<build tier id>}} = how long that build usually takes (Suhen 2026-11-19)
     .replace(/\{\{time:(\w+)\}\}/g, (all, id) => { const t = build.tiers.find((x) => x.id === id); if (!t || !t.time) throw new Error('Unknown build time ' + all); return t.time; });
+
+/* ---------- XpertForesight, our SEO research tool (foresight.seoxpert.my, page /seo-tools/) ----------
+   COPY of FS_PLANS, FS_PRICES, FS_TRIAL_PRICE, FS_YEARLY, FS_TRIAL_DAYS and fsLines() in xpertinsight lib/fsplans.js (2026-11-19).
+   That file is the truth (checkout reads it): keep this copy matching, and never change a price without asking Suhen.
+   Sold on its own, NOT part of XpertRank (XpertRank clients get XpertInsight). No money-back promise on XpertForesight.
+   The Xplorer tier is left out on purpose: it is never sold and never shown on the website. */
+const FS_PLANS = {
+  'XpertForesight Trial': { short: 'Trial', searches: 25, blueprints: 1, sites: 1, pages: 20, keywords: 5, questions: 3, competitors: 1, csv: false, mark: true },
+  'XpertForesight Basic': { short: 'Basic', searches: 100, blueprints: 3, sites: 1, pages: 50, keywords: 50, questions: 10, competitors: 3, csv: true, mark: false },
+  'XpertForesight Plus': { short: 'Plus', searches: 300, blueprints: 8, sites: 3, pages: 100, keywords: 150, questions: 25, competitors: 5, csv: true, mark: false },
+  'XpertForesight Pro': { short: 'Pro', searches: 800, blueprints: 15, sites: 5, pages: 200, keywords: 300, questions: 50, competitors: 10, csv: true, mark: false },
+  'XpertForesight Elite': { short: 'Elite', searches: 1200, blueprints: 30, sites: 10, pages: 300, keywords: 500, questions: 100, competitors: 20, csv: true, mark: false },
+};
+type FsName = keyof typeof FS_PLANS;
+export type FsLimits = (typeof FS_PLANS)[FsName];
+/** What each plan costs, a month (Suhen 2026-11-17). Paid yearly = 12 months for the price of 10. */
+const FS_PRICES: Record<string, { rm: number; usd: number }> = {
+  'XpertForesight Basic': { rm: 79, usd: 19 },
+  'XpertForesight Plus': { rm: 199, usd: 45 },
+  'XpertForesight Pro': { rm: 499, usd: 115 },
+  'XpertForesight Elite': { rm: 999, usd: 229 },
+};
+const FS_TRIAL = 'XpertForesight Trial';
+const FS_TRIAL_PRICE = { RM: 25, USD: 5 }; // once, for 14 days, taken off the first paid month
+const FS_YEARLY = 10;
+const FS_TRIAL_DAYS = 14;
+/** What a plan includes, in plain words: the exact wording of fsLines() in lib/fsplans.js (emails, the plan page, the join page). */
+function fsLines(plan: FsName) {
+  const r = FS_PLANS[plan]; if (!r) return [];
+  const s = (n: number) => (n === 1 ? '' : 's');
+  return [
+    `${r.searches.toLocaleString('en-US')} research search${r.searches === 1 ? '' : 'es'} ${plan === FS_TRIAL ? 'during your trial' : 'a month'}: keywords, ideas, websites, keyword gap and AI questions`,
+    `${r.blueprints} XpertBlueprint full scan${s(r.blueprints)} with an AI SEO plan ${plan === FS_TRIAL ? 'to try' : 'a month'}`,
+    `${r.sites} website${s(r.sites)}, each with a weekly XpertCore site audit of up to ${r.pages} pages`,
+    `Save up to ${r.keywords} keywords, ${r.questions} AI questions and ${r.competitors} competitor${s(r.competitors)} per website`,
+    r.mark ? 'PDF reports (with a trial watermark)' : 'Branded PDF reports and CSV downloads'
+  ];
+}
+export type FsTier = Tier & { fs: FsLimits };
+// rmNew/usdNew equal today's price: XpertForesight has no launch price.
+const fsTier = (plan: FsName, rm: number, usd: number): FsTier => {
+  const r = FS_PLANS[plan], rows = fsLines(plan);
+  return { id: 'fs-' + r.short.toLowerCase(), name: plan, rm, usd, rmNew: rm, usdNew: usd, for: r.sites === 1 ? '1 website' : `Up to ${r.sites} websites`, rows, short: rows.join('. '), fs: r };
+};
+export const foresight = {
+  name: 'XpertForesight',
+  app: 'https://foresight.seoxpert.my/',
+  /** public sign-up and Stripe checkout */
+  join: 'https://foresight.seoxpert.my/join/',
+  days: FS_TRIAL_DAYS,
+  yearly: FS_YEARLY,
+  trial: { ...fsTier(FS_TRIAL, FS_TRIAL_PRICE.RM, FS_TRIAL_PRICE.USD), for: `${FS_TRIAL_DAYS} days, paid once` } as FsTier,
+  tiers: (Object.keys(FS_PRICES) as FsName[]).map((p) => fsTier(p, FS_PRICES[p].rm, FS_PRICES[p].usd)),
+};
+/** A visible XpertForesight price (RM in the HTML; the browser swaps it to US$ outside Malaysia, like px()). year = the yearly price (12 months for 10). */
+export const fsPx = (t: Tier, bill: 'month' | 'year' = 'month') => { const k = bill === 'year' ? FS_YEARLY : 1; return `<span data-rm="${money(t.rm * k, 'RM')}" data-usd="${money(t.usd * k, 'USD')}">${money(t.rm * k, 'RM')}</span>`; };
+/** Plain RM text (titles, descriptions, structured data). */
+export const fsFmt = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money(cur === 'RM' ? t.rm : t.usd, cur);
+/** Rows of the XpertForesight plan table (/seo-tools/ and /packages/): label, then the value for one plan. */
+export const fsTable: [string, (t: FsTier) => string][] = [
+  ['Price a month', (t) => fsPx(t)],
+  [`Paid yearly (12 months for the price of ${FS_YEARLY})`, (t) => fsPx(t, 'year')],
+  ['Research searches a month', (t) => t.fs.searches.toLocaleString('en-US')],
+  ['XpertBlueprint scans with an AI SEO plan, a month', (t) => String(t.fs.blueprints)],
+  ['Websites', (t) => String(t.fs.sites)],
+  ['Weekly XpertCore site audit, pages per website', (t) => String(t.fs.pages)],
+  ['Saved keywords per website', (t) => String(t.fs.keywords)],
+  ['Saved AI questions per website', (t) => String(t.fs.questions)],
+  ['Competitors per website', (t) => String(t.fs.competitors)],
+  ['PDF reports and CSV downloads', (t) => (t.fs.csv ? 'Yes' : 'PDF only')],
+];
+/** Structured data: one Offer per plan, the same names and RM prices people see.
+    Search Console may warn that the SoftwareApplication has no aggregateRating or review. That is expected: we have no real
+    ratings yet, and ratings must never be made up to remove the warning. */
+export const fsOffersLd = () => [foresight.trial, ...foresight.tiers].map((t) => ({
+  '@type': 'Offer', name: t.name, price: t.rm, priceCurrency: 'MYR', url: foresight.join,
+  ...(t === foresight.trial ? {} : monthlyLd(t.rm)),
+  description: t === foresight.trial ? `${FS_TRIAL_DAYS} days, paid once, taken off the first paid month. ${t.short}` : `A month. ${t.short}`,
+}));

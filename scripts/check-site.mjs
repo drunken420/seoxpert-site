@@ -42,6 +42,22 @@ for (const f of ['robots.txt', 'sitemap-index.xml', 'favicon.svg', 'llms.txt', '
   if (checkReply(bad).length !== 4) fail('chat-ai.js', 'the fact check missed a wrong page count or price: ' + JSON.stringify(checkReply(bad)));
   const good = 'XpertForge Growth is **RM2,499** for 30 pages in total (20 website pages + 10 blog posts), then XpertRank Pro **RM349** a month (US$79). Starter is 7 pages in total: up to 5 website pages and 2 blog posts.';
   if (checkReply(good).length) fail('chat-ai.js', 'the fact check flagged a correct answer: ' + JSON.stringify(checkReply(good)));
+  // XpertForesight (2026-11-19): every price in the chat facts, a correct answer passes the fact check, and /seo-tools/ has one Offer per plan.
+  const { foresight } = await import('../src/data/packages.ts');
+  const fsAll = [foresight.trial, ...foresight.tiers];
+  for (const t of fsAll) if (!facts.includes('RM' + t.rm.toLocaleString('en-US'))) fail('chat-ai.js', `${t.name}: price missing from the chat facts`);
+  const fsGood = 'XpertForesight Basic is RM79 a month (US$19), Elite RM999, yearly RM790. The Trial is RM25 for 14 days, then your first Basic month is RM54.';
+  if (checkReply(fsGood).length) fail('chat-ai.js', 'the fact check flagged a correct XpertForesight answer: ' + JSON.stringify(checkReply(fsGood)));
+  const fsPage = path.join(dist, 'seo-tools', 'index.html');
+  if (!fs.existsSync(fsPage)) fail('seo-tools', 'the /seo-tools/ page is missing');
+  else {
+    const nodes = [];
+    const walkLd = (x) => { if (Array.isArray(x)) x.forEach(walkLd); else if (x && typeof x === 'object') { nodes.push(x); Object.values(x).forEach(walkLd); } };
+    for (const m of fs.readFileSync(fsPage, 'utf8').matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) walkLd(JSON.parse(m[1]));
+    const app = nodes.find((x) => x['@type'] === 'SoftwareApplication');
+    const want = fsAll.map((t) => t.rm).join(','), got = app ? [].concat(app.offers || []).map((o) => o.price).join(',') : '';
+    if (got !== want) fail(fsPage, `the SoftwareApplication Offers should be priced ${want} (got ${got || 'none'})`);
+  }
 }
 // Code protection (scripts/obfuscate.mjs): no source maps anywhere, our scripts are obfuscated, three.js is left alone.
 {

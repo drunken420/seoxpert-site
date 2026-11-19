@@ -2,7 +2,7 @@
 // The first ten live on the homepage (src/fragments/home-lower.html); these come after them.
 // Only write what the site already says is true. Prices and numbers come from packages.ts, never typed in by hand.
 // An entry with `until` (a date) disappears after that day, like the launch offer.
-import { build, care, trial, offer, offerOn, yearly, px, buyer } from './packages';
+import { build, care, trial, offer, offerOn, yearly, px, buyer, foresight, fsPx } from './packages';
 
 const [starter, business, growth] = build.tiers;
 const [basic, plus, pro, elite] = care.tiers;
@@ -10,8 +10,8 @@ const pages = (t: typeof starter) => t.short.match(/up to (\d+)/i)?.[1];
 const posts = (t: typeof starter) => t.short.match(/(\d+) blog posts/)?.[1];
 const rounds = (t: typeof starter) => t.rows.join(' ').match(/<b>(\d+)<\/b> revision/)?.[1];
 
-export type Topic = 'Prices and packages' | 'Your website' | 'Web apps and payments' | 'Google and AI search' | 'XpertRank' | 'About us';
-export const topics: Topic[] = ['Prices and packages', 'Your website', 'Web apps and payments', 'Google and AI search', 'XpertRank', 'About us'];
+export type Topic = 'Prices and packages' | 'Your website' | 'Web apps and payments' | 'Google and AI search' | 'XpertRank' | 'XpertForesight' | 'About us';
+export const topics: Topic[] = ['Prices and packages', 'Your website', 'Web apps and payments', 'Google and AI search', 'XpertRank', 'XpertForesight', 'About us'];
 
 /** Topics for the ten homepage questions, in their order. */
 export const homeTopics: Topic[] = ['Your website', 'Google and AI search', 'Google and AI search', 'Google and AI search', 'Google and AI search', 'XpertRank', 'Your website', 'XpertRank', 'Prices and packages', 'About us'];
@@ -90,6 +90,16 @@ export const more: MoreFaq[] = [
   { topic: 'XpertRank', q: 'How do I log in to XpertInsight?', a: 'With a secure login that needs no password: we send a fresh code to your email every time you log in. You only ever see your own website.' },
   { topic: 'XpertRank', q: 'Can I check XpertInsight on my phone?', a: 'Yes. XpertInsight works on phones too, and you can switch between this month, the last 7 days, 28 days or 3 months.' },
   { topic: 'XpertRank', q: 'What is XpertRecap?', a: 'XpertRecap is your monthly report as a six page PDF. You download it from XpertInsight with the Download PDF button. During the Trial it carries a light watermark.' },
+  // XpertForesight, our SEO research tool (/seo-tools/, 2026-11-19). Facts from the xpertinsight code (lib/fsplans.js, lib/foresight.js PLACES,
+  // src/join.html "Questions people ask"): prices and limits come from `foresight` in packages.ts (a copy of lib/fsplans.js). Not part of XpertRank.
+  // No money-back promise. Only English and Malay are named (other languages exist but are untested). Never mention the hidden top tier or XpertAutopilot.
+  { topic: 'XpertForesight', q: 'What is XpertForesight?', a: 'XpertForesight is our own SEO research tool, at foresight.seoxpert.my. It brings keyword overview, keyword ideas, domain overview, keyword gap, AI questions and a weekly XpertCore site audit together in one place, with PDF reports. XpertBlueprint runs every scan in one click, and our AI turns the results into an SEO plan. <a href="/seo-tools/">See the SEO tools</a>.' },
+  { topic: 'XpertForesight', q: 'Who is XpertForesight for?', a: 'Agencies and freelancers who do SEO for their clients, and business owners who do their own SEO. If you would rather have our team do the SEO work for you, that is <a href="/website-maintenance/">XpertRank</a>, our expert SEO service.' },
+  { topic: 'XpertForesight', q: 'Is XpertForesight included in XpertRank?', a: 'No. XpertForesight is a separate product with its own plans, for people who do the research themselves. Every XpertRank plan includes <a href="/website-report-dashboard/">XpertInsight</a> instead: the live dashboard where you see your results and the SEO work our team does for you. XpertRank clients can add XpertForesight on top.' },
+  { topic: 'XpertForesight', q: 'How much does XpertForesight cost?', a: `XpertForesight ${foresight.tiers.map((t, i) => `${i === foresight.tiers.length - 1 ? 'and ' : ''}${t.name.replace('XpertForesight ', '')} is ${fsPx(t)}`).join(', ')} a month. Pay yearly and you get 12 months for the price of ${foresight.yearly}. Bigger plans give you more searches, more XpertBlueprint scans and more websites. You can cancel any time from Manage billing inside XpertForesight, and your plan stays open until the end of the time you paid for. <a href="/seo-tools/#plans">Compare the plans</a>.` },
+  { topic: 'XpertForesight', q: 'Can I try XpertForesight first?', a: `Yes. The ${foresight.trial.name} costs ${fsPx(foresight.trial)} for ${foresight.days} days, paid once, with ${foresight.trial.fs.searches} searches, ${foresight.trial.fs.blueprints} XpertBlueprint scan, ${foresight.trial.fs.sites} website and a site audit of up to ${foresight.trial.fs.pages} pages. PDF reports carry a trial watermark, and CSV downloads come with the paid plans. When you are ready, choose a plan from Your plan inside XpertForesight and the trial price comes off your first month. <a href="/seo-tools/#plans">See the plans</a>.` },
+  { topic: 'XpertForesight', q: 'What counts as a search in XpertForesight?', a: 'Each new keyword overview, keyword ideas, domain overview, keyword gap or AI questions search counts once. Saved searches are kept for 30 days, and opening one again is free. An XpertBlueprint scan runs several research searches. New ones count, but any you already made in the last 30 days are reused for free.' },
+  { topic: 'XpertForesight', q: 'Which countries can XpertForesight research?', a: 'Malaysia, Singapore, Indonesia, the Philippines, India, Pakistan, Hong Kong, the United Arab Emirates, Australia, New Zealand, the United Kingdom and the United States, in English (and in Malay for Malaysia). Costs per click are shown in the money of the country you search, like RM for Malaysia and S$ for Singapore.' },
   // About us
   { topic: 'About us', q: 'Who is behind SEOXpert?', a: 'SEOXpert is a founder led web design company in Malaysia. After more than 7 years of hands-on SEO, our founder built XpertCore so every website is ready for Google and AI from day one. <a href="/about/">More about us</a>.' },
   { topic: 'About us', q: 'Do you outsource the work?', a: 'No. Every website is designed and coded in house and personally planned and overseen. There is no outsourcing and no white labelling.' },

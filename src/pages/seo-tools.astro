@@ -1,0 +1,179 @@
+---
+// XpertForesight product page: our own SEO tools (2026-11-19). Keyword research from XpertForesight, Google Malaysia (location 2458, English),
+// run 19 Nov 2026 (12-month average searches a month, difficulty 0-100, average of the last 3 months):
+//   main: seo marketing tools 720 (63, recent 590), seo tools 590 (63, recent 390), seo tool 590 (63, recent 390),
+//         seo optimization tools 590 (66, recent 390), seo optimisation tool 590 (63), tools for seo optimization 590 (50, recent 390),
+//         seo optimization tool 720 (70, recent 480)
+//   supporting: seo checker 480 (78, recent 530), seo website checker 110, seo tool to check website 110, keyword tool 260 (73, recent 140),
+//         keyword research tool 90 (recent 63), keyword analysis tool 90, competitor analysis seo tool / seo competitor analysis tool 30,
+//         ai seo tool 40 (recent 50; Singapore 70), seo audit tool 30 (recent 27), seo software 70 (recent 17), seo software for agencies 10
+//   "best seo tools" shows 2,900 but that is a Feb-May 2026 spike (recent months about 77): not a headline target.
+//   Singapore (location 2702): seo marketing tool 590 (35), seo tool 480 (62), best seo tool 320 (34).
+// Page 1 in Malaysia for "seo tools" today is weak list posts, so a real product page with real screens can compete. Never promise rankings.
+// Facts come from the xpertinsight code (lib/fsplans.js, lib/foresight.js PLACES, src/join.html); prices from `foresight` in packages.ts
+// (a COPY of lib/fsplans.js). XpertForesight is in early access (v0.5): never call it finished. Not part of XpertRank. No money-back promise.
+// Never name the data or AI provider, never name or compare other paid SEO tools, never mention XpertAutopilot or the hidden top tier.
+// Screenshots (fs-shot-*, fs-phone-*) show the made-up Sample Bakery with example numbers.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import PageFaq from '../components/PageFaq.astro';
+import Glance from '../components/Glance.astro';
+import pictures from '../data/pictures.json';
+import { pageFaq } from '../lib/faq';
+import { foresight, fsPx, fsFmt, fsTable, fsOffersLd, care, px } from '../data/packages';
+import '../styles/page.css';
+import { site, ways } from '../config';
+const fs0 = foresight.tiers[0];
+const trial = foresight.trial;
+const basic = care.tiers[0]; // XpertRank Basic, for the "different from XpertRank" comparison
+const short = (n: string) => n.replace('XpertForesight ', '');
+// The countries XpertForesight can research (PLACES in lib/foresight.js), with the money it shows costs per click in.
+const places = [['Malaysia', 'RM'], ['Singapore', 'S$'], ['Indonesia', 'Rp'], ['Philippines', '₱'], ['India', '₹'], ['Pakistan', 'Rs'], ['Hong Kong', 'HK$'], ['United Arab Emirates', 'AED'], ['Australia', 'A$'], ['New Zealand', 'NZ$'], ['United Kingdom', '£'], ['United States', 'US$']];
+// One card per tool, with the real screen it shows (example data for the made-up Sample Bakery).
+const tools = [
+  { id: 'keyword-overview', shot: 'overview', path: 'keyword', name: 'Keyword overview', eyebrow: 'Keyword tool', h: 'How hard is a keyword, and who is on page 1?',
+    p: 'Type one keyword and see how many people search for it each month, how hard it is to rank for, what advertisers pay per click and who is on page 1 of Google right now.',
+    ticks: ['Searches a month, with a 12-month trend', 'Keyword difficulty from 0 to 100, in plain words', 'Cost per click in the money of the country you search', 'Who is on page 1, and what Google shows: AI Overview, People also ask, pictures'],
+    alt: "XpertForesight Keyword overview for 'birthday cake delivery' in Malaysia, with example numbers: 110 searches a month, a keyword difficulty of 12 (very easy), RM7.04 cost per click, a 12-month searches chart and who is on page 1 of Google" },
+  { id: 'keyword-ideas', shot: 'ideas', path: 'ideas', name: 'Keyword ideas', eyebrow: 'Keyword research tool', h: 'Which keywords should you write about next?',
+    p: 'Start from one word and get up to 100 related keyword ideas per search, then filter them down to the ones worth your time.',
+    ticks: ['Up to 100 ideas per search', 'Filters for Questions, Easy wins and Buyers', 'Searches a month, difficulty and cost per click for each idea', '12-month trends, so you spot seasons early'],
+    alt: "XpertForesight Keyword ideas for 'birthday cake' in Malaysia, with example data: related keywords with their intent, searches a month, trend, difficulty, cost per click in RM and what Google shows" },
+  { id: 'domain-overview', shot: 'home', path: 'home', name: 'Domain overview and keyword gap', eyebrow: 'Competitor analysis SEO tool', h: 'What do your competitors rank for that you do not?',
+    p: 'Domain overview shows the keywords any website is on Google for, its estimated visits and its real competitors. Keyword gap then lists the keywords a rival is on Google for and you are not, so you know what to write next. Both start from the research home shown here: type a website instead of a keyword.',
+    ticks: ['Any website: its keywords, estimated visits and real competitors', 'Keyword gap: your website against one rival', 'Save competitors to each of your websites'],
+    alt: 'XpertForesight Research home for the example website Sample Bakery: one search box for keyword overview, keyword ideas, domain overview, keyword gap and AI questions, with the XpertBlueprint full scan banner' },
+  { id: 'ai-questions', shot: 'ai', path: 'questions', name: 'AI questions', eyebrow: 'AI SEO tool', h: 'What questions do people ask about your topic?',
+    p: 'See the questions people ask Google about a topic, and the question searches with the most people behind them. Use them for blog posts, FAQs and the questions to check in ChatGPT, Gemini, Perplexity and Google AI Overviews.',
+    ticks: ["Google's \"People also ask\" questions", 'Question searches, biggest first', 'Save questions to each website', 'Ideas for answer-first blog posts and FAQs'],
+    alt: "XpertForesight AI questions for 'birthday cake delivery' in Malaysia, with example data: People also ask questions from Google and question searches with how many people search for each" },
+  { id: 'site-audit', shot: 'audit', path: 'audit', name: 'Site audit', eyebrow: 'SEO audit tool', h: 'What is wrong with your website, and how do you fix it?',
+    p: 'The XpertCore site audit checks your website every week, like an SEO checker that never forgets. It lists every problem, the pages it is on and how to fix it, errors first.',
+    ticks: ['A site health score out of 100', 'Errors, warnings and notices, with the pages each one is on', 'How to fix each problem, and what you fixed since last week', 'Export the list as CSV on every paid plan'],
+    alt: 'XpertForesight Site audit for the example website Sample Bakery: a site health score of 92 out of 100, 3 errors, 14 warnings and 7 notices, a score trend, the issues to fix and the site basics' },
+];
+const extraLd = [{
+  '@type': 'SoftwareApplication', name: foresight.name, applicationCategory: 'BusinessApplication', operatingSystem: 'Web', url: `${site.url}/seo-tools/`,
+  description: 'XpertForesight is an SEO research tool by SEOXpert: keyword overview, keyword ideas, domain overview, keyword gap, AI questions, a weekly XpertCore site audit, PDF reports and XpertBlueprint, a one-click full scan with an AI SEO plan. For agencies, freelancers and business owners who do their own SEO.',
+  publisher: { '@id': `${site.url}/#org` }, offers: fsOffersLd(),
+}];
+const pf = pageFaq(['What is XpertForesight?', 'Who is XpertForesight for?', 'Is XpertForesight included in XpertRank?', 'How much does XpertForesight cost?', 'Can I try XpertForesight first?', 'What counts as a search in XpertForesight?', 'Which countries can XpertForesight research?']);
+---
+<Base title="SEO Tools for Keyword Research: XpertForesight | SEOXpert" image={`/img/${pictures["seo-tools"].file}.jpg`} description={`XpertForesight SEO tools: keyword research, keyword ideas, competitor keyword gap, AI questions and a weekly site audit. From ${fsFmt(fs0)} a month, or try ${foresight.days} days for ${fsFmt(trial)}.`} path="/seo-tools/" crumb="SEO tools" extraLd={[...extraLd, pf.ld]}>
+<main id="main">
+<PageHero kicker="SEO tools" brand="XpertForesight" art="foresight" crumb="SEO tools" word="Foresight">
+  <Fragment slot="title">SEO tools that turn research into <em>a plan</em>.</Fragment>
+  <Fragment slot="lede">XpertForesight is our own set of SEO tools for agencies, freelancers and business owners who do their own SEO. Research keywords, see what any competitor ranks for, find the questions people ask and audit your website, then let XpertBlueprint turn it all into a plan in plain words.</Fragment>
+  <Fragment slot="cta"><a class="btn" href={foresight.join} data-track="foresight-trial">Try {foresight.days} days for <Fragment set:html={fsPx(trial)} /></a><a class="btn ghost" href="#plans">See plans and prices</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">SEO tools in one place</span>
+  <h2 class="rv">What are SEO tools, and what does XpertForesight do?</h2>
+  <p class="sub rv">SEO tools (also called SEO marketing tools) show you what people search for, how hard each keyword is, what your competitors rank for and what is wrong with your website. XpertForesight puts those SEO optimization tools in one login, for Malaysia and 11 more countries, and adds XpertBlueprint: one click runs every scan and our AI writes the plan.</p>
+  <div class="grid3">
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Keyword overview</h3><p>Searches a month, difficulty, cost per click and who is on page 1 of Google for any keyword.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Keyword ideas</h3><p>Up to 100 ideas per search, with filters for questions, easy wins and buyers.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Domain overview</h3><p>Any website's keywords, its estimated visits and its real competitors.</p></div>
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>Keyword gap</h3><p>The keywords a rival is on Google for and you are not.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>AI questions</h3><p>The questions people ask, for blog posts and AI answer checks.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Site audit</h3><p>A weekly XpertCore site audit: errors, warnings and notices, and how to fix each one.</p></div>
+  </div>
+</div></section>
+
+<section id="tools" class="solid tint band"><div class="wrap">
+  <span class="eyebrow rv">Inside XpertForesight</span>
+  <h2 class="rv">Which SEO tools are inside XpertForesight?</h2>
+  <p class="sub rv">Real screens from XpertForesight, shown with example data for a made-up bakery. Yours shows your own websites and searches.</p>
+  <div class="work appwork">
+    {tools.map((t) => <article class="workcard rv" id={t.id}>
+      <figure class="pshot"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>foresight.seoxpert.my/<b>{t.path}</b></span></div><img src={`/img/fs-shot-${t.shot}.webp`} srcset={`/img/fs-shot-${t.shot}-720.webp 720w, /img/fs-shot-${t.shot}.webp 1200w`} sizes="(max-width: 900px) 94vw, 620px" width="1200" height="750" loading="lazy" decoding="async" alt={t.alt} /></figure>
+      <div class="workinfo"><span class="xp">{t.name}</span><span class="eyebrow">{t.eyebrow}</span><h3>{t.h}</h3><p>{t.p}</p>
+        <ul class="ticks">{t.ticks.map((x) => <li>{x}</li>)}</ul></div>
+    </article>)}
+  </div>
+  <ul class="applist" style="margin-top:34px">
+    <li class="rv"><b>PDF reports</b>Download a PDF report and pick the parts it includes. Reports carry the XpertForesight and SEOXpert name, plus your website's logo when we have it, so they are easy to share with a client or a boss.</li>
+    <li class="rv" style="--d:1"><b>CSV downloads</b>Take any table into a spreadsheet, on every paid plan.</li>
+    <li class="rv" style="--d:2"><b>Saved searches</b>Searches are kept for 30 days, and opening one again is free.</li>
+    <li class="rv" style="--d:3"><b>Your plan, in plain numbers</b>See what you have used, like "1 of 3 scans this month".</li>
+  </ul>
+</div></section>
+
+<section id="xpertblueprint" class="dark band"><div class="wrap split pshotsplit">
+  <div>
+    <span class="eyebrow rv">XpertBlueprint</span>
+    <h2 class="rv">What is XpertBlueprint?</h2>
+    <p class="sub rv">XpertBlueprint is a one-click full scan. It runs every research tool on your website, reads your latest site audit, and then our AI writes an SEO plan in plain words: what to fix now, which keywords to go after next and what can wait. It uses only keywords your website can realistically win.</p>
+    <ul class="ticks rv"><li>Your website on Google, your main keyword and keyword ideas</li><li>Keyword gap against a competitor and the questions people ask</li><li>Your latest XpertCore site audit</li><li>One plan in plain words, sized to your website</li></ul>
+    <p class="rv"><a class="btn" href="#plans">See how many scans each plan has</a></p>
+  </div>
+  <figure class="pshot rv"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>foresight.seoxpert.my/<b>blueprint</b></span></div><img src="/img/fs-shot-blueprint.webp" srcset="/img/fs-shot-blueprint-720.webp 720w, /img/fs-shot-blueprint.webp 1200w" sizes="(max-width: 900px) 94vw, 620px" width="1200" height="750" loading="lazy" decoding="async" alt="XpertBlueprint in XpertForesight, with example data: one click runs a full scan of samplebakery.example (website on Google, main keyword, keyword ideas, keyword gap, questions people ask and site audit) and our AI turns it into a step by step SEO plan" /></figure>
+</div></section>
+
+<section id="countries" class="solid band"><div class="wrap appph">
+  <div>
+    <span class="eyebrow rv">Countries and money</span>
+    <h2 class="rv">Which countries can you research?</h2>
+    <p class="sub rv">Twelve countries, in English, and in Malay for Malaysia. Costs per click and ad values are shown in the money of the country you search, so a search in Malaysia shows RM and a search in Singapore shows S$. XpertForesight works in the browser on any phone, tablet or computer.</p>
+    <ul class="ticks rv">{places.map(([c, m]) => <li>{c} ({m})</li>)}</ul>
+  </div>
+  <img class="rv" src="/img/fs-phone-ideas.webp" srcset="/img/fs-phone-ideas-360.webp 360w, /img/fs-phone-ideas.webp 640w" sizes="(max-width: 900px) 240px, 300px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertForesight Keyword ideas on a phone, with example data: 'birthday cake' searched in Malaysia in English, with filters for All ideas, Easy wins and Buyers and an Export CSV button" />
+</div></section>
+
+<section id="plans" class="solid tint band"><div class="wrap">
+  <span class="eyebrow rv">Plans and prices</span>
+  <h2 class="rv">How much do XpertForesight SEO tools cost?</h2>
+  <p class="sub rv">From <Fragment set:html={fsPx(fs0)} /> a month. Pay yearly and get 12 months for the price of {foresight.yearly}. Every plan has every tool: bigger plans give you more searches, more XpertBlueprint scans and more websites, so it works as SEO software for agencies and freelancers with several clients. Cancel any time from Manage billing inside XpertForesight. XpertForesight is new and in early access, so it keeps getting better.</p>
+  <div class="cmpwrap rv" tabindex="0" role="region" aria-label="XpertForesight plans compared" data-swipe="Swipe sideways to compare every plan →">
+    <table class="cmptab">
+      <thead><tr><th scope="col">XpertForesight</th>{foresight.tiers.map((t) => <th scope="col">{short(t.name)}<small>{t.for}</small></th>)}</tr></thead>
+      <tbody>{fsTable.map(([h, f]) => <tr><th scope="row">{h}</th>{foresight.tiers.map((t) => <td><b set:html={f(t)} /></td>)}</tr>)}</tbody>
+    </table>
+  </div>
+  <div class="split" style="margin-top:34px">
+    <div>
+      <h3 class="rv">Try it first: <Fragment set:html={fsPx(trial)} /> for {foresight.days} days</h3>
+      <p class="sub rv">The {trial.name} is paid once and has every tool. If you choose a paid plan from Your plan inside XpertForesight, the trial price comes off your first month.</p>
+      <p class="rv"><a class="btn" href={foresight.join} data-track="foresight-trial">Start the {foresight.days}-day trial</a><a class="btn ghost" href="/contact/">Ask us a question</a></p>
+    </div>
+    <ul class="ticks rv">{trial.rows.map((r) => <li>{r}</li>)}</ul>
+  </div>
+</div></section>
+
+<section class="solid band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">Do it yourself, or let us</span>
+    <h2 class="rv">How is XpertForesight different from XpertRank?</h2>
+    <p class="sub rv">With XpertForesight, you do the SEO research yourself. With XpertRank, our team does the SEO for you. They are separate: XpertForesight is not included in XpertRank, and XpertRank clients can add it on top.</p>
+  </div>
+  <ul class="applist">
+    <li class="rv"><b>XpertForesight: you do the research</b>SEO tools for agencies, freelancers and business owners who do their own SEO, from <Fragment set:html={fsPx(fs0)} /> a month.</li>
+    <li class="rv" style="--d:1"><b>XpertRank: we do the SEO for you</b>Our expert SEO service: we optimise your target keywords for Google and AI search, write SEO blog posts and fix what we find. From <Fragment set:html={px(basic)} /> a month for websites we build, or <Fragment set:html={px(basic, 'other')} /> a month for websites built elsewhere. <a href="/website-maintenance/">See XpertRank</a>.</li>
+    <li class="rv" style="--d:2"><b>XpertInsight: see your results</b>The live report dashboard included with every XpertRank plan, with your visitors, keywords, AI answers and site health. <a href="/website-report-dashboard/">Look inside XpertInsight</a>.</li>
+    <li class="rv" style="--d:3"><b>Not sure which one?</b>Tell us about your website and we will say honestly which one fits. <a href="/contact/">Contact us</a>.</li>
+  </ul>
+</div></section>
+
+<section class="solid tint band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">Getting started</span>
+    <h2 class="rv">How do you start with XpertForesight?</h2>
+    <p class="sub rv">Sign up online in a few minutes. There is no password to remember.</p>
+  </div>
+  <ol class="nsteps">
+    <li class="rv"><h3>Pick the trial or a plan</h3><p>Choose on the <a href={foresight.join}>XpertForesight sign-up page</a>, monthly or yearly. Already on the trial? Upgrade from Your plan inside XpertForesight.</p></li>
+    <li class="rv" style="--d:1"><h3>Pay securely by card</h3><p>Payment happens on Stripe's own page, so your card details never reach us. Your account is made straight after the payment. We email you the link to log in at foresight.seoxpert.my.</p></li>
+    <li class="rv" style="--d:2"><h3>Log in with a code</h3><p>Type your email and we send you a fresh 6-digit code each time you log in.</p></li>
+    <li class="rv" style="--d:3"><h3>Run your first XpertBlueprint</h3><p>One click scans your website and gives you your SEO plan. Your first site audit runs within a day, so the plan is fullest after that. Meanwhile, research any keyword or competitor you like.</p></li>
+  </ol>
+</div></section>
+
+<Glance page="seo-tools" guides={['keyword-research-seo-malaysia', 'seo-competitor-analysis']} />
+<PageFaq title="XpertForesight questions, answered." items={pf.items} tint />
+<Related skip="/seo-tools/" />
+<Cta title="Questions about XpertForesight before you start?" text={`Ask us anything about the SEO tools, the plans or the trial. ${ways}, whichever suits you.`} />
+</main>
+</Base>

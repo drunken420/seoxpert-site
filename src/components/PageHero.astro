@@ -4,7 +4,7 @@
 // word = the big outlined word that drifts behind the banner (decoration only).
 import HeroArt from './HeroArt.astro';
 import { updated, niceDate } from '../data/updated';
-interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertRank' | 'XpertLab' | 'XpertAdvice' | 'XpertInsight'; art?: string; word?: string }
+interface Props { kicker: string; crumb: string; brand?: 'XpertForge' | 'XpertCore' | 'XpertRank' | 'XpertLab' | 'XpertAdvice' | 'XpertInsight' | 'XpertForesight'; art?: string; word?: string }
 const { kicker, crumb, brand, art, word } = Astro.props;
 // "Updated" line under the breadcrumbs (the Case studies page shows its own date in the text).
 const upd = Astro.url.pathname === '/case-studies/' ? undefined : updated[Astro.url.pathname];

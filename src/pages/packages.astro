@@ -12,7 +12,7 @@ import Packages from '../components/Packages.astro';
 import PlanPicker from '../components/PlanPicker.astro';
 import AfterPay from '../components/AfterPay.astro';
 import { site } from '../config';
-import { build, care, offersLd, fmt, fmtOther, px, offerOn } from '../data/packages';
+import { build, care, offersLd, fmt, fmtOther, px, offerOn, foresight, fsPx, fsTable } from '../data/packages';
 // A real table of the three builds (2026-11-18 SEO review: the "at a glance" version was only a picture, which Google and AI tools cannot read)
 const bshort = (n: string) => n.replace('XpertForge ', '');
 const num = (row: string) => (String(row || '').match(/[0-9]+/) || [''])[0];
@@ -37,7 +37,7 @@ const pf = pageFaq(['What is the difference between Starter, Business and Growth
   <p class="sub rv">XpertForge is our website build: one price, paid once. XpertRank is the optional plan to grow it every month, with free high speed cloud hosting for websites we build. Already have a website? XpertRank works on it too, at its own price. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by experts.</p>
   <Packages pickHref="#plan" />
   <h3 class="rv" style="margin-top:34px">Website design packages compared</h3>
-  <div class="cmpwrap rv">
+  <div class="cmpwrap rv" tabindex="0" role="region" aria-label="XpertForge website design packages compared">
     <table class="cmptab">
       <thead><tr><th scope="col">XpertForge</th>{build.tiers.map((t) => <th scope="col" class:list={[t.hot && "hot"]}>{bshort(t.name)}<small>{t.for}</small></th>)}</tr></thead>
       <tbody>{brows.map(([h, f]) => <tr><th scope="row">{h}</th>{build.tiers.map((t) => <td class:list={[t.hot && "hot"]}><b set:html={f(t)} /></td>)}</tr>)}</tbody>
@@ -74,6 +74,20 @@ const pf = pageFaq(['What is the difference between Starter, Business and Growth
     <p class="sub rv">Six steps from your payment to a live website, and you always know which one we are on.</p>
   </div>
   <div><AfterPay /></div>
+</div></section>
+<!-- XpertForesight (2026-11-19): our SEO research tool, sold on its own and not part of XpertRank. Prices from `foresight` in packages.ts
+     (a copy of xpertinsight lib/fsplans.js). Sign-up and checkout live on foresight.seoxpert.my/join/, so there are no pay buttons here. -->
+<section id="xpertforesight" class="solid tint band"><div class="wrap">
+  <p class="krow rv"><span class="xp">XpertForesight</span><span class="eyebrow">SEO tools</span></p>
+  <h2 class="rv">Doing your own SEO? Try our SEO tools.</h2>
+  <p class="sub rv">XpertForesight is our own SEO research tool, for agencies, freelancers and business owners who do the SEO themselves: keyword overview, keyword ideas, domain overview, keyword gap, AI questions, a weekly site audit and PDF reports, plus XpertBlueprint, a one-click full scan with an AI SEO plan. It is a separate product, not part of XpertRank. Plans start at <Fragment set:html={fsPx(foresight.tiers[0])} /> a month, or try every tool with the XpertForesight Trial: {foresight.days} days for <Fragment set:html={fsPx(foresight.trial)} />, taken off your first month when you upgrade from Your plan inside XpertForesight. This trial is separate from the XpertRank Trial above.</p>
+  <div class="cmpwrap rv" tabindex="0" role="region" aria-label="XpertForesight plans compared" data-swipe="Swipe sideways to compare every plan →">
+    <table class="cmptab">
+      <thead><tr><th scope="col">XpertForesight</th>{foresight.tiers.map((t) => <th scope="col">{t.name.replace('XpertForesight ', '')}<small>{t.for}</small></th>)}</tr></thead>
+      <tbody>{fsTable.slice(0, 6).map(([h, f]) => <tr><th scope="row">{h}</th>{foresight.tiers.map((t) => <td><b set:html={f(t)} /></td>)}</tr>)}</tbody>
+    </table>
+  </div>
+  <p class="rv" style="margin-top:28px"><a class="btn" href={foresight.join} data-track="foresight-join">Start the XpertForesight trial</a><a class="btn ghost" href="/seo-tools/">See the SEO tools</a></p>
 </div></section>
 <Glance page="packages" guides={['website-design-packages-malaysia', 'website-design-price-malaysia']} />
 <PageFaq title="Package and price questions, answered." items={pf.items} tint />

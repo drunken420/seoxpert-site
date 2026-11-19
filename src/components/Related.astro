@@ -13,6 +13,9 @@ const all = [
   { href: '/seo-audit-malaysia/', title: 'SEO audit in Malaysia', text: 'A technical SEO audit every week, with fixes by our team.' },
   { href: '/case-studies/', title: 'SEO case studies', text: 'Live results from a website we built, our own seoxpert.my, straight from Google Search Console and Analytics.' },
   { href: '/website-report-dashboard/', title: 'Website report dashboard', text: 'XpertInsight: your live dashboard of visitors, leads, keywords and AI answers, with XpertRank.' },
+  { href: '/seo-tools/', title: 'SEO tools', text: 'XpertForesight, our own SEO research tool: keyword research, competitors, site audits and AI plans.' },
+  { href: '/blog/keyword-research-seo-malaysia/', title: 'Keyword research for SEO', text: 'A plain guide to finding the keywords your customers in Malaysia really search for.' },
+  { href: '/blog/seo-competitor-analysis/', title: 'SEO competitor analysis', text: 'A step-by-step guide to seeing who ranks above you on Google, and why.' },
   { href: '/ai-seo-advisor/', title: 'AI SEO advisor', text: 'How XpertCore, our own AI SEO advisor, guides what we plan, write and mark up on every page.' },
   { href: '/packages/', title: 'Website design packages', text: 'What every package includes, and what a website costs.' },
   { href: '/demos/', title: 'Interactive website demos', text: 'Live 3D and animation we can build into your website.' },
@@ -25,14 +28,16 @@ const all = [
 const near: Record<string, string[]> = {
   '/website-design/': ['/website-development/', '/packages/', '/web-app-development-malaysia/', '/website-maintenance/'],
   '/website-development/': ['/website-design/', '/web-app-development-malaysia/', '/seo-audit-malaysia/', '/ai-seo-advisor/'],
-  '/web-app-development-malaysia/': ['/website-development/', '/website-report-dashboard/', '/website-design/', '/packages/'],
+  '/web-app-development-malaysia/': ['/website-development/', '/website-report-dashboard/', '/seo-tools/', '/packages/'],
   '/website-maintenance/': ['/seo-services-malaysia/', '/seo-packages-malaysia/', '/website-report-dashboard/', '/seo-audit-malaysia/'],
-  '/seo-services-malaysia/': ['/ai-seo-services-malaysia/', '/seo-packages-malaysia/', '/seo-audit-malaysia/', '/website-maintenance/'],
-  '/ai-seo-services-malaysia/': ['/seo-services-malaysia/', '/ai-seo-advisor/', '/seo-packages-malaysia/', '/website-report-dashboard/'],
-  '/seo-packages-malaysia/': ['/seo-services-malaysia/', '/packages/', '/website-maintenance/', '/seo-audit-malaysia/'],
-  '/seo-audit-malaysia/': ['/seo-services-malaysia/', '/website-report-dashboard/', '/seo-packages-malaysia/', '/website-development/'],
-  '/ai-seo-advisor/': ['/ai-seo-services-malaysia/', '/website-design/', '/website-development/', '/seo-services-malaysia/'],
-  '/website-report-dashboard/': ['/website-maintenance/', '/seo-services-malaysia/', '/web-app-development-malaysia/', '/seo-audit-malaysia/'],
+  '/seo-services-malaysia/': ['/ai-seo-services-malaysia/', '/seo-packages-malaysia/', '/seo-audit-malaysia/', '/seo-tools/'],
+  '/ai-seo-services-malaysia/': ['/seo-services-malaysia/', '/ai-seo-advisor/', '/seo-tools/', '/website-report-dashboard/'],
+  '/seo-packages-malaysia/': ['/seo-services-malaysia/', '/packages/', '/website-maintenance/', '/seo-tools/'],
+  '/seo-audit-malaysia/': ['/seo-services-malaysia/', '/website-report-dashboard/', '/seo-tools/', '/seo-packages-malaysia/'],
+  '/ai-seo-advisor/': ['/ai-seo-services-malaysia/', '/website-design/', '/seo-tools/', '/seo-services-malaysia/'],
+  '/website-report-dashboard/': ['/website-maintenance/', '/seo-services-malaysia/', '/seo-tools/', '/seo-audit-malaysia/'],
+  // XpertForesight (2026-11-19): the two research guides, then the SEO pages closest to it.
+  '/seo-tools/': ['/blog/keyword-research-seo-malaysia/', '/blog/seo-competitor-analysis/', '/seo-audit-malaysia/', '/seo-services-malaysia/'],
   '/packages/': ['/website-design/', '/seo-packages-malaysia/', '/website-maintenance/', '/web-app-development-malaysia/'],
 };
 const pick = near[skip]?.map((h) => all.find((x) => x.href === h)).filter((x): x is (typeof all)[number] => !!x);

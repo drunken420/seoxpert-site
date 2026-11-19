@@ -20,6 +20,7 @@ export const updated: Record<string, string> = {
   '/website-development/': '2026-11-19',
   '/website-maintenance/': '2026-11-19',
   '/website-report-dashboard/': '2026-11-19',
+  '/seo-tools/': '2026-11-19',
   '/blog/': '2026-11-19',
 };
 

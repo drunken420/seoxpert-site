@@ -1,6 +1,8 @@
 import { site } from '../config';
-import { build, care, trial, fmt, fmtNew, fmtOther, offer, offerOn, yearly, buyer } from '../data/packages';
+import { build, care, trial, fmt, fmtNew, fmtOther, offer, offerOn, yearly, buyer, foresight, fsFmt } from '../data/packages';
 import { posts, postUrl } from '../data/blog';
+// XpertForesight prices: `foresight` in packages.ts, the site's one copy of xpertinsight lib/fsplans.js (2026-11-19)
+const fsTrial = foresight.trial, fsFrom = foresight.tiers[0];
 const line = (t: any, unit: string) => `- ${t.name}: ${fmt(t)} (${fmt(t, 'USD')}) ${unit}. ${t.short}.`;
 // The conditions on the prices travel with them (2026-11-19 review: AI tools quote this file on its own).
 const list = (ts: any[], f: (t: any, cur?: 'RM' | 'USD') => string) => ts.map((t) => `${t.name} ${f(t)} (${f(t, 'USD')})`).join(', ');
@@ -10,7 +12,7 @@ const body = `# ${site.name}
 
 > ${site.tagline}. ${site.description}
 
-XpertForge (the website build), XpertCore (our own AI SEO advisor), XpertRank (our expert SEO service) and XpertLab (live demos) were all developed in house by SEOXpert.
+XpertForge (the website build), XpertCore (our own AI SEO advisor), XpertRank (our expert SEO service), XpertForesight (our SEO research tool) and XpertLab (live demos) were all developed in house by SEOXpert.
 Area: based in ${site.country}, working remotely with businesses in ${site.areas.join(', ')}, across ${site.country} and around the world.
 
 ## Key facts
@@ -21,6 +23,7 @@ Area: based in ${site.country}, working remotely with businesses in ${site.areas
 - Every website SEOXpert builds is SEO and LLM (AI search) optimised from day one, and every page is custom engineered and designed.
 - Every XpertForge website is secure by design: every page is custom engineered and designed (no two websites are the same), then built into secure static files with no database and no admin login on the live website when SEOXpert builds and manages it with XpertRank (a website handed over to the client gets a simple editing dashboard with a login instead), HTTPS and safety headers on every page, and, on SEOXpert's high speed cloud hosting, a global cloud network with built-in DDoS protection. Every version is kept in the code history. SEOXpert does not claim any website is impossible to hack.
 - SEOXpert also builds web apps: dashboards, online tools, logins and Stripe payment gateway set ups (card, FPX and GrabPay). They are browser web apps, not App Store or Play Store apps, and each one is quoted on its scope (no published price).
+- XpertForesight is SEOXpert's own SEO research tool (foresight.seoxpert.my), sold on its own and not included in XpertRank: keyword research, competitor research (domain overview and keyword gap), AI questions, a weekly site audit, PDF reports and XpertBlueprint (one click runs every scan and our AI writes an SEO plan). ${fsTrial.name}: ${fsFmt(fsTrial)} (${fsFmt(fsTrial, 'USD')}) for ${foresight.days} days; paid plans from ${fsFmt(fsFrom)} (${fsFmt(fsFrom, 'USD')}) a month (${foresight.tiers.map((t) => `${t.name.replace('XpertForesight ', '')} ${fsFmt(t)}`).join(', ')}); paid yearly, 12 months for the price of ${foresight.yearly}. It has no money-back promise.
 - Build times (usual, not a promise): XpertForge ${buyer.times}, ${buyer.from}. ${buyer.revision} ${buyer.bigger}
 - After a website build is paid (in full, before work starts): ${buyer.steps.map((s) => s.t.charAt(0).toLowerCase() + s.t.slice(1)).join(', ')}.
 - ${buyer.domain}
@@ -41,6 +44,7 @@ Area: based in ${site.country}, working remotely with businesses in ${site.areas
 - [SEO audit in Malaysia](${site.url}/seo-audit-malaysia/): The XpertCore site audit: a technical SEO audit every week in every XpertRank plan (errors, warnings and notices), with fixes by our team, and the XpertRank Trial as a way to try it.
 - [SEO case studies](${site.url}/case-studies/): Live results from a website built by SEOXpert (seoxpert.my itself so far), taken from Google Search Console and Google Analytics, with the dates they cover.
 - [Website report dashboard](${site.url}/website-report-dashboard/): XpertInsight, our own live dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers and site health, plus a monthly XpertRecap PDF. Not sold on its own.
+- [SEO tools: XpertForesight](${site.url}/seo-tools/): XpertForesight, our own SEO research tool for agencies, freelancers and business owners who do their own SEO: keyword overview and keyword ideas, domain overview, keyword gap, AI questions, a weekly XpertCore site audit, PDF reports and XpertBlueprint full scans with an AI SEO plan. Research for ${site.country} and 11 more countries, in English and Malay. ${fsTrial.name} ${fsFmt(fsTrial)} for ${foresight.days} days, plans from ${fsFmt(fsFrom)} a month. Sign up at ${foresight.join}.
 - [AI SEO advisor](${site.url}/ai-seo-advisor/): How XpertCore, our own AI SEO advisor, guides our team on what to plan, write and mark up on every page (answer first copy, structured data and an AI ranking file), then our experts check it.
 - [Interactive website demos](${site.url}/demos/): Live examples of 3D and animation we can build into a website: a 3D product to spin, a 3D logo, weather over a page, a website on a laptop and phone, a globe with world landmarks, moving backgrounds, particle text, tilt cards, a before and after slider and animated charts.
 - [Website design packages](${site.url}/packages/): Prices, what every package includes, and a plan picker.

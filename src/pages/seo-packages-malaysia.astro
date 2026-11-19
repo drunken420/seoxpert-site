@@ -48,7 +48,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO packages in Malaysia: XpertRan
 <section class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">Compare SEO packages</span>
   <h2 class="rv">What each SEO package includes.</h2>
-  <div class="cmpwrap rv">
+  <div class="cmpwrap rv" tabindex="0" role="region" aria-label="XpertRank SEO packages compared">
     <table class="cmptab">
       <thead><tr><th scope="col">Every month</th>{care.tiers.map((t) => <th scope="col" class:list={[t.hot && "hot"]}>{short(t.name)}<small>{t.for}</small></th>)}</tr></thead>
       <tbody>{rows.map(([h, f]) => <tr><th scope="row">{h}</th>{care.tiers.map((t) => <td class:list={[t.hot && "hot"]}><b>{f(t)}</b></td>)}</tr>)}</tbody>
