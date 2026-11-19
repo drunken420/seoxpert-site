@@ -118,6 +118,6 @@
 
 /* Wide tables (2026-11-19): the 8-column competitor template keeps readable columns and scrolls sideways on every screen, with the
    note on computers too; .notes gives a long last column room so phone rows do not grow tall. */
-.btable.wide table{min-width:1180px}.btable.wide :is(td,thead th){min-width:150px}
+.btable.wide table{min-width:1360px}.btable.wide :is(td,thead th){min-width:170px}.btable.wide td:last-child{min-width:240px}
 .btable.wide::after{content:"Scroll sideways to see every column →";position:sticky;left:0;display:block;padding:10px 14px;font:600 12.5px/1.2 var(--f-b);color:var(--mute);border-top:1px solid var(--line);background:#fff}
 @media (max-width:540px){.btable.wide::after{content:"Swipe sideways to see every column →"}.btable.wide :is(td,thead th){min-width:190px}.btable.notes td:last-child{min-width:300px}}
