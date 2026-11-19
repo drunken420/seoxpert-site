@@ -890,14 +890,6 @@ a.fcard:focus-visible{outline:3px solid var(--acc2);outline-offset:3px}
 .fscmp summary:focus-visible{outline:3px solid var(--acc2);outline-offset:2px}
 .fscmp .cmpwrap{margin:0 10px 10px;box-shadow:inset 0 0 0 1px var(--line)}
 /* 6. Three products, side by side */
-.fsprod .fcard{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
-.fsprod .fcard h3{margin:4px 0 0}
-.fsfrom{margin-top:auto!important;padding-top:6px;font:600 14.5px/1.4 var(--f-b);color:var(--ink)!important}
-.fsfrom b{color:var(--acc);font-family:var(--f-d)}
-.fsprod .more{margin-top:2px}
-.fsprod .fcard{position:relative}
-.fsprod .fcard .pet{position:absolute;top:24px;right:24px;margin:0}
-@media (max-width:700px){.fsprod .fcard .pet{top:18px;right:18px;width:34px;height:34px}}
 @media (prefers-reduced-motion:reduce){.fsflat,.fsflat:hover{transform:none}.fsshard,.fsphone{animation:none}.fsscan.in li,.fsscan.in li::before{animation:none}.fsplaces li{transition:none}}
 /* tablets (701-900px): the four plan cards (XpertRank and XpertForesight) sit two by two instead of one very wide card per row.
    It must come after the max-width:900px block above, which sets one column with the same specificity. */

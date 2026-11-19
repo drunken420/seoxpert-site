@@ -8,6 +8,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
 import Packages from '../components/Packages.astro';
@@ -115,6 +116,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRan
     <a class="fcard rv" href="/seo-audit-malaysia/" style="--d:2;text-decoration:none;color:inherit"><div class="pet" style="--r:180deg"></div><h3>SEO audit</h3><p>A technical SEO audit of your website every week, with fixes by our team.</p><span class="more">See the SEO audit</span></a>
   </div>
 </div></section>
+<Suite here="rank" title="Done for you or do it yourself: which SEO fits you?" eyebrow="Two ways to do SEO with us" intro="With XpertRank, our team does your SEO for you. With XpertForesight, you do your own SEO research with our SEO tools. Need a new website first? That is XpertForge." />
 <Glance page="seo-services-malaysia" guides={['seo-malaysia-guide', 'keyword-research-seo-malaysia', 'seo-competitor-analysis']} />
 <PageFaq title="SEO services questions, answered." items={pf.items} tint />
 <Related skip="/seo-services-malaysia/" />

@@ -7,6 +7,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import '../styles/page.css';
 import '../styles/blog.css';
 import { site, whatsappLink, talkLabel } from '../config';
@@ -86,6 +87,7 @@ const extraLd = [{ '@type': 'Article', headline: 'SEO case study: seoxpert.my, t
 <section class="solid band"><div class="wrap">
   <div class="note rv"><h3>More case studies are coming</h3><p>As client websites go live, we will add their results here, with their permission. Want your website to be the next one? <a href={whatsappLink}>{talkLabel}</a>.</p></div>
 </div></section>
+<Suite tint title="Which SEOXpert service is right for you?" />
 <Related skip="/case-studies/" />
 <Cta title="Want results like these for your business?" />
 </main>

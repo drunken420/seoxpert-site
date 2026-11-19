@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
 import { pageFaq } from '../lib/faq';
@@ -48,6 +49,7 @@ const pf = pageFaq(['What does XpertRank include?', 'What is the difference betw
   <span class="eyebrow rv">Why it matters</span>
   <p class="creed rv">Search visibility <em>builds over time</em>. A website that is looked after keeps its gains instead of losing them.</p>
 </div></section>
+<Suite here="rank" tint title="How does XpertRank fit with our other services?" intro="XpertRank looks after any website, including the ones we build with XpertForge, and XpertInsight comes free with it. Would rather do the research yourself? That is XpertForesight." />
 <Glance page="website-maintenance" guides={['website-maintenance-malaysia', 'cloud-hosting-malaysia']} />
 <PageFaq title="Website maintenance questions, answered." items={pf.items} tint />
 <Related skip="/website-maintenance/" />

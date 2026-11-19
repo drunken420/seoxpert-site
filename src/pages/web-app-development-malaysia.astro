@@ -10,6 +10,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
 import { pageFaq } from '../lib/faq';
@@ -138,6 +139,7 @@ const pf = pageFaq(['What is the difference between a website and a web app?', '
   </ol>
 </div></section>
 
+<Suite title="Which SEOXpert service fits your project?" intro="Web apps are quoted on their scope. For a website, here are our services and our software, with their prices." />
 <Glance page="web-app-development-malaysia" guides={['cloud-hosting-malaysia', 'choose-web-design-company-malaysia']} tint />
 <PageFaq title="Web app and payment questions, answered." items={pf.items} />
 <Related skip="/web-app-development-malaysia/" />

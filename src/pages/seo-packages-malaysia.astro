@@ -6,6 +6,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import PageFaq from '../components/PageFaq.astro';
 import Glance from '../components/Glance.astro';
 import pictures from '../data/pictures.json';
@@ -67,6 +68,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO packages in Malaysia: XpertRan
     <p class="rv">Bigger website, shop or booking system? <a href="/contact/">Get a quote</a>. Read more about our <a href="/seo-services-malaysia/">SEO services</a>, <a href="/ai-seo-services-malaysia/">AI SEO services</a> and the weekly <a href="/seo-audit-malaysia/">SEO audit</a> in every package. Need a new website first? See our <a href="/packages/">website design packages</a>.</p>
   </div>
 </div></section>
+<Suite here="rank" tint title="SEO packages or SEO tools: which fits you?" intro="Our SEO packages are XpertRank plans: our team does the work. If you would rather do your own SEO, XpertForesight gives you our SEO research tools instead." />
 <Glance page="seo-packages-malaysia" guides={['seo-malaysia-guide', 'website-design-price-malaysia']} />
 <PageFaq title="SEO package questions, answered." items={pf.items} tint />
 <Related skip="/seo-packages-malaysia/" />

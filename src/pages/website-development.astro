@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
 import Secure from '../components/Secure.astro';
@@ -73,10 +74,11 @@ const pf = pageFaq(['What is the difference between website design and website d
     <p class="rv">You are looking at an example. This website has one main heading on every page, its own title and description on every page, structured data, a sitemap and an <a href="/llms.txt">AI ranking file</a> you can open. It is secured the same way too: no database, no admin login, HTTPS and safety headers on every page.</p>
     <p class="rv">The 3D logo on the home page and the effects in <a href="/demos/">XpertLab</a> load only when they are needed, so the pages stay quick on phones.</p>
     <p class="rv">Need more than a website, like a client dashboard, a login area or online payments? We build those the same way, with secrets kept on the server: see our <a href="/web-app-development-malaysia/">web app and dashboard development</a>.</p>
-    <p class="rv">We never promise rankings, because nobody controls Google or AI tools. What we promise is the work: a website that is clear, fast and easy for both to read. After launch, <a href="/website-maintenance/">XpertRank website maintenance</a> keeps it that way.</p>
+    <p class="rv">We never promise rankings, because nobody controls Google or AI tools. What we promise is the work: a website that is clear, fast and easy for both to read. After launch, <a href="/website-maintenance/">XpertRank website maintenance</a> keeps it that way, and your <a href="/website-report-dashboard/">XpertInsight dashboard</a>, included free with every XpertRank plan, shows how it is doing.</p>
   </div>
 </div></section>
 <Secure />
+<Suite here="forge" title="Which SEOXpert service fits your website?" />
 <Glance page="website-development" guides={['seo-malaysia-guide', 'ai-seo-malaysia']} tint />
 <PageFaq title="Website development questions, answered." items={pf.items} />
 <Related skip="/website-development/" />

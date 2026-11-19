@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
 import { pageFaq } from '../lib/faq';
@@ -61,7 +62,7 @@ const pf = pageFaq(['How does a website project start?', 'How long does a websit
     {build.tiers.map((t, i) => <div class="fcard rv" style={`--d:${i}`}><h3>{t.name}</h3><p><b set:html={px(t)} />. {t.short} at launch.</p></div>)}
   </div>
   <div class="pkall rv" style="margin-top:30px"><h3>Included with every website we build</h3><ul>{build.all.map((x) => <li>{x}</li>)}</ul></div>
-  <p class="sub rv" style="margin-top:28px"><a href="/packages/">Compare the packages and build your plan</a>. After launch, our <a href="/website-maintenance/">website maintenance</a> plan, XpertRank, keeps your new website growing on Google and in <a href="/ai-seo-services-malaysia/">AI search</a>.</p>
+  <p class="sub rv" style="margin-top:28px"><a href="/packages/">Compare the packages and build your plan</a>. After launch, our <a href="/website-maintenance/">website maintenance</a> plan, XpertRank, keeps your new website growing on Google and in <a href="/ai-seo-services-malaysia/">AI search</a>, and your <a href="/website-report-dashboard/">XpertInsight dashboard</a>, free with every XpertRank plan, shows the results live.</p>
 </div></section>
 
 <section id="work" class="solid tint band"><div class="wrap">
@@ -70,6 +71,7 @@ const pf = pageFaq(['How does a website project start?', 'How long does a websit
   <p class="sub rv">Need a dashboard, a login area or online payments too? See the web apps we have built on our <a href="/web-app-development-malaysia/">web app development</a> page.</p>
   <Work />
 </div></section>
+<Suite here="forge" title="What comes after your new website?" eyebrow="Build it, then grow it" intro="XpertForge builds your website. After launch, XpertRank, our expert SEO service, keeps growing it on Google and AI search, and XpertInsight shows you the results live. Would rather do your own SEO? That is XpertForesight." />
 <Glance page="website-design" guides={['website-design-price-malaysia', 'website-design-kuala-lumpur-selangor', 'choose-web-design-company-malaysia']} />
 <PageFaq title="Website design questions, answered." items={pf.items} tint />
 <Related skip="/website-design/" />

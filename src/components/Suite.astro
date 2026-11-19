@@ -1,0 +1,112 @@
+---
+// How our products fit together (Suhen 2026-11-19: "include more layers of our services on other pages wherever relevant").
+// Two groups:
+//   Done for you (services): XpertForge (we design and build the website) and XpertRank (our expert SEO service, for any website),
+//     with XpertInsight, the live report dashboard, INCLUDED FREE with every XpertRank plan (always; never sold on its own here).
+//   Do it yourself (software): XpertForesight, our SEO research tool, sold on its own.
+// XpertCore is only named as what guides our team (customers never use it). No stand-alone XpertInsight price, no other dashboard website.
+// Prices come from packages.ts (px / fsPx), so the browser can swap them to US$ like every other price.
+// Props: here = the product of this page ("You are here"), title = a question-style H2 that is unique on the page,
+//   eyebrow / intro = the small line above and the line under the heading (intro '' hides it), tint = lavender band,
+//   compact = smaller cards without the descriptions (Home). Any slot content shows under the two groups.
+// Full block: cards that are not "here" list their packages; on phones (site.css) they swap the list for the one-line
+//   from-price (.stalt) so the block stays short.
+// Styles: "product suite" at the end of src/styles/site.css. The mouse light comes from ui.js (.stc).
+import icon from '../fragments/icon.svg?raw';
+import { build, care, foresight, offer, offerOn, px, fsPx } from '../data/packages';
+type Product = 'forge' | 'rank' | 'insight' | 'foresight';
+interface Props { here?: Product; title?: string; eyebrow?: string; intro?: string; tint?: boolean; compact?: boolean }
+const {
+  here, tint = false, compact = false,
+  title = 'Which SEOXpert service fits you?',
+  eyebrow = 'Done for you, or do it yourself',
+  intro = 'Let our team build and grow your website, or do your own SEO research with our software. You can start with one and add the other later.',
+} = Astro.props;
+// The marks are the real product logos (do not redraw): SEOXpert icon, XpertInsight "North Star", XpertForesight "Rising star".
+// Each gets its own gradient id, so it never clashes with another copy of the same mark on the page.
+const mark = icon.replace('id="pg"', 'id="pgSuite"').replace('url(#pg)', 'url(#pgSuite)');
+const north = '<svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="xigSuite" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="200" y2="200"><stop offset="0" stop-color="#9a35e8"/><stop offset="1" stop-color="#6a12ad"/></linearGradient></defs><path fill="url(#xigSuite)" d="M103 10A87 87 0 0 1 190 97A87 87 0 0 1 103 10Z M190 103A87 87 0 0 1 103 190A87 87 0 0 1 190 103Z M97 190A87 87 0 0 1 10 103A87 87 0 0 1 97 190Z M10 97A87 87 0 0 1 97 10A87 87 0 0 1 10 97Z"/><path fill="#b06cff" d="M100 70A30 30 0 0 0 130 100A30 30 0 0 0 100 130A30 30 0 0 0 70 100A30 30 0 0 0 100 70Z"/></svg>';
+const rising = '<svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="xfgSuite" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="200" y2="200"><stop offset="0" stop-color="#9a35e8"/><stop offset="1" stop-color="#6a12ad"/></linearGradient></defs><path fill="url(#xfgSuite)" d="M190 103A87 87 0 0 1 103 190A87 87 0 0 1 190 103Z M97 190A87 87 0 0 1 10 103A87 87 0 0 1 97 190Z"/><path fill="#b06cff" d="M100 14A42 42 0 0 0 142 56A42 42 0 0 0 100 98A42 42 0 0 0 58 56A42 42 0 0 0 100 14Z"/></svg>';
+// Links: the first one that is not this page (so a card never links to the page it sits on).
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const link = (opts: [string, string][]) => opts.find(([h]) => h !== path) ?? opts[opts.length - 1];
+const fs0 = foresight.tiers[0];
+const basic = care.tiers[0];
+const cards = {
+  forge: { name: 'XpertForge', h: 'We design and build your website', p: 'A custom website, SEO and AI search optimised from day one. Pick Starter, Business or Growth.',
+    from: `From <b>${px(build.tiers[0])}</b>${offerOn() ? ' (launch price)' : ''}`, go: link([['/website-design/', 'See website design'], ['/packages/', 'Compare website packages']]) },
+  rank: { name: 'XpertRank', h: 'We do your SEO, every month', p: 'Our expert SEO service for any website: target keywords optimised for Google and AI search, SEO blog posts and fixes.',
+    // The lower price is a launch price for the first 20 XpertRank clients (said wherever it shows); the other price is not.
+    from: `From <b>${px(basic)}</b> a month for websites we build${offerOn() ? ' (launch price for our first 20 XpertRank clients)' : ''}, or <b>${px(basic, 'other')}</b> a month for websites built elsewhere`, go: link([['/seo-services-malaysia/', 'See our SEO services'], ['/seo-packages-malaysia/', 'Compare SEO packages']]) },
+  insight: { name: 'XpertInsight', h: 'See your results, live', p: 'Your live report dashboard: visitors, keywords, AI answers and site health, plus a monthly XpertRecap PDF.',
+    go: link([['/website-report-dashboard/', 'Look inside XpertInsight'], ['/website-maintenance/', 'What XpertRank covers']]) },
+  foresight: { name: 'XpertForesight', h: 'Do your own SEO research', p: 'Our SEO tools for agencies, freelancers and business owners: keywords, competitors, AI questions, a weekly site audit and XpertBlueprint plans.',
+    from: `From <b>${fsPx(fs0)}</b> a month, or try ${foresight.days} days for <b>${fsPx(foresight.trial)}</b>`, go: link([['/seo-tools/', 'See the SEO tools'], [foresight.join, `Start the ${foresight.days}-day trial`]]) },
+};
+const Here = (k: Product) => here === k;
+// The "You are here" card never repeats the price list its own page already shows: it gets the from-line instead.
+const showList = (k: Product) => !compact && !Here(k);
+// The full block lists the real packages (names, size and price from packages.ts); the compact one shows only the from-price.
+const short = (n: string) => n.replace(/^Xpert\w+ /, '');
+const lists: Partial<Record<Product, { rows: [string, string, string][]; note: string }>> = {
+  forge: { rows: build.tiers.map((t): [string, string, string] => [short(t.name), (t.short.match(/^\d+ pages/) ?? [''])[0], px(t)]),
+    note: offerOn() ? `Launch prices until ${offer.endsText}, plus free months of XpertRank with every website we build.` : '' },
+  foresight: { rows: foresight.tiers.map((t): [string, string, string] => [short(t.name), t.for, fsPx(t)]),
+    note: `A month each, or try ${foresight.days} days for <b>${fsPx(foresight.trial)}</b> first.` },
+};
+---
+<section id="which-service" class:list={['solid band suite', { tint, compact }]}><div class="wrap">
+  <span class="eyebrow rv">{eyebrow}</span>
+  <h2 class="rv">{title}</h2>
+  {intro && !compact && <p class="sub rv">{intro}</p>}
+  <div class:list={['stgrid', { fshere: Here('foresight') && !compact }]}>
+    <div class="stgrp rv">
+      <div class="sthd"><i class="stmk" aria-hidden="true" set:html={mark}></i><div><b>Done for you</b><span>Our team builds your website, does your SEO, or both.</span></div></div>
+      <div class:list={['stcards', { forgehere: Here('forge') && !compact }]}>
+        {(['forge', 'rank'] as const).map((k, i) => { const c = cards[k]; return (
+          <div class:list={['stc', 'st-' + k, { here: Here(k) }]}>
+            {Here(k) ? <span class="sthere">You are here</span> : <i class="pet" aria-hidden="true" style={`--r:${i * 90}deg`}></i>}
+            <span class="xp">{c.name}</span>
+            <h3>{c.h}</h3>
+            <p class="stp">{c.p}</p>
+            {lists[k] && showList(k) ? <Fragment>
+              <ul class="stl">{lists[k]!.rows.map(([n, d, pr]) => <li><span><b>{n}</b>{d}</span><b set:html={pr}></b></li>)}</ul>
+              {lists[k]!.note && <p class="stnote stoffer" set:html={lists[k]!.note}></p>}
+              <p class="stfrom stalt" set:html={c.from}></p>
+            </Fragment> : <Fragment>
+              <p class="stfrom" set:html={c.from}></p>
+              {lists[k] && !compact && lists[k]!.note && <p class="stnote stoffer" set:html={lists[k]!.note}></p>}
+            </Fragment>}
+            <a class="more" href={c.go[0]}>{c.go[1]}</a>
+          </div>); })}
+        <div class:list={['stc stxi', { here: Here('insight') }]}>
+          <span class="stplus" aria-hidden="true"></span>
+          {Here('insight') ? <span class="sthere">You are here</span> : <i class="stmk sm" aria-hidden="true" set:html={north}></i>}
+          <span class="xp">{cards.insight.name}</span>
+          <h3>{cards.insight.h}</h3>
+          <p class="stp">{cards.insight.p}</p>
+          <p class="stfrom stinc">Included free with every XpertRank plan</p>
+          <a class="more" href={cards.insight.go[0]}>{cards.insight.go[1]}</a>
+        </div>
+      </div>
+      {!compact && <p class="stfoot">Every build and SEO plan is guided by <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>, and checked by our experts.</p>}
+    </div>
+    <div class="stgrp stdiy rv" style="--d:1">
+      <div class="sthd"><i class="stmk" aria-hidden="true" set:html={rising}></i><div><b>Do it yourself</b><span>Our software, your SEO.</span></div></div>
+      <div class:list={['stc st-foresight', { here: Here('foresight') }]}>
+        {Here('foresight') ? <span class="sthere">You are here</span> : <i class="pet" aria-hidden="true" style="--r:180deg"></i>}
+        <span class="xp">{cards.foresight.name}</span>
+        <h3>{cards.foresight.h}</h3>
+        <p class="stp">{cards.foresight.p}</p>
+        {showList('foresight') ? <Fragment>
+          <ul class="stl">{lists.foresight!.rows.map(([n, d, pr]) => <li><span><b>{n}</b>{d}</span><b set:html={pr}></b></li>)}</ul>
+          <p class="stnote" set:html={lists.foresight!.note}></p>
+          <p class="stfrom stalt" set:html={cards.foresight.from}></p>
+        </Fragment> : <p class="stfrom" set:html={cards.foresight.from}></p>}
+        <a class="more" href={cards.foresight.go[0]}>{cards.foresight.go[1]}</a>
+      </div>
+      {!compact && <p class="stfoot">Sold on its own, not part of XpertRank. XpertRank clients can add it on top.</p>}
+    </div>
+  </div>
+  <slot />
+</div></section>

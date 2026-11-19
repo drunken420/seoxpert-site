@@ -21,14 +21,14 @@ import Related from '../components/Related.astro';
 import PageFaq from '../components/PageFaq.astro';
 import Glance from '../components/Glance.astro';
 import FsPlans from '../components/FsPlans.astro';
+import Suite from '../components/Suite.astro';
 import pictures from '../data/pictures.json';
 import { pageFaq } from '../lib/faq';
-import { foresight, fsPx, fsFmt, fsOffersLd, care, px } from '../data/packages';
+import { foresight, fsPx, fsFmt, fsOffersLd } from '../data/packages';
 import '../styles/page.css';
 import { site, ways } from '../config';
 const fs0 = foresight.tiers[0];
 const trial = foresight.trial;
-const basic = care.tiers[0]; // XpertRank Basic, for the "different from XpertRank" comparison
 // The countries XpertForesight can research (PLACES in lib/foresight.js), with the money it shows costs per click in.
 const places = [['Malaysia', 'RM'], ['Singapore', 'S$'], ['Indonesia', 'Rp'], ['Philippines', '₱'], ['India', '₹'], ['Pakistan', 'Rs'], ['Hong Kong', 'HK$'], ['United Arab Emirates', 'AED'], ['Australia', 'A$'], ['New Zealand', 'NZ$'], ['United Kingdom', '£'], ['United States', 'US$']];
 // The six tools in the first section, each a link to its screen below (2026-11-19 polish: better internal links).
@@ -145,17 +145,9 @@ const pf = pageFaq(['What is XpertForesight?', 'Who is XpertForesight for?', 'Is
   <FsPlans />
 </div></section>
 
-<section class="solid band"><div class="wrap">
-  <span class="eyebrow rv">Do it yourself, or let us</span>
-  <h2 class="rv">How is XpertForesight different from XpertRank?</h2>
-  <p class="sub rv">With XpertForesight, you do the SEO research yourself. With XpertRank, our team does the SEO for you. They are separate: XpertForesight is not included in XpertRank; XpertRank clients can add it on top.</p>
-  <div class="grid3 fsprod">
-    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><span class="xp">XpertForesight</span><h3>You do the research</h3><p>SEO tools for agencies, freelancers and business owners who do their own SEO: keywords, competitors, AI questions, a weekly site audit and XpertBlueprint plans.</p><p class="fsfrom">From <b set:html={fsPx(fs0)} /> a month</p><a class="more" href="#plans">See the plans</a></div>
-    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><span class="xp">XpertRank</span><h3>We do the SEO for you</h3><p>Our expert SEO service: we optimise your target keywords for Google and AI search, write SEO blog posts and fix what we find.</p><p class="fsfrom">From <b set:html={px(basic)} /> a month for websites we build, or <b set:html={px(basic, 'other')} /> a month for websites built elsewhere</p><a class="more" href="/website-maintenance/">See XpertRank</a></div>
-    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><span class="xp">XpertInsight</span><h3>See your results</h3><p>The live report dashboard with your visitors, keywords, AI answers and site health.</p><p class="fsfrom">Included with every XpertRank plan</p><a class="more" href="/website-report-dashboard/">Look inside XpertInsight</a></div>
-  </div>
+<Suite here="foresight" eyebrow="Do it yourself, or let us" title="How is XpertForesight different from XpertRank?" intro="With XpertForesight, you do the SEO research yourself. With XpertRank, our team does the SEO for you.">
   <p class="pknote rv">Not sure which one? Tell us about your website and we will say honestly which one fits. <a href="/contact/">Contact us</a>.</p>
-</div></section>
+</Suite>
 
 <section class="solid tint band"><div class="wrap split">
   <div class="stick">

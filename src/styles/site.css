@@ -581,3 +581,136 @@ main :where(p,li,dd,figcaption,td,small) a:where(:not([class])):hover{text-decor
 .secfig.on .seccv{opacity:1}
 .secfig.on .secsvg{opacity:0;transition:opacity .5s ease}
 @media (prefers-reduced-motion:reduce){.secb,.seclist::after{animation:none}.secb svg,.secxi svg{stroke-dashoffset:0;transition:none}.secb i{transform:none;opacity:1;transition:none}}
+
+/* product suite (src/components/Suite.astro, 2026-11-19): "Done for you" (XpertForge, XpertRank + XpertInsight included) and
+   "Do it yourself" (XpertForesight), as two glass panels of cards. `.here` marks the product of the page. */
+.suite{background:radial-gradient(46% 60% at 8% 0%,rgba(176,108,255,.13),transparent 72%),radial-gradient(40% 55% at 100% 100%,rgba(123,24,193,.09),transparent 72%),var(--bg2)}
+.suite.tint{background:radial-gradient(46% 60% at 8% 0%,rgba(176,108,255,.16),transparent 72%),linear-gradient(180deg,#f6eefd,#fbf8ff)}
+.stgrid{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:22px;align-items:stretch}
+.stgrp{position:relative;display:flex;flex-direction:column;border-radius:30px;padding:22px;background:linear-gradient(160deg,rgba(255,255,255,.82),rgba(247,240,253,.66));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(176,108,255,.22),0 26px 60px rgba(74,14,120,.08)}
+.stdiy{background:linear-gradient(160deg,rgba(255,255,255,.82),rgba(243,233,253,.7))}
+.sthd{display:flex;align-items:center;gap:14px;margin:2px 4px 18px}
+.sthd b{display:block;font:700 21px/1.2 var(--f-d);letter-spacing:-.01em;color:var(--ink)}
+.sthd span{display:block;color:var(--soft);font-size:15px;margin-top:3px}
+.stmk{flex:none;width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:linear-gradient(145deg,#fff,#f1e4fd);box-shadow:inset 0 0 0 1px var(--line),0 10px 24px rgba(123,24,193,.18)}
+.stmk svg{width:30px;height:30px;display:block}
+.stgrp:hover .sthd .stmk svg{animation:stbob 2.4s ease-in-out infinite}
+@keyframes stbob{50%{transform:translateY(-3px) rotate(-4deg)}}
+.stcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;gap:16px;flex:1}
+.st-forge{grid-row:1/3}
+.stc{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:10px;background:#fff;border-radius:22px;padding:24px;box-shadow:inset 0 0 0 1px var(--line),0 12px 30px rgba(74,14,120,.06);transition:transform .3s ease,box-shadow .3s ease}
+.stc::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(220px circle at var(--mx,-300px) var(--my,-300px),rgba(176,108,255,.22),transparent 70%);opacity:0;transition:opacity .3s ease;pointer-events:none}
+.stc:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1.5px var(--acc2),0 22px 44px rgba(123,24,193,.14)}
+.stc:hover::before{opacity:1}
+.stc>*{position:relative}
+.stc h3{font-size:21px;line-height:1.2;margin:4px 0 0;max-width:15em;padding-right:44px}
+.stc .stp{margin:0;color:var(--soft);font-size:16px}
+.stc .pet{position:absolute;top:22px;right:22px;width:38px;height:38px;border-radius:0 100% 0 0;background:linear-gradient(135deg,var(--acc2),var(--acc));rotate:var(--r,0deg);opacity:.9;transition:rotate .5s cubic-bezier(.2,.9,.3,1.3)}
+.stc:hover .pet{rotate:calc(var(--r,0deg) + 90deg)}
+.stc .stfrom{margin:auto 0 0;padding-top:8px;font:600 14.5px/1.45 var(--f-b);color:var(--ink)}
+.stfrom b{color:var(--acc);font-family:var(--f-d)}
+.stc .more{margin-top:2px}
+/* the product of this page */
+.stc.here{box-shadow:inset 0 0 0 2px var(--acc),0 22px 48px rgba(123,24,193,.2)}
+.stc .sthere{position:absolute;top:18px;right:18px;display:inline-flex;align-items:center;gap:7px;font:600 12px/1 var(--f-b);letter-spacing:.02em;padding:7px 11px 7px 9px;border-radius:99px;background:linear-gradient(120deg,var(--acc),#9a35e8);color:#fff;box-shadow:0 8px 18px rgba(123,24,193,.3);z-index:1}
+.sthere::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 0 rgba(255,255,255,.7);animation:sthpulse 2s ease-out infinite}
+@keyframes sthpulse{70%{box-shadow:0 0 0 6px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.stc.here h3{padding-right:0}
+.stc.here .xp{margin-right:110px}
+/* XpertInsight: dark, joined to XpertRank with a "+" */
+.stxi{overflow:visible;background:radial-gradient(70% 90% at 100% 0%,rgba(176,108,255,.3),transparent 70%),linear-gradient(160deg,var(--plum),var(--plum2) 70%,#3d0a66);color:#fff;box-shadow:0 20px 44px rgba(40,6,70,.3)}
+.stxi:hover{box-shadow:inset 0 0 0 1.5px var(--acc2),0 24px 50px rgba(40,6,70,.38)}
+.stxi.here{box-shadow:inset 0 0 0 2px var(--acc2),0 24px 50px rgba(40,6,70,.38)}
+.stxi h3{color:#fff}.stxi .stp{color:#cbbbe2}.stxi .more{color:#e9d8ff}
+.stxi .xp{background:#fff;color:#3d0a66}.stxi .xp::before{background:var(--acc)}
+.stxi .sthere{background:#fff;color:#3d0a66}.stxi .sthere::before{background:var(--acc)}
+.stxi.here .stmk{display:none}
+.stc .stmk.sm{position:absolute;top:18px;right:18px;width:42px;height:42px;border-radius:14px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),0 8px 20px rgba(0,0,0,.2)}
+.stmk.sm svg{width:26px;height:26px}
+.stxi:hover .stmk.sm svg{animation:stbob 2.4s ease-in-out infinite}
+.stc .stinc{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:99px;background:rgba(255,255,255,.1);color:#f1e4ff;font-size:13.5px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+.stinc::before{content:"";width:13px;height:13px;flex:none;background:#c99bff;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12.5 9.5 18 20 6.5' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12.5 9.5 18 20 6.5' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.stc .stplus{position:absolute;left:50%;top:-17px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1.5px var(--acc2),0 6px 14px rgba(123,24,193,.2);z-index:2}
+.stplus::before,.stplus::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;border-radius:2px;background:var(--acc)}
+.stplus::after{rotate:90deg}
+.stfoot{margin:16px 6px 2px;color:var(--soft);font-size:14.5px;line-height:1.5}
+.stfoot a{color:var(--acc);font-weight:600;text-underline-offset:3px}
+/* Home: smaller cards, no descriptions */
+.suite.compact .stc{padding:20px}
+.suite.compact .stp{display:none}
+.suite.compact .stc h3{font-size:19px}
+.suite.compact .stgrp{padding:18px}
+.suite.compact .sthd{margin-bottom:14px}
+@media (max-width:1000px){.stgrid{grid-template-columns:1fr}}
+@media (max-width:700px){
+  .stgrp{padding:12px;border-radius:24px}
+  .sthd{margin:6px 6px 14px;gap:12px}.sthd b{font-size:19px}.sthd span{font-size:14.5px}
+  .stmk{width:44px;height:44px;border-radius:14px}.stmk svg{width:26px;height:26px}
+  .stcards{grid-template-columns:1fr;gap:14px}
+  .st-forge{grid-row:auto}
+  .stxi{margin-top:4px}
+  .stc{padding:20px;border-radius:20px}
+  .stc h3{font-size:19px}
+  .stc .pet{top:18px;right:18px;width:30px;height:30px}
+  .stc .stp{font-size:15.5px}
+  .stfoot{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){.stc,.stc .pet{transition:none}.stc:hover{transform:none}.sthere::before,.stgrp:hover .sthd .stmk svg,.stxi:hover .stmk.sm svg{animation:none}}
+/* package lists inside the XpertForge and XpertForesight cards (full block only) */
+.stdiy .stc{flex:1}
+.stc .stl{list-style:none;margin:6px 0 0;padding:6px 0 0;width:100%;display:grid;gap:8px}
+.stl li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;border-radius:14px;background:linear-gradient(120deg,#faf5ff,#f3e8fd);box-shadow:inset 0 0 0 1px rgba(176,108,255,.18);transition:transform .25s ease,box-shadow .25s ease}
+.stl li:hover{transform:translateX(3px);box-shadow:inset 0 0 0 1px rgba(176,108,255,.45)}
+.stl li>span{display:flex;flex-direction:column;gap:2px;font-size:13.5px;line-height:1.3;color:var(--soft)}
+.stl li>span b{font:600 15.5px/1.2 var(--f-d);color:var(--ink)}
+.stl li>b{font:700 17px/1 var(--f-d);color:var(--acc);white-space:nowrap}
+.stc .stnote{margin:0;font-size:14px;line-height:1.45;color:var(--soft)}
+.stnote b{color:var(--acc);font-family:var(--f-d)}
+.stc .stoffer{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:linear-gradient(120deg,#3d0a66,#7b18c1);color:#f3e6ff;box-shadow:0 10px 22px rgba(90,20,160,.22)}
+.stoffer::before{content:"";flex:none;width:10px;height:10px;margin-top:4px;background:#e6c9ff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+@media (prefers-reduced-motion:reduce){.stl li{transition:none}.stl li:hover{transform:none}}
+/* Home (compact): the four cards sit in one row on big screens */
+.suite.compact .stgrid{grid-template-columns:minmax(0,3fr) minmax(0,1.05fr)}
+.suite.compact .stcards{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto}
+.suite.compact .st-forge{grid-row:auto}
+.suite.compact .stc .stplus{left:-21px;top:50%;margin:-13px 0 0}
+@media (max-width:1200px){.suite.compact .stgrid{grid-template-columns:1fr}}
+@media (max-width:700px){.suite.compact .stcards{grid-template-columns:1fr}.suite.compact .stc .stplus{left:50%;top:-17px;margin:0 0 0 -13px}}
+@media (min-width:701px) and (max-width:1000px){.stdiy .stl{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* review 2026-11-19: lists follow the text and spare height goes under the link (no gap in a tall XpertForge card);
+   the "here" card shows its from-line straight after the text too */
+.suite:not(.compact) :is(.st-forge,.stdiy .stc) .more{margin-top:auto}
+.suite:not(.compact) :is(.st-forge,.stdiy .stc) .stfrom{margin-top:6px}
+.stc .more{white-space:nowrap}
+/* tablets: XpertForge runs full width with its three packages in a row; XpertRank and XpertInsight sit side by side below */
+@media (min-width:701px) and (max-width:1000px){
+  .suite:not(.compact) .st-forge{grid-column:1/-1;grid-row:auto}
+  .suite:not(.compact) .st-forge .stl{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .suite:not(.compact) .stxi .stplus{left:-21px;top:50%;margin:-13px 0 0}
+}
+/* Home (compact) on small tablets: two cards a row, XpertInsight full width under XpertRank */
+@media (min-width:701px) and (max-width:880px){
+  .suite.compact .stcards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .suite.compact .stxi{grid-column:1/-1}
+  .suite.compact .stc .stplus{left:75%;top:-17px;margin:0 0 0 -13px}
+}
+/* XpertForge "here" (its own pages show the list above it): a short card, so it runs full width on top and
+   XpertRank + XpertInsight sit side by side below it, joined by the "+" */
+@media (min-width:701px){
+  .stcards.forgehere .st-forge{grid-column:1/-1;grid-row:auto}
+  .stcards.forgehere .stxi .stplus{left:-21px;top:50%;margin:-13px 0 0}
+  .stcards.forgehere .st-forge .stoffer{max-width:34em}
+}
+/* XpertForesight "here" (/seo-tools/ shows its plans just above): the short card keeps its own height, no empty stretch */
+.stgrid.fshere{align-items:start}
+.stgrid.fshere .stdiy .stc{flex:none}
+/* phones: cards that are not "here" swap their description and package list for the one-line from-price */
+.suite:not(.compact) .stalt{display:none}
+@media (max-width:700px){
+  .suite:not(.compact) .stc:not(.here) :is(.stl,.stnote,.stp){display:none}
+  .suite:not(.compact) .stc:not(.here) .stalt{display:block}
+  .suite:not(.compact) .stfoot{font-size:13.5px}
+}
+/* Home: the line under the product cards (build times + packages link) */
+.suite .stafter{margin:22px auto 0;max-width:52em;text-align:center;color:var(--soft);font-size:15.5px;line-height:1.55}
+.suite .stafter .more{margin:12px auto 0;white-space:nowrap}
