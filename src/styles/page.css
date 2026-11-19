@@ -801,7 +801,7 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
   .cmptab th:first-child{position:sticky;left:0;z-index:1;width:auto;min-width:122px;max-width:140px;background:#fff;box-shadow:inset -1px 0 0 var(--line);padding-inline:16px 12px}
   .cmpwrap::after{content:"Swipe sideways to compare every package \2192";position:sticky;left:0;display:block;padding:11px 16px 13px;font:600 12.5px/1.2 var(--f-b);color:var(--mute);border-top:1px solid var(--line)}
   /* a table can set its own hint (data-swipe), such as "plan" for the XpertForesight plans */
-  .cmpwrap[data-swipe]::after{content:attr(data-swipe)}
+  .cmpwrap[data-swipe]::after{content:none}.cmpwrap[data-swipe]::before{content:attr(data-swipe);position:sticky;left:0;display:block;padding:11px 16px;font:600 12.5px/1.2 var(--f-b);color:var(--acc);border-bottom:1px solid var(--line);background:#f7f2fc}
 }
 .pshot.sm{margin-top:28px;transform:none;box-shadow:0 30px 60px -30px rgba(74,14,120,.45),0 0 0 1px var(--line)}
 .atrial{margin-top:28px}.atrial .pktrial{margin-top:0}
