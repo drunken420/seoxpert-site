@@ -91,7 +91,7 @@ pre.codecard{margin:0;overflow-x:auto}
 .pkcur{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--f-b);color:var(--soft)}
 .pkoffer{position:relative;overflow:hidden;border-radius:28px;padding:30px 34px;margin-bottom:34px;background:linear-gradient(125deg,#3d0a66,#7b18c1 48%,#b06cff);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.14) inset,0 28px 60px rgba(90,20,160,.36);display:grid;gap:14px}
 .pkoffer::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:linear-gradient(120deg,#fff,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,#d9b8ff);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.7;pointer-events:none}
-.pkoshine{position:absolute;top:-40%;bottom:-40%;left:-30%;width:26%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:rotate(12deg);animation:pkoshine 5s ease-in-out infinite;pointer-events:none}
+.pkoshine{position:absolute;top:-40%;bottom:-40%;left:-30%;width:26%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:rotate(12deg);animation:pkoshine 5s ease-in-out infinite;pointer-events:none;will-change:transform}
 .pkopet{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);border-radius:0 100% 0 0;background:rgba(255,255,255,.2);animation:pkofl var(--t) ease-in-out infinite;pointer-events:none}
 .pkotop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:relative}
 .pkoleft{font:600 13px/1 var(--f-m);padding:8px 12px;border-radius:99px;background:rgba(20,8,31,.45);color:#fff;letter-spacing:.02em}
@@ -100,7 +100,8 @@ pre.codecard{margin:0;overflow-x:auto}
 .pkolist li{display:grid;gap:3px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);font-size:15px;color:#f1e4fc}
 .pkolist b{font:700 12px/1 var(--f-m);text-transform:uppercase;letter-spacing:.06em;color:#fff}
 .pkoend{margin:0;font-weight:600;font-size:15px;color:#f1e4fc;position:relative}
-@keyframes pkoshine{0%,55%{left:-30%}100%{left:130%}}@keyframes pkofl{50%{transform:translateY(-10px) rotate(14deg)}}
+/* the shine moves with transform (GPU), not left: 620% of its own 26% width is about 161% of the band, the same -30% to 130% sweep */
+@keyframes pkoshine{0%,55%{transform:translateX(0) rotate(12deg)}100%{transform:translateX(620%) rotate(12deg)}}@keyframes pkofl{50%{transform:translateY(-10px) rotate(14deg)}}
 @media (max-width:640px){.pkoffer{padding:24px 20px;border-radius:22px}.pkolist li{flex:1 1 100%}}
 @media (prefers-reduced-motion:reduce){.pkoshine,.pkopet{animation:none}}
 .pkotag{font:700 12.5px/1 var(--f-b);letter-spacing:.06em;text-transform:uppercase;padding:9px 12px;border-radius:99px;background:#fff;color:#5b0f96}
@@ -809,3 +810,95 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
 
 /* "Updated <date>" under the breadcrumbs (PageHero.astro, dates in src/data/updated.ts) */
 .phupd{margin:-20px 0 22px;font-size:13px;color:var(--mute)}
+
+/* ---------- XpertForesight page polish (/seo-tools/, 2026-11-19) ----------
+   Reuses the site's pricing language (.pkcard, .pkkw, .pkup, .pkbillrow, .pkoffer, .pktrial, .pkall) through FsPlans.astro
+   (also on /packages/ #xpertforesight). Script: public/js/foresight3d.js (mouse light on the tool cards, the XpertBlueprint
+   window that lies flat as it scrolls in, and the "Rising star" three.js mark). Everything still works without it. */
+/* 1. The six tool cards link to their screens */
+a.fcard{display:block;color:inherit;text-decoration:none}
+.fssee{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font:600 14px/1 var(--f-b);color:var(--acc)}
+.fssee::after{content:"";width:7px;height:7px;border-top:2px solid;border-right:2px solid;rotate:45deg;transition:translate .2s ease}
+a.fcard:hover .fssee::after,a.fcard:focus-visible .fssee::after{translate:4px 0}
+a.fcard:focus-visible{outline:3px solid var(--acc2);outline-offset:3px}
+/* 2. Tool screens: a light ring follows the mouse round the card edge, the card lifts and the screen tilts (computers only) */
+.appwork .fsglow{position:relative;isolation:isolate}
+.fsglow{--x:50%;--y:50%}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .appwork .fsglow::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:1.5px;pointer-events:none;background:radial-gradient(22rem circle at var(--x) var(--y),rgba(154,53,232,.85),transparent 45%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .35s ease}
+  .appwork .fsglow:hover::before{opacity:1}
+  .appwork .fsglow.in{transition:opacity .7s ease,transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s ease}
+  .appwork .fsglow.in:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1px var(--line),0 34px 70px -34px rgba(74,14,120,.4)}
+  .appwork .fsglow .pshot{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .appwork .fsglow:hover .pshot{transform:perspective(1200px) rotateX(4deg) rotateY(-4deg)}
+}
+#tools .pkall{margin-top:34px}
+/* 3. XpertBlueprint: words beside the mark, then the wide screen that lies flat as it scrolls in */
+.fsbp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:48px;align-items:center}
+.fsfig{position:relative;margin:0;width:100%;max-width:520px;aspect-ratio:1;justify-self:center}
+.fsfglow{position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle,rgba(176,108,255,.5),rgba(123,24,193,.2) 45%,rgba(123,24,193,0) 70%);pointer-events:none}
+.fsshard{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);rotate:var(--r);background:linear-gradient(135deg,#e3ccff,#7b18c1);clip-path:polygon(50% 0,100% 100%,0 72%);opacity:.85;animation:hfl 7s ease-in-out infinite;transition:opacity .6s ease}
+.fsshard:nth-child(even){animation-duration:9s;animation-delay:-3s}
+.fssvg{position:absolute;inset:25%;width:50%;height:50%;filter:drop-shadow(0 24px 34px rgba(20,0,40,.55)) drop-shadow(0 0 26px rgba(176,108,255,.4));transition:opacity .6s ease}
+.fscv{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0;transition:opacity .9s ease;pointer-events:none}
+.fsfig.gl .fscv{opacity:1}
+.fsfig.gl .fssvg,.fsfig.gl .fsshard{opacity:0}
+/* once the canvas has taken over, the hidden SVG and shards stop working: hidden after the .6s fade, shard float paused (no jump) */
+.fsfig.gl .fssvg{visibility:hidden;transition:opacity .6s ease,visibility 0s .6s}
+.fsfig.gl .fsshard{visibility:hidden;animation-play-state:paused;transition:opacity .6s ease,visibility 0s .6s}
+/* the four scan ticks light up one after another, like the tiles flying into the star */
+.fsscan.in li{animation:fsscan .7s ease both;animation-delay:calc(.35s + var(--i)*.4s)}
+.fsscan.in li::before{animation:fsdot .9s ease both;animation-delay:calc(.35s + var(--i)*.4s)}
+@keyframes fsscan{from{opacity:.3}to{opacity:1}}
+@keyframes fsdot{0%{box-shadow:0 0 0 0 rgba(217,184,255,0)}40%{box-shadow:0 0 0 7px rgba(217,184,255,.35)}100%{box-shadow:0 0 0 0 rgba(217,184,255,0)}}
+.fswin{max-width:1080px;margin:56px auto 0;perspective:1600px}
+.fsflat{--t:0;transform-origin:50% 100%;transform:rotateX(calc(var(--t)*18deg)) scale(calc(1 - var(--t)*.06));transition:none}
+.fsflat:hover{transform:rotateX(calc(var(--t)*18deg)) scale(calc(1 - var(--t)*.06))}
+@media (max-width:900px){.fsbp{grid-template-columns:1fr;gap:10px}.fsfig{max-width:340px;margin-bottom:-70px}.fswin{margin-top:34px}} /* the leaves end about 100px above the square's foot: pull the window up so no dark gap shows */
+@media (max-width:700px){.fsflat,.fsflat:hover{transform:rotateX(calc(var(--t)*10deg)) scale(calc(1 - var(--t)*.06))}}
+/* 4. Countries: glass pills with the money each one shows */
+.fsplaces{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fsplaces li{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;min-height:44px;box-sizing:border-box;padding:9px 10px 9px 16px;border-radius:16px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px var(--line),0 14px 30px -26px rgba(61,10,102,.5);font:600 14.5px/1.25 var(--f-b);color:var(--ink);transition:transform .3s ease,box-shadow .3s ease}
+.fsplaces li:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1.5px var(--acc2),0 18px 34px -24px rgba(61,10,102,.5)}
+.fscur{flex:none;font:600 11.5px/1 var(--f-m);padding:6px 9px;border-radius:99px;background:linear-gradient(120deg,var(--plum),var(--plum2));color:#e9d8ff}
+.fsphone{animation:hfl 8s ease-in-out infinite}
+@media (max-width:560px){.fsplaces{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.fsplaces li{font-size:13.5px;padding:8px 8px 8px 12px}}
+/* 5. Plan cards (FsPlans.astro): uniform white cards that fade to plum, like every other price on the site; the meter and the
+   stats show the step up (the meter deepens a little per plan through --tc). No gold: gold is only for the money-back moment. */
+.fsband{margin-top:8px}
+.fsband .pkoend{max-width:62ch;text-wrap:pretty}
+.fskw p{display:grid;gap:8px;align-items:start}
+.fskw b{min-width:0}
+.fskw i::before{background:linear-gradient(90deg,#b06cff,var(--tc,#7b18c1))}
+.fsstat{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fsstat li{min-width:0;padding:10px 12px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px #e6d6f7}
+.fsstat li:first-child{grid-column:1/-1;display:flex;align-items:center;gap:12px}
+.fsstat b{display:block;font:800 24px/1 var(--f-d);letter-spacing:-.03em;color:var(--acc);font-variant-numeric:tabular-nums}
+.fsstat span{display:block;margin-top:5px;font:600 12.5px/1.3 var(--f-b);color:var(--soft)}
+.fsstat li:first-child span{margin:0}
+.fsstat li:not(:first-child){display:flex;flex-direction:column;justify-content:space-between}
+.pkcard .fsstat li{transition:background-color .45s ease,box-shadow .45s ease}
+.pkcard:is(:hover,.hot:not(.pkcards:hover *)) .fsstat li{background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.pkcard:is(:hover,.hot:not(.pkcards:hover *)) .fsstat b{color:#fff}
+.pkcard:is(:hover,.hot:not(.pkcards:hover *)) .fsstat span{color:#cbb8ea}
+.fscmp{margin-top:18px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.fscmp summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;min-height:44px;padding:18px 22px;font:600 18px/1.3 var(--f-d);letter-spacing:-.01em;border-radius:22px}
+.fscmp summary::-webkit-details-marker{display:none}
+.fscmp summary::after{content:"";margin-left:auto;flex:none;width:10px;height:10px;border-right:2px solid var(--acc);border-bottom:2px solid var(--acc);rotate:45deg;transition:rotate .3s ease}
+.fscmp[open] summary::after{rotate:-135deg}
+.fscmp[open]{box-shadow:inset 0 0 0 1.5px var(--acc2)}
+.fscmp summary:focus-visible{outline:3px solid var(--acc2);outline-offset:2px}
+.fscmp .cmpwrap{margin:0 10px 10px;box-shadow:inset 0 0 0 1px var(--line)}
+/* 6. Three products, side by side */
+.fsprod .fcard{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.fsprod .fcard h3{margin:4px 0 0}
+.fsfrom{margin-top:auto!important;padding-top:6px;font:600 14.5px/1.4 var(--f-b);color:var(--ink)!important}
+.fsfrom b{color:var(--acc);font-family:var(--f-d)}
+.fsprod .more{margin-top:2px}
+.fsprod .fcard{position:relative}
+.fsprod .fcard .pet{position:absolute;top:24px;right:24px;margin:0}
+@media (max-width:700px){.fsprod .fcard .pet{top:18px;right:18px;width:34px;height:34px}}
+@media (prefers-reduced-motion:reduce){.fsflat,.fsflat:hover{transform:none}.fsshard,.fsphone{animation:none}.fsscan.in li,.fsscan.in li::before{animation:none}.fsplaces li{transition:none}}
+/* tablets (701-900px): the four plan cards (XpertRank and XpertForesight) sit two by two instead of one very wide card per row.
+   It must come after the max-width:900px block above, which sets one column with the same specificity. */
+@media (min-width:701px) and (max-width:900px){.pkcards.n4{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}}

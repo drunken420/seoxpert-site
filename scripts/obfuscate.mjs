@@ -18,7 +18,7 @@ const jsDir = path.join('dist', 'js');
 if (process.env.OBFUSCATE === 'off') { console.log('obfuscate: skipped (OBFUSCATE=off)'); process.exit(0); }
 
 // 3D scenes, animation loops and big data: keep them fast.
-const LIGHT = new Set(['demos.js', 'home.js', 'sx.js', 'promise3d.js', 'secure3d.js', 'lab-teaser.js', 'insight.js']);
+const LIGHT = new Set(['demos.js', 'home.js', 'sx.js', 'promise3d.js', 'secure3d.js', 'lab-teaser.js', 'insight.js', 'foresight3d.js']);
 // Pure data (the world map): hiding it would only make it bigger and slower to start.
 const SKIP = new Set(['land.js']);
 

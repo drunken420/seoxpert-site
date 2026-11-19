@@ -169,6 +169,19 @@ export const foresight = {
 };
 /** A visible XpertForesight price (RM in the HTML; the browser swaps it to US$ outside Malaysia, like px()). year = the yearly price (12 months for 10). */
 export const fsPx = (t: Tier, bill: 'month' | 'year' = 'month') => { const k = bill === 'year' ? FS_YEARLY : 1; return `<span data-rm="${money(t.rm * k, 'RM')}" data-usd="${money(t.usd * k, 'USD')}">${money(t.rm * k, 'RM')}</span>`; };
+/** The big price on an XpertForesight plan card (FsPlans.astro): the monthly price, plus the yearly price (12 months for the price of
+    FS_YEARLY, the same maths as fsPx(t, 'year')) in data-rm-y / data-usd-y, so the Pay monthly / Pay yearly switch in packages.js can swap it.
+    Presentation only: the numbers come from FS_PRICES above. */
+export const fsPxCard = (t: Tier) => `<span data-rm="${money(t.rm, 'RM')}" data-usd="${money(t.usd, 'USD')}" data-rm-y="${money(t.rm * FS_YEARLY, 'RM')}" data-usd-y="${money(t.usd * FS_YEARLY, 'USD')}">${money(t.rm, 'RM')}</span>`;
+/** The step-up line on a bigger XpertForesight card, worked out from FS_PLANS so it can never drift from the limits.
+    It gives exact differences from the plan below (never a rounded ratio), so it says something the stat tiles do not.
+    It only compares limits, never prices: the price per search does not fall on every step (Elite costs more per search than Pro). */
+export const fsUp = (t: FsTier, prev: FsTier) => {
+  const d = (a: number, b: number) => (a - b).toLocaleString('en-US');
+  const s = (n: number) => (n === 1 ? '' : 's');
+  const scans = t.fs.blueprints - prev.fs.blueprints, sites = t.fs.sites - prev.fs.sites;
+  return `Everything in ${prev.name.replace('XpertForesight ', '')}, plus ${d(t.fs.searches, prev.fs.searches)} more searches, ${scans} more scan${s(scans)} and ${sites} more website${s(sites)}.`;
+};
 /** Plain RM text (titles, descriptions, structured data). */
 export const fsFmt = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money(cur === 'RM' ? t.rm : t.usd, cur);
 /** Rows of the XpertForesight plan table (/seo-tools/ and /packages/): label, then the value for one plan. */
