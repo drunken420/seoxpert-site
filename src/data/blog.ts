@@ -337,7 +337,7 @@ ${careTable}
     card: 'Starter, Business or Growth? What each website design package includes, with examples of who it suits.',
     short: `Choose a website design package by counting the pages you need. ${starter.name} (${px(starter)}) covers up to 5 pages, ${business.name} (${px(business)}) up to 10 pages, and ${growth.name} (${px(growth)}) up to 20 pages. Every package also has a blog, counted separately from the pages. Each is paid once, and highly rankable content and keyword research are included in all three.`,
     sections: [
-      { id: 'side-by-side', h: 'The three packages side by side', html: `<p>Our website builds are called XpertForge. Prices are in ringgit and paid once.</p>${buildTable}
+      { id: 'side-by-side', h: 'The three packages side by side', html: `<p>Our <a href="/website-design/">website design</a> builds are called XpertForge. Prices are in ringgit and paid once.</p>${buildTable}
 <p>The size changes. The quality does not. Every package includes:</p>${inEvery}` },
       { id: 'what-counts-as-a-page', h: 'What counts as a page', html: `<p>A page is one address on your website with its own topic, such as your home page, your about page or one service. Most businesses need a few pages that every website has, plus one for each main thing they sell:</p>
 <ul><li><b>Home:</b> what you do, for whom and where, and how to get in touch.</li>

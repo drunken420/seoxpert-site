@@ -1,4 +1,8 @@
 (function () {
+  /* header height first, before the word wrapping below changes the page, so the browser lays the page out once (2026-11-19 speed review) */
+  var head = document.querySelector('.site-head');
+  function hh() { document.documentElement.style.setProperty('--head-h', head.offsetHeight + 'px'); }
+  hh(); window.addEventListener('resize', hh);
   /* headings reveal word by word: wrap each word (and each inline element, kept whole) in a span */
   [].forEach.call(document.querySelectorAll('main h2.rv'), function (h) {
     var i = 0, kids = [].slice.call(h.childNodes);
@@ -10,9 +14,6 @@
   });
   var rv = [].slice.call(document.querySelectorAll('.rv'));
   if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' }); rv.forEach(function (el) { io.observe(el); }); } else rv.forEach(function (el) { el.classList.add('in'); });
-  var head = document.querySelector('.site-head');
-  function hh() { document.documentElement.style.setProperty('--head-h', head.offsetHeight + 'px'); }
-  hh(); window.addEventListener('resize', hh);
   /* cards: a soft light follows the pointer */
   document.addEventListener('pointermove', function (e) { var c = e.target.closest && e.target.closest('.fcard,.rcard,.way'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); }, { passive: true });
   /* FAQ chat */
@@ -213,7 +214,7 @@
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
     var a = e.target, v = a.querySelector('video');
     if (e.isIntersecting && !v) { var img = a.querySelector('img'), wrap = document.createElement('span'); wrap.className = 'shot'; img.parentNode.insertBefore(wrap, img); wrap.appendChild(img);
-      v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true'); v.preload = 'auto';
+      v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true'); v.preload = 'auto'; v.poster = img.currentSrc || img.src; // the screenshot, if the video stalls
       ['webm', 'mp4'].forEach(function (t) { var s = document.createElement('source'); s.src = a.dataset.vid + '.' + t; s.type = 'video/' + t; v.appendChild(s); });
       v.addEventListener('playing', function () { v.classList.add('on'); }); wrap.appendChild(v); }
     if (v) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); }

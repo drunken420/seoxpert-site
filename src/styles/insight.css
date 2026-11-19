@@ -143,6 +143,9 @@
 .xitshots{position:relative;aspect-ratio:1200/750;touch-action:pan-y}
 .xitshots img{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transform:scale(1.03);transition:opacity .6s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
 .xitshots img.on{opacity:1;transform:none;z-index:1}
+/* Only the screen on show and the next one are laid out (and so downloaded); insight.js adds .near as the tour moves on.
+   Without JavaScript only the first screen shows anyway. (2026-11-19 speed review: all 8 screens loaded at once.) */
+.xitshots img:not(.on):not(.near){display:none}
 @media (max-width:1000px){
   .xihint-ph{display:inline}
   .xitablist{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(var(--gl) * -1);border-radius:0;width:auto;padding:6px var(--gl);background:none;box-shadow:none;scroll-snap-type:x proximity}

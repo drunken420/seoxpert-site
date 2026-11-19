@@ -37,7 +37,7 @@ const extraLd = [{ '@type': 'Service', name: 'SEO audit in Malaysia: XpertCore s
 <section class="solid band"><div class="wrap">
   <span class="eyebrow rv">{checks.reduce((n, c) => n + c[2].length, 0)} checks on every page, every week</span>
   <h2 class="rv">What does an SEO audit check?</h2>
-  <p class="sub rv">Each problem is sorted by how much it matters, so the biggest fixes come first. For businesses in {areaText}.</p>
+  <p class="sub rv">Each problem is sorted by how much it matters, so the biggest fixes come first. For businesses in {areaText}. The audit is part of XpertRank, our <a href="/website-maintenance/">website maintenance and SEO service</a>, together with monthly <a href="/ai-seo-services-malaysia/">AI search checks</a> of what ChatGPT, Gemini, Perplexity and Google AI Overviews say about you.</p>
   <div class="grid3">
     {checks.map(([h, s, list], i) => <div class="fcard rv" style={`--d:${i}`}><div class="pet" style={`--r:${i * 90}deg`}></div><h3>{h}</h3><p><b>{s}</b></p><ul class="ticks" style="grid-template-columns:1fr;gap:8px;margin-top:12px">{list.map((x) => <li>{x}</li>)}</ul></div>)}
   </div>

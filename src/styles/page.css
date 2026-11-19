@@ -538,6 +538,10 @@ pre.codecard{margin:0;overflow-x:auto}
 .cshots figure,.cwide{margin:0}
 .cwide{margin-top:20px}
 .cshots img,.cwide img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:inset 0 0 0 1px var(--line),0 20px 44px -30px rgba(40,10,80,.5);background:#fff}
+/* The Search Console pictures open full size, so the small rows can be read (2026-11-19 review) */
+.czoom{position:relative;display:block;border-radius:18px;cursor:zoom-in}
+.czhint{position:absolute;right:12px;bottom:12px;padding:7px 11px;border-radius:99px;background:rgba(26,11,46,.78);color:#fff;font:600 12.5px/1 var(--f-b);opacity:.92;transition:opacity .2s ease,background-color .2s ease}
+.czoom:hover .czhint,.czoom:focus-visible .czhint{opacity:1;background:var(--acc)}
 .cshots figcaption,.cwide figcaption{margin-top:10px;font-size:14px;color:var(--mut,#6b6280)}
 @media (max-width:1000px){.cstats{grid-template-columns:1fr 1fr}}
 @media (max-width:700px){.cshots{grid-template-columns:1fr}}
@@ -631,7 +635,8 @@ a.pkmbadge:hover,a.pkmbadge:focus-visible{transform:translateY(-1px);box-shadow:
 @supports (grid-template-rows:subgrid){
   .pkcards{row-gap:0}
   .pkcard{display:grid;grid-row:span var(--rows);grid-template-rows:subgrid;row-gap:14px;align-content:start}
-  .pkcard>.pkbadge{grid-row:1}
+  /* No grid-row on the badge: an absolutely placed grid child with a row is placed inside that row, so top:-13px
+     landed on the card title ("XpertRank Plus" on the 4-card rows, 2026-11-19 review). Without it, it sits on the card edge as on phones. */
   .pkcard .pkup0{margin:0}
   .pkcard .pktick{align-self:start}
   .pkcard .pkgift{align-self:end}
@@ -721,7 +726,8 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
 /* Phones: feature cards are tighter, with the petal beside the heading instead of above it */
 @media (max-width:700px){
   .fcard{padding:20px;border-radius:20px;display:grid;grid-template-columns:30px minmax(0,1fr);column-gap:12px;align-items:start}
-  .fcard .pet{width:28px;height:28px;margin:2px 0 0;grid-row:1}
+  /* the bottom margin keeps a turned petal (45deg, 135deg) clear of the first line of text below it */
+  .fcard .pet{width:28px;height:28px;margin:2px 0 10px;grid-row:1}
   .fcard h3{grid-column:2;font-size:19px;margin-bottom:6px}
   .fcard>:not(.pet):not(h3){grid-column:1/-1}
   .fcard p{font-size:15.5px}
@@ -742,6 +748,8 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
 .hart[data-art="apps"] .hring{opacity:.5}
 .hpay{display:grid;gap:10px;padding:14px 16px;border-radius:18px;z-index:3}
 .hpay small{font:600 12px/1 var(--f-b);color:var(--soft)}
+/* Phones: the payment card moves down to the lower left corner and gets smaller, so it no longer covers the words in the middle of the screen picture (2026-11-19 review) */
+@media (max-width:560px){.hart[data-art="apps"] .hpay{--y:74%!important;--x:-3%!important;gap:8px;padding:11px 13px}.hart[data-art="apps"] .hpay small{display:none}}
 .hpm{display:flex;gap:6px}
 .hpm i{font:600 12px/1 var(--f-m);font-style:normal;padding:8px 10px;border-radius:9px;background:var(--bg);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);animation:hpm 6s ease-in-out calc(var(--n)*.5s) infinite}
 @keyframes hpm{0%,10%,40%,100%{background:var(--bg);color:var(--ink)}18%,30%{background:var(--acc);color:#fff}}
@@ -782,6 +790,13 @@ html.payon .pksum [data-sum=send]{background:transparent;color:#fff;box-shadow:i
 .cmptab .hot{background:linear-gradient(180deg,rgba(123,24,193,.07),rgba(123,24,193,.04))}
 .cmptab thead th.hot{color:var(--acc)}
 .cmptab tbody tr{transition:background .2s ease}.cmptab tbody tr:hover{background:var(--bg)}
+/* Phones (2026-11-19 review): the table scrolls sideways in its box, so the row names stay put, a soft shadow on the
+   right edge shows there is more (it goes away at the end) and a short line says to swipe. */
+@media (max-width:700px){
+  .cmpwrap{background:linear-gradient(270deg,#fff 40%,rgba(255,255,255,0)) 100% 0/32px 100% no-repeat local,radial-gradient(farthest-side at 100% 50%,rgba(74,14,120,.2),rgba(74,14,120,0)) 100% 0/14px 100% no-repeat scroll,#fff}
+  .cmptab th:first-child{position:sticky;left:0;z-index:1;width:auto;min-width:122px;max-width:140px;background:#fff;box-shadow:inset -1px 0 0 var(--line);padding-inline:16px 12px}
+  .cmpwrap::after{content:"Swipe sideways to compare every package \2192";position:sticky;left:0;display:block;padding:11px 16px 13px;font:600 12.5px/1.2 var(--f-b);color:var(--mute);border-top:1px solid var(--line)}
+}
 .pshot.sm{margin-top:28px;transform:none;box-shadow:0 30px 60px -30px rgba(74,14,120,.45),0 0 0 1px var(--line)}
 .atrial{margin-top:28px}.atrial .pktrial{margin-top:0}
 .atrialh{margin:56px 0 0;font-size:24px;line-height:1.25;max-width:760px}
