@@ -1,12 +1,12 @@
 import { site } from '../config';
-import { build, care, trial, fmt, fmtNew, fmtOther, offer, offerOn, yearly, buyer, foresight, fsFmt, terms } from '../data/packages';
+import { build, care, trial, fmt, fmtNew, fmtOther, offer, offerOn, rankLaunch, rankFirst, yearly, buyer, foresight, fsFmt, terms } from '../data/packages';
 import { posts, postUrl } from '../data/blog';
 // XpertForesight prices: `foresight` in packages.ts, the site's one copy of xpertinsight lib/fsplans.js (2026-11-19)
 const fsTrial = foresight.trial, fsFrom = foresight.tiers[0];
 const line = (t: any, unit: string) => `- ${t.name}: ${fmt(t)} (${fmt(t, 'USD')}) ${unit}. ${t.short}.`;
 // The conditions on the prices travel with them (2026-11-19 review: AI tools quote this file on its own).
 const list = (ts: any[], f: (t: any, cur?: 'RM' | 'USD') => string) => ts.map((t) => `${t.name} ${f(t)} (${f(t, 'USD')})`).join(', ');
-const on = offerOn();
+const on = offerOn(), rl = rankLaunch(); // rl: XpertRank launch prices still on (rankFull in packages.ts)
 // A short, plain summary of the site for AI tools (see llmstxt.org).
 const body = `# ${site.name}
 
@@ -32,7 +32,7 @@ Area: based in ${site.country}, working remotely with businesses in ${site.areas
 - Changes after launch: ${buyer.edits}
 - Ownership: ${buyer.owner}
 - Prices are in Malaysian ringgit (RM), with US dollar prices for businesses outside ${site.country}.${on ? `
-- Launch offer (websites ordered by ${offer.endsText}): ${offer.text} These are free months of XpertRank, not a free year of XpertRank.` : ''}
+- Launch offer (websites ordered by ${offer.endsText}): ${offer.text} These are free months of XpertRank, not a free year of XpertRank. ${offer.months}${rl ? ` ${offer.rank}` : ''}` : ''}
 
 ## Services
 - [Website design](${site.url}/website-design/): New websites planned for Google and AI search before they are designed, built as an XpertForge package guided by XpertCore, our own AI SEO advisor, and finished by hand.
@@ -56,8 +56,8 @@ From 1 February 2027: ${list(build.tiers, fmtNew)}.` : ''}
 Every build includes: ${build.all.join(', ')}.
 
 ## XpertRank monthly website maintenance
-Prices for websites built by SEOXpert${on ? ' (launch prices for the first 20 XpertRank clients)' : ''}. Paid yearly: 12 months for the price of ${yearly.pay}.
-${care.tiers.map((t) => line(t, 'a month')).join('\n')}${on ? `
+Prices for websites built by SEOXpert${rl ? ` (launch prices for the first ${rankFirst} XpertRank clients only; after them, the later price applies, even before 1 February 2027)` : ''}. Paid yearly: 12 months for the price of ${yearly.pay}.
+${care.tiers.map((t) => line(t, 'a month')).join('\n')}${rl ? `
 From 1 February 2027, for websites built by SEOXpert: ${list(care.tiers, fmtNew)} a month.` : ''}
 For websites built elsewhere (no launch price, no free hosting, no money-back promise): ${list(care.tiers, fmtOther)} a month.
 ${line(trial, `for ${trial.days} days`)}

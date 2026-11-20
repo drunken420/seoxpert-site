@@ -3,13 +3,42 @@
 export interface Tier { id: string; name: string; rm: number; usd: number; /** price from 1 February 2027 (Suhen picked the moderate rise, 2026-11-12) */ rmNew: number; usdNew: number; for: string; rows: string[]; short: string; free?: string; /** why this one is worth it over the package below */ up?: string; /** what only bigger plans have, shown greyed with a lock (Suhen 2026-11-15) */ locked?: string[]; /** the smallest care plan says what every plan starts with, in the same slot (2026-11-16) */ start?: string; hot?: boolean; /** XpertRank target keywords, the main difference between the plans (Suhen 2026-11-16); keep matching lib/plans.js in xpertinsight */ kw?: number; /** XpertRank for a website built elsewhere: monthly price, no launch price (Suhen 2026-11-15) */ rmOther?: number; usdOther?: number; /** how long a build usually takes (Suhen 2026-11-19, usual times, not a promise) */ time?: string }
 
 
-/** Launch offer: free months of XpertRank (Starter 1, Business 2, Growth 4; Suhen 2026-11-15) and 1 year of free hosting with every build, until this date (inclusive). */
-export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free months of XpertRank with every website we build.', text: 'Every website we build gets 1 year of free high speed cloud hosting. Starter also gets 1 month of XpertRank Basic free, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.' };
+/** Launch offer terms (Suhen 2026-11-20; prices unchanged):
+    - free high speed cloud hosting for 6 MONTHS (was 1 year), ONLY for websites we build (never websites built elsewhere, never the Trial);
+    - after those months, hosting stays free only while the client keeps a paid XpertRank plan; without one we hand the website over to the
+      hosting of their choice (at their own cost) and guide them; stopping XpertRank DURING the 6 months keeps the hosting until they end;
+    - free fixes after launch: 14 DAYS (was 30);
+    - the XpertRank launch price is for our FIRST 20 XpertRank clients only (and only until the offer ends); after 20 clients the later
+      price (rmNew/usdNew) applies, even before 1 February 2027;
+    - the free XpertRank months with each build are unchanged, billed "option A": the free months come first, then the client chooses to
+      continue (nothing is charged unless they do); we remind them 14 days and 3 days before, and on the day the free months end. */
+export const hostMonths = 6;
+export const fixDays = 14;
+export const rankFirst = 20;
+/** Set to true on the day our 20th XpertRank client (on a website we build) joins (Suhen 2026-11-20). From the next build, every
+    XpertRank price on the website, the plan picker, the FAQ, llms.txt, the chat facts and the Offer structured data is the later
+    price (rmNew/usdNew), even before 1 February 2027. Build prices keep their launch price until the offer ends. No price changes here. */
+export const rankFull = false;
+/** Launch offer: free months of XpertRank (Starter 1, Business 2, Growth 4; Suhen 2026-11-15) and 6 months of free hosting with every website we build, until this date (inclusive). */
+export const offer = { ends: '2027-01-31', endsText: '31 January 2027', title: 'Free months of XpertRank with every website we build.', text: `Every website we build gets ${hostMonths} months of free high speed cloud hosting from launch. Starter also gets 1 month of XpertRank Basic free, Business 2 months of XpertRank Basic and Growth 4 months of XpertRank Plus.`,
+  /** how the free months are billed (option A, Suhen 2026-11-20) */
+  months: 'Your free months of XpertRank come first. When they end, you choose whether to continue: nothing is charged unless you do. We remind you 14 days and 3 days before they end, and on the day they end.',
+  /** the reminder sentence on its own (the plan picker summary) */
+  remind: 'We remind you 14 days and 3 days before your free months end, and on the day they end.',
+  /** the XpertRank launch price limit (Suhen 2026-11-15, 2026-11-20) */
+  rank: `XpertRank launch prices are for our first ${rankFirst} XpertRank clients on websites we build. After those ${rankFirst} clients, the later price applies, even before 1 February 2027.` };
 export const offerOn = () => new Date() < new Date('2027-02-01T00:00:00+08:00');
+/** XpertRank launch prices still on: the offer runs AND fewer than 20 XpertRank clients have joined (`rankFull`). Use this, never
+    offerOn(), wherever an XpertRank (care) price or its launch note is chosen. Builds keep using offerOn(). */
+export const rankLaunch = () => offerOn() && !rankFull;
+/** Is the launch price on for this tier? XpertRank tiers (the ones with a built-elsewhere price) follow rankLaunch(), the rest offerOn(). */
+export const launchOn = (t: { rmOther?: number }) => (t.rmOther != null ? rankLaunch() : offerOn());
+/** " (launch price for our first 20 XpertRank clients)" after an XpertRank price for websites we build, while those launch prices run (Suhen 2026-11-20). */
+export const rankNote = (many = false) => (rankLaunch() ?` (launch ${many ? 'prices' : 'price'} for our first ${rankFirst} XpertRank clients)` : '');
 
 /** Prices: today's launch prices until the offer ends, then the new prices (both from Suhen; never change without asking).
     The site is built before it goes up, so the new prices appear at the first site update from 1 February 2027. */
-const now = (t: Tier) => (offerOn() ? { rm: t.rm, usd: t.usd } : { rm: t.rmNew, usd: t.usdNew });
+const now = (t: Tier) => (launchOn(t) ?{ rm: t.rm, usd: t.usd } : { rm: t.rmNew, usd: t.usdNew });
 const money = (n: number, cur: 'RM' | 'USD') => (cur === 'RM' ? 'RM' : 'US$') + n.toLocaleString('en-US'); // US$, never a bare $ (2026-11-19 review)
 export const fmt = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money(cur === 'RM' ? now(t).rm : now(t).usd, cur);
 /** The price after the launch offer, shown crossed out while the offer runs. */
@@ -24,18 +53,18 @@ export const own = { name: 'I already have a website', short: 'Keep your website
 
 export const build = {
   key: 'build', label: 'XpertForge website build', unit: '', allTitle: 'In every XpertForge build',
-  all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Secure by design: no database or admin login to break into while we manage it with XpertRank, HTTPS on every page', 'Full keyword research with XpertCore, with a keyword plan for you', 'WhatsApp button + contact', 'Google Business Profile set up, so you show on Google Maps', 'Google Search Console and Analytics set up', 'A business email address on your domain, forwarded to your inbox', '30 days of free fixes after launch', 'Live help with your setup'],
+  all: ['Your own blog, with posts written for you', 'Highly rankable content, written for you', 'Google SEO + AI search optimisation', 'Secure by design: no database or admin login to break into while we manage it with XpertRank, HTTPS on every page', 'Full keyword research with XpertCore, with a keyword plan for you', 'WhatsApp button + contact', 'Google Business Profile set up, so you show on Google Maps', 'Google Search Console and Analytics set up', 'A business email address on your domain, forwarded to your inbox', `${fixDays} days of free fixes after launch`, 'Live help with your setup'],
   // Build prices raised and six extras added by Suhen 2026-11-15: RM799/1,499/2,499 now, RM1,199/1,999/2,999 from 1 Feb 2027 (Growth lowered from 3,499 by Suhen the same day). USD prices picked by Suhen 2026-11-15 (about RM4.45 to US$1, clean numbers).
   // `up` is the "why take the next package" line on each card (Suhen 2026-11-15). It must stay true for the launch and the later prices, in RM and USD.
   tiers: [
     // `time` = how long the build usually takes, counted from the day we have the client's details (Suhen 2026-11-19: "give realistic ones").
-    { id: 'starter', name: 'XpertForge Starter', rm: 799, usd: 199, rmNew: 1199, usdNew: 279, time: '1 to 2 weeks', for: 'For a first website', start: 'A complete website with the six extras every build gets', short: '7 pages in total: up to 5 website pages and 2 blog posts', rows: ['<b>7 pages in total</b>', 'Up to <b>5</b> website pages and <b>2</b> blog posts at launch', '<b>2</b> revision rounds'], free: '1 month of XpertRank Basic free, plus 1 year of free high speed cloud hosting' },
-    { id: 'business', name: 'XpertForge Business', rm: 1499, usd: 349, rmNew: 1999, usdNew: 449, time: '2 to 3 weeks', for: 'For a growing business', hot: true, up: 'Double the pages of Starter, at a lower price per page', short: '15 pages in total: up to 10 website pages and 5 blog posts', rows: ['<b>15 pages in total</b>', 'Up to <b>10</b> website pages and <b>5</b> blog posts at launch', '<b>3</b> revision rounds'], free: '2 months of XpertRank Basic free, plus 1 year of free high speed cloud hosting' },
-    { id: 'growth', name: 'XpertForge Growth', rm: 2499, usd: 549, rmNew: 2999, usdNew: 699, time: '4 to 6 weeks', for: 'For a bigger website', up: 'Double the pages and blog posts of Business, at our lowest price per page', short: '30 pages in total: up to 20 website pages and 10 blog posts', rows: ['<b>30 pages in total</b>', 'Up to <b>20</b> website pages and <b>10</b> blog posts at launch', '<b>3</b> revision rounds'], free: '4 months of XpertRank Plus free, plus 1 year of free high speed cloud hosting' },
+    { id: 'starter', name: 'XpertForge Starter', rm: 799, usd: 199, rmNew: 1199, usdNew: 279, time: '1 to 2 weeks', for: 'For a first website', start: 'A complete website with the six extras every build gets', short: '7 pages in total: up to 5 website pages and 2 blog posts', rows: ['<b>7 pages in total</b>', 'Up to <b>5</b> website pages and <b>2</b> blog posts at launch', '<b>2</b> revision rounds'], free: `1 month of XpertRank Basic free, plus ${hostMonths} months of free high speed cloud hosting` },
+    { id: 'business', name: 'XpertForge Business', rm: 1499, usd: 349, rmNew: 1999, usdNew: 449, time: '2 to 3 weeks', for: 'For a growing business', hot: true, up: 'Double the pages of Starter, at a lower price per page', short: '15 pages in total: up to 10 website pages and 5 blog posts', rows: ['<b>15 pages in total</b>', 'Up to <b>10</b> website pages and <b>5</b> blog posts at launch', '<b>3</b> revision rounds'], free: `2 months of XpertRank Basic free, plus ${hostMonths} months of free high speed cloud hosting` },
+    { id: 'growth', name: 'XpertForge Growth', rm: 2499, usd: 549, rmNew: 2999, usdNew: 699, time: '4 to 6 weeks', for: 'For a bigger website', up: 'Double the pages and blog posts of Business, at our lowest price per page', short: '30 pages in total: up to 20 website pages and 10 blog posts', rows: ['<b>30 pages in total</b>', 'Up to <b>20</b> website pages and <b>10</b> blog posts at launch', '<b>3</b> revision rounds'], free: `4 months of XpertRank Plus free, plus ${hostMonths} months of free high speed cloud hosting` },
   ] as Tier[],
 };
 
-/** Buyer answers (Suhen 2026-11-19, after the customer review): build times, the domain name, hosting after year one, changes after launch,
+/** Buyer answers (Suhen 2026-11-19, after the customer review): build times, the domain name, hosting after launch, changes after launch,
     who owns what, and what happens after paying. One place, used by the FAQ (faq-more.ts), the package cards, /packages/, /website-design/,
     /paid/, llms.txt and the chat facts (chat-ai.js). Times are usual times, never a promise. "No admin login" is only ever about websites we
     build AND manage with XpertRank; a website we hand over gets a simple editing dashboard (with a login). */
@@ -50,8 +79,13 @@ export const buyer = {
   rounds: `${roundsOf(bStarter)} with ${shortName(bStarter)}, ${roundsOf(bBusiness)} with ${shortName(bBusiness)} and Growth`,
   bigger: 'For bigger websites, online shops, bookings and web apps, we agree the plan and the dates with you before we start.',
   domain: 'The domain name (your website address) is not included: you pay for it and you own it. Prices differ by name and ending, so we guide you to buy it in your own name, or we can buy it for you and transfer it to you.',
-  hosting: offerOn() ? 'Free high speed cloud hosting comes with XpertRank, and with the launch offer for the first year.' : 'Free high speed cloud hosting comes with XpertRank.',
-  handover: 'If you do not continue XpertRank, we hand your website over to the hosting of your choice, with a simple editing dashboard, and guide you through the move. The new hosting is at your own cost.',
+  // Suhen 2026-11-20: 6 months with the launch offer (was 1 year), then free only while a paid XpertRank plan runs; only websites we build.
+  hosting: offerOn()
+    ? `For websites we build, the launch offer includes ${hostMonths} months of free high speed cloud hosting, counted from launch. After that, hosting stays free while you keep a paid XpertRank plan. If you stop XpertRank during those ${hostMonths} months, your hosting still runs until they end.`
+    : 'For websites we build, free high speed cloud hosting comes with every paid XpertRank plan.',
+  handover: 'Without a paid XpertRank plan, we hand your website over to the hosting of your choice, with a simple editing dashboard, and guide you through the move. The new hosting is at your own cost.',
+  /** "14 days of free fixes after launch" (Suhen 2026-11-20, was 30 days) */
+  fixes: `${fixDays} days of free fixes after launch`,
   edits: 'With XpertRank, our team makes the changes for you. Without XpertRank, we hand your website over with a simple editing dashboard, so you can change your own content, on the hosting you prefer.',
   owner: 'Your content, your data and your domain name are yours. If you stop working with us, we hand over your website or web app so you can host it wherever you like.',
   /** What happens after paying for a website build, in order (the /packages/ list, /paid/ and the FAQ). */
@@ -63,7 +97,7 @@ buyer.steps = [
   { t: 'Your first draft', d: 'XpertCore, our own AI SEO advisor, guides the page plan and the words, and we design every page by hand.' },
   { t: 'Your revision rounds', d: `You check the design and the words, and we refine them in your revision rounds (${buyer.rounds}). ${buyer.revision}` },
   { t: 'Launch', d: 'Your website goes live with the Google and AI setup in place, and we set up the extras every build includes, like your Google Business Profile and your business email.' },
-  { t: '30 days of free fixes', d: 'If anything needs fixing in the first 30 days after launch, we fix it for free.' },
+  { t: `${fixDays} days of free fixes`, d: `If anything needs fixing in the first ${fixDays} days after launch, we fix it for free.` },
 ];
 
 /** XpertRank paid yearly: 12 months for the price of 10 (Suhen, 2026-11-11). */
@@ -97,7 +131,7 @@ export const offersLd = (set: typeof build | typeof care) =>
   (set.key === 'care' ? [trial, ...set.tiers] : set.tiers).map((t) => ({ '@type': 'Offer', name: t.name, price: now(t).rm, priceCurrency: 'MYR', description: t.short,
     ...(set.key === 'care' && t !== trial ? monthlyLd(now(t).rm) : {}),
     // a launch price (it changes on 1 February 2027, as every card says) is valid until the last day of the offer (2026-11-19)
-    ...(offerOn() && t.rmNew !== t.rm ? { priceValidUntil: offer.ends } : {}) }));
+    ...(launchOn(t) && t.rmNew !== t.rm ?{ priceValidUntil: offer.ends } : {}) }));
 
 /** A price people SEE on a page (Suhen 2026-11-16: prices by the visitor's country). The HTML always says RM; the browser
     swaps it to USD for visitors outside Malaysia (the inline script at the end of Base.astro, country from functions/_middleware.js).
@@ -111,6 +145,11 @@ export const fillPrices = (html: string, show = false) =>
   html.replace(/\{\{price:(\w+)\}\}/g, (all, id) => { const t = [...build.tiers, ...care.tiers, trial].find((x) => x.id === id); if (!t) throw new Error('Unknown price ' + all); return show ? px(t) : fmt(t); })
     // {{kw:<care tier id>}} = that plan's target keywords (Suhen 2026-11-16)
     .replace(/\{\{kw:(\w+)\}\}/g, (all, id) => { const t = [...care.tiers, trial].find((x) => x.id === id); if (!t || !t.kw) throw new Error('Unknown keywords ' + all); return String(t.kw); })
+    // {{launch:rank}} = " (launch prices for our first 20 XpertRank clients, until 31 January 2027)" while those launch prices run (rankLaunch), nothing after (Suhen 2026-11-20)
+    .replace(/\{\{launch:rank\}\}/g, () => (rankLaunch() ? ` (launch prices for our first ${rankFirst} XpertRank clients, until ${offer.endsText})` : ''))
+    // {{launch:seo}} = " for websites we build (launch price for our first 20 XpertRank clients)", the short form for the homepage lede.
+    // "for websites we build" stays after the offer too: the lower XpertRank price is only ever for websites we build.
+    .replace(/\{\{launch:seo\}\}/g, () => ` for websites we build${rankNote()}`)
     // {{time:<build tier id>}} = how long that build usually takes (Suhen 2026-11-19)
     .replace(/\{\{time:(\w+)\}\}/g, (all, id) => { const t = build.tiers.find((x) => x.id === id); if (!t || !t.time) throw new Error('Unknown build time ' + all); return t.time; });
 

@@ -13,7 +13,7 @@ import pictures from '../data/pictures.json';
 import Packages from '../components/Packages.astro';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaLd } from '../config';
-import { care, trial, fmt, fmtOther, offersLd, offerOn } from '../data/packages';
+import { care, trial, fmt, fmtOther, offersLd, offerOn, rankLaunch, rankNote } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic] = care.tiers;
 const short = (n: string) => n.replace('XpertRank ', '');
@@ -35,14 +35,14 @@ const extraLd = [{ '@type': 'Service', name: 'SEO packages in Malaysia: XpertRan
 <main id="main">
 <PageHero kicker="SEO packages" brand="XpertRank" art="seopack" crumb="SEO packages" word="Price">
   <Fragment slot="title">SEO packages in Malaysia, <em>with the price on show</em>.</Fragment>
-  <Fragment slot="lede">No "contact us for a quote". XpertRank, our expert SEO service, comes in four sizes with the monthly price on every card: from {fmt(basic)} a month for websites we build, and from {fmtOther(basic)} a month for websites built elsewhere. Compare what each package includes below.</Fragment>
+  <Fragment slot="lede">No "contact us for a quote". XpertRank, our expert SEO service, comes in four sizes with the monthly price on every card: from {fmt(basic)} a month for websites we build{rankNote()}, and from {fmtOther(basic)} a month for websites built elsewhere. Compare what each package includes below.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#plans">See the prices</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 
 <section id="plans" class="solid band"><div class="wrap">
   <span class="eyebrow rv">SEO price in Malaysia</span>
   <h2 class="rv">How much does SEO cost in Malaysia?</h2>
-  <p class="sub rv">Prices shown are for websites we build with XpertForge{offerOn() ? ', at the launch price for our first 20 XpertRank clients' : ''}. Every package is a subscription that renews monthly, or yearly with 2 months free, until you cancel, and you can cancel any time from your dashboard. Every package includes <a href="/website-report-dashboard/">XpertInsight, your website report dashboard</a>.</p>
+  <p class="sub rv">Prices shown are for websites we build with XpertForge{rankLaunch() ? ', at the launch price for our first 20 XpertRank clients' : ''}. Every package is a subscription that renews monthly, or yearly with 2 months free, until you cancel, and you can cancel any time from your dashboard. Every package includes <a href="/website-report-dashboard/">XpertInsight, your website report dashboard</a>.</p>
   <Packages show="care" pickHref="/packages/#plan" />
 </div></section>
 

@@ -13,7 +13,7 @@
 //   from-price (.stalt) so the block stays short.
 // Styles: "product suite" at the end of src/styles/site.css. The mouse light comes from ui.js (.stc).
 import icon from '../fragments/icon.svg?raw';
-import { build, care, foresight, offer, offerOn, px, fsPx } from '../data/packages';
+import { build, care, foresight, offer, offerOn, rankNote, hostMonths, px, fsPx } from '../data/packages';
 type Product = 'forge' | 'rank' | 'insight' | 'foresight';
 interface Props { here?: Product; title?: string; eyebrow?: string; intro?: string; tint?: boolean; compact?: boolean }
 const {
@@ -37,7 +37,7 @@ const cards = {
     from: `From <b>${px(build.tiers[0])}</b>${offerOn() ? ' (launch price)' : ''}, a one-time payment`, go: link([['/website-design/', 'See website design'], ['/packages/', 'Compare website packages']]) },
   rank: { name: 'XpertRank', h: 'We do your SEO, every month', p: 'Our expert SEO service for any website: target keywords optimised for Google and AI search, SEO blog posts and fixes.',
     // The lower price is a launch price for the first 20 XpertRank clients (said wherever it shows); the other price is not.
-    from: `From <b>${px(basic)}</b> a month for websites we build${offerOn() ? ' (launch price for our first 20 XpertRank clients)' : ''}, or <b>${px(basic, 'other')}</b> a month for websites built elsewhere. A subscription: cancel any time`, go: link([['/seo-services-malaysia/', 'See our SEO services'], ['/seo-packages-malaysia/', 'Compare SEO packages']]) },
+    from: `From <b>${px(basic)}</b> a month for websites we build${rankNote()}, or <b>${px(basic, 'other')}</b> a month for websites built elsewhere. A subscription: cancel any time`, go: link([['/seo-services-malaysia/', 'See our SEO services'], ['/seo-packages-malaysia/', 'Compare SEO packages']]) },
   insight: { name: 'XpertInsight', h: 'See your results, live', p: 'Your live report dashboard: visitors, keywords, AI answers and site health, plus a monthly XpertRecap PDF.',
     go: link([['/website-report-dashboard/', 'Look inside XpertInsight'], ['/website-maintenance/', 'What XpertRank covers']]) },
   foresight: { name: 'XpertForesight', h: 'Do your own SEO research', p: 'Our SEO tools for agencies, freelancers and business owners: keywords, competitors, AI questions, a weekly site audit and XpertBlueprint plans.',
@@ -50,7 +50,7 @@ const showList = (k: Product) => !compact && !Here(k);
 const short = (n: string) => n.replace(/^Xpert\w+ /, '');
 const lists: Partial<Record<Product, { rows: [string, string, string][]; note: string }>> = {
   forge: { rows: build.tiers.map((t): [string, string, string] => [short(t.name), (t.short.match(/^\d+ pages/) ?? [''])[0], px(t)]),
-    note: `A one-time payment each, no monthly fee for the website.${offerOn() ? ` Launch prices until ${offer.endsText}, plus free months of XpertRank with every website we build.` : ''}` },
+    note: `A one-time payment each, no monthly fee for the website.${offerOn() ? ` Launch prices until ${offer.endsText}, plus free months of XpertRank and ${hostMonths} months of free high speed cloud hosting with every website we build.` : ''}` },
   foresight: { rows: foresight.tiers.map((t): [string, string, string] => [short(t.name), t.for, fsPx(t)]),
     note: `A month each, renewing until you cancel (cancel any time inside XpertForesight), or try ${foresight.days} days for <b>${fsPx(foresight.trial)}</b> first, paid once.` },
 };

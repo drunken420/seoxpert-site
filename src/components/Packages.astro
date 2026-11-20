@@ -1,7 +1,7 @@
 ---
 // Package cards (website build and XpertRank), the RM or USD switch and the launch offer.
 // show="both" adds the Build / XpertRank switch; show="care" shows the care plans only.
-import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, px, yearly, buyer, terms, type Tier } from '../data/packages';
+import { build, care, trial, offer, offerOn, rankLaunch, rankFirst, hostMonths, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, px, yearly, buyer, terms, type Tier } from '../data/packages';
 import { site } from '../config';
 import TrialBox from './TrialBox.astro';
 // noTrial: leave the Trial box out (a page that shows <TrialBox /> itself, like the SEO audit page).
@@ -9,6 +9,8 @@ interface Props { show?: 'both' | 'care'; pickHref?: string; noTrial?: boolean }
 const { show = 'both', pickHref = '/packages/#plan', noTrial = false } = Astro.props;
 const sets = show === 'care' ? [care] : [build, care];
 const on = offerOn();
+// XpertRank cards show their launch line only while those launch prices run (rankFull in packages.ts: after our first 20 XpertRank clients they show the later price)
+const onFor = (S: { key: string }) => (S.key === 'care' ? rankLaunch() : on);
 const maxKw = Math.max(...care.tiers.map((t) => t.kw || 0));
 const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD') });
 ---
@@ -32,7 +34,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
       <i class="pkoshine" aria-hidden="true"></i><i class="pkopet" aria-hidden="true" style="--x:72%;--y:14%;--s:34px;--t:7s"></i><i class="pkopet" aria-hidden="true" style="--x:93%;--y:62%;--s:54px;--t:9s"></i><i class="pkopet" aria-hidden="true" style="--x:58%;--y:78%;--s:22px;--t:6s"></i>
       <div class="pkotop"><span class="pkotag">Launch offer</span><span class="pkoleft" data-pk-left hidden></span></div>
       <p class="pkotitle">{offer.title}</p>
-      <p class="pkoend">Each package below shows how many free months of XpertRank it comes with. Order before {offer.endsText}.</p>
+      <p class="pkoend">Each package below shows how many free months of XpertRank it comes with, plus {hostMonths} months of free high speed cloud hosting. After the free months, you choose whether to continue. Order before {offer.endsText}.</p>
     </div>
   )}
   {sets.map((S) => (
@@ -58,12 +60,12 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
         {S.tiers.map((t, i) => (
           // Every card has the same rows (empty ones where a card has no "up" line or gift), so headings, prices, lists,
           // gifts and buttons line up across the row (CSS subgrid; Suhen 2026-11-15 "tidy it up").
-          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i};--rows:${5 +(on ? 1 : 0) + (S.key === 'care' ? 3 : 0) + (S.tiers.some((x) => x.up) ? 1 : 0) + 1 + (on && S.tiers.some((x) => x.free) ? 1 : 0)}`}>
+          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i};--rows:${5 +(onFor(S) ? 1 : 0) + (S.key === 'care' ? 3 : 0) + (S.tiers.some((x) => x.up) ? 1 : 0) + 1 + (on && S.tiers.some((x) => x.free) ? 1 : 0)}`}>
             {t.hot && <span class="pkbadge">Recommended</span>}
             <h3>{t.name}</h3>
             <p class="pkfor">{t.for}</p>
             <p class="pkprice"><span {...price(t)} {...(S.key === 'care' ? { 'data-rm-y': fmtYear(t, 'RM'), 'data-usd-y': fmtYear(t, 'USD') } : {})}>{fmt(t)}</span>{S.unit && <small data-unit={S.key === 'care' ? '' : undefined}>{S.unit}</small>}</p>
-            {on && <p class="pkwas" data-pk-offer={offer.ends}>{S.key === 'care' ? 'Launch price for our first 20 XpertRank clients.' : 'Launch price.'} From 1 February 2027: <span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} {...(S.key === 'care' ? { 'data-rm-y': fmtYearNew(t, 'RM'), 'data-usd-y': fmtYearNew(t, 'USD') } : {})}>{fmtNew(t)}</span></p>}
+            {onFor(S) && <p class="pkwas" data-pk-offer={offer.ends}>{S.key === 'care' ? `Launch price for our first ${rankFirst} XpertRank clients. After them, or from 1 February 2027: ` : 'Launch price. From 1 February 2027: '}<span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} {...(S.key === 'care' ? { 'data-rm-y': fmtYearNew(t, 'RM'), 'data-usd-y': fmtYearNew(t, 'USD') } : {})}>{fmtNew(t)}</span></p>}
             {S.key === 'care' && <p class="pkyear"><span class="m">or <span data-rm={fmtYear(t, 'RM')} data-usd={fmtYear(t, 'USD')}>{fmtYear(t)}</span> a year, {yearly.text}</span><span class="y">12 months for the price of {yearly.pay}</span></p>}
             {/* How it is paid (Suhen 2026-11-20: "mention ... its a subscription not a one time payment"): `terms` in packages.ts. */}
             {S.key === 'care' ? <p class="pkterm sub"><span class="m">{terms.sub.month}</span><span class="y">{terms.sub.year}</span></p> : <p class="pkterm">{terms.build}</p>}
@@ -111,7 +113,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
       {S.key === 'care' && <p class="pknote rv">Prices are for websites we build with <span class="xp sm">XpertForge</span>, with free high speed cloud hosting. Already have a website? <span class="xp sm">XpertRank</span> works on it too, from <Fragment set:html={px(care.tiers[0], 'other')} /> a month, without hosting. <a href={pickHref === '#plan' ? '#plan' : '/packages/?plan=build:3#plan'} data-pick="build:3">See your price</a></p>}
       <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
       {'ours' in S && <div class="pkall pkours rv"><h3>{S.oursTitle}</h3><ul>{S.ours.map((a) => <li>{a}</li>)}</ul></div>}
-      {/* Buyer answers under the build cards (Suhen 2026-11-19, after the customer review): time, domain, after year one, changes. */}
+      {/* Buyer answers under the build cards (Suhen 2026-11-19, after the customer review): time, domain, hosting after launch, changes. */}
       {S.key === 'build' && (
         <div class="pkall pkknow rv">
           <h3>Good to know before you order</h3>
@@ -119,7 +121,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
             <li><b>How long it takes</b>{buyer.times}, {buyer.from}. {buyer.revision} {buyer.bigger}</li>
             <li><b>Your domain name</b>{buyer.domain}</li>
             <li><b>Hosting after launch</b>{buyer.hosting} {buyer.handover}</li>
-            <li><b>Changes after launch</b>{buyer.edits} Every build also includes 30 days of free fixes after launch.</li>
+            <li><b>Changes after launch</b>{buyer.edits} Every build also includes {buyer.fixes}.</li>
           </ul>
           <a class="more" href="/packages/#after-pay">What happens after you pay</a>
         </div>

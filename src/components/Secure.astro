@@ -6,6 +6,7 @@
 // the code history that keeps every version. Never write "unhackable", "100% secure" or any number we did not measure.
 // The picture is drawn in SVG and moved by CSS only (styles `.sec*` in site.css): no script, no extra download.
 // Hovering or focusing a layer in the list lights up the same plate (`:has()` in site.css).
+import { buyer } from '../data/packages';
 interface Props { compact?: boolean; id?: string; light?: boolean }
 const { compact = false, id = 'secure', light = false } = Astro.props;
 
@@ -94,7 +95,7 @@ const webY = 62;
   {!compact && (
     <div class="secmore">
       <div class="secx rv"><span class="secxi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="3" /><path d="M3 10.5h18M7 15h4" /></svg></span><h3>Payments and forms kept apart</h3><p>Card details are typed on Stripe's own secure payment page, never on your website. Contact forms have a hidden trap for spam robots and send an email, with nothing stored on the website.</p></div>
-      <div class="secx rv" style="--d:1"><span class="secxi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7" /><path d="M4 4v4.5h4.5" /><path d="M12 8v4.5l3 2" /></svg></span><h3>Every version kept</h3><p>Every change is saved in the code history, so we can put an earlier version back quickly. Every build includes 30 days of free fixes after launch.</p></div>
+      <div class="secx rv" style="--d:1"><span class="secxi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7" /><path d="M4 4v4.5h4.5" /><path d="M12 8v4.5l3 2" /></svg></span><h3>Every version kept</h3><p>Every change is saved in the code history, so we can put an earlier version back quickly. Every build includes {buyer.fixes}.</p></div>
       <div class="secx rv" style="--d:2"><span class="secxi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2.5-6 5 12 2.5-6h4" /></svg></span><h3>Watched after launch</h3><p>With <a href="/website-maintenance/">XpertRank</a> we keep backups, watch uptime and check your website every few days, fixing what we find.</p></div>
     </div>
   )}

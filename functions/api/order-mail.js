@@ -9,9 +9,10 @@
 //   xpertrank  XpertRank Basic..Elite, website built elsewhere, monthly | yearly, paid | free
 //   build      XpertForge Starter/Business/Growth, paid in full (launch offer while it runs) | free
 //   upgrade    a bigger XpertRank plan from the XpertInsight dashboard, website built by us | elsewhere, paid | free
-// Rules (CLAUDE.md): free high speed cloud hosting only for websites we build; no money-back promise in these emails
+// Rules (CLAUDE.md): free high speed cloud hosting only for websites we build (6 months with the launch offer, then while a paid
+// XpertRank plan runs; Suhen 2026-11-20); 14 days of free fixes after launch; no money-back promise in these emails
 // (it covers only a first paid month on websites we build, which is never bought here); never promise rankings.
-import { build, care, trial, yearly, offerOn, terms } from '../../src/data/packages.ts';
+import { build, care, trial, yearly, offer, offerOn, terms, fixDays, buyer } from '../../src/data/packages.ts';
 import { clientMail } from '../../src/lib/client-mail.js';
 
 /** A founder's invite (free code) and the Trial both run this long. Keep matching GUEST_DAYS in xpertinsight lib/stripe.js. */
@@ -64,11 +65,13 @@ export function content(d) {
     head: free ? 'you are personally invited' : `your ${t.name} website is booked`,
     lead: free ? `I am the founder of SEOXpert. Thank you for trying our ${t.name} checkout as my guest.` : `Thank you${d.company ? `, ${esc(d.company)}` : ''}! Your ${t.name} website is paid in full, so we can start. We are glad to build it with you.`,
     pass: free ? 'Nothing is charged. This is an invite order, so I will contact you myself before any work starts.' : '', reach: free ? 'Found a bug while ordering, or have an idea to make it better? Feel free to reach out: just reply to this email. I read every message.' : 'As our customer you have a direct line to me. A question, a change of mind or an idea for your website? Feel free to reach out: just reply to this email. I read every message.',
-    tiles: [[(t.short.match(/^\d+/) || [''])[0], 'pages in total'], [num(t.rows[2]), 'revision rounds'], ['30', 'days of free fixes']],
+    tiles: [[(t.short.match(/^\d+/) || [''])[0], 'pages in total'], [num(t.rows[2]), 'revision rounds'], [String(fixDays), 'days of free fixes']],
     steps: free ? ['I will email you to ask what you would like to do next.'] : ['Our team emails you shortly to plan your pages, words and pictures with you.', 'XpertCore, our own AI SEO advisor, guides our team on what to plan, write and mark up on every page, then our experts check it.', `You see your design and words before launch, with ${num(t.rows[2])} revision rounds.`, 'We launch your website, ready for Google and AI search, and set up the extras below.'],
-    offer: !free && offerOn() && t.free ? `Launch offer included: ${t.free}.` : '',
+    offer: !free && offerOn() && t.free ? `Launch offer included: ${t.free}. ${offer.months}` : '',
     // Suhen 2026-11-20: say plainly that a build is paid once (XpertRank is the subscription).
     billing: free ? '' : `You paid ${d.paid} once. No monthly fee for the website.`, manage: '',
+    // the hosting terms in writing (Suhen 2026-11-20): 6 months from launch with the offer, then only while a paid XpertRank plan runs
+    hosting: free ? '' : `${buyer.hosting} ${buyer.handover}`,
     incTitle: `Your ${t.name} includes`, inc: [...t.rows, ...build.all], cta: free ? null : ['See what we build', `${SITE}/website-design/`],
   };
   const yr = d.bill === 'year';
@@ -82,7 +85,7 @@ export function content(d) {
     lead: free ? guest(`use ${t.name}`) + ' Your XpertInsight dashboard has already switched to it.' : `Thank you for upgrading. Your XpertInsight dashboard has switched to ${t.name}: ${t.for} for your website.`,
     pass: free ? pass : '', reach: free ? reach : member, tiles: careTiles,
     steps: ['Open your XpertInsight dashboard. Your plan shows everything that is new.', `We add your extra target keywords with you: ${kw} in total, optimised for Google and AI search (LLM) and tracked weekly.`, work],
-    billing, manage, hosting: d.built === 'us' ? 'High speed cloud hosting included, as we built your website.' : '',
+    billing, manage, hosting: d.built === 'us' ? 'High speed cloud hosting included while you keep a paid XpertRank plan, as we built your website.' : '',
     incTitle: `${t.name} includes`, inc: t.rows, cta: open,
   };
   return { // xpertrank, a website built elsewhere

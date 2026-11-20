@@ -1,10 +1,10 @@
 ---
 // "Build your plan": pick a website (or keep your own) and an XpertRank plan, see the total, send it to us.
 // Needs scripts, so it stays hidden until public/js/packages.js switches it on.
-import { build, care, own, offer, offerOn, terms, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, fmtYearOther, yearly, type Tier } from '../data/packages';
+import { build, care, own, offer, offerOn, rankLaunch, launchOn, rankFirst, terms, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, fmtYearOther, yearly, type Tier } from '../data/packages';
 const on = offerOn();
 // While the launch offer runs, each choice also shows its price from 1 February 2027, crossed out.
-const later = (t: Tier, yr: boolean) => on ? { 'data-rm-n': fmtNew(t, 'RM'), 'data-usd-n': fmtNew(t, 'USD'), ...(yr ? { 'data-rm-y-n': fmtYearNew(t, 'RM'), 'data-usd-y-n': fmtYearNew(t, 'USD') } : {}) } : {};
+const later = (t: Tier, yr: boolean) => launchOn(t) ? { 'data-rm-n': fmtNew(t, 'RM'), 'data-usd-n': fmtNew(t, 'USD'), ...(yr ? { 'data-rm-y-n': fmtYearNew(t, 'RM'), 'data-usd-y-n': fmtYearNew(t, 'USD') } : {}) } : {};
 import { site } from '../config';
 // prices for a website built elsewhere, used when "I already have a website" is picked
 const other = (t: Tier) => ({ 'data-rm-o': fmtOther(t, 'RM'), 'data-usd-o': fmtOther(t, 'USD'), 'data-rm-y-o': fmtYearOther(t, 'RM'), 'data-usd-y-o': fmtYearOther(t, 'USD') });
@@ -12,7 +12,7 @@ const data = (t: Tier) => ({ 'data-id': t.id, 'data-kw': t.kw, 'data-name': t.na
 /** The picker shows the target keywords on their own line (Suhen 2026-11-16: the main difference between plans), so the small text leaves them out. */
 const noKw = (t: string) => t.replace(/, \d+ target keywords optimised for Google and AI search \(LLM\) and tracked weekly/, '');
 ---
-<div class="pkbuilder" id="planpicker" hidden data-offer-ends={on ? offer.ends : undefined} data-offer-text={on ? offer.endsText : undefined} data-wa={site.whatsapp} data-mail={site.email} data-all={JSON.stringify(build.all.slice(0, 3))}>
+<div class="pkbuilder" id="planpicker" hidden data-offer-ends={on ? offer.ends : undefined} data-offer-text={on ? offer.endsText : undefined} data-offer-rank={rankLaunch() ? offer.rank : undefined} data-offer-remind={on ? offer.remind : undefined} data-wa={site.whatsapp} data-mail={site.email} data-all={JSON.stringify(build.all.slice(0, 3))}>
   <div>
     <div class="pkstep rv"><h3>1. Choose your website</h3><p>A one-time payment to plan, write, design and launch. No monthly fee for the website.</p>
       <div class="pkpick" data-pick-set="build">
@@ -21,11 +21,11 @@ const noKw = (t: string) => t.replace(/, \d+ target keywords optimised for Googl
       </div>
       <p class="pkquote">Bigger website, an online shop or bookings? <a href="/contact/" data-track="get-a-quote">Get a quote</a>. A web app, dashboard or online payments? See <a href="/web-app-development-malaysia/">web app development</a>.</p>
     </div>
-    <div class="pkstep rv"><h3>2. Add XpertRank, our expert SEO service</h3><p>Our SEO experts work on your website every month: target keywords optimised for Google and AI search, new highly rankable content and fixes, so it keeps climbing on Google and in AI answers. <a class="pkmbchip" href="#promise">Backed by our money-back promise</a> Websites we build get the lower price and free high speed cloud hosting, and the XpertRank plan can be as big as the website. Already have a website? XpertRank works on it too, at its own price. <b class="pksubline">A subscription, monthly or yearly: it renews until you cancel, and you can cancel any time from your dashboard.</b></p>
+    <div class="pkstep rv"><h3>2. Add XpertRank, our expert SEO service</h3><p>Our SEO experts work on your website every month: target keywords optimised for Google and AI search, new highly rankable content and fixes, so it keeps climbing on Google and in AI answers. <a class="pkmbchip" href="#promise">Backed by our money-back promise</a> Websites we build get the lower price{rankLaunch() ? ` (launch prices for our first ${rankFirst} XpertRank clients)` : ''} and free high speed cloud hosting with every paid plan, and the XpertRank plan can be as big as the website. Already have a website? XpertRank works on it too, at its own price. <b class="pksubline">A subscription, monthly or yearly: it renews until you cancel, and you can cancel any time from your dashboard.</b></p>
       <div class="pkseg pkbill" role="group" aria-label="How to pay" data-pk-bill><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>
       <div class="pkpick four" data-pick-set="care">
         <button type="button" aria-pressed="false" data-i="-1"><b>No SEO plan</b><span data-rm="RM0" data-usd="US$0">RM0</span><small>I will do my own SEO</small></button>
-        {care.tiers.map((t, i) => <button type="button" aria-pressed={i === 1 ? 'true' : 'false'} data-i={i} {...data(t)} data-rm-y={fmtYear(t, 'RM')} data-usd-y={fmtYear(t, 'USD')} {...later(t, true)} {...other(t)}><b>{t.name}</b><span data-rm={fmt(t, 'RM')} data-usd={fmt(t, 'USD')} data-rm-y={fmtYear(t, 'RM')} data-usd-y={fmtYear(t, 'USD')} {...other(t)}>{fmt(t)}</span>{on && <i class="pkn">From 1 Feb 2027: <span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} data-rm-y={fmtYearNew(t, 'RM')} data-usd-y={fmtYearNew(t, 'USD')}>{fmtNew(t)}</span></i>}<strong class="pkkwp"><b>{t.kw}</b> target keywords</strong><small>{noKw(t.short)}</small>{i > 0 && <em hidden>Needs {build.tiers[Math.min(i, build.tiers.length - 1)].name}{i < 2 ? ' or Growth' : ''}</em>}</button>)}
+        {care.tiers.map((t, i) => <button type="button" aria-pressed={i === 1 ? 'true' : 'false'} data-i={i} {...data(t)} data-rm-y={fmtYear(t, 'RM')} data-usd-y={fmtYear(t, 'USD')} {...later(t, true)} {...other(t)}><b>{t.name}</b><span data-rm={fmt(t, 'RM')} data-usd={fmt(t, 'USD')} data-rm-y={fmtYear(t, 'RM')} data-usd-y={fmtYear(t, 'USD')} {...other(t)}>{fmt(t)}</span>{launchOn(t) && <i class="pkn">From 1 Feb 2027: <span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} data-rm-y={fmtYearNew(t, 'RM')} data-usd-y={fmtYearNew(t, 'USD')}>{fmtNew(t)}</span></i>}<strong class="pkkwp"><b>{t.kw}</b> target keywords</strong><small>{noKw(t.short)}</small>{i > 0 && <em hidden>Needs {build.tiers[Math.min(i, build.tiers.length - 1)].name}{i < 2 ? ' or Growth' : ''}</em>}</button>)}
       </div>
     </div>
   </div>

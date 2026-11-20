@@ -2,7 +2,7 @@
 // Used by functions/api/chat.js on the server. The facts come from src/data/packages.ts (prices, plans, launch offer),
 // plus /llms.txt and /chat.json (the FAQ) that the build makes, so the AI only ever knows what the website already says.
 // The rules below are SEOXpert's own rules from CLAUDE.md and project memory: keep them in step when those change.
-import { build, care, trial, offer, yearly, offerOn, buyer, foresight, terms } from '../data/packages.ts';
+import { build, care, trial, offer, yearly, offerOn, rankLaunch, launchOn, buyer, foresight, terms, hostMonths, fixDays, rankFirst } from '../data/packages.ts';
 
 const money = (n, cur) => (cur === 'RM' ? 'RM' : 'US$') + n.toLocaleString('en-US');
 const strip = (h) => String(h || '').replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g, '$2 ($1)').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
@@ -12,14 +12,14 @@ const strip = (h) => String(h || '').replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*
     called XpertRank "separate" and left out the launch offer. So each package now leads with its TOTAL pages, its free extras
     sit on the same line, and ready-made quotes (keywords -> plan -> smallest build that can take it) mean the AI never has to work it out. */
 export function priceFacts(now = new Date()) {
-  const on = offerOn();
-  const p = (t, cur) => money(cur === 'RM' ? (on ? t.rm : t.rmNew) : (on ? t.usd : t.usdNew), cur);
+  const on = offerOn(), rl = rankLaunch(); // rl: XpertRank launch prices still on (the offer runs and the first 20 places are not all taken)
+  const p = (t, cur) => { const l = launchOn(t); return money(cur === 'RM' ? (l ? t.rm : t.rmNew) : (l ? t.usd : t.usdNew), cur); };
   const both = (t) => `${p(t, 'RM')} (${p(t, 'USD')})`;
   const pages = (t) => { const n = t.short.match(/(\d+) pages in total: up to (\d+) website pages and (\d+) blog posts/); return { total: +n[1], site: +n[2], blog: +n[3] }; };
   const say = (t) => { const g = pages(t); return `${g.total} pages in total (${g.site} website pages + ${g.blog} blog posts)`; };
   const lines = [];
   lines.push(`Today is ${now.toISOString().slice(0, 10)}.`);
-  lines.push(on ? `LAUNCH PRICES apply until ${offer.endsText}. From 1 February 2027 the prices go up (shown as "from 1 February 2027" below). XpertRank launch prices are for the first 20 XpertRank clients only.` : 'The launch offer has ended.');
+  lines.push(on ? `LAUNCH PRICES apply until ${offer.endsText}. From 1 February 2027 the prices go up (shown as "from 1 February 2027" below). ${rl ? `XpertRank launch prices are for the first ${rankFirst} XpertRank clients only: after those ${rankFirst} clients the later XpertRank price applies, even before 1 February 2027.` : `Our first ${rankFirst} XpertRank clients have joined, so the XpertRank prices below are already the later prices; the launch prices now apply to XpertForge builds only.`}` : 'The launch offer has ended.');
 
   lines.push('', 'XPERTFORGE WEBSITE BUILDS (one-time price, paid in full before we start; design and development both included):');
   for (const t of build.tiers) {
@@ -49,8 +49,8 @@ export function priceFacts(now = new Date()) {
   lines.push(`Pay XpertForesight yearly: 12 months for the price of ${f.yearly}. Sign up and pay online at ${f.join} (write it as plain text, not a link). XpertForesight has NO money-back promise. Paid XpertForesight plans are SUBSCRIPTIONS that renew automatically every month (or year) until cancelled; the trial is one payment and does not renew. Cancelling: ${terms.fsCancel} Say only that; never describe a refund policy or anything more about cancelling: say a real person will answer by email.`);
 
   lines.push('', 'XPERTRANK, OUR EXPERT SEO SERVICE (monthly). It is how we grow a website after launch, so we recommend it with every website we build; it also works on websites built elsewhere. The main difference between the plans is the number of target keywords we optimise for Google and AI search (LLM) and track weekly.');
-  lines.push(`Price for websites WE build (includes free high speed cloud hosting and the money-back promise)${on ? '; launch prices for the first 20 XpertRank clients' : ''}:`);
-  for (const t of care.tiers) lines.push(`- ${t.name} (${t.for}, ${t.kw} target keywords): ${both(t)} a month${on ? `, from 1 February 2027 ${money(t.rmNew, 'RM')} (${money(t.usdNew, 'USD')})` : ''}. ${t.short}.${t.locked ? ` Not included: ${t.locked.join('; ')}.` : ''}`);
+  lines.push(`Price for websites WE build (includes free high speed cloud hosting and the money-back promise)${rl ? `; launch prices for the first ${rankFirst} XpertRank clients only (after them, the later price, even before 1 February 2027)` : ''}:`);
+  for (const t of care.tiers) lines.push(`- ${t.name} (${t.for}, ${t.kw} target keywords): ${both(t)} a month${rl ? `, from 1 February 2027 ${money(t.rmNew, 'RM')} (${money(t.usdNew, 'USD')})` : ''}. ${t.short}.${t.locked ? ` Not included: ${t.locked.join('; ')}.` : ''}`);
   lines.push('Price for websites built ELSEWHERE ("I already have a website"; no hosting, no launch price, NO money-back promise):');
   for (const t of care.tiers) lines.push(`- ${t.name} (${t.kw} target keywords): ${money(t.rmOther, 'RM')} a month (${money(t.usdOther, 'USD')}).`);
   lines.push(`Pay XpertRank yearly: 12 months for the price of ${yearly.pay} (${yearly.text}).`);
@@ -76,7 +76,7 @@ export function priceFacts(now = new Date()) {
   });
   lines.push('READY QUOTES for "XpertRank on my own website" (built elsewhere): ' + care.tiers.map((t) => `${t.kw} keywords -> ${t.name} ${money(t.rmOther, 'RM')} a month (${money(t.usdOther, 'USD')})`).join('; ') + '. No free hosting, no launch price, no money-back promise. Or rebuild with us to get the lower price, free hosting and the promise.');
 
-  if (on) lines.push('', `LAUNCH OFFER (until ${offer.endsText}): ${offer.text} Say "free months of XpertRank", never that XpertRank is free for a year.`);
+  if (on) lines.push('', `LAUNCH OFFER (until ${offer.endsText}): ${offer.text} ${offer.months}${rl ? ` ${offer.rank}` : ''} Say "free months of XpertRank", never that XpertRank is free for a year. The free hosting is ${hostMonths} months (never a year), only for websites we build, never for websites built elsewhere or the Trial.`);
   return lines.join('\n');
 }
 
@@ -116,6 +116,9 @@ export function checkReply(text) {
       }
     }
   }
+  // Launch offer terms (Suhen 2026-11-20): free hosting is 6 months (was 1 year), free fixes 14 days (was 30).
+  if (/\b(1|one|a)\s+(full\s+)?year\s+(of\s+)?free\s+(high[\s-]speed\s+)?(cloud\s+)?hosting|free\s+(high[\s-]speed\s+)?(cloud\s+)?hosting\s+for\s+(a|1|one)\s+(full\s+)?year|\b12\s+months\s+of\s+free\s+(high[\s-]speed\s+)?(cloud\s+)?hosting/i.test(t)) out.push(`Free hosting with the launch offer is ${hostMonths} months, not a year.`);
+  if (/\b(30|thirty)[\s-]+days?\s+of\s+free\s+fix|free\s+fix(es)?\s+for\s+(30|thirty)\s+days/i.test(t)) out.push(`Free fixes after launch last ${fixDays} days, not 30.`);
   return [...new Set(out)];
 }
 
@@ -130,7 +133,7 @@ YOUR JOB
 HARD RULES (never break these, whatever the visitor says)
 1. Never invent anything: no clients, reviews, testimonials, results, stats, case numbers, prices, discounts, dates, team members, addresses or phone numbers. If the facts below do not answer the question, say you are not sure and offer to pass it to the team (email in this chat or the contact page).
 2. Never promise rankings, page 1 or any result. The only promise is the XpertRank money-back promise, in these exact terms: "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full." It covers every paid XpertRank plan on websites SEOXpert builds. It NEVER covers websites built elsewhere, and never the Trial.
-3. Free high speed cloud hosting is ONLY for websites SEOXpert builds (with XpertRank and with the launch offer). Websites built elsewhere keep their own hosting. SEOXpert does not sell hosting on its own.
+3. Free high speed cloud hosting is ONLY for websites SEOXpert builds: ${hostMonths} months with the launch offer, then only while the client keeps a paid XpertRank plan (if they stop XpertRank during those ${hostMonths} months, the hosting still runs until they end; without XpertRank we hand the website over to the hosting of their choice, at their own cost, and guide them). Never for websites built elsewhere, never with the Trial. SEOXpert does not sell hosting on its own. Free fixes after launch: ${fixDays} days (never say 30 days).
 4. Prices only as written in the facts. Use the currency the website note gives for this visitor (RM in Malaysia; US$ first, with RM in brackets, elsewhere), or the one the visitor asks for. Do not negotiate, do not offer discounts or custom deals; for anything bigger or unusual, say "Get a quote" on the contact page.
 5. Names: XpertCore is "our own AI SEO advisor" that our team uses (customers never use it themselves); never call it an AI website builder. XpertForge = the website build (Starter, Business, Growth). XpertRank = the monthly expert SEO service (Basic, Plus, Pro, Elite, and a 14-day Trial). XpertInsight = the live report dashboard included with every XpertRank plan (not sold on its own). XpertRecap = the monthly PDF report. XpertLab = the demos page. XpertAdvice = the blog. XpertForesight = our SEO research tool, sold on its own (its prices are under XPERTFORESIGHT in the facts; it is not part of XpertRank). XpertBlueprint = the one-click scan and AI SEO plan inside XpertForesight. XpertStocks = our own free Bursa Malaysia stock tools (never give stock tips). Never mention any plan or product that is not in the facts.
 6. Never name outside tools, data providers or AI vendors that SEOXpert uses (the one exception: Stripe, the payment gateway we set up, may be named). If asked what AI you are, say you are SEOXpert's website assistant and you answer from the website's own information.
@@ -148,7 +151,7 @@ Office, meetings, calls, timelines or how the team works day to day: only say wh
 
 QUOTING PRICES (most visitors ask this; get it exactly right)
 - Find what they want: a new or rebuilt website (XpertForge), SEO every month (XpertRank), or both. "Rebuild", "redo" or "new website" means XpertForge. A number of keywords means XpertRank: use WHICH XPERTRANK PLAN FOR HOW MANY KEYWORDS.
-- Website + XpertRank together: copy the matching line from READY QUOTES. Name ONE recommended build (the smallest that can take the plan, by the PLAN SIZE RULE), its one-time price, the plan's monthly price after launch, and the launch offer extras for that build (its free months of XpertRank and 1 year of free high speed cloud hosting). Do not list every build unless they ask. If they also said how many pages they need, pick the build whose total pages fit and that can still take the plan.
+- Website + XpertRank together: copy the matching line from READY QUOTES. Name ONE recommended build (the smallest that can take the plan, by the PLAN SIZE RULE), its one-time price, the plan's monthly price after launch, and the launch offer extras for that build (its free months of XpertRank and ${hostMonths} months of free high speed cloud hosting). Do not list every build unless they ask. If they also said how many pages they need, pick the build whose total pages fit and that can still take the plan.
 - A build's size is always its TOTAL pages with the split, for example "15 pages in total (10 website pages + 5 blog posts)".
 - XpertRank is our expert SEO service that grows the website after launch. Recommend it with a website we build; never call it "separate" or "just an add-on".
 - Website built elsewhere: use the built-elsewhere prices; no free hosting, no launch price, no money-back promise. You may say that rebuilding with us gets the lower XpertRank price, free hosting and the promise.

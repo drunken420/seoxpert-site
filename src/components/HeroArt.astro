@@ -4,7 +4,7 @@
 import icon from '../fragments/icon.svg?raw';
 // second copy of the mark on one page (back of the cube) needs its own gradient id
 const icon2 = icon.replace('id="pg"', 'id="pgb"').replace('url(#pg)', 'url(#pgb)');
-import { build, care, trial, fmt, offerOn } from '../data/packages';
+import { build, care, trial, fmt, offerOn, hostMonths } from '../data/packages';
 interface Props { kind: string }
 const { kind } = Astro.props;
 const at = (x: number, y: number, extra = '') => `--x:${x}%;--y:${y}%;${extra}`;
@@ -124,7 +124,7 @@ const short = (n: string) => n.replace('XpertForge ', '');
       <b>Expert SEO from <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span> a month</b>
       <small>Try it first: <span data-rm={fmt(trial, 'RM')} data-usd={fmt(trial, 'USD')}>{fmt(trial)}</span> for {trial.days} days</small>
     </div>
-    {offerOn() && <span class="hchip hfl" style={at(-3, 4, '--t:7s;--dl:-1s')}>1 year free cloud hosting</span>}
+    {offerOn() && <span class="hchip hfl" style={at(-3, 4, '--t:7s;--dl:-1s')}>{hostMonths} months free cloud hosting</span>}
   </>}
 
   {kind === 'aiseo' && <>
