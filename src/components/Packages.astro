@@ -1,7 +1,7 @@
 ---
 // Package cards (website build and XpertRank), the RM or USD switch and the launch offer.
 // show="both" adds the Build / XpertRank switch; show="care" shows the care plans only.
-import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, px, yearly, buyer, type Tier } from '../data/packages';
+import { build, care, trial, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, px, yearly, buyer, terms, type Tier } from '../data/packages';
 import { site } from '../config';
 import TrialBox from './TrialBox.astro';
 // noTrial: leave the Trial box out (a page that shows <TrialBox /> itself, like the SEO audit page).
@@ -58,13 +58,15 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
         {S.tiers.map((t, i) => (
           // Every card has the same rows (empty ones where a card has no "up" line or gift), so headings, prices, lists,
           // gifts and buttons line up across the row (CSS subgrid; Suhen 2026-11-15 "tidy it up").
-          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i};--rows:${4 + (on ? 1 : 0) + (S.key === 'care' ? 3 : 0) + (S.tiers.some((x) => x.up) ? 1 : 0) + 1 + (on && S.tiers.some((x) => x.free) ? 1 : 0)}`}>
+          <article class={'pkcard rv' + (t.hot ? ' hot' : '')} style={`--d:${i};--rows:${5 +(on ? 1 : 0) + (S.key === 'care' ? 3 : 0) + (S.tiers.some((x) => x.up) ? 1 : 0) + 1 + (on && S.tiers.some((x) => x.free) ? 1 : 0)}`}>
             {t.hot && <span class="pkbadge">Recommended</span>}
             <h3>{t.name}</h3>
             <p class="pkfor">{t.for}</p>
             <p class="pkprice"><span {...price(t)} {...(S.key === 'care' ? { 'data-rm-y': fmtYear(t, 'RM'), 'data-usd-y': fmtYear(t, 'USD') } : {})}>{fmt(t)}</span>{S.unit && <small data-unit={S.key === 'care' ? '' : undefined}>{S.unit}</small>}</p>
             {on && <p class="pkwas" data-pk-offer={offer.ends}>{S.key === 'care' ? 'Launch price for our first 20 XpertRank clients.' : 'Launch price.'} From 1 February 2027: <span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')} {...(S.key === 'care' ? { 'data-rm-y': fmtYearNew(t, 'RM'), 'data-usd-y': fmtYearNew(t, 'USD') } : {})}>{fmtNew(t)}</span></p>}
             {S.key === 'care' && <p class="pkyear"><span class="m">or <span data-rm={fmtYear(t, 'RM')} data-usd={fmtYear(t, 'USD')}>{fmtYear(t)}</span> a year, {yearly.text}</span><span class="y">12 months for the price of {yearly.pay}</span></p>}
+            {/* How it is paid (Suhen 2026-11-20: "mention ... its a subscription not a one time payment"): `terms` in packages.ts. */}
+            {S.key === 'care' ? <p class="pkterm sub"><span class="m">{terms.sub.month}</span><span class="y">{terms.sub.year}</span></p> : <p class="pkterm">{terms.build}</p>}
             {S.key === 'care' && <a class="pkmbadge" href="#money-back" data-track="promise-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span>Money-back promise on our builds</span></a>}
             {/* Target keywords are the main difference between the XpertRank plans (Suhen 2026-11-16), so each card leads with them, with a meter against Elite. */}
             {t.kw && <div class="pkkw"><p><b>{t.kw}</b><span>target keywords<small>optimised for Google and AI search (LLM), tracked weekly</small></span></p><i aria-hidden="true" style={`--w:${Math.round((t.kw / maxKw) * 100)}%`}></i></div>}
@@ -105,6 +107,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
           <div class="pkxiimg"><img src="/img/xi-screen2-overview-720.webp" srcset="/img/xi-screen2-overview-720.webp 720w, /img/xi-screen2-overview.webp 1200w" sizes="(max-width:900px) 92vw, 520px" width="1200" height="750" loading="lazy" decoding="async" alt="The XpertInsight dashboard overview for Sample Bakery, showing the Xpert score, visitors, leads, Google clicks and keywords on page 1" /></div>
         </div>
       )}
+      {S.key === 'care' && <p class="pknote pksubnote rv"><b>XpertRank is a subscription.</b> It renews every month, or every year if you pay yearly, until you cancel. {terms.cancel} XpertForge websites are a one-time payment, and the {trial.name} is one payment for {trial.days} days that does not renew.</p>}
       {S.key === 'care' && <p class="pknote rv">Prices are for websites we build with <span class="xp sm">XpertForge</span>, with free high speed cloud hosting. Already have a website? <span class="xp sm">XpertRank</span> works on it too, from <Fragment set:html={px(care.tiers[0], 'other')} /> a month, without hosting. <a href={pickHref === '#plan' ? '#plan' : '/packages/?plan=build:3#plan'} data-pick="build:3">See your price</a></p>}
       <div class="pkall rv"><h3>{S.allTitle}</h3><ul>{S.all.map((a) => <li>{a}</li>)}</ul></div>
       {'ours' in S && <div class="pkall pkours rv"><h3>{S.oursTitle}</h3><ul>{S.ours.map((a) => <li>{a}</li>)}</ul></div>}

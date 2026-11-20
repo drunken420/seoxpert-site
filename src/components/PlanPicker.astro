@@ -1,7 +1,7 @@
 ---
 // "Build your plan": pick a website (or keep your own) and an XpertRank plan, see the total, send it to us.
 // Needs scripts, so it stays hidden until public/js/packages.js switches it on.
-import { build, care, own, offer, offerOn, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, fmtYearOther, yearly, type Tier } from '../data/packages';
+import { build, care, own, offer, offerOn, terms, fmt, fmtYear, fmtNew, fmtYearNew, fmtOther, fmtYearOther, yearly, type Tier } from '../data/packages';
 const on = offerOn();
 // While the launch offer runs, each choice also shows its price from 1 February 2027, crossed out.
 const later = (t: Tier, yr: boolean) => on ? { 'data-rm-n': fmtNew(t, 'RM'), 'data-usd-n': fmtNew(t, 'USD'), ...(yr ? { 'data-rm-y-n': fmtYearNew(t, 'RM'), 'data-usd-y-n': fmtYearNew(t, 'USD') } : {}) } : {};
@@ -14,14 +14,14 @@ const noKw = (t: string) => t.replace(/, \d+ target keywords optimised for Googl
 ---
 <div class="pkbuilder" id="planpicker" hidden data-offer-ends={on ? offer.ends : undefined} data-offer-text={on ? offer.endsText : undefined} data-wa={site.whatsapp} data-mail={site.email} data-all={JSON.stringify(build.all.slice(0, 3))}>
   <div>
-    <div class="pkstep rv"><h3>1. Choose your website</h3><p>A one-time price to plan, write, design and launch.</p>
+    <div class="pkstep rv"><h3>1. Choose your website</h3><p>A one-time payment to plan, write, design and launch. No monthly fee for the website.</p>
       <div class="pkpick" data-pick-set="build">
         {build.tiers.map((t, i) => <button type="button" aria-pressed={i === 1 ? 'true' : 'false'} data-i={i} {...data(t)} {...later(t, false)}><b>{t.name}</b><span data-rm={fmt(t, 'RM')} data-usd={fmt(t, 'USD')}>{fmt(t)}</span>{on && <i class="pkn">From 1 Feb 2027: <span data-rm={fmtNew(t, 'RM')} data-usd={fmtNew(t, 'USD')}>{fmtNew(t)}</span></i>}<small>{t.short}</small></button>)}
         <button type="button" class="pkown" aria-pressed="false" data-i={build.tiers.length} data-own="1" data-name={own.name} data-rm="No build" data-usd="No build" data-rows={JSON.stringify(own.rows)}><b>{own.name}</b><span>No build</span><small>{own.short}</small></button>
       </div>
       <p class="pkquote">Bigger website, an online shop or bookings? <a href="/contact/" data-track="get-a-quote">Get a quote</a>. A web app, dashboard or online payments? See <a href="/web-app-development-malaysia/">web app development</a>.</p>
     </div>
-    <div class="pkstep rv"><h3>2. Add XpertRank, our expert SEO service</h3><p>Our SEO experts work on your website every month: target keywords optimised for Google and AI search, new highly rankable content and fixes, so it keeps climbing on Google and in AI answers. <a class="pkmbchip" href="#promise">Backed by our money-back promise</a> Websites we build get the lower price and free high speed cloud hosting, and the XpertRank plan can be as big as the website. Already have a website? XpertRank works on it too, at its own price.</p>
+    <div class="pkstep rv"><h3>2. Add XpertRank, our expert SEO service</h3><p>Our SEO experts work on your website every month: target keywords optimised for Google and AI search, new highly rankable content and fixes, so it keeps climbing on Google and in AI answers. <a class="pkmbchip" href="#promise">Backed by our money-back promise</a> Websites we build get the lower price and free high speed cloud hosting, and the XpertRank plan can be as big as the website. Already have a website? XpertRank works on it too, at its own price. <b class="pksubline">A subscription, monthly or yearly: it renews until you cancel, and you can cancel any time from your dashboard.</b></p>
       <div class="pkseg pkbill" role="group" aria-label="How to pay" data-pk-bill><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{yearly.text}</em></button></div>
       <div class="pkpick four" data-pick-set="care">
         <button type="button" aria-pressed="false" data-i="-1"><b>No SEO plan</b><span data-rm="RM0" data-usd="US$0">RM0</span><small>I will do my own SEO</small></button>
@@ -33,6 +33,8 @@ const noKw = (t: string) => t.replace(/, \d+ target keywords optimised for Googl
     <div class="row"><span data-sum="bn"></span><b data-sum="bp"></b></div>
     <div class="row"><span data-sum="cn"></span><b data-sum="cp"></b></div>
     <p class="pklater" data-sum="later" hidden></p>
+    {/* How it is paid (Suhen 2026-11-20), filled by packages.js from these words (terms in packages.ts). */}
+    <p class="pkterms" data-sum="terms" data-build={terms.build} data-cancel={terms.cancel}></p>
     <ul class="pktick" data-sum="list"></ul>
     {site.payments && <button class="btn payon-only" type="button" data-pay="" data-sum="pay" data-track="pay-plan">Pay and start</button>}
     <a class="btn" href="/contact/" data-sum="send">Talk to us</a>

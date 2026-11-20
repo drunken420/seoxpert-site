@@ -1,6 +1,6 @@
 ---
 // The XpertRank Trial box: under the care cards (Packages.astro) and on its own on the SEO audit page.
-import { trial, fmt, type Tier } from '../data/packages';
+import { trial, fmt, terms, type Tier } from '../data/packages';
 import { site } from '../config';
 const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD') });
 ---
@@ -8,7 +8,7 @@ const price = (t: Tier) => ({ 'data-rm': fmt(t, 'RM'), 'data-usd': fmt(t, 'USD')
   <div><span class="pktag">New</span><h3>{trial.name}</h3>
     {/* What the Trial includes as short ticks instead of a long sentence (Suhen 2026-11-16 polish); the last row is what it leaves out. */}
     <ul class="pktrows">{trial.rows.map((r, i) => <li class:list={[i === trial.rows.length - 1 && 'no']} set:html={r} />)}</ul>
-    <p>Choose a paid XpertRank plan after your trial and the trial price comes off your first month.</p></div>
+    <p>{terms.trial} Choose a paid XpertRank plan after your trial and the trial price comes off your first month.</p></div>
   <div class="pktside">
     <p class="pktprice"><span {...price(trial)}>{fmt(trial)}</span><small>for {trial.days} days</small></p>
     {site.payments && <a class="btn payon-only" href="/contact/?need=trial" data-pay="trial" data-track="pay-trial"><span>Pay <span {...price(trial)}>{fmt(trial)}</span> and start</span></a>}

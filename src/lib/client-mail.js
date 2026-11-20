@@ -49,7 +49,7 @@ const glance = (d) => (d.kind === 'build' ? 'Your website at a glance' : 'Your p
 function member(d, c, pic) {
   const isBuild = d.kind === 'build';
   // the plan name is the card's big title already, so the rows start with the payment
-  const rows = [['Paid', d.paid], ...(isBuild ? [] : [['Billing', d.bill === 'year' ? 'Yearly' : 'Monthly']]), [isBuild ? 'Ordered' : 'Member since', d.date], ...(d.site ? [['Website', d.site]] : [])];
+  const rows = [['Paid', d.paid], ...(isBuild ? [['Payment', 'One-time']] : [['Billing', d.bill === 'year' ? 'Yearly subscription' : 'Monthly subscription']]), [isBuild ? 'Ordered' : 'Member since', d.date], ...(d.site ? [['Website', d.site]] : [])];
   const cardHtml = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 6px"><tr><td bgcolor="#2a0d47" style="border-radius:20px;background:#2a0d47;background-image:linear-gradient(125deg,#1a0830 0%,#4b0f86 55%,#7b18c1 100%);padding:22px 22px 20px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
 <td style="${SANS};font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#d9b8ff">${isBuild ? 'XpertForge order' : 'XpertRank member'}</td>
@@ -100,7 +100,7 @@ ${tiles(c.tiles)}
 ${H2('Your next 14 days')}${timeline}
 ${button(c.cta)}
 ${H2(c.incTitle)}${ticks(c.inc)}
-${note(`You paid ${d.paid}. Choose a paid XpertRank plan before ${d.ends} and it comes off your first month.`, '#fff6dd', '#5a3d00')}
+${note(`You paid ${d.paid} once. The trial does not renew, so nothing more is charged. Choose a paid XpertRank plan before ${d.ends} and it comes off your first month.`, '#fff6dd', '#5a3d00')}
 ${note(c.reach)}
 ${signoff('Enjoy your trial,')}`, '0 32px 8px')}
 ${footer(d, '<br>Stripe emails your receipt separately.')}`;

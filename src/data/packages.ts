@@ -73,7 +73,7 @@ export const fmtYearNew = (t: Tier, cur: 'RM' | 'USD' = 'RM') => money((cur === 
 
 export const care = {
   key: 'care', label: 'XpertRank expert SEO, monthly', unit: 'a month', allTitle: 'In every XpertRank plan',
-  all: ['Keyword research and an SEO plan for your website', 'On-page and technical SEO, checked every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'Pay yearly, get 2 months free', 'Backups, uptime watch and security', 'XpertInsight live report dashboard, data refreshed every day', 'Monthly XpertRecap PDF'],
+  all: ['Keyword research and an SEO plan for your website', 'On-page and technical SEO, checked every few days, with fixes', 'SEO + AI search (LLM) optimisation when needed', 'A monthly or yearly subscription (pay yearly, get 2 months free) that you can cancel any time from your dashboard', 'Backups, uptime watch and security', 'XpertInsight live report dashboard, data refreshed every day', 'Monthly XpertRecap PDF'],
   // Only for websites we build (2026-11-19 review: these sat under "In every XpertRank plan", next to the built-elsewhere prices). Never websites built elsewhere; the promise never covers the Trial.
   oursTitle: 'Only for websites we build',
   ours: ['Our money-back promise, on every paid plan', 'Free high speed cloud hosting'],
@@ -166,6 +166,24 @@ export const foresight = {
   yearly: FS_YEARLY,
   trial: { ...fsTier(FS_TRIAL, FS_TRIAL_PRICE.RM, FS_TRIAL_PRICE.USD), for: `${FS_TRIAL_DAYS} days, paid once` } as FsTier,
   tiers: (Object.keys(FS_PRICES) as FsName[]).map((p) => fsTier(p, FS_PRICES[p].rm, FS_PRICES[p].usd)),
+};
+
+/** How each thing is paid, in one place (Suhen 2026-11-20, after his first test purchase: "mention on the website and everywhere
+    its a subscription not a one time payment" and "give them the option to cancel from the dashboard"). True to the checkouts:
+    XpertRank and XpertForesight plans are Stripe subscriptions (mode 'subscription') that renew until cancelled, and Stripe's
+    billing page cancels at the end of the period paid for (subscription_cancel at_period_end in xpertinsight lib/stripe.js).
+    XpertForge builds and both Trials are one payment (mode 'payment'): they never renew. Used by the cards, the plan picker,
+    the FAQ, /paid/, llms.txt, the chat facts and the order emails. */
+export const terms = {
+  build: 'One-time payment. No monthly fee for the website.',
+  trial: `One payment for ${trial.days} days. It does not renew.`,
+  fsTrial: `One payment for ${FS_TRIAL_DAYS} days. It does not renew.`,
+  /** the short line on a plan card, by how it is paid */
+  sub: { month: 'Subscription, renews monthly. Cancel any time.', year: 'Subscription, renews yearly. Cancel any time.' },
+  /** how to cancel XpertRank (from the XpertInsight dashboard) */
+  cancel: 'Cancel any time from Your plan in your XpertInsight dashboard. Your plan stays on until the end of the time you paid for.',
+  /** how to cancel XpertForesight (from inside XpertForesight) */
+  fsCancel: 'Cancel any time from Your plan inside XpertForesight. Your plan stays on until the end of the time you paid for.',
 };
 /** A visible XpertForesight price (RM in the HTML; the browser swaps it to US$ outside Malaysia, like px()). year = the yearly price (12 months for 10). */
 export const fsPx = (t: Tier, bill: 'month' | 'year' = 'month') => { const k = bill === 'year' ? FS_YEARLY : 1; return `<span data-rm="${money(t.rm * k, 'RM')}" data-usd="${money(t.usd * k, 'USD')}">${money(t.rm * k, 'RM')}</span>`; };

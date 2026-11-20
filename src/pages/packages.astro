@@ -22,20 +22,20 @@ const extraLd = [
   { '@type': 'Service', name: 'Website design packages', serviceType: 'Website design', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/packages/`, offers: offersLd(build) },
   { '@type': 'Service', name: 'XpertRank monthly website maintenance', serviceType: 'Website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, offers: offersLd(care) },
 ];
-const pf = pageFaq(['What is the difference between Starter, Business and Growth?', 'Is the website price paid once or every month?', 'Is there a launch offer?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'What is the difference between the XpertRank plans?', 'Can I try XpertRank first?', 'How long does a website take?', 'Is the domain name included?', 'What does my website cost after the first year?', 'Can I change text or photos after launch?']);
+const pf = pageFaq(['What is the difference between Starter, Business and Growth?', 'Is the website price paid once or every month?', 'Is there a launch offer?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'What is the difference between the XpertRank plans?', 'Is XpertRank a subscription? How do I cancel?', 'Can I try XpertRank first?', 'How long does a website take?', 'Is the domain name included?', 'What does my website cost after the first year?', 'Can I change text or photos after launch?']);
 ---
 <Base title="Website Design Packages and Prices in Malaysia | SEOXpert" image={`/img/${pictures["packages"].file}.jpg`} description={`Website design packages in Malaysia from ${fmt(build.tiers[0])}, with copywriting and keyword research. XpertRank SEO from ${fmt(care.tiers[0])} a month for websites we build, ${fmtOther(care.tiers[0])} for others.`} path="/packages/" crumb="Packages" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Packages" brand="XpertForge" art="packages" crumb="Packages" word="Packages">
   <Fragment slot="title">Website design packages in Malaysia, <em>in plain language</em>.</Fragment>
-  <Fragment slot="lede">How much does website design cost in Malaysia? From <span data-rm={fmt(build.tiers[0], 'RM')} data-usd={fmt(build.tiers[0], 'USD')}>{fmt(build.tiers[0])}</span>, one time, with the writing included. XpertRank, our expert SEO service, starts at <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span>.</Fragment>
+  <Fragment slot="lede">How much does website design cost in Malaysia? From <span data-rm={fmt(build.tiers[0], 'RM')} data-usd={fmt(build.tiers[0], 'USD')}>{fmt(build.tiers[0])}</span>, one time, with the writing included. XpertRank, our expert SEO service, starts at <span data-rm={fmt(care.tiers[0], 'RM')} data-usd={fmt(care.tiers[0], 'USD')}>{fmt(care.tiers[0])}</span> a month, a subscription you can cancel any time.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#prices">See the packages</a><a class="btn ghost" href="#plan" data-pk-planlink>Build your plan</a></Fragment>
 </PageHero>
 
 <section id="prices" class="solid band"><div class="wrap">
   <span class="eyebrow rv">Packages and prices</span>
   <h2 class="rv">Choose the size that fits your business.</h2>
-  <p class="sub rv">XpertForge is our website build: one price, paid once. XpertRank is the optional plan to grow it every month, with free high speed cloud hosting for websites we build. Already have a website? XpertRank works on it too, at its own price. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by experts.</p>
+  <p class="sub rv">XpertForge is our website build: one price, paid once. XpertRank is the optional subscription to grow it every month (it renews until you cancel, and you can cancel any time from your dashboard), with free high speed cloud hosting for websites we build. Already have a website? XpertRank works on it too, at its own price. Every blog post and all SEO content is made with <span class="pkcore">XpertCore</span>, our AI core, and checked by experts.</p>
   <Packages pickHref="#plan" />
   <h3 class="rv" style="margin-top:34px">Website design packages compared</h3>
   <div class="cmpwrap rv" tabindex="0" role="region" aria-label="XpertForge website design packages compared">

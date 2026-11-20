@@ -34,14 +34,14 @@ const fs0 = foresight.tiers[0];
 const basic = care.tiers[0];
 const cards = {
   forge: { name: 'XpertForge', h: 'We design and build your website', p: 'A custom website, SEO and AI search optimised from day one. Pick Starter, Business or Growth.',
-    from: `From <b>${px(build.tiers[0])}</b>${offerOn() ? ' (launch price)' : ''}`, go: link([['/website-design/', 'See website design'], ['/packages/', 'Compare website packages']]) },
+    from: `From <b>${px(build.tiers[0])}</b>${offerOn() ? ' (launch price)' : ''}, a one-time payment`, go: link([['/website-design/', 'See website design'], ['/packages/', 'Compare website packages']]) },
   rank: { name: 'XpertRank', h: 'We do your SEO, every month', p: 'Our expert SEO service for any website: target keywords optimised for Google and AI search, SEO blog posts and fixes.',
     // The lower price is a launch price for the first 20 XpertRank clients (said wherever it shows); the other price is not.
-    from: `From <b>${px(basic)}</b> a month for websites we build${offerOn() ? ' (launch price for our first 20 XpertRank clients)' : ''}, or <b>${px(basic, 'other')}</b> a month for websites built elsewhere`, go: link([['/seo-services-malaysia/', 'See our SEO services'], ['/seo-packages-malaysia/', 'Compare SEO packages']]) },
+    from: `From <b>${px(basic)}</b> a month for websites we build${offerOn() ? ' (launch price for our first 20 XpertRank clients)' : ''}, or <b>${px(basic, 'other')}</b> a month for websites built elsewhere. A subscription: cancel any time`, go: link([['/seo-services-malaysia/', 'See our SEO services'], ['/seo-packages-malaysia/', 'Compare SEO packages']]) },
   insight: { name: 'XpertInsight', h: 'See your results, live', p: 'Your live report dashboard: visitors, keywords, AI answers and site health, plus a monthly XpertRecap PDF.',
     go: link([['/website-report-dashboard/', 'Look inside XpertInsight'], ['/website-maintenance/', 'What XpertRank covers']]) },
   foresight: { name: 'XpertForesight', h: 'Do your own SEO research', p: 'Our SEO tools for agencies, freelancers and business owners: keywords, competitors, AI questions, a weekly site audit and XpertBlueprint plans.',
-    from: `From <b>${fsPx(fs0)}</b> a month, or try ${foresight.days} days for <b>${fsPx(foresight.trial)}</b>`, go: link([['/seo-tools/', 'See the SEO tools'], [foresight.join, `Start the ${foresight.days}-day trial`]]) },
+    from: `From <b>${fsPx(fs0)}</b> a month, a subscription you can cancel any time, or try ${foresight.days} days for <b>${fsPx(foresight.trial)}</b> once`, go: link([['/seo-tools/', 'See the SEO tools'], [foresight.join, `Start the ${foresight.days}-day trial`]]) },
 };
 const Here = (k: Product) => here === k;
 // The "You are here" card never repeats the price list its own page already shows: it gets the from-line instead.
@@ -50,9 +50,9 @@ const showList = (k: Product) => !compact && !Here(k);
 const short = (n: string) => n.replace(/^Xpert\w+ /, '');
 const lists: Partial<Record<Product, { rows: [string, string, string][]; note: string }>> = {
   forge: { rows: build.tiers.map((t): [string, string, string] => [short(t.name), (t.short.match(/^\d+ pages/) ?? [''])[0], px(t)]),
-    note: offerOn() ? `Launch prices until ${offer.endsText}, plus free months of XpertRank with every website we build.` : '' },
+    note: `A one-time payment each, no monthly fee for the website.${offerOn() ? ` Launch prices until ${offer.endsText}, plus free months of XpertRank with every website we build.` : ''}` },
   foresight: { rows: foresight.tiers.map((t): [string, string, string] => [short(t.name), t.for, fsPx(t)]),
-    note: `A month each, or try ${foresight.days} days for <b>${fsPx(foresight.trial)}</b> first.` },
+    note: `A month each, renewing until you cancel (cancel any time inside XpertForesight), or try ${foresight.days} days for <b>${fsPx(foresight.trial)}</b> first, paid once.` },
 };
 ---
 <section id="which-service" class:list={['solid band suite', { tint, compact }]}><div class="wrap">

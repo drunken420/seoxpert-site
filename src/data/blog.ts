@@ -3,7 +3,7 @@
 // Never promise rankings. No invented numbers, clients or results: examples are clearly marked as examples.
 // Add a new guide at the TOP of the list. Headings use single quotes and no apostrophes (scripts/make-pics.cjs reads them).
 // Styling helpers inside html: <h3>, <ol>, <div class="btip"><b>Tip</b>...</div>, <ul class="bcheck"> (tick list).
-import { build, care, fmt, px, yearly, offer, offerOn } from './packages';
+import { build, care, fmt, px, yearly, offer, offerOn, terms } from './packages';
 
 export interface Post {
   slug: string; tag: string; art: 'cost' | 'care' | 'ai' | 'seo' | 'pick' | 'map' | 'city' | 'stack';
@@ -592,7 +592,7 @@ ${careTable}
     ],
     faqs: [
       { q: 'What is the cheapest website design package?', a: `${starter.name} at ${px(starter)}, paid once, for up to 5 pages.` },
-      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month.` },
+      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month. It is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}` },
       { q: 'Do blog posts count as pages?', a: 'No. Every package comes with its own blog, counted separately from your pages, with 2, 5 or 10 posts written at launch depending on the package.' },
       { q: 'Do all packages include the writing?', a: 'Yes. Highly rankable content and full keyword research are included in every XpertForge package.' },
       { q: 'Can I take a small website with the biggest care plan?', a: `No. A care plan can be as big as the website, not bigger. ${starter.name} takes ${basic.name}.` },
@@ -634,9 +634,9 @@ ${careTable}
     ],
     faqs: [
       { q: 'How much does a website cost in Malaysia?', a: `With SEOXpert a website costs ${px(starter)} to ${px(growth)}, paid once, depending mostly on how many pages you need.` },
-      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month.` },
+      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month. It is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}` },
       { q: 'Is the writing included in the price?', a: 'Yes. Highly rankable content is included in every XpertForge package. We write answer first copy for each page and our experts check it.' },
-      { q: 'Do I have to take a monthly plan?', a: 'No. XpertRank is optional.' },
+      { q: 'Do I have to take a monthly plan?', a: `No. XpertRank is optional. If you choose it, it is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}` },
       { q: 'Are the prices in ringgit?', a: 'Yes. Prices are shown in RM first. The packages page also has a switch to US dollars.' },
     ],
     cta: { pill: 'XpertForge', title: `Get a website from ${px(starter)}`, href: '/packages/', label: 'See packages' },
@@ -749,7 +749,7 @@ ${careTable}
     title: 'Website Maintenance in Malaysia: Cost and What It Covers',
     description: `Website maintenance in Malaysia: the regular work that keeps a website safe, up to date and growing: what it covers, what can go wrong and the cost, from ${fmt(basic)} a month.`,
     card: 'The regular work that keeps a website safe, up to date and growing after launch, and what it costs.',
-    short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${px(basic)} to ${px(elite)} a month for websites we build, with free high speed cloud hosting included. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
+    short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${px(basic)} to ${px(elite)} a month for websites we build, with free high speed cloud hosting included. It is a subscription that renews monthly (or yearly) until you cancel, and you can cancel any time from your XpertInsight dashboard. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
     sections: [
       { id: 'what-it-covers', h: 'What does website maintenance include?', html: `<ul><li><b>Hosting.</b> A fast, reliable home for your website.</li>
 <li><b>Backups.</b> Regular copies are saved, so nothing is lost if something goes wrong.</li>
@@ -771,7 +771,8 @@ ${careTable}
 <h3>Every week</h3><p>Your keywords are tracked, so we can see which pages are rising and which need work.</p>
 <h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand in <a href="/website-report-dashboard/">XpertInsight, your website report dashboard</a>.</p>` },
       { id: 'what-it-costs', h: 'How much does website maintenance cost?', html: `<p>Website maintenance prices vary a lot, so check what is included before you compare. XpertRank has four plans. For websites we build, free high speed cloud hosting is included in every one; websites built elsewhere keep their own hosting.</p>${careTable}
-<p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>` },
+<p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>
+<p>XpertRank is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}</p>` },
       { id: 'choosing-a-plan', h: 'How to choose a plan size', html: `<p>Choose by how often your website needs to change and how fast you want it to grow:</p>
 <ul><li><b>${basic.name}</b> keeps the website healthy, with a few changes and a new blog post each month. It fits any XpertForge website.</li>
 <li><b>${plus.name}</b> keeps it growing, with more changes, more posts and more target keywords optimised and tracked. It needs a Business or Growth website.</li>

@@ -894,3 +894,16 @@ a.fcard:focus-visible{outline:3px solid var(--acc2);outline-offset:3px}
 /* tablets (701-900px): the four plan cards (XpertRank and XpertForesight) sit two by two instead of one very wide card per row.
    It must come after the max-width:900px block above, which sets one column with the same specificity. */
 @media (min-width:701px) and (max-width:900px){.pkcards.n4{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}}
+
+/* How it is paid (Suhen 2026-11-20): a small line on every package card, "One-time payment" on builds and
+   "Subscription, renews monthly (yearly). Cancel any time." on XpertRank and XpertForesight, plus the note under the care cards. */
+.pkterm{margin:-4px 0 0;display:flex;align-items:flex-start;gap:8px;font-size:13.5px;font-weight:600;line-height:1.4;color:var(--soft)}
+.pkterm::before{content:"";flex:0 0 auto;width:14px;height:14px;margin-top:2px;border-radius:50%;background:#efe4fb;box-shadow:inset 0 0 0 4px #b06cff}
+.pkterm.sub::before{border-radius:4px;background:conic-gradient(#7b18c1 0 75%,#e9d8ff 0);box-shadow:none}
+.pkterm .y,.pk-yearly .pkterm .m{display:none}.pk-yearly .pkterm .y{display:inline}
+.pkcard:is(:hover,.hot:not(.pkcards:hover *)) .pkterm{color:#efe4fb}
+.pksubnote{padding:14px 18px;border-radius:16px;background:#f7f0ff;box-shadow:inset 0 0 0 1px #e6d6fa;color:var(--ink)}
+.pksubnote b{color:#5a0f96}
+.pkterms{margin:14px 0 0;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);font-size:13.5px;line-height:1.5;color:#e6d6fa}
+.pkterms:empty{display:none}.pkterms b{color:#fff}
+.pksubline{display:block;margin-top:8px;font-weight:600;color:var(--acc)}

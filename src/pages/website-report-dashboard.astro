@@ -48,7 +48,7 @@ const shotAlt: Record<string, string> = {
 // One tab per view, in group order; each tab knows its group name.
 const tabs = groups.flatMap(([g, , fs]) => (fs as string[]).map((f) => ({ f, h: vmap[f][0], p: vmap[f][1], g: g as string })));
 const extraLd = [{ '@type': 'Service', name: 'XpertInsight website report dashboard', serviceType: 'Website reporting', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-report-dashboard/`, description: 'XpertInsight is the live website report dashboard included with every XpertRank plan: visitors, leads, keywords, AI answers, backlinks and site health, plus a monthly XpertRecap PDF.' }];
-const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'How do I log in to XpertInsight?', 'Can I check XpertInsight on my phone?', 'What is XpertRecap?']);
+const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'Is XpertRank a subscription? How do I cancel?', 'How do I log in to XpertInsight?', 'Can I check XpertInsight on my phone?', 'What is XpertRecap?']);
 ---
 <Base title="Website Report Dashboard: XpertInsight | SEOXpert" image="/img/xpertinsight-share-3.jpg" description="XpertInsight is the live website report dashboard included with XpertRank: visitors, leads, keywords, AI answers, backlinks and site health, plus a monthly PDF." path="/website-report-dashboard/" crumb="Website report dashboard" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
@@ -170,7 +170,7 @@ const pf = pageFaq(['What is XpertInsight?', 'Does XpertInsight cost extra?', 'H
   <div>
     <span class="eyebrow rv">Included with XpertRank</span>
     <h2 class="rv">No extra fee. It comes with your XpertRank plan.</h2>
-    <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertRank</a> plan. It is not sold on its own. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
+    <p class="sub rv">XpertInsight is our own tool, built in house, and it is included with every <a href="/website-maintenance/">XpertRank</a> plan. It is not sold on its own. XpertRank is a subscription, and you can cancel it any time from Your plan in this dashboard. The bigger your plan, the more keywords it tracks: {kw.map(([n, k], i) => <>{i ? (i === kw.length - 1 ? ' and ' : ', ') : ''}{k} with {n}</>)}. Numbers on your dashboard come from your website's real data, and we never promise rankings: we show you honestly where you stand and what we are doing about it.</p>
     <p class="sub rv">Want a dashboard like this for your own business, with your own data and logins? We build those too: see our <a href="/web-app-development-malaysia/">web app and dashboard development</a>. Doing your own SEO research? XpertForesight, our <a href="/seo-tools/">SEO research tool</a>, is sold on its own.</p>
     <p class="rv"><a class="btn" href="/website-maintenance/#xpertrank">Compare XpertRank plans</a></p>
   </div>

@@ -19,14 +19,14 @@ import { care, fmt, fmtOther, px, offersLd, offerOn } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic, , , elite] = care.tiers;
 const promise = "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full.";
-const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'What is the difference between the XpertRank plans?', 'Is XpertRank an SEO service?', 'How is XpertRank different from an SEO agency?', 'Is there a money-back promise?', 'Can you guarantee first page on Google?', 'How long before I see results?', 'Can you look after a website built by someone else?']);
+const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'What is the difference between the XpertRank plans?', 'Is XpertRank a subscription? How do I cancel?', 'Is XpertRank an SEO service?', 'How is XpertRank different from an SEO agency?', 'Is there a money-back promise?', 'Can you guarantee first page on Google?', 'How long before I see results?', 'Can you look after a website built by someone else?']);
 const extraLd = [{ '@type': 'Service', name: 'SEO services in Malaysia: XpertRank', serviceType: 'Search engine optimisation (SEO)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/seo-services-malaysia/`, areaServed: areaLd, description: 'XpertRank, our expert SEO service for websites built by SEOXpert: keyword tracking, on page and technical SEO, new blog posts every month, AI search (LLM) optimisation and a live XpertInsight dashboard, with high speed cloud hosting included.', offers: offersLd(care) }, pf.ld];
 ---
 <Base title="SEO Services Malaysia: SEO Agency for Google and AI | SEOXpert" image={`/img/${pictures["seo-services-malaysia"].file}.jpg`} description={`SEO services in Malaysia: XpertRank from ${fmt(basic)} a month for websites we build, with a money-back promise, or ${fmtOther(basic)} for existing websites. Google and AI search SEO.`} path="/seo-services-malaysia/" crumb="SEO services" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="SEO services" brand="XpertRank" art="seo" crumb="SEO services" word="SEO">
   <Fragment slot="title">SEO services in Malaysia, <em>built into your website</em>.</Fragment>
-  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back. It starts from <Fragment set:html={px(basic)} /> a month for websites we build, backed by our money-back promise, and from <Fragment set:html={px(basic, 'other')} /> a month for a website you already have.</Fragment>
+  <Fragment slot="lede">XpertRank is our expert SEO service. We optimise your target keywords for Google and AI search (LLM), write new content every month and fix what holds you back. It starts from <Fragment set:html={px(basic)} /> a month for websites we build, backed by our money-back promise, and from <Fragment set:html={px(basic, 'other')} /> a month for a website you already have. It is a subscription: cancel any time.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#plans">See XpertRank plans</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 

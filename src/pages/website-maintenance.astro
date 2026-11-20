@@ -13,13 +13,13 @@ import Packages from '../components/Packages.astro';
 import { site, whatsappLink, talkLabel, areaLd } from '../config';
 import { care, offersLd, fmt, fmtOther } from '../data/packages';
 const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertRank, a monthly website maintenance service with expert SEO for any website: updates, backups, fixes, new content and SEO and AI search optimisation. Websites built by SEOXpert also get free high speed cloud hosting.', offers: offersLd(care) }];
-const pf = pageFaq(['What does XpertRank include?', 'What is the difference between the XpertRank plans?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
+const pf = pageFaq(['What does XpertRank include?', 'What is the difference between the XpertRank plans?', 'Is XpertRank a subscription? How do I cancel?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
 ---
 <Base title="Website Maintenance Malaysia: Monthly Service with SEO | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description={`Website maintenance in Malaysia: XpertRank from ${fmt(care.tiers[0])} a month for websites we build, or ${fmtOther(care.tiers[0])} for existing websites, with backups, fixes and SEO.`} path="/website-maintenance/" crumb="Website maintenance" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Expert SEO and maintenance" brand="XpertRank" art="care" crumb="Website maintenance" word="Care">
   <Fragment slot="title">Website maintenance in Malaysia, <em>month after month</em>.</Fragment>
-  <Fragment slot="lede">Website maintenance is the regular work that keeps a website safe, up to date and growing after launch. XpertRank does it for any website: we check it every few days, fix what we find and add new SEO content every month. Websites we build also get free high speed cloud hosting.</Fragment>
+  <Fragment slot="lede">Website maintenance is the regular work that keeps a website safe, up to date and growing after launch. XpertRank does it for any website: we check it every few days, fix what we find and add new SEO content every month. Websites we build also get free high speed cloud hosting. It is a monthly or yearly subscription that you can cancel any time.</Fragment>
   <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#xpertrank">See XpertRank plans</a></Fragment>
 </PageHero>
 

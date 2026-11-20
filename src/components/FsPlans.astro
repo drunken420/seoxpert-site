@@ -6,7 +6,7 @@
 // no locked rows (every plan has every tool). Badge: only "Recommended" (our own pick), never popularity words.
 // No data-pk on the wrapper: packages.js would take over same-page links (it scrolls them to [data-pk]). The RM / USD and
 // monthly / yearly switches still work, because packages.js repaints every span[data-rm][data-usd] on the page.
-import { foresight, fsPx, fsPxCard, fsUp, fsTable, yearly } from '../data/packages';
+import { foresight, fsPx, fsPxCard, fsUp, fsTable, yearly, terms } from '../data/packages';
 interface Props { /** show the switch row (on /packages/ the XpertRank switch above already sets the currency and the billing, so pass bar={false}) */ bar?: boolean }
 const { bar = true } = Astro.props;
 const tiers = foresight.tiers, trial = foresight.trial;
@@ -32,12 +32,13 @@ const free = `${12 - foresight.yearly} months free`;
   </div>}
   <div class="pkcards n4 fscards">
     {tiers.map((t, i) => (
-      <article class:list={['pkcard fscard rv', t.id === HOT && 'hot']} style={`--d:${i};--rows:9;--tc:${['#b06cff', '#9a35e8', '#7b18c1', '#5a0f96'][i] || '#7b18c1'}`}>
+      <article class:list={['pkcard fscard rv', t.id === HOT && 'hot']} style={`--d:${i};--rows:10;--tc:${['#b06cff', '#9a35e8', '#7b18c1', '#5a0f96'][i] || '#7b18c1'}`}>
         {t.id === HOT && <span class="pkbadge">Recommended</span>}
         <h3>{t.name}</h3>
         <p class="pkfor">{t.for}</p>
         <p class="pkprice"><Fragment set:html={fsPxCard(t)} /><small data-unit>a month</small></p>
         <p class="pkyear"><span class="m">or <Fragment set:html={fsPx(t, 'year')} /> a year, {free}</span><span class="y">12 months for the price of {foresight.yearly}</span></p>
+        <p class="pkterm sub"><span class="m">{terms.sub.month}</span><span class="y">{terms.sub.year}</span></p>
         <div class="pkkw fskw"><p><b>{t.fs.searches.toLocaleString('en-US')}</b><span>research searches a month<small>keywords, ideas, websites, keyword gap and AI questions</small></span></p><i aria-hidden="true" style={`--w:${Math.round((t.fs.searches / maxS) * 100)}%`}></i></div>
         <ul class="fsstat">
           <li><b>{t.fs.blueprints}</b><span>XpertBlueprint full scans with an AI SEO plan, a month</span></li>
@@ -58,7 +59,7 @@ const free = `${12 - foresight.yearly} months free`;
   <div class="pktrial fstrial rv">
     <div><span class="pktag">Try first</span><h3>{trial.name}</h3>
       <ul class="pktrows">{trial.rows.map((r) => <li>{r}</li>)}</ul>
-      <p>If you choose a paid plan from Your plan inside XpertForesight, the trial price comes off your first month.</p></div>
+      <p>{terms.fsTrial} If you choose a paid plan from Your plan inside XpertForesight, the trial price comes off your first month.</p></div>
     <div class="pktside">
       <p class="pktprice"><Fragment set:html={fsPx(trial)} /><small>for {foresight.days} days</small></p>
       <a class="btn" href={`${foresight.join}#trial`} data-track="foresight-trial">Start the {foresight.days}-day trial</a>
@@ -76,5 +77,6 @@ const free = `${12 - foresight.yearly} months free`;
       </table>
     </div>
   </details>
-  <p class="pknote rv">XpertForesight is sold on its own and is not part of XpertRank. Cancel any time from Manage billing inside XpertForesight. It is new and in early access, so it keeps getting better.</p>
+  <p class="pknote pksubnote rv"><b>XpertForesight is a subscription.</b> It renews every month, or every year if you pay yearly, until you cancel. {terms.fsCancel}</p>
+  <p class="pknote rv">XpertForesight is sold on its own and is not part of XpertRank. It is new and in early access, so it keeps getting better.</p>
 </div>

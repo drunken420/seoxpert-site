@@ -68,7 +68,7 @@ const extraLd = [{
   description: 'XpertForesight is an SEO research tool by SEOXpert: keyword overview, keyword ideas, domain overview, keyword gap, AI questions, a weekly XpertCore site audit, PDF reports and XpertBlueprint, a one-click full scan with an AI SEO plan. For agencies, freelancers and business owners who do their own SEO.',
   publisher: { '@id': `${site.url}/#org` }, offers: fsOffersLd(),
 }];
-const pf = pageFaq(['What is XpertForesight?', 'Who is XpertForesight for?', 'Is XpertForesight included in XpertRank?', 'How much does XpertForesight cost?', 'Can I try XpertForesight first?', 'What counts as a search in XpertForesight?', 'Which countries can XpertForesight research?']);
+const pf = pageFaq(['What is XpertForesight?', 'Who is XpertForesight for?', 'Is XpertForesight included in XpertRank?', 'How much does XpertForesight cost?', 'Is XpertForesight a subscription? How do I cancel?', 'Can I try XpertForesight first?', 'What counts as a search in XpertForesight?', 'Which countries can XpertForesight research?']);
 ---
 <Base title="SEO Tools for Keyword Research: XpertForesight | SEOXpert" image={`/img/${pictures["seo-tools"].file}.jpg`} description={`XpertForesight SEO tools: keyword research, keyword ideas, competitor keyword gap, AI questions and a weekly site audit. From ${fsFmt(fs0)} a month, or try ${foresight.days} days for ${fsFmt(trial)}.`} path="/seo-tools/" crumb="SEO tools" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
@@ -141,7 +141,7 @@ const pf = pageFaq(['What is XpertForesight?', 'Who is XpertForesight for?', 'Is
 <section id="plans" class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">Plans and prices</span>
   <h2 class="rv">How much do XpertForesight SEO tools cost?</h2>
-  <p class="sub rv">From <Fragment set:html={fsPx(fs0)} /> a month, or <Fragment set:html={fsPx(trial)} /> for a {foresight.days}-day trial. Pay yearly and get 12 months for the price of {foresight.yearly}.</p>
+  <p class="sub rv">From <Fragment set:html={fsPx(fs0)} /> a month, or <Fragment set:html={fsPx(trial)} /> for a {foresight.days}-day trial. Pay yearly and get 12 months for the price of {foresight.yearly}. Plans are subscriptions that renew until you cancel, and you can cancel any time from Your plan inside XpertForesight. The trial is paid once and does not renew.</p>
   <FsPlans />
 </div></section>
 

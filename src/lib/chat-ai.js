@@ -2,7 +2,7 @@
 // Used by functions/api/chat.js on the server. The facts come from src/data/packages.ts (prices, plans, launch offer),
 // plus /llms.txt and /chat.json (the FAQ) that the build makes, so the AI only ever knows what the website already says.
 // The rules below are SEOXpert's own rules from CLAUDE.md and project memory: keep them in step when those change.
-import { build, care, trial, offer, yearly, offerOn, buyer, foresight } from '../data/packages.ts';
+import { build, care, trial, offer, yearly, offerOn, buyer, foresight, terms } from '../data/packages.ts';
 
 const money = (n, cur) => (cur === 'RM' ? 'RM' : 'US$') + n.toLocaleString('en-US');
 const strip = (h) => String(h || '').replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g, '$2 ($1)').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
@@ -46,7 +46,7 @@ export function priceFacts(now = new Date()) {
   lines.push(`- ${ft.name}: ${money(ft.rm, 'RM')} (${money(ft.usd, 'USD')}) once, for ${f.days} days: ${ft.fs.searches} searches in total, ${ft.fs.blueprints} XpertBlueprint, ${ft.fs.sites} website, a ${ft.fs.pages}-page site audit, PDF reports with a trial watermark, no CSV. The trial price comes off the first paid month when they upgrade from Your plan inside XpertForesight.`);
   for (const t of f.tiers) lines.push(`- ${t.name}: ${money(t.rm, 'RM')} a month (${money(t.usd, 'USD')}): ${t.fs.searches.toLocaleString('en-US')} searches a month, ${t.fs.blueprints} XpertBlueprint scans a month, ${t.fs.sites} website${t.fs.sites === 1 ? '' : 's'}, a weekly site audit of up to ${t.fs.pages} pages per website.`);
   // Cancelling wording copied from the XpertForesight sign-up page (xpertinsight src/join.html).
-  lines.push(`Pay XpertForesight yearly: 12 months for the price of ${f.yearly}. Sign up and pay online at ${f.join} (write it as plain text, not a link). XpertForesight has NO money-back promise. Cancelling: you can cancel any time from Manage billing inside XpertForesight, and the plan stays open until the end of the time you paid for. Say only that; never describe a refund policy or anything more about cancelling: say a real person will answer by email.`);
+  lines.push(`Pay XpertForesight yearly: 12 months for the price of ${f.yearly}. Sign up and pay online at ${f.join} (write it as plain text, not a link). XpertForesight has NO money-back promise. Paid XpertForesight plans are SUBSCRIPTIONS that renew automatically every month (or year) until cancelled; the trial is one payment and does not renew. Cancelling: ${terms.fsCancel} Say only that; never describe a refund policy or anything more about cancelling: say a real person will answer by email.`);
 
   lines.push('', 'XPERTRANK, OUR EXPERT SEO SERVICE (monthly). It is how we grow a website after launch, so we recommend it with every website we build; it also works on websites built elsewhere. The main difference between the plans is the number of target keywords we optimise for Google and AI search (LLM) and track weekly.');
   lines.push(`Price for websites WE build (includes free high speed cloud hosting and the money-back promise)${on ? '; launch prices for the first 20 XpertRank clients' : ''}:`);
@@ -54,6 +54,8 @@ export function priceFacts(now = new Date()) {
   lines.push('Price for websites built ELSEWHERE ("I already have a website"; no hosting, no launch price, NO money-back promise):');
   for (const t of care.tiers) lines.push(`- ${t.name} (${t.kw} target keywords): ${money(t.rmOther, 'RM')} a month (${money(t.usdOther, 'USD')}).`);
   lines.push(`Pay XpertRank yearly: 12 months for the price of ${yearly.pay} (${yearly.text}).`);
+  // Subscriptions (Suhen 2026-11-20): say clearly what renews and how to cancel; words from `terms` in packages.ts.
+  lines.push(`HOW IT IS PAID: XpertRank is a SUBSCRIPTION, not a one-time payment: it renews automatically every month (or every year when paid yearly) until the client cancels. ${terms.cancel} An XpertForge website build is a one-time payment (no monthly fee for the website). The ${trial.name} is one payment for ${trial.days} days and does not renew. Say only this about cancelling; never describe a refund policy beyond the money-back promise: say a real person will answer by email.`);
   lines.push(`Every XpertRank plan includes: ${care.all.join('; ')}.`);
   lines.push(`${care.oursTitle} (never websites built elsewhere; the promise never covers the Trial): ${care.ours.join('; ')}.`);
   lines.push(`- ${trial.name}: ${money(trial.rm, 'RM')} (${money(trial.usd, 'USD')}) for ${trial.days} days. ${trial.short}. It is not covered by the money-back promise.`);

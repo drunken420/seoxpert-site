@@ -1,5 +1,5 @@
 import { site } from '../config';
-import { build, care, trial, fmt, fmtNew, fmtOther, offer, offerOn, yearly, buyer, foresight, fsFmt } from '../data/packages';
+import { build, care, trial, fmt, fmtNew, fmtOther, offer, offerOn, yearly, buyer, foresight, fsFmt, terms } from '../data/packages';
 import { posts, postUrl } from '../data/blog';
 // XpertForesight prices: `foresight` in packages.ts, the site's one copy of xpertinsight lib/fsplans.js (2026-11-19)
 const fsTrial = foresight.trial, fsFrom = foresight.tiers[0];
@@ -24,6 +24,7 @@ Area: based in ${site.country}, working remotely with businesses in ${site.areas
 - Every XpertForge website is secure by design: every page is custom engineered and designed (no two websites are the same), then built into secure static files with no database and no admin login on the live website when SEOXpert builds and manages it with XpertRank (a website handed over to the client gets a simple editing dashboard with a login instead), HTTPS and safety headers on every page, and, on SEOXpert's high speed cloud hosting, a global cloud network with built-in DDoS protection. Every version is kept in the code history. SEOXpert does not claim any website is impossible to hack.
 - SEOXpert also builds web apps: dashboards, online tools, logins and Stripe payment gateway set ups (card, FPX and GrabPay). They are browser web apps, not App Store or Play Store apps, and each one is quoted on its scope (no published price).
 - XpertForesight is SEOXpert's own SEO research tool (foresight.seoxpert.my), sold on its own and not included in XpertRank: keyword research, competitor research (domain overview and keyword gap), AI questions, a weekly site audit, PDF reports and XpertBlueprint (one click runs every scan and our AI writes an SEO plan). ${fsTrial.name}: ${fsFmt(fsTrial)} (${fsFmt(fsTrial, 'USD')}) for ${foresight.days} days; paid plans from ${fsFmt(fsFrom)} (${fsFmt(fsFrom, 'USD')}) a month (${foresight.tiers.map((t) => `${t.name.replace('XpertForesight ', '')} ${fsFmt(t)}`).join(', ')}); paid yearly, 12 months for the price of ${foresight.yearly}. It has no money-back promise.
+- How things are paid: an XpertForge website build is a one-time payment (no monthly fee for the website). XpertRank and XpertForesight plans are subscriptions that renew automatically every month, or every year when paid yearly (12 months for the price of ${yearly.pay}), until the customer cancels. XpertRank: ${terms.cancel} XpertForesight: ${terms.fsCancel} The ${trial.name} (${trial.days} days) and the ${foresight.trial.name} (${foresight.days} days) are each one payment and do not renew.
 - Build times (usual, not a promise): XpertForge ${buyer.times}, ${buyer.from}. ${buyer.revision} ${buyer.bigger}
 - After a website build is paid (in full, before work starts): ${buyer.steps.map((s) => s.t.charAt(0).toLowerCase() + s.t.slice(1)).join(', ')}.
 - ${buyer.domain}
