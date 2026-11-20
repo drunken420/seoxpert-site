@@ -6,13 +6,14 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import PageFaq from '../components/PageFaq.astro';
 import Glance from '../components/Glance.astro';
 import pictures from '../data/pictures.json';
 import Packages from '../components/Packages.astro';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaLd } from '../config';
-import { care, trial, fmt, fmtOther, offersLd, offerOn } from '../data/packages';
+import { care, trial, fmt, fmtOther, offersLd, offerOn, rankLaunch, rankNote } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic] = care.tiers;
 const short = (n: string) => n.replace('XpertRank ', '');
@@ -27,28 +28,28 @@ const rows: [string, (t: typeof basic) => string][] = [
   ['Competitor tracking', (t) => (t.rows.some((r) => r.includes('Competitor tracking')) ? 'Yes' : 'From Plus')],
   ['XpertInsight dashboard and XpertRecap PDF', () => 'Yes'],
 ];
-const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'What is the difference between the XpertRank plans?', 'Which XpertRank plan fits my website?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'Can I try XpertRank first?']);
+const pf = pageFaq(['How much do SEO services cost in Malaysia?', 'What is the difference between the XpertRank plans?', 'Is XpertRank a subscription? How do I cancel?', 'Which XpertRank plan fits my website?', 'Is there a discount if I pay yearly?', 'Is there a money-back promise?', 'Can I try XpertRank first?']);
 const extraLd = [{ '@type': 'Service', name: 'SEO packages in Malaysia: XpertRank', serviceType: 'Search engine optimisation (SEO)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/seo-packages-malaysia/`, areaServed: areaLd, description: 'XpertRank SEO packages with published monthly prices: Basic, Plus, Pro and Elite, plus a 14-day Trial.', offers: offersLd(care) }, pf.ld];
 ---
-<Base image={`/img/${pictures["seo-packages-malaysia"].file}.jpg`} title="SEO Packages and SEO Price in Malaysia | SEOXpert" description={`SEO packages in Malaysia with real prices: XpertRank from ${fmt(basic)} a month, or try it for ${fmt(trial)}. Compare keywords, blog posts, audits and AI search checks.`} path="/seo-packages-malaysia/" crumb="SEO packages" extraLd={extraLd}>
+<Base image={`/img/${pictures["seo-packages-malaysia"].file}.jpg`} title="SEO Packages and SEO Price in Malaysia | SEOXpert" description={`SEO packages in Malaysia with real prices: XpertRank from ${fmt(basic)} a month for websites we build, ${fmtOther(basic)} for existing websites, or a ${fmt(trial)} trial. Compare every package.`} path="/seo-packages-malaysia/" crumb="SEO packages" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="SEO packages" brand="XpertRank" art="seopack" crumb="SEO packages" word="Price">
   <Fragment slot="title">SEO packages in Malaysia, <em>with the price on show</em>.</Fragment>
-  <Fragment slot="lede">No "contact us for a quote". XpertRank, our expert SEO service, comes in four sizes with the monthly price on every card, from {fmt(basic)} a month. Compare what each package includes below.</Fragment>
+  <Fragment slot="lede">No "contact us for a quote". XpertRank, our expert SEO service, comes in four sizes with the monthly price on every card: from {fmt(basic)} a month for websites we build{rankNote()}, and from {fmtOther(basic)} a month for websites built elsewhere. Compare what each package includes below.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#plans">See the prices</a><a class="btn ghost" href={whatsappLink}>{talkLabel}</a></Fragment>
 </PageHero>
 
 <section id="plans" class="solid band"><div class="wrap">
   <span class="eyebrow rv">SEO price in Malaysia</span>
   <h2 class="rv">How much does SEO cost in Malaysia?</h2>
-  <p class="sub rv">Prices shown are for websites we build with XpertForge{offerOn() ? ', at the launch price for our first 20 XpertRank clients' : ''}. Pay yearly and get 2 months free.</p>
+  <p class="sub rv">Prices shown are for websites we build with XpertForge{rankLaunch() ? ', at the launch price for our first 20 XpertRank clients' : ''}. Every package is a subscription that renews monthly, or yearly with 2 months free, until you cancel, and you can cancel any time from your dashboard. Every package includes <a href="/website-report-dashboard/">XpertInsight, your website report dashboard</a>.</p>
   <Packages show="care" pickHref="/packages/#plan" />
 </div></section>
 
 <section class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">Compare SEO packages</span>
   <h2 class="rv">What each SEO package includes.</h2>
-  <div class="cmpwrap rv">
+  <div class="cmpwrap rv" tabindex="0" role="region" aria-label="XpertRank SEO packages compared">
     <table class="cmptab">
       <thead><tr><th scope="col">Every month</th>{care.tiers.map((t) => <th scope="col" class:list={[t.hot && "hot"]}>{short(t.name)}<small>{t.for}</small></th>)}</tr></thead>
       <tbody>{rows.map(([h, f]) => <tr><th scope="row">{h}</th>{care.tiers.map((t) => <td class:list={[t.hot && "hot"]}><b>{f(t)}</b></td>)}</tr>)}</tbody>
@@ -62,11 +63,12 @@ const extraLd = [{ '@type': 'Service', name: 'SEO packages in Malaysia: XpertRan
     <h2 class="rv">SEO packages for websites built elsewhere.</h2>
   </div>
   <div class="prose">
-    <p class="rv">XpertRank works on any website. For a website built by someone else, the same packages cost {care.tiers.map((t, i) => <>{i ? (i === care.tiers.length - 1 ? ' and ' : ', ') : ''}{fmtOther(t)} ({short(t.name)})</>)} a month. Free hosting and the money-back promise are only for websites we build.</p>
-    <p class="rv">Not sure? Try the {trial.name} first: {fmt(trial)} for {trial.days} days, taken off your first month when you choose a paid plan.</p>
-    <p class="rv">Bigger website, shop or booking system? <a href="/contact/">Get a quote</a>. Read more about our <a href="/seo-services-malaysia/">SEO services</a> and <a href="/ai-seo-services-malaysia/">AI SEO services</a>.</p>
+    <p class="rv">XpertRank, our <a href="/website-maintenance/">website maintenance and SEO service</a>, works on any website. For a website built by someone else, the same packages cost {care.tiers.map((t, i) => <>{i ? (i === care.tiers.length - 1 ? ' and ' : ', ') : ''}{fmtOther(t)} ({short(t.name)})</>)} a month. Free hosting and the money-back promise are only for websites we build.</p>
+    <p class="rv">Not sure? Try the {trial.name} first: {fmt(trial)} for {trial.days} days, paid once (it does not renew), and taken off your first month when you choose a paid plan.</p>
+    <p class="rv">Bigger website, shop or booking system? <a href="/contact/">Get a quote</a>. Read more about our <a href="/seo-services-malaysia/">SEO services</a>, <a href="/ai-seo-services-malaysia/">AI SEO services</a> and the weekly <a href="/seo-audit-malaysia/">SEO audit</a> in every package. Need a new website first? See our <a href="/packages/">website design packages</a>.</p>
   </div>
 </div></section>
+<Suite here="rank" tint title="SEO packages or SEO tools: which fits you?" intro="Our SEO packages are XpertRank plans: our team does the work. If you would rather do your own SEO, XpertForesight gives you our SEO research tools instead." />
 <Glance page="seo-packages-malaysia" guides={['seo-malaysia-guide', 'website-design-price-malaysia']} />
 <PageFaq title="SEO package questions, answered." items={pf.items} tint />
 <Related skip="/seo-packages-malaysia/" />

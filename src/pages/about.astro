@@ -4,6 +4,7 @@ import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Trio from '../components/Trio.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
 import { pageFaq } from '../lib/faq';
@@ -30,7 +31,7 @@ const pf = pageFaq(['Who is behind SEOXpert?', 'Do you outsource the work?', 'Wh
     <p class="rv">SEOXpert is intentionally focused and selective about the work we take on. Your website is personally planned and overseen. There is no outsourcing and no white labelling.</p>
     <p class="rv">Search is changing. People still use Google, and more and more of them ask AI tools for answers. Our <a href="/website-design/">website design</a> makes sure every website can be found in both places, guided by <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>, and finishing every page by hand.</p>
     <p class="rv">We use ethical methods that favour long term performance over short term tricks, and we tell you plainly what we are doing and why.</p>
-    <p class="rv">Everything with the Xpert name is developed in house: XpertForge, our website build, XpertCore, our AI core, XpertRank, our expert SEO service, and XpertLab, our demos.</p>
+    <p class="rv">Everything with the Xpert name is developed in house: XpertForge, our website build, XpertCore, our AI core, XpertRank, our expert SEO service, XpertForesight, our <a href="/seo-tools/">SEO research tool</a>, and XpertLab, our demos.</p>
     <p class="rv">After more than 7 years of hands-on SEO, our founder built XpertCore so every website is ready for Google and AI from day one.</p>
   </div>
 </div></section>
@@ -40,14 +41,7 @@ const pf = pageFaq(['Who is behind SEOXpert?', 'Do you outsource the work?', 'Wh
   <p class="creed rv">Clarity over <em>complexity</em>. Transparency over <em>buzzwords</em>. Strategy over <em>shortcuts</em>.</p>
 </div></section>
 
-<section class="solid band"><div class="wrap">
-  <span class="eyebrow rv">What we do</span>
-  <h2 class="rv">Two things, done properly.</h2>
-  <div class="grid3 two">
-    <a class="fcard rv" href="/website-design/" style="text-decoration:none;color:inherit"><div class="pet"></div><h3>Website design</h3><p>XpertForge: a new website for your business, planned for Google and AI search before it is designed.</p><span class="more">How it works</span></a>
-    <a class="fcard rv" href="/website-maintenance/" style="--d:1;text-decoration:none;color:inherit"><div class="pet" style="--r:90deg"></div><h3>Website maintenance</h3><p>XpertRank: monthly SEO and care for any website, with free high speed cloud hosting when we build it.</p><span class="more">What is covered</span></a>
-  </div>
-</div></section>
+<Suite tint eyebrow="What we do" title="What does SEOXpert offer?" intro="Two services our team does for you, and our own software for people who do their own SEO." />
 <Glance page="about" guides={['choose-web-design-company-malaysia']} />
 <PageFaq title="Questions about SEOXpert, answered." items={pf.items} tint />
 <Trio />

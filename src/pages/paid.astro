@@ -2,6 +2,10 @@
 import Base from '../layouts/Base.astro';
 import '../styles/page.css';
 import { site } from '../config';
+import AfterPay from '../components/AfterPay.astro';
+import { terms } from '../data/packages';
+// How it was paid (Suhen 2026-11-20): the Trial and a build are one payment; XpertRank renews until cancelled.
+const paidTerms = { trial: terms.trial, xpertrank: `Your plan is a subscription: it renews automatically until you cancel. ${terms.cancel}`, build: 'This was a one-time payment for your website.' };
 // After a Stripe payment (functions/api/checkout.js sends people here). Not for search engines.
 // The line under the heading follows what was paid (?kind=trial|xpertrank|build), filled in by the small script.
 ---
@@ -11,18 +15,25 @@ import { site } from '../config';
   <p class="paidtick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></p>
   <h1>Thank you, your payment went through.</h1>
   <p class="lede" id="paidnext">Stripe has emailed your receipt. Our team will email you the next step within one working day.</p>
-  <p class="sub">Questions? Write to <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  <p class="sub">Questions? Write to <Fragment set:html="<!--email_off-->" /><a href={`mailto:${site.email}`}>{site.email}</a><Fragment set:html="<!--/email_off-->" />.</p>
   <div class="cta-row"><a class="btn" href="/">Back to the homepage</a><a class="btn ghost" href="/blog/">Read our guides</a></div>
+  {/* For a website build only (?kind=build), the script below shows what happens next (Suhen 2026-11-19, `buyer` in packages.ts). */}
+  <div class="paidsteps" id="paidsteps" hidden>
+    <h2>What happens next</h2>
+    <AfterPay />
+  </div>
 </div></section>
 </main>
-<script is:inline>
+<script is:inline define:vars={{ paidTerms }}>
   (function () {
     var k = (/[?&]kind=([a-z]+)/.exec(location.search) || [])[1], el = document.getElementById('paidnext');
     // Trial and XpertRank: the XpertInsight invite is emailed straight after the payment (Suhen 2026-11-16, functions/api/stripe-webhook.js invite()).
     var t = { trial: 'Your XpertRank Trial is booked. Stripe has emailed your receipt, and your invite to set up your XpertInsight dashboard is on its way to the same inbox in a few minutes.',
       xpertrank: 'Your XpertRank plan has started. Stripe has emailed your receipt, and your invite to set up your XpertInsight dashboard is on its way to the same inbox in a few minutes.',
       build: 'Your website is paid and booked. Stripe has emailed your receipt, and we will email you within one working day to plan your website together.' }[k];
-    if (t && el) el.textContent = t;
+    if (t && el) el.textContent = t + ' ' + paidTerms[k];
+    var st = document.getElementById('paidsteps');
+    if (k === 'build' && st) st.hidden = false;
   })();
 </script>
 </Base>

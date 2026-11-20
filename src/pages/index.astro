@@ -7,19 +7,27 @@ import { site, whatsappLink } from '../config';
 import Cta from '../components/Cta.astro';
 import Trio from '../components/Trio.astro';
 import Secure from '../components/Secure.astro';
+import Suite from '../components/Suite.astro';
 import { homeFaqLd } from '../lib/faq';
-import { fillPrices } from '../data/packages';
+import { fillPrices, build } from '../data/packages';
 import icon from '../fragments/icon.svg?raw';
 // The "Secure by design" layers sit between "What we do" and the XpertLab teaser (Suhen 2026-11-17).
 const cut = lower.indexOf('<section id="lab"');
 const fill = (h: string) => h.replace('<canvas id="gl" aria-hidden="true"></canvas>', '<canvas id="gl" aria-hidden="true"></canvas><div class="poster" aria-hidden="true">' + icon + '<i></i><i></i><i></i><i></i><i></i><i></i></div>').replace('<a href="#talk">WhatsApp us</a>, <a href="/contact/">email us</a>', site.whatsapp ? `<a href="${whatsappLink}">WhatsApp us</a>, <a href="/contact/">email us</a>` : '<a href="/contact/">Email us</a>');
 const extraLd = [homeFaqLd];
+// "Starter usually takes 1 to 2 weeks, Business 2 to 3 weeks and Growth 4 to 6 weeks" (times from packages.ts)
+const [t1, t2, t3] = build.tiers;
+const buildTimes = `${t1.name.replace(/^XpertForge /, '')} usually takes ${t1.time}, ${t2.name.replace(/^XpertForge /, '')} ${t2.time} and ${t3.name.replace(/^XpertForge /, '')} ${t3.time}`;
 ---
 <Base title="SEOXpert: Website Design and SEO Company in Malaysia" extraLd={extraLd}>
   <main id="main">
   <Fragment set:html={fillPrices(fill(top), true)} />
   <Trio />
   <Fragment set:html={fillPrices(lower.slice(0, cut), true)} />
+  {/* The prices of "What we do" live only here, so each shows once on Home (2026-11-19 review). */}
+  <Suite compact tint>
+    <p class="stafter rv">One price to build your website, with copywriting and keyword research included. {buildTimes}, from the day we have your details. <a class="more" href="/packages/">Compare packages and build your plan</a></p>
+  </Suite>
   <Secure compact />
   <Fragment set:html={fillPrices(lower.slice(cut), true)} />
   <Cta />

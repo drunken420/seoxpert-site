@@ -119,3 +119,6 @@ body{background:radial-gradient(50vw 62vh at 74% 40%,rgba(176,108,255,.26),trans
   .labs::-webkit-scrollbar{display:none}
   .labs .lab{flex:0 0 80%;scroll-snap-align:start}
 }
+/* What we do: three panels (design, SEO, our work; the prices moved into the product suite, 2026-11-19) */
+@media (min-width:1001px){#services .duo.svc3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:901px) and (max-width:1000px){#services .duo.svc3>:last-child{grid-column:1/-1}}

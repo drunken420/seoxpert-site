@@ -1,0 +1,148 @@
+---
+// Web app, dashboard and payment gateway development (2026-11-19). Keyword research from XpertForesight, Google Malaysia (location 2458), 19 Nov 2026:
+// web and app development 140, web application development 140, web app development 110, software development company malaysia 110,
+// app development malaysia 90, app development company malaysia 90, stripe payment gateway malaysia 90, software development malaysia 70,
+// online payment gateway malaysia 70, payment gateway integration 30, dashboard development 20. "payment gateway malaysia" (1,600) is mostly
+// people looking for a provider, so it is only mentioned naturally. We build WEB apps (any phone, can be added to the home screen), never
+// App Store or Play Store apps. Proof is only what we really built and run: XpertInsight, XpertForesight, XpertStocks, and Stripe on seoxpert.my.
+// Stripe is the only gateway we claim (card, FPX, GrabPay). No prices and no timelines: every web app is quoted on its scope ("Get a quote").
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
+import Glance from '../components/Glance.astro';
+import PageFaq from '../components/PageFaq.astro';
+import { pageFaq } from '../lib/faq';
+import pictures from '../data/pictures.json';
+import '../styles/page.css';
+import { site, areaText, areaLd, ways } from '../config';
+// Screenshots use the same browser-framed "pshot" figure as the AI SEO services and SEO audit pages (desktop shots 1200 x 750).
+const extraLd = [{ '@type': 'Service', name: 'Web app, dashboard and payment gateway development', serviceType: 'Web application development', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/web-app-development-malaysia/`, areaServed: areaLd, description: 'Web app development in Malaysia: client dashboards, online tools, one-time-code logins and Stripe payment gateway integration (cards, FPX and GrabPay, subscriptions, receipts and a billing portal), from the team that built and runs XpertInsight, XpertForesight and XpertStocks. Every project is quoted on its scope.' }];
+const pf = pageFaq(['What is the difference between a website and a web app?', 'How much does a web app or dashboard cost?', 'How long does it take to build a web app?', 'Do you build App Store or Play Store apps?', 'Can you build a dashboard for my business?', 'Which payment gateway do you use?', 'Can you add online payments to my existing website?', 'How do logins work in the web apps you build?', 'Who owns the code and the data of my web app?']);
+---
+<Base title="Web App and Dashboard Development in Malaysia | SEOXpert" image={`/img/${pictures["web-app-development-malaysia"].file}.jpg`} description="Web app development in Malaysia: dashboards, logins and Stripe payment gateway set up with card, FPX and GrabPay, from the team that built XpertInsight." path="/web-app-development-malaysia/" crumb="Web app development" extraLd={[...extraLd, pf.ld]}>
+<main id="main">
+<PageHero kicker="Web app development" art="apps" crumb="Web app development" word="Apps">
+  <Fragment slot="title">Web app and <em>dashboard</em> development in Malaysia.</Fragment>
+  <Fragment slot="lede">We build web apps for businesses: client dashboards, online tools, secure logins and Stripe payments by card, FPX or GrabPay. We already build and run our own, XpertInsight, XpertForesight and XpertStocks, and every project gets its own quote.</Fragment>
+  <Fragment slot="cta"><a class="btn" href="/contact/" data-track="get-a-quote">Get a quote</a><a class="btn ghost" href="#work">See what we have built</a></Fragment>
+</PageHero>
+
+<section class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Web and app development</span>
+  <h2 class="rv">What is web app development?</h2>
+  <p class="sub rv">Web app development is building a website that people can use, not only read: they log in, see their own numbers, use a tool or pay. We do web application development for businesses in {areaText}, and every web app we build works in the browser on any phone, tablet or computer. If you were looking for a software development company in Malaysia for a dashboard, an online tool or a payment set up, this is what we do.</p>
+  <div class="grid3">
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Client dashboards</h3><p>Your numbers in plain words, with charts, a date range to pick and PDF reports, like <a href="/website-report-dashboard/">XpertInsight</a>, the live dashboard our clients log in to.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Online tools and calculators</h3><p>Free or paid tools for your customers, like the calculators on XpertStocks and the research tools in XpertForesight.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Logins with one-time codes</h3><p>Members and clients log in with a fresh code sent to their email. There is no password to remember, reuse or leak.</p></div>
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>Payments and subscriptions</h3><p>Stripe payment gateway integration: one-time payments and payment links paid by card, FPX or GrabPay, and monthly or yearly plans that renew by card.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>Team and admin pages</h3><p>The side only your team sees: add and edit customers, send invites, read messages and change plans.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Public pages that can be found</h3><p>The parts anyone can see are fast, static pages written for Google and AI search, built the way our <a href="/website-development/">website development</a> works.</p></div>
+  </div>
+</div></section>
+
+<section id="work" class="solid tint band"><div class="wrap">
+  <span class="eyebrow rv">Work we have built</span>
+  <h2 class="rv">Which web apps have we built?</h2>
+  <p class="sub rv">Three web apps we designed, coded and still run ourselves. They are real and live, so you can see the kind of work you would get. Only need a website? See our <a href="/website-design/">website design</a> service.</p>
+  <div class="work appwork">
+    <article class="workcard rv">
+      <figure class="pshot"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>overview</b></span></div><img src="/img/xi-shot2-overview.webp" srcset="/img/xi-shot2-overview-720.webp 720w, /img/xi-shot2-overview.webp 1200w" sizes="(max-width: 900px) 94vw, 620px" width="1200" height="750" loading="lazy" decoding="async" alt="The XpertInsight Overview for Sample Bakery: an Xpert score of 86, 1,629 visitors, 58 leads, 532 Google clicks, 4 of 10 keywords on page 1 and insights from our experts" /></figure>
+      <div class="workinfo"><span class="xp">XpertInsight</span><span class="eyebrow">Live client dashboard</span><h3>A live dashboard our clients log in to.</h3><p>XpertInsight is the live dashboard we built for our XpertRank clients, and real clients use it. Each one sees only their own website.</p>
+        <ul class="ticks"><li>Visitors, keywords, AI answers, site health and backlinks, each in its own view</li><li>A monthly XpertRecap PDF, saved automatically</li><li>Plan upgrades by card and Manage billing, through Stripe</li><li>Logins with one-time codes, no passwords</li></ul>
+        <a class="more" href="/website-report-dashboard/">Look inside XpertInsight</a></div>
+    </article>
+    <article class="workcard rv">
+      <figure class="pshot"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>foresight.seoxpert.my/<b>home</b></span></div><img src="/img/fs-shot2-home.webp" srcset="/img/fs-shot2-home-720.webp 720w, /img/fs-shot2-home.webp 1200w" sizes="(max-width: 900px) 94vw, 620px" width="1200" height="750" loading="lazy" decoding="async" alt="XpertForesight Research home: one search box for keyword overview, keyword ideas, domain overview, keyword gap and AI questions, with the XpertBlueprint full scan banner" /></figure>
+      <div class="workinfo"><span class="xp">XpertForesight</span><span class="eyebrow">SEO research tool</span><h3>An SEO research tool with its own sign-up and checkout.</h3><p>XpertForesight is the SEO research tool we built and sell on its own. People sign up and pay online, and their account is made for them straight after the payment.</p>
+        <ul class="ticks"><li>Keyword overview, keyword ideas, domain overview and keyword gap</li><li>AI questions, a site audit and PDF reports</li><li>XpertBlueprint: one click runs every scan and writes a plan</li><li>Public sign-up with Stripe checkout</li></ul>
+        <p class="wlinks"><a class="more" href="/seo-tools/">See our XpertForesight page</a><a class="more" href="https://foresight.seoxpert.my/join/" target="_blank" rel="noopener">See the XpertForesight sign-up<span class="vh"> (opens in a new tab)</span></a></p></div>
+    </article>
+    <article class="workcard rv">
+      <a class="workshot" data-vid="/work/xpertstocks" href="https://xpertstocks.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><span class="workbar"><i></i><i></i><i></i><b>xpertstocks.com</b></span><img src="/work/xpertstocks.jpg" alt="The XpertStocks homepage: a glowing purple 3D X mark inside rings of purple light beside the headline &quot;Track Bursa Malaysia stocks with clear numbers.&quot; A web app designed and built by SEOXpert." width="1280" height="853" loading="lazy" decoding="async"></a>
+      <div class="workinfo"><span class="xp">XpertStocks</span><span class="eyebrow">Free online tools</span><h3>Free Bursa Malaysia stock tools, in the browser.</h3><p>XpertStocks is our own web app of free tools for people who invest on Bursa Malaysia. It is tools and education only, never stock tips.</p>
+        <ul class="ticks"><li>Calculators for trading fees, position size and stop-loss, dividend yield and EPF dividends</li><li>A paper trading simulator to practise with pretend money</li><li>Guides and a glossary, as fast static pages</li><li>A stock tracking dashboard, coming soon</li></ul>
+        <p class="wlinks"><a class="more" href="https://xpertstocks.com/" target="_blank" rel="noopener">Visit xpertstocks.com<span class="vh"> (opens in a new tab)</span></a></p></div>
+    </article>
+  </div>
+</div></section>
+
+<section class="dark band"><div class="wrap">
+  <span class="eyebrow rv">A closer look</span>
+  <h2 class="rv">Real screens from our own web apps.</h2>
+  <p class="sub rv">Dashboards and tools in real use, shown just as they look on a computer.</p>
+  <div class="appmore">
+    <figure class="rv" style="--d:0"><div class="pshot"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>keywords</b></span></div><img src="/img/xi-shot2-keywords-720.webp" srcset="/img/xi-shot2-keywords-720.webp 720w, /img/xi-shot2-keywords.webp 1200w" sizes="(max-width: 900px) 94vw, 400px" width="1200" height="750" loading="lazy" decoding="async" alt="The Keywords view of XpertInsight: 4 keywords on page 1, 10 in the top 100, a table of tracked keywords with Google positions and weekly trends, and keywords almost on page 1" /></div><figcaption>XpertInsight: keywords checked every week.</figcaption></figure>
+    <figure class="rv" style="--d:1"><div class="pshot"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>foresight.seoxpert.my/<b>blueprint</b></span></div><img src="/img/fs-shot2-blueprint-720.webp" srcset="/img/fs-shot2-blueprint-720.webp 720w, /img/fs-shot2-blueprint.webp 1200w" sizes="(max-width: 900px) 94vw, 400px" width="1200" height="750" loading="lazy" decoding="async" alt="XpertBlueprint in XpertForesight: one click runs a full scan of samplebakery.example and our AI turns it into an SEO plan in plain words" /></div><figcaption>XpertForesight: XpertBlueprint, a one-click plan.</figcaption></figure>
+    <figure class="rv" style="--d:2"><div class="pshot"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>foresight.seoxpert.my/<b>ideas</b></span></div><img src="/img/fs-shot-ideas-720.webp" srcset="/img/fs-shot-ideas-720.webp 720w, /img/fs-shot-ideas.webp 1200w" sizes="(max-width: 900px) 94vw, 400px" width="1200" height="750" loading="lazy" decoding="async" alt="Keyword ideas in XpertForesight for 'birthday cake': related keywords with intent, monthly searches, trend, difficulty, cost per click in RM and what Google shows" /></div><figcaption>XpertForesight: keyword ideas.</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="solid band"><div class="wrap appph">
+  <div>
+    <span class="eyebrow rv">On any phone</span>
+    <h2 class="rv">Do our web apps work on phones?</h2>
+    <p class="sub rv">Yes. A web app opens in the browser, so the same app works on every phone, tablet and computer, and people can add it to their home screen like an app. We build web apps, not App Store or Play Store apps, so there is nothing to download and one version to keep up to date. Looking for app development in Malaysia? A web app is often the quicker way to reach every phone.</p>
+    <ul class="ticks rv"><li>Layouts that fit small screens</li><li>Light pages that load quickly on phones</li><li>Charts and tables that fit the screen</li><li>Logins and payments that work on a phone</li></ul>
+  </div>
+  <img class="rv" src="/img/fs-phone-home.webp" srcset="/img/fs-phone-home-360.webp 360w, /img/fs-phone-home.webp 640w" sizes="(max-width: 900px) 240px, 300px" width="640" height="1322" loading="lazy" decoding="async" alt="XpertForesight Research home on a phone: pick a search, type a keyword and choose the country, with the research tools below" />
+</div></section>
+
+<section id="payments" class="dark band"><div class="wrap split">
+  <div>
+    <span class="eyebrow rv">Payment gateway integration</span>
+    <h2 class="rv">Which payment gateway do we set up?</h2>
+    <p class="sub rv">Stripe. When people look for a payment gateway in Malaysia, they need two things: a provider, and someone to connect it properly to their website. Stripe is the provider; we do the payment gateway integration. Your customers pay on Stripe's own secure payment page by card, FPX online banking or GrabPay, and it is the same set up seoxpert.my uses to take payments. Ask us about other gateways.</p>
+    <p class="sub rv">Comparing providers first? Read our <a href="/blog/payment-gateway-malaysia/">guide to payment gateways in Malaysia</a>, with the published fees for cards, FPX and e-wallets.</p>
+    <p class="rv"><a class="btn" href="/contact/" data-track="get-a-quote">Get a quote</a></p>
+  </div>
+  <ul class="applist">
+    <li class="rv"><b>One-time payments</b>A fixed price for a product, a service or a booking.</li>
+    <li class="rv" style="--d:1"><b>Subscriptions</b>Monthly or yearly plans that renew by themselves.</li>
+    <li class="rv" style="--d:2"><b>Payment links</b>A link you can send in a message, with no page to build.</li>
+    <li class="rv" style="--d:3"><b>Card, FPX and GrabPay</b>The ways people in Malaysia like to pay, on one page.</li>
+    <li class="rv"><b>Access after payment</b>Stripe tells your web app the moment a payment goes through, and access unlocks.</li>
+    <li class="rv" style="--d:1"><b>Receipts by email</b>Stripe emails every customer a receipt.</li>
+    <li class="rv" style="--d:2"><b>Billing portal</b>Customers change their card or plan, or cancel, by themselves.</li>
+    <li class="rv" style="--d:3"><b>Card details stay with Stripe</b>Payments happen on Stripe's own page, never on your server.</li>
+  </ul>
+</div></section>
+
+<section class="solid tint band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">How we build</span>
+    <h2 class="rv">How do we build web apps?</h2>
+    <p class="sub rv">The same way we build XpertInsight and XpertForesight, and the same way this website is built. See every layer of <a href="/website-development/#secure">secure by design</a>.</p>
+  </div>
+  <ol class="nsteps">
+    <li class="rv"><h3>Fast static pages for the public part</h3><p>Everything anyone can see is real text in fast pages, so it can be found on Google and in AI search.</p></li>
+    <li class="rv" style="--d:1"><h3>Server functions on a global cloud network</h3><p>Logins, payments and data run in small server functions on a global cloud network, close to your users.</p></li>
+    <li class="rv" style="--d:2"><h3>Secrets stay on the server</h3><p>Keys, prices and the checks that matter live on the server, never in the browser where anyone could read them.</p></li>
+    <li class="rv" style="--d:3"><h3>One-time-code logins</h3><p>A fresh code by email each time, so there are no passwords to store, guess or leak.</p></li>
+    <li class="rv" style="--d:4"><h3>Every version kept</h3><p>Every change is saved, so an earlier version can be put back quickly if something goes wrong.</p></li>
+  </ol>
+</div></section>
+
+<section class="solid band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">How it starts</span>
+    <h2 class="rv">How does a web app project work?</h2>
+    <p class="sub rv">Every web app is different, so there is no package price. Here is how we get from your idea to a quote and a plan.</p>
+  </div>
+  <ol class="nsteps">
+    <li class="rv"><h3>Tell us what it should do</h3><p>Who will use it, what they need to see or do, and how people should pay. A short message on the <a href="/contact/">contact page</a> is enough to begin.</p></li>
+    <li class="rv" style="--d:1"><h3>We agree the scope, the plan and the dates</h3><p>We write down what will be built and the dates for each step, then send a quote based on that scope. Nothing starts until you agree.</p></li>
+    <li class="rv" style="--d:2"><h3>We build it in steps</h3><p>You check each step before it goes live, so there are no surprises at the end.</p></li>
+    <li class="rv" style="--d:3"><h3>Launch, then keep it healthy</h3><p>Your web app goes live with its public pages ready for Google and AI search. <a href="/seo-services-malaysia/">XpertRank, our expert SEO service,</a> can help those pages grow.</p></li>
+  </ol>
+</div></section>
+
+<Suite title="Which SEOXpert service fits your project?" intro="Web apps are quoted on their scope. For a website, here are our services and our software, with their prices." />
+<Glance page="web-app-development-malaysia" guides={['cloud-hosting-malaysia', 'choose-web-design-company-malaysia']} tint />
+<PageFaq title="Web app and payment questions, answered." items={pf.items} />
+<Related skip="/web-app-development-malaysia/" />
+<Cta title="Have a web app, dashboard or payment idea?" text={`Tell us what it should do and we will send you a quote based on the scope. ${ways}, whichever suits you.`} />
+</main>
+</Base>

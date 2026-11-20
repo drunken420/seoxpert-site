@@ -1,0 +1,82 @@
+---
+// XpertForesight plan cards (2026-11-19 polish of /seo-tools/ #plans; also used on /packages/ #xpertforesight so both match).
+// Built in the site's own pricing language (.pkcard, .pkkw meter, .pkup lines, .pkbillrow switch, .pkoffer band, .pktrial box),
+// but every number comes from `foresight` in packages.ts (a COPY of xpertinsight lib/fsplans.js). Never type a number here.
+// Left out on purpose: no money-back badge (there is no money-back promise on XpertForesight), no launch price, no gifts,
+// no locked rows (every plan has every tool). Badge: only "Recommended" (our own pick), never popularity words.
+// No data-pk on the wrapper: packages.js would take over same-page links (it scrolls them to [data-pk]). The RM / USD and
+// monthly / yearly switches still work, because packages.js repaints every span[data-rm][data-usd] on the page.
+import { foresight, fsPx, fsPxCard, fsUp, fsTable, yearly, terms } from '../data/packages';
+interface Props { /** show the switch row (on /packages/ the XpertRank switch above already sets the currency and the billing, so pass bar={false}) */ bar?: boolean }
+const { bar = true } = Astro.props;
+const tiers = foresight.tiers, trial = foresight.trial;
+const HOT = 'fs-plus'; // our recommendation for freelancers and small agencies, the same word the site uses for XpertRank Plus
+const short = (n: string) => n.replace('XpertForesight ', '');
+const maxS = Math.max(...tiers.map((t) => t.fs.searches));
+const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
+// The short yearly words are the same as XpertRank's ("2 months free"), so every Pay yearly switch on /packages/ reads the same.
+// Both are 12 months for the price of 10; the build fails if they ever drift apart.
+if (foresight.yearly !== yearly.pay) throw new Error('XpertForesight yearly (FS_YEARLY) no longer matches XpertRank yearly.pay: update the yearly words in FsPlans.astro');
+const free = `${12 - foresight.yearly} months free`;
+---
+<div class="fsplans">
+  <div class="pkoffer fsband rv">
+    <i class="pkoshine" aria-hidden="true"></i><i class="pkopet" aria-hidden="true" style="--x:72%;--y:14%;--s:34px;--t:7s"></i><i class="pkopet" aria-hidden="true" style="--x:93%;--y:62%;--s:54px;--t:9s"></i><i class="pkopet" aria-hidden="true" style="--x:58%;--y:78%;--s:22px;--t:6s"></i>
+    <div class="pkotop"><span class="pkotag">Early access</span><span class="pkoleft">{foresight.days}-day trial for <Fragment set:html={fsPx(trial)} /></span><span class="pkoleft">Cancel any time</span></div>
+    <p class="pkotitle">Every plan has every tool, with branded PDF reports and CSV downloads.</p>
+    <p class="pkoend">Bigger plans give you more searches, more XpertBlueprint scans and more websites, so it works as SEO software for agencies and freelancers with several clients.</p>
+  </div>
+  {bar && <div class="pkbillrow rv">
+    <div class="pkseg pkbill" role="group" aria-label="How to pay" data-pk-bill hidden><button type="button" aria-pressed="true" data-b="month">Pay monthly</button><button type="button" aria-pressed="false" data-b="year">Pay yearly <em>{free}</em></button></div>
+    <div class="pkcur" hidden data-pk-curbar><span>Show prices in</span><div class="pkseg sm" role="group" aria-label="Currency" data-pk-cur><button type="button" aria-pressed="true" data-c="RM">RM</button><button type="button" aria-pressed="false" data-c="USD">USD</button></div></div>
+  </div>}
+  <div class="pkcards n4 fscards">
+    {tiers.map((t, i) => (
+      <article class:list={['pkcard fscard rv', t.id === HOT && 'hot']} style={`--d:${i};--rows:10;--tc:${['#b06cff', '#9a35e8', '#7b18c1', '#5a0f96'][i] || '#7b18c1'}`}>
+        {t.id === HOT && <span class="pkbadge">Recommended</span>}
+        <h3>{t.name}</h3>
+        <p class="pkfor">{t.for}</p>
+        <p class="pkprice"><Fragment set:html={fsPxCard(t)} /><small data-unit>a month</small></p>
+        <p class="pkyear"><span class="m">or <Fragment set:html={fsPx(t, 'year')} /> a year, {free}</span><span class="y">12 months for the price of {foresight.yearly}</span></p>
+        <p class="pkterm sub"><span class="m">{terms.sub.month}</span><span class="y">{terms.sub.year}</span></p>
+        <div class="pkkw fskw"><p><b>{t.fs.searches.toLocaleString('en-US')}</b><span>research searches a month<small>keywords, ideas, websites, keyword gap and AI questions</small></span></p><i aria-hidden="true" style={`--w:${Math.round((t.fs.searches / maxS) * 100)}%`}></i></div>
+        <ul class="fsstat">
+          <li><b>{t.fs.blueprints}</b><span>XpertBlueprint full scans with an AI SEO plan, a month</span></li>
+          <li><b>{t.fs.sites}</b><span>{t.fs.sites === 1 ? 'website' : 'websites'}</span></li>
+          <li><b>{t.fs.pages}</b><span>pages per weekly audit</span></li>
+        </ul>
+        {i === 0 ? <p class="pkup pkstart">Every tool, for {plural(t.fs.sites, 'website').replace(/^1 /, 'one ')}</p> : <p class="pkup">{fsUp(t, tiers[i - 1])}</p>}
+        {/* The meter and the stats already show searches, scans, websites and audit pages, and the band above says every plan has PDF
+            reports and CSV downloads, so the ticks show the three saved limits that differ from plan to plan. The full fsLines sentences
+            are in the comparison table below, so nothing is said twice on one card. */}
+        <ul class="pktick"><li>{t.fs.keywords.toLocaleString('en-US')} saved keywords per website</li><li>{t.fs.questions.toLocaleString('en-US')} saved AI questions per website</li><li>{plural(t.fs.competitors, 'competitor')} per website</li></ul>
+        <a class="btn" href={`${foresight.join}#plans`} data-track={`foresight-plan-${t.id.replace('fs-', '')}`}>Choose {short(t.name)}</a>
+      </article>
+    ))}
+  </div>
+  <div class="pkswipe" aria-hidden="true">{tiers.map((t) => <i class:list={[t.id === HOT && 'on']} />)}</div>
+
+  <div class="pktrial fstrial rv">
+    <div><span class="pktag">Try first</span><h3>{trial.name}</h3>
+      <ul class="pktrows">{trial.rows.map((r) => <li>{r}</li>)}</ul>
+      <p>{terms.fsTrial} If you choose a paid plan from Your plan inside XpertForesight, the trial price comes off your first month.</p></div>
+    <div class="pktside">
+      <p class="pktprice"><Fragment set:html={fsPx(trial)} /><small>for {foresight.days} days</small></p>
+      <a class="btn" href={`${foresight.join}#trial`} data-track="foresight-trial">Start the {foresight.days}-day trial</a>
+      <p class="pktpay"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg><span>Secure checkout by Stripe</span></p>
+    </div>
+  </div>
+
+  {/* The full table stays in the HTML for search engines and AI tools; people open it when they want every limit. */}
+  <details class="fscmp rv">
+    <summary>Compare every limit</summary>
+    <div class="cmpwrap" tabindex="0" role="region" aria-label="XpertForesight plans compared" data-swipe="Swipe sideways to compare every plan →">
+      <table class="cmptab">
+        <thead><tr><th scope="col">XpertForesight</th>{tiers.map((t) => <th scope="col" class:list={[t.id === HOT && 'hot']}>{short(t.name)}<small>{t.for}</small></th>)}</tr></thead>
+        <tbody>{fsTable.map(([h, f]) => <tr><th scope="row">{h}</th>{tiers.map((t) => <td class:list={[t.id === HOT && 'hot']}><b set:html={f(t)} /></td>)}</tr>)}</tbody>
+      </table>
+    </div>
+  </details>
+  <p class="pknote pksubnote rv"><b>XpertForesight is a subscription.</b> It renews every month, or every year if you pay yearly, until you cancel. {terms.fsCancel}</p>
+  <p class="pknote rv">XpertForesight is sold on its own and is not part of XpertRank. It is new and in early access, so it keeps getting better.</p>
+</div>

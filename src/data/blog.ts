@@ -3,7 +3,7 @@
 // Never promise rankings. No invented numbers, clients or results: examples are clearly marked as examples.
 // Add a new guide at the TOP of the list. Headings use single quotes and no apostrophes (scripts/make-pics.cjs reads them).
 // Styling helpers inside html: <h3>, <ol>, <div class="btip"><b>Tip</b>...</div>, <ul class="bcheck"> (tick list).
-import { build, care, fmt, px, yearly, offer, offerOn } from './packages';
+import { build, care, fmt, px, yearly, offer, offerOn, rankLaunch, terms, hostMonths, rankNote, buyer } from './packages';
 
 export interface Post {
   slug: string; tag: string; art: 'cost' | 'care' | 'ai' | 'seo' | 'pick' | 'map' | 'city' | 'stack';
@@ -28,7 +28,7 @@ const careTable = `<div class="btable" tabindex="0" role="region" aria-label="Xp
 <tr><td>${plus.name}</td><td>${px(plus)}</td><td>${px(plus, 'year')}</td><td>4 on-page SEO edits, 2 new SEO blog posts, 20 target keywords optimised and tracked weekly</td></tr>
 <tr><td>${pro.name}</td><td>${px(pro)}</td><td>${px(pro, 'year')}</td><td>6 on-page SEO edits, 4 new SEO blog posts, 30 target keywords optimised and tracked weekly</td></tr>
 <tr><td>${elite.name}</td><td>${px(elite)}</td><td>${px(elite, 'year')}</td><td>10 on-page SEO edits, 8 new SEO blog posts, 50 target keywords optimised and tracked weekly</td></tr>
-</tbody></table></div>`;
+</tbody></table></div>${rankLaunch() ? `<p>Prices for websites we build. ${offer.rank}</p>` : ''}`;
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
 <li>Google SEO and AI search optimisation, including structured data and an AI ranking file</li>
@@ -38,12 +38,347 @@ const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first co
 
 export const posts: Post[] = [
   {
+    // Keyword research (XpertForesight live data, Google Malaysia, English, 12-month average, 19 Nov 2026):
+    // seo keyword research / keyword research seo / keyword research and seo 320 (difficulty 79, last 3 months 437),
+    // keyword research for seo / keyword research in seo 260 (79, last 3 months 160), keyword research 110 (91), keyword tool 260 (73),
+    // google keyword planner 1,600 (54), keyword planner 480 (65), free keyword research tools 50 (90), keyword research tools 90 (100),
+    // best seo tools 2,900 (12-month average inflated by a Feb to May 2026 spike; last 3 months about 77).
+    // Only these numbers may be quoted. The worked example shows them as checked on 19 November 2026.
+    // XpertForesight facts come from the xpertinsight repo (src/foresight.js: Easy wins = difficulty under 30 and at least 100 searches).
+    // No XpertForesight prices here on purpose: the /seo-tools/ page shows them. Never name other paid SEO tools or our data provider.
+    slug: 'keyword-research-seo-malaysia', tag: 'Keyword research', art: 'seo', date: '2026-11-19',
+    h1: 'How to do keyword research for SEO in Malaysia',
+    title: 'Keyword Research for SEO in Malaysia: A Step by Step Guide',
+    description: 'How to do keyword research for SEO in Malaysia, step by step: seed words, search intent, searches and difficulty, local words, AI questions and the free tools to use.',
+    card: 'Find the words your customers really type, pick the ones you can win, and turn them into pages. Free tools included.',
+    short: `Keyword research is finding the words people really type into Google, and the questions they ask AI tools, when they look for what you sell, then choosing which of them each page of your website should answer. For a small business in Malaysia it comes down to seven steps: list your seed words, check what each search wants, compare how often it is searched with how hard it is to rank, add the local words people use (English and Malay, and places such as Kuala Lumpur or Petaling Jaya), collect the questions people ask, group the keywords into pages, and track the results. You can do all of it for free with Google's own tools. A research tool such as <a href="/seo-tools/">XpertForesight</a> makes it faster.`,
+    sections: [
+      { id: 'what-is-keyword-research', h: 'What is keyword research?', html: `<p>A keyword is the word or phrase someone types into a search engine, such as "acne treatment" or "birthday cake delivery". Keyword research is the work of finding those words for your business, before you write or change a page.</p>
+<p>It matters because businesses often describe themselves one way while customers search another. A clinic may call itself an "aesthetic dermatology centre" while its patients type "acne treatment". If the page never uses the customer's words, Google has less to match it with.</p>
+<p>Good keyword research answers three questions for every page on your website:</p>
+<ul class="bcheck"><li><b>What do people type</b> when they want this?</li>
+<li><b>What do they want to find</b> when they type it?</li>
+<li><b>Can a website like ours realistically appear</b> for it?</li></ul>
+<p>Google's own <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noopener">SEO Starter Guide</a> makes the same point: think about the different words people might use to find your content, because people who are new to a topic often use different words from experts.</p>` },
+      { id: 'seed-words', h: '1. What would your customers type?', html: `<p>Start with seed words: the plain, short words for what you sell. You do not need a tool for this step.</p>
+<ol><li>List every product or service you want to be found for, one per line.</li>
+<li>Next to each one, write how a customer would say it. Ask your staff what customers say on the phone or on WhatsApp.</li>
+<li>Add the problem the customer has, not only the service, for example "pimples that keep coming back" next to "acne treatment".</li>
+<li>Type each seed word into Google and note the suggestions that appear as you type. <a href="https://support.google.com/websearch/answer/7368877" rel="noopener">Google explains</a> that these predictions reflect real searches made on Google, shaped by language, location and trending interest.</li></ol>
+<div class="btip"><b>Tip</b>Keep the list short at the start: five to ten seed words for a small business is plenty. Every seed word will grow into many keyword ideas in the next steps.</div>` },
+      { id: 'search-intent', h: '2. What does each search want?', html: `<p>Two searches can share words and still want very different things. This is called search intent, and matching it matters more than matching the exact words.</p>
+<div class="btable" tabindex="0" role="region" aria-label="The four kinds of search intent"><table><thead><tr><th scope="col">Intent</th><th scope="col">What the person wants</th><th scope="col">The page that fits</th></tr></thead><tbody>
+<tr><th scope="row">Informational</th><td>To learn something, such as "how to do keyword research"</td><td>A guide or a blog post</td></tr>
+<tr><th scope="row">Commercial</th><td>To compare before buying, such as "best keyword tool"</td><td>A comparison, a service page with prices</td></tr>
+<tr><th scope="row">Transactional</th><td>To buy or book now, such as "order cake online"</td><td>A product, booking or contact page</td></tr>
+<tr><th scope="row">Navigational</th><td>To reach one website, such as "google keyword planner"</td><td>That website's own page (hard for anyone else to win)</td></tr>
+</tbody></table></div>
+<p>The quickest way to check intent is to search the keyword yourself and look at page 1. If Google shows guides, people want to learn. If it shows shops and price pages, they want to buy. Build the kind of page Google already shows.</p>` },
+      { id: 'searches-and-difficulty', h: '3. How many searches, and how hard?', html: `<p>Two numbers help you choose between keywords:</p>
+<ul><li><b>Searches a month</b> (also called search volume): how many times people search the keyword in a month, usually an average over the last 12 months.</li>
+<li><b>Keyword difficulty</b>: a score from 0 to 100 that estimates how hard it is to reach page 1 of Google, based on how strong the pages already there are. Higher means harder.</li></ul>
+<p>A new or small website usually does best with keywords that have a fair number of searches and a low difficulty, and with longer, more exact searches such as "wedding cake delivery Petaling Jaya" rather than "cake". They bring fewer visitors, but the visitors are closer to buying, and you can win them sooner.</p>
+<div class="btip"><b>Watch the trend, not only the average</b>A 12-month average can hide a spike. Look at the last few months too, and at the yearly pattern: many searches in Malaysia rise and fall around festive seasons, school holidays and sales. <a href="https://trends.google.com/trends/" rel="noopener">Google Trends</a> shows this pattern for free.</div>
+<p>Bigger is not always better. A keyword with a small number of searches from people ready to book is often worth more than a big one from people who only want to read.</p>` },
+      { id: 'local-words', h: '4. Which local words do people use?', html: `<p>Malaysians search in more than one way, so a keyword list built only from your own English can miss a lot.</p>
+<ul class="bcheck"><li><b>English and Malay.</b> Check the Malay words for your service as well as the English ones, and see which one Google shows more results for. Some customers mix both in one search.</li>
+<li><b>British and American spelling.</b> People type both "optimisation" and "optimization", "colour" and "color". Check both spellings in your research.</li>
+<li><b>Place names.</b> If customers come to you, or you go to them, add the places they search with, such as Kuala Lumpur, Selangor or Petaling Jaya, and "near me".</li>
+<li><b>Short forms.</b> People type "KL", "PJ" or "aircon" instead of the full words.</li>
+<li><b>Malaysia only.</b> Always look at searches for Malaysia, not worldwide. A keyword that is big in another country can be tiny here.</li></ul>
+<p>For more on being found in your area, read our <a href="/blog/local-seo-malaysia/">local SEO guide for Malaysia</a>.</p>` },
+      { id: 'questions-for-ai', h: '5. What questions do people ask?', html: `<p>More and more people ask full questions, both on Google and in AI tools such as ChatGPT, Gemini, Perplexity and the AI answers in Google. Questions are also the easiest way to plan useful content.</p>
+<ul><li><b>People also ask.</b> The box of questions on Google's results page shows what people want to know next.</li>
+<li><b>Autocomplete.</b> Type "how", "what", "can" or "is" before your seed word and read the suggestions.</li>
+<li><b>Your own inbox.</b> The questions customers ask you every week on WhatsApp and email are the best ones of all.</li></ul>
+<p>Use them three ways: as question-style headings on your pages, as a questions section at the end of a page, and as blog posts. Then ask the same questions in a few AI tools every month to see which businesses get named. Our <a href="/blog/ai-seo-malaysia/">AI SEO guide</a> explains how to write answers that AI tools can quote.</p>` },
+      { id: 'keywords-into-pages', h: '6. How do you turn keywords into pages?', html: `<p>Keywords are only useful once they have a home. Give each page <b>one main keyword</b>, add the close variations and questions that mean the same thing, and do not make two pages that chase the same search.</p>
+<p>Searches that only change the word order, such as "seo keyword research" and "keyword research seo", usually show almost the same results on Google, so they belong on one page, not two. To check, search both and compare page 1.</p>
+<div class="btable" tabindex="0" role="region" aria-label="Example keyword plan for a small business website"><table><thead><tr><th scope="col">Page</th><th scope="col">Main keyword</th><th scope="col">Also answers</th></tr></thead><tbody>
+<tr><th scope="row">Home</th><td>What you do + Malaysia</td><td>Your business name, your main service in plain words</td></tr>
+<tr><th scope="row">A service page</th><td>The service + your area</td><td>Its price, how it works, the questions people ask before they book</td></tr>
+<tr><th scope="row">A blog post</th><td>One question people ask</td><td>The follow-up questions from People also ask</td></tr>
+<tr><th scope="row">Contact</th><td>Your business name + contact</td><td>Opening hours, where you are, how to book</td></tr>
+</tbody></table></div>
+<p>Then use the main keyword where it matters: in the page title, the main heading, the first sentence, the page address and a description. Write naturally. Google's guide warns that repeating keywords over and over is tiring for readers and goes against its spam policies.</p>` },
+      { id: 'tracking', h: '7. How do you know it is working?', html: `<p>Keyword research is not done once. Check how your pages do, then adjust.</p>
+<ul><li><b>Google Search Console</b> is free. Its <a href="https://support.google.com/webmasters/answer/7576553" rel="noopener">Performance report</a> shows the searches your website appeared for, how often (impressions), how often people clicked, and your average position.</li>
+<li><b>Track your main keywords every week.</b> Positions move up and down; look at the trend over a few months, not one day.</li>
+<li><b>Look for surprises.</b> Search Console often shows searches you never planned for. If one brings visitors, give it a better answer, or its own page.</li>
+<li><b>Repeat the research every few months.</b> New questions appear and old ones fade.</li></ul>
+<p>SEO takes months, not days, and nobody can promise a ranking. What keyword research gives you is a clear plan, so the work goes into the searches that matter.</p>` },
+      { id: 'free-tools', h: 'Can you do keyword research for free?', html: `<p>Yes. Google's own tools cover the basics, and they are free:</p>
+<ul><li><b>Google Search Console.</b> The real searches your website already appears for. The best place to start once your website is live.</li>
+<li><b>Google Keyword Planner.</b> Inside Google Ads, it gives keyword ideas from a word or a website, with estimated monthly searches and ad costs. Google calls it a <a href="https://business.google.com/en-all/ad-tools/keyword-planner/" rel="noopener">free keyword search tool</a> for advertisers, though it asks you to finish setting up a Google Ads account, including billing details, first (<a href="https://support.google.com/google-ads/answer/7337243" rel="noopener">Google Ads Help</a>). It is made for advertisers, so its "competition" column is about advertisers bidding on ads, not about how hard it is to rank in the normal results.</li>
+<li><b>Google Trends.</b> How interest in a search rises and falls over time and from place to place. It shows a score from 0 to 100, not real search counts (<a href="https://support.google.com/trends/answer/4365533" rel="noopener">Google Trends Help</a>), so use it for timing and comparison, not for numbers.</li>
+<li><b>Google Search itself.</b> Autocomplete, People also ask and the related searches at the bottom of page 1.</li></ul>
+<p>The free route works, but it is slow: you copy words between tools by hand, and none of them gives a ranking difficulty score.</p>` },
+      { id: 'xpertforesight', h: 'Where does XpertForesight fit?', html: `<p><a href="/seo-tools/">XpertForesight</a> is our own SEO research tool. It puts the steps above in one place, for Malaysia and 11 more countries, in English (and in Malay for Malaysia):</p>
+<ul class="bcheck"><li><b>Keyword overview:</b> searches a month, difficulty, cost per click, who is on page 1 of Google and the People also ask questions, for any keyword.</li>
+<li><b>Keyword ideas:</b> up to 100 ideas from one starting word, with 12-month trends and filters. <b>Easy wins</b> shows ideas with a difficulty under 30 and at least 100 searches a month. <b>Questions</b> and <b>Buyers</b> pick out questions and buying searches.</li>
+<li><b>Keyword gap:</b> keywords a competitor is on Google for and you are not. Our <a href="/blog/seo-competitor-analysis/">SEO competitor analysis guide</a> shows how to use it.</li>
+<li><b>AI questions:</b> the questions people ask about a topic, ready for AI answer checks and blog posts.</li>
+<li><b>XpertBlueprint:</b> one click runs every scan for a website and our AI writes an SEO plan with keywords it can realistically rank for.</li></ul>
+<p>It is made for agencies, freelancers and business owners who do their own SEO. Rather have it done for you? Every <a href="/website-design/">XpertForge website</a> starts with full keyword research with XpertCore, and our <a href="/seo-services-malaysia/">SEO services in Malaysia</a> keep the research going every month.</p>` },
+      { id: 'worked-example', h: 'A worked example with real numbers', html: `<p>Here is the keyword research behind this guide. These are real numbers from XpertForesight for Google Malaysia in English, checked on 19 November 2026. Searches are a 12-month average and will change.</p>
+<div class="btable notes" tabindex="0" role="region" aria-label="Keyword research for this guide, Google Malaysia, 19 November 2026"><table><thead><tr><th scope="col">Keyword</th><th scope="col">Searches a month</th><th scope="col">Difficulty</th><th scope="col">What it told us</th></tr></thead><tbody>
+<tr><th scope="row">seo keyword research</th><td>320</td><td>79</td><td>Almost the same results as "keyword research seo" and "keyword research and seo": one page for all three</td></tr>
+<tr><th scope="row">keyword research for seo</th><td>260</td><td>79</td><td>Same topic, same page. This became the title</td></tr>
+<tr><th scope="row">keyword research</th><td>110</td><td>91</td><td>Fewer searches and harder: not worth chasing on its own</td></tr>
+<tr><th scope="row">keyword tool</th><td>260</td><td>73</td><td>Most people want a tool to use, not a guide: a better fit for our <a href="/seo-tools/">XpertForesight page</a></td></tr>
+<tr><th scope="row">google keyword planner</th><td>1,600</td><td>54</td><td>Big, but people want Google's own tool: answered in a section, not targeted</td></tr>
+<tr><th scope="row">free keyword research tools</th><td>50</td><td>90</td><td>Small and hard: answered in the free tools section</td></tr>
+</tbody></table></div>
+<p>One more lesson from the same research: "best seo tools" shows a 12-month average of 2,900 searches a month, but most of them came in a spike from February to May 2026. The last three months averaged about 77. Planning around the average would have been a mistake.</p>` },
+      { id: 'sources', h: 'Where this guide comes from', html: `<p>The keyword numbers come from XpertForesight (Google Malaysia, English), checked on 19 November 2026. The facts about Google's tools come from Google's own pages, checked on the same day:</p>
+<ul><li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noopener">Google Search Central: SEO Starter Guide</a></li>
+<li><a href="https://support.google.com/websearch/answer/7368877" rel="noopener">Google Search Help: How Google autocomplete predictions work</a></li>
+<li><a href="https://support.google.com/google-ads/answer/7337243" rel="noopener">Google Ads Help: Use Keyword Planner</a> and <a href="https://business.google.com/en-all/ad-tools/keyword-planner/" rel="noopener">Google Keyword Planner</a></li>
+<li><a href="https://support.google.com/trends/answer/4365533" rel="noopener">Google Trends Help: FAQ about Google Trends data</a></li>
+<li><a href="https://support.google.com/webmasters/answer/7576553" rel="noopener">Search Console Help: Performance report</a></li></ul>` },
+    ],
+    faqs: [
+      { q: 'What is keyword research?', a: 'Keyword research is finding the words and questions people really type into Google and AI tools when they look for what you offer, then choosing which ones each page of your website should answer.' },
+      { q: 'Can I do keyword research for free?', a: 'Yes. Google Search Console shows the searches your website already appears for, Google Keyword Planner gives ideas with estimated monthly searches, Google Trends shows how interest changes over time, and Google Search itself shows autocomplete and People also ask questions. A research tool such as XpertForesight is faster and adds a difficulty score.' },
+      { q: 'How do I do keyword research as a beginner?', a: 'List five to ten seed words for what you sell, type them into Google to see suggestions and questions, check what page 1 shows for each one, pick the ones with a fair number of searches and a low difficulty, then give each page one main keyword.' },
+      { q: 'Is keyword research difficult?', a: 'The basics are not. Anyone who knows their customers can list seed words and check Google. The harder part is judging which keywords a website can realistically win, which is where a difficulty score and a look at page 1 help.' },
+      { q: 'Can ChatGPT do SEO?', a: 'AI tools can help you brainstorm seed words, questions and page ideas, and they can draft text. They do not reliably know how often something is searched in Malaysia, so check their ideas against real search data, and have a person check every page before it goes live.' },
+      { q: 'What are the best keyword research tools?', a: 'Start with Google\'s free tools: Search Console, Keyword Planner, Trends and Google Search itself. For more speed and a difficulty score in one place, use a research tool such as our own XpertForesight, which also finds easy wins, keyword gaps and AI questions.' },
+      { q: 'How do I find SEO keywords for my business?', a: 'Write down how customers describe what you sell, type those words into Google, read the suggestions and People also ask questions, add the local words and place names customers use, then check searches and difficulty before you choose.' },
+    ],
+    cta: { pill: 'XpertForesight', title: 'Keyword ideas, easy wins and AI questions in one tool', href: '/seo-tools/', label: 'See XpertForesight' },
+  },
+  {
+    // Keyword research (XpertForesight live data, Google Malaysia, English, 12-month average, 19 Nov 2026):
+    // competitor analysis 590 (difficulty 51; page 1 is general business guides, none Malaysian, none SEO-specific),
+    // competitor research and analysis 590, competitor analysis example(s) 70 (25), competitor analysis template / format 50 (14),
+    // seo competitor analysis / competitor analysis seo 40, seo tools for competitor analysis 30, what is competitor analysis 30,
+    // how to do competitor analysis 20 (56), keyword competitor analysis 20 (66). No numbers are shown on the page.
+    // The worked example is a made-up bakery with no figures. The "set aside" list mirrors realRivals() in xpertinsight lib/foresight.js.
+    // XpertForesight has no backlink tool: never say it does. Competitor tracking in XpertRank is Plus and up (`locked` in packages.ts).
+    slug: 'seo-competitor-analysis', tag: 'Competitor analysis', art: 'pick', date: '2026-11-19',
+    h1: 'SEO competitor analysis: a step by step guide (with a template)',
+    title: 'SEO Competitor Analysis: Step-by-Step Guide and Template',
+    description: 'How to do an SEO competitor analysis, step by step: find your real search competitors, compare keywords, pages, links, site health and AI answers. Free template inside.',
+    card: 'Find the websites you really compete with on Google, see why they rank, and turn it into a plan with a free template.',
+    short: `SEO competitor analysis means studying the websites that appear on Google for the searches you want, to see why they rank and what you can do better. It takes six steps: find your real search competitors (set aside marketplaces, directories, Wikipedia and social media), find the keywords they rank for and you do not (a keyword gap), study their best pages, see who links to them, compare their site health and speed with yours, and check which businesses AI answers name. Then turn what you found into a short plan. A free template you can copy is below.`,
+    sections: [
+      { id: 'what-is-seo-competitor-analysis', h: 'What is SEO competitor analysis?', html: `<p>A normal competitor analysis looks at the businesses you compete with: their prices, products and marketing. An <b>SEO competitor analysis</b> looks at the websites you compete with on Google, and sometimes they are not the same.</p>
+<ul><li><b>Business competitors</b> sell what you sell. You know most of them already.</li>
+<li><b>Search competitors</b> appear on page 1 for the searches you want. They can be a business across town, a blog, a news website or a guide that sells nothing at all.</li></ul>
+<p>For SEO, search competitors matter most, because they hold the places you want. The goal is not to copy them. It is to understand what Google shows for your searches, find what is missing, and build something more useful.</p>` },
+      { id: 'find-real-competitors', h: '1. Who are your real search competitors?', html: `<ol><li>Write down five to ten of your most important keywords. Our <a href="/blog/keyword-research-seo-malaysia/">keyword research guide</a> shows how to choose them.</li>
+<li>Search each one on Google in Malaysia, in a private browser window so your own history does not change the results, and note every website on page 1.</li>
+<li>Count how often each website appears. The ones that show up for several of your keywords are your real search competitors.</li>
+<li>Keep three to five of them. More than that is hard to study well.</li></ol>
+<h3>Which websites to set aside</h3>
+<p>Some websites appear for almost every search but are not competitors you can learn from as a business website. Set aside:</p>
+<ul class="bcheck"><li><b>Marketplaces</b> such as Shopee and Lazada</li>
+<li><b>Directories and listing websites</b></li>
+<li><b>Wikipedia, dictionaries and translation websites</b></li>
+<li><b>Question and forum websites</b> such as Quora and Reddit</li>
+<li><b>Social media</b> such as Facebook, Instagram, YouTube and TikTok</li></ul>
+<p>You may still want a listing on some of them, but you cannot become them, so they tell you little about what your own website should do. XpertForesight's Domain overview works the same way: it leaves out marketplaces, reference and translation websites, forums and social media, and only counts a website as a competitor when it shares real keywords with yours.</p>` },
+      { id: 'keyword-gap', h: '2. Which keywords are you missing?', html: `<p>A <b>keyword gap</b> is the list of searches a competitor appears for and you do not. It is often the fastest way to find new pages worth writing.</p>
+<h3>The free way</h3>
+<ul><li>For each competitor, open their main pages and read the page titles and headings. They usually show the keywords the page is built for.</li>
+<li>Search your keywords and note which competitor pages appear and you do not.</li>
+<li>Check Google Search Console for your own website: searches where you appear on page 2 or 3 are close gaps.</li></ul>
+<h3>With a tool</h3>
+<p>The Keyword gap tool in <a href="/seo-tools/">XpertForesight</a> compares your website with a competitor and lists the keywords they are on Google for and you are not, with searches a month and difficulty for each one.</p>
+<div class="btip"><b>Tip</b>Do not chase every gap. Keep the keywords that match what you sell, that your customers would really search, and that have a difficulty your website can manage.</div>` },
+      { id: 'best-pages', h: '3. Which of their pages work best?', html: `<p>Open the competitor pages that appear for your keywords and study them as a customer would. For each page, note:</p>
+<ul><li><b>Does it answer the search quickly?</b> Is there a short, direct answer near the top?</li>
+<li><b>What does it cover</b> that your page does not: prices, steps, photos, a questions section, areas served?</li>
+<li><b>How is it organised?</b> Clear headings, lists and tables, or one long block of text?</li>
+<li><b>How fresh is it?</b> Is there a date, and are the facts still true?</li>
+<li><b>What does it ask you to do next?</b> Call, WhatsApp, book, buy?</li></ul>
+<h3>Find the content gap</h3>
+<p>The most useful finding is often what <b>nobody</b> on page 1 answers well yet. Google's guide to <a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" rel="noopener">helpful, people-first content</a> asks whether a page adds real value compared with other pages in the results, and warns that rewording what others already say falls short. So use competitors to see the bar, then add what only you can: your own experience, photos, prices and answers.</p>` },
+      { id: 'backlinks', h: '4. Who links to them?', html: `<p>Links from other websites (backlinks) are one of the signals that a website is trusted. Look at where your competitors are mentioned and linked from:</p>
+<ul><li>Search each competitor's business name on Google and note the websites that mention them: news, associations, suppliers, events, local guides.</li>
+<li>Ask whether you could be mentioned there too: a supplier's list of partners, an industry association, a local event you take part in.</li>
+<li>Check your own links in Google Search Console. Its <a href="https://support.google.com/webmasters/answer/9049606" rel="noopener">Links report</a> shows the websites that link to you most, your most linked pages and the words used in those links. It only shows your own website, so seeing a competitor's full list of links needs a backlink tool.</li></ul>
+<div class="btip"><b>Never do this</b>Do not buy links. Google's <a href="https://developers.google.com/search/docs/essentials/spam-policies" rel="noopener">spam policies</a> say that paying for links, or trading goods or services for them, to change rankings goes against its rules. A few real links from relevant websites are worth far more.</div>` },
+      { id: 'site-health', h: '5. Is their website healthier than yours?', html: `<p>Two websites with the same words can still rank differently if one is slow or hard to use. Compare these for each competitor and for your own website:</p>
+<ul class="bcheck"><li><b>Speed on phones.</b> Run the main pages through <a href="https://pagespeed.web.dev/" rel="noopener">PageSpeed Insights</a>, which reports how a page performs on mobile and desktop (<a href="https://developers.google.com/speed/docs/insights/v5/about" rel="noopener">about PageSpeed Insights</a>).</li>
+<li><b>Core Web Vitals.</b> Google's <a href="https://developers.google.com/search/docs/appearance/core-web-vitals" rel="noopener">Core Web Vitals</a> measure loading, how quickly a page responds and whether the layout jumps around.</li>
+<li><b>Phone layout.</b> Open each website on your own phone. Can you read it and tap the buttons easily?</li>
+<li><b>Secure address.</b> Does it open with https and the padlock?</li>
+<li><b>Broken pages and links.</b> Click around: missing pages and dead links cost trust.</li></ul>
+<p>For your own website, a site audit finds these problems page by page. XpertForesight includes the weekly XpertCore site audit, and our <a href="/seo-audit-malaysia/">SEO audit in Malaysia</a> page explains what it checks and how we fix it.</p>` },
+      { id: 'ai-answers', h: '6. Who do AI answers name?', html: `<p>Many people now ask AI tools instead of searching. Check who gets named there too:</p>
+<ol><li>Write down the questions your customers ask, such as "Which company offers this service in Kuala Lumpur?"</li>
+<li>Ask them in a few AI tools, such as ChatGPT, Gemini, Perplexity and the AI answers in Google.</li>
+<li>Note which competitors are named, and which of their pages are shown as sources.</li>
+<li>Open those pages. They are usually clear, well organised and full of plain facts.</li></ol>
+<p>Google says there are <a href="https://developers.google.com/search/docs/appearance/ai-features" rel="noopener">no extra requirements</a> to appear in its AI Overviews or AI Mode: the same SEO basics apply. XpertForesight's AI questions tool finds the questions people ask about a topic. Read our <a href="/blog/ai-seo-malaysia/">AI SEO guide</a> for how to write answers AI tools can quote.</p>` },
+      { id: 'make-a-plan', h: 'How do you turn it into a plan?', html: `<p>An analysis is only useful if it changes what you do. Sort what you found into four groups, then pick three to five actions for the next month or two:</p>
+<ul><li><b>Quick fixes</b> on pages you already have: better titles, a direct answer at the top, missing questions, lighter photos.</li>
+<li><b>New pages</b> for keyword gaps and content gaps that match what you sell.</li>
+<li><b>Links to earn</b> from suppliers, associations and local websites where competitors are mentioned.</li>
+<li><b>Technical fixes</b> for speed, phone layout and broken links.</li></ul>
+<p>Start with what takes the least effort for the most value, usually quick fixes on pages that are already close to page 1. Repeat the analysis every three months or so: competitors change too. SEO takes months, and nobody can promise a ranking, but a clear plan puts your time where it counts.</p>` },
+      { id: 'template', h: 'A free SEO competitor analysis template', html: `<p>Download the template below, or copy this table into a spreadsheet or a document (select it, copy, then paste). Fill in one row for your website and one for each competitor. The first row says what to write in each column.</p>
+<div class="btable wide" tabindex="0" role="region" aria-label="SEO competitor analysis template"><table><thead><tr><th scope="col">Competitor</th><th scope="col">Keywords on page 1</th><th scope="col">Top pages</th><th scope="col">Content gaps</th><th scope="col">Backlinks</th><th scope="col">Site health</th><th scope="col">AI answers</th><th scope="col">What we do next</th></tr></thead><tbody>
+<tr><th scope="row">What to write</th><td>Which of your keywords they appear for on page 1</td><td>Their pages that appear most, and why they work</td><td>What they answer that you do not, and what nobody answers well</td><td>Where they are mentioned and linked from</td><td>Speed on phones, phone layout, https, broken links</td><td>Whether AI tools name them, and for which questions</td><td>One to three actions for your own website</td></tr>
+<tr><th scope="row">Your website</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><th scope="row">Competitor 1</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><th scope="row">Competitor 2</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><th scope="row">Competitor 3</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<p><a class="btn" href="/templates/seo-competitor-analysis-template.csv" download data-track="competitor-template-csv">Download the template (CSV, opens in Excel or Google Sheets)</a></p>` },
+      { id: 'worked-example', h: 'What does an SEO competitor analysis example look like?', html: `<p>Here is how the template might look for a made-up bakery in Petaling Jaya that sells birthday and wedding cakes. The competitors and findings are examples only, not real websites or data.</p>
+<div class="btable wide" tabindex="0" role="region" aria-label="Example SEO competitor analysis for a made-up bakery"><table><thead><tr><th scope="col">Competitor</th><th scope="col">Keywords on page 1</th><th scope="col">Top pages</th><th scope="col">Content gaps</th><th scope="col">Backlinks</th><th scope="col">Site health</th><th scope="col">AI answers</th><th scope="col">What we do next</th></tr></thead><tbody>
+<tr><th scope="row">Another bakery's website</th><td>e.g. most of the birthday cake searches in its area</td><td>e.g. a cake menu with prices and real photos</td><td>e.g. no page about delivery areas or how early to order</td><td>e.g. mentioned by a few local food blogs</td><td>e.g. slow on phones because of large photos</td><td>e.g. named for one "where to buy" question</td><td>Write a delivery areas page, add order times to every cake page, keep photos light</td></tr>
+<tr><th scope="row">A recipe blog</th><td>e.g. "how to" cake questions</td><td>e.g. step by step recipes</td><td>e.g. no answer for people who want to buy instead of bake</td><td>e.g. many links from other food websites</td><td>e.g. fast, but full of ads</td><td>e.g. quoted for baking questions</td><td>A search competitor, not a business one: answer buyer questions instead of recipes</td></tr>
+<tr><th scope="row">A marketplace listing</th><td>e.g. many cake searches</td><td>e.g. product listings</td><td>Not useful to compare</td><td>Not useful to compare</td><td>Not useful to compare</td><td>Not useful to compare</td><td>Set aside: keep a listing if it sells, but do not plan the website around it</td></tr>
+</tbody></table></div>
+<p>The plan for the bakery would be three actions: a delivery areas page, order times on every cake page, and lighter photos. Small, clear steps like these are the point of the exercise.</p>` },
+      { id: 'tools', h: 'Which tools help with competitor analysis?', html: `<h3>Free tools</h3>
+<ul><li><b>Google Search</b> in a private window: who is on page 1 for each keyword.</li>
+<li><b>Google Search Console:</b> your own searches, positions and links.</li>
+<li><b>PageSpeed Insights:</b> speed for your pages and theirs.</li>
+<li><b>Google Trends:</b> how interest in your searches changes over the year.</li></ul>
+<h3>XpertForesight</h3>
+<p><a href="/seo-tools/">XpertForesight</a>, our own SEO research tool, does the research steps in one place: <b>Domain overview</b> shows any website's keywords, estimated visits and real competitors, <b>Keyword gap</b> lists what a competitor ranks for and you do not, <b>Keyword ideas</b> and <b>AI questions</b> fill in the gaps, and <b>XpertBlueprint</b> runs every scan and writes an SEO plan. PDF reports make it easy for agencies to share the findings.</p>
+<h3>Done for you</h3>
+<p>Our <a href="/seo-services-malaysia/">SEO services in Malaysia</a> (XpertRank) include competitor tracking on Google page 1 from the Plus plan up, with a weekly technical audit and monthly AI answer checks. See the <a href="/seo-packages-malaysia/">SEO packages and prices</a>.</p>` },
+      { id: 'sources', h: 'Where this guide comes from', html: `<p>The rules and tools mentioned in this guide come from Google's own pages, checked on 19 November 2026:</p>
+<ul><li><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" rel="noopener">Google Search Central: Creating helpful, reliable, people-first content</a></li>
+<li><a href="https://developers.google.com/search/docs/essentials/spam-policies" rel="noopener">Google Search Central: Spam policies for Google web search</a></li>
+<li><a href="https://support.google.com/webmasters/answer/9049606" rel="noopener">Search Console Help: Links report</a></li>
+<li><a href="https://developers.google.com/search/docs/appearance/core-web-vitals" rel="noopener">Google Search Central: Understanding Core Web Vitals</a></li>
+<li><a href="https://developers.google.com/speed/docs/insights/v5/about" rel="noopener">About PageSpeed Insights</a></li>
+<li><a href="https://developers.google.com/search/docs/appearance/ai-features" rel="noopener">Google Search Central: AI features and your website</a></li></ul>` },
+    ],
+    faqs: [
+      { q: 'What is competitor analysis in SEO?', a: 'It is studying the websites that appear on Google for the searches you want: which keywords they rank for, which pages work best, who links to them, how healthy their website is and whether AI answers name them. Then you use what you learn to improve your own website.' },
+      { q: 'How do I find my SEO competitors?', a: 'Search your five to ten most important keywords on Google in Malaysia and note the websites on page 1. The ones that appear for several keywords are your real search competitors. Set aside marketplaces, directories, Wikipedia, forums and social media.' },
+      { q: 'What should an SEO competitor analysis include?', a: 'The keywords each competitor is on page 1 for, their best pages, content gaps, where they get links from, their site health and speed, and whether AI tools name them. End with a few clear actions for your own website.' },
+      { q: 'Is there a free SEO competitor analysis template?', a: 'Yes. This guide has a free template you can download as a CSV file for Excel or Google Sheets, or copy as a table, with columns for keywords on page 1, top pages, content gaps, backlinks, site health, AI answers and what to do next.' },
+      { q: 'Should I copy what my competitors do?', a: 'No. Use them to see what Google already shows, then add what is missing and what only you can offer: your own experience, photos, prices and answers. Google says pages that only reword others add little value.' },
+      { q: 'How often should I do an SEO competitor analysis?', a: 'A full one every three months or so is enough for most small businesses, with a quick look at page 1 for your main keywords every month.' },
+      { q: 'Can I see which keywords a competitor ranks for?', a: 'Partly for free, by searching your keywords and reading their page titles and headings. For a full list, use a research tool: the Domain overview and Keyword gap tools in XpertForesight show a website\'s keywords and the ones you are missing.' },
+    ],
+    cta: { pill: 'XpertForesight', title: 'Find your real competitors and your keyword gap', href: '/seo-tools/', label: 'See XpertForesight' },
+  },
+  {
+    // Keyword research (our own research tool, Google Malaysia, 19 Nov 2026): payment gateway malaysia 1,600, payment gateway in malaysia 1,300,
+    // malaysia payment gateway 1,300, stripe payment gateway malaysia 90, online payment gateway malaysia 70, cheapest payment gateway malaysia 50,
+    // best payment gateway malaysia 40. Every fee below is copied from the provider's own pricing page on 19 Nov 2026 (links in the Sources section).
+    // We only set up Stripe: never say we have used the other gateways. A provider with no published fees says "fees on request".
+    slug: 'payment-gateway-malaysia', tag: 'Payments', art: 'cost', date: '2026-11-19',
+    h1: 'Payment gateways in Malaysia: fees, methods and how to choose',
+    title: 'Payment Gateway in Malaysia: Fees, Methods and How to Choose',
+    description: 'Payment gateways in Malaysia compared: Stripe, Billplz, toyyibPay, CHIP, senangPay, HitPay, iPay88, Fiuu and eGHL, with published fees for cards, FPX and e-wallets.',
+    card: 'What a payment gateway does, the ways Malaysians pay, published fees from nine gateways and how to choose one.',
+    short: `A payment gateway is the service that takes a customer's payment on your website and sends the money to your bank account. In Malaysia it should accept the ways people here pay: cards, FPX online banking, e-wallets such as Touch 'n Go eWallet, GrabPay, ShopeePay and Boost, and DuitNow QR. Businesses here use gateways such as Stripe, Billplz, toyyibPay, CHIP, senangPay, HitPay, iPay88, Fiuu (formerly Razer Merchant Services) and eGHL. There is no single best one: compare the fee for the way your customers pay, how fast the money reaches you, any yearly fee, the documents you need and how it connects to your website. Fees below were checked on 19 November 2026 and can change.`,
+    sections: [
+      { id: 'what-is-a-payment-gateway', h: 'What is a payment gateway?', html: `<p>A payment gateway is the part of an online payment that sits between your customer, their bank or e-wallet, and your business. When a customer clicks Pay, the gateway shows the payment page, sends the payment to the right bank or wallet, tells your website whether it worked, and later pays the money into your bank account, minus its fee.</p>
+<p>For a business owner, it does four jobs:</p>
+<ul class="bcheck"><li><b>Shows the payment page</b> with the payment methods you switched on.</li>
+<li><b>Checks the payment</b> with the card network, bank or e-wallet.</li>
+<li><b>Tells your website</b> the result, so an order is confirmed or access unlocks.</li>
+<li><b>Pays you out</b> on a schedule, called settlement.</li></ul>
+<div class="btip"><b>Good to know</b>The gateway's fee is usually taken before the money is paid out, so what reaches your bank is the payment minus the fee. Count that in your prices.</div>` },
+      { id: 'payment-methods', h: 'Which payment methods do Malaysians use?', html: `<p>Customers in Malaysia expect more than cards. A good payment page in Malaysia offers most of these:</p>
+<h3>Credit and debit cards</h3><p>Visa and Mastercard everywhere, plus MyDebit, the local debit card network, and others such as American Express on some gateways. Cards are also the usual way to pay for subscriptions that renew by themselves.</p>
+<h3>FPX online banking</h3><p>FPX lets customers pay straight from their online banking. It is run by PayNet with Malaysian banks (<a href="https://docs.stripe.com/payments/fpx" rel="noopener">Stripe's FPX page</a> explains it). Customers pick their bank, log in and approve. Gateways charge separately for B2C (personal accounts) and B2B (company accounts).</p>
+<h3>E-wallets</h3><p>Touch 'n Go eWallet, GrabPay, ShopeePay and Boost are among the e-wallets Malaysian gateways list. Each gateway supports a different set, so check the ones your customers use.</p>
+<h3>DuitNow QR</h3><p>DuitNow QR is Malaysia's national QR code standard: one QR code that works with participating banking and e-wallet apps (<a href="https://knowledgebase.paynet.my/hc/en-us/articles/49581289084185-What-is-DuitNow-QR" rel="noopener">PayNet explains it here</a>). Online, the customer scans a QR code shown on the payment page.</p>
+<h3>Buy now, pay later</h3><p>Some gateways add instalment options such as Atome or PayLater by Grab. On the pricing pages below, these two are listed at 5% or more per payment, far above most card and FPX fees, so only switch them on if your customers want them.</p>` },
+      { id: 'gateways-in-malaysia', h: 'Which payment gateways are used in Malaysia?', html: `<p>These are the gateways businesses in Malaysia most often compare. We set up <b>Stripe</b> for the websites and web apps we build, so we describe the others only from their own published pages. Fees are the standard published rates, checked on 19 November 2026.</p>
+<h3>Stripe</h3><p><b>Methods:</b> cards (domestic and international), FPX, GrabPay and Alipay. <b>Fees:</b> 3% + RM1.00 for domestic cards and for FPX, 1% more for international cards and 2% more if currency conversion is needed; GrabPay 3%. Stripe says it charges no setup, monthly or hidden fees. Subscriptions use Stripe Billing, which adds 0.7% of billing volume (<a href="https://stripe.com/en-my/pricing" rel="noopener">Stripe pricing</a>). <b>May suit:</b> businesses that want one-time payments, subscriptions, payment links, receipts and a billing portal from one provider, or sell to customers abroad. Its published fees are higher per payment than most local gateways below. Stripe asks for your Business Registration Number before you can take FPX (<a href="https://docs.stripe.com/payments/fpx" rel="noopener">Stripe FPX</a>).</p>
+<h3>Billplz</h3><p><b>Methods:</b> FPX, cards, e-wallets and DuitNow QR (e-wallets and its Auto-Deduct option need a separate application). <b>Fees, free Basic plan:</b> FPX RM1.25 (B2C), cards in ringgit (MYR) 1.8%, e-wallets and DuitNow QR 1.5%. A Standard plan at RM999 a year lowers FPX to RM0.75 and cards to 1.5%. FPX pays out the next business day, cards two business days after (<a href="https://main.billplz.com/pricing" rel="noopener">Billplz pricing</a>). <b>May suit:</b> businesses that collect mostly by FPX and want a flat fee per payment.</p>
+<h3>toyyibPay</h3><p><b>Methods:</b> FPX, cards (with toyyibPay's partners) and DuitNow QR. <b>Fees:</b> on the Standard plan, FPX RM1.00 (B2C) or RM2.00 (B2B). Cards are offered through toyyibPay's partners: local cards 1.50% and foreign cards 3.5%, with a RM100 onboarding fee and RM100 a year from the second year. DuitNow QR is "1.00% or RM 1.00 per transaction", as its page puts it, subject to the provider's approval. Its Santai plan charges RM0.00 for FPX B2C, only for non-profit organisations (<a href="https://www.toyyibpay.com/pricing-plans/" rel="noopener">toyyibPay pricing</a>). <b>May suit:</b> small businesses and non-profits that mainly take FPX.</p>
+<h3>CHIP</h3><p><b>Methods:</b> FPX, cards, DuitNow QR and e-wallets (Touch 'n Go, GrabPay, ShopeePay). <b>Fees:</b> FPX RM1.00 (B2C) or RM2.00 (B2B); local credit cards 2.0%, local debit cards 1.0%, foreign cards 3.0%; DuitNow QR 1.0%; e-wallets 1.4%. CHIP says it charges no setup, monthly or annual fees. Its pricing page also says transaction fees are subject to 8% SST, in a note beside its buy now, pay later rates, so ask CHIP which fees it covers (<a href="https://www.chip-in.asia/pricing" rel="noopener">CHIP pricing</a>). <b>May suit:</b> businesses that want low flat FPX fees and no fixed costs.</p>
+<h3>senangPay</h3><p><b>Methods:</b> FPX, cards, e-wallets and buy now, pay later. <b>Fees:</b> a yearly plan, Starter RM199 a year (online banking and e-wallets) or Advance RM349 a year (all payment options and API integration), with promotions from time to time. FPX is RM1 or 1.5%, local cards RM0.65 or 2.5%, e-wallets RM0.65 or 1.5%, whichever is higher in each case (<a href="https://senangpay.com/pricing/" rel="noopener">senangPay pricing</a>). <b>May suit:</b> sellers who want payment forms and a product catalogue, including social media sellers without a website.</p>
+<h3>HitPay</h3><p><b>Methods:</b> cards, FPX, DuitNow QR and many e-wallets. <b>Fees:</b> domestic cards 1.2% + RM1, international cards 3% + RM1 (2% more for a foreign currency), FPX 1.8% + RM0.40, DuitNow 1.2%, Touch 'n Go 1.9%, GrabPay 2%, ShopeePay 2.2%. No setup or monthly fees, but its payment links, invoices and shop plugins add 0.2% per payment (its Shopify app 0.5%) (<a href="https://www.hitpayapp.com/my/pricing" rel="noopener">HitPay pricing</a>). <b>May suit:</b> businesses that take bigger payments by Malaysian card, because its card fee is a lower percentage with RM1 added (see the example below).</p>
+<h3>iPay88</h3><p>iPay88 joined the NTT DATA group in 2015 (<a href="https://www.nttdata.com/global/en/news/press-release/2015/september/2015/ipay88-of-malaysia-joins-ntt-data-group" rel="noopener">NTT DATA</a>), and ipay88.com now opens NTT DATA Payment Services' ADAPTIS e-commerce page. <b>Methods:</b> cards including Visa, Mastercard, MyDebit, UnionPay, American Express, Diners Club and JCB, online banking, e-wallets, 0% instalment plans and buy now, pay later (<a href="https://my.nttdatapay.com/en/payment-services/adaptis-e-commerce" rel="noopener">ADAPTIS e-commerce</a>). <b>Fees:</b> on request; no rates are published there.</p>
+<h3>Fiuu (formerly Razer Merchant Services)</h3><p>Razer Merchant Services announced its new name, Fiuu, in March 2024 (<a href="https://www.lowyat.net/2024/318327/fiuu-razer-fintech-merchant-services/" rel="noopener">Lowyat.NET</a>). <b>Methods:</b> FPX (B2C and B2B), e-wallets, DuitNow, Apple Pay, Google Pay, instalments and buy now, pay later, and it says it offers over 110 payment methods across Southeast Asia (<a href="https://fiuu.com/" rel="noopener">Fiuu</a>). <b>Fees:</b> on request.</p>
+<h3>eGHL</h3><p>eGHL is the online payment gateway of GHL Systems, which became NTT DATA Payment Services in November 2024 (<a href="https://fintechnews.my/50468/payments-remittance-malaysia/ntt-data-adaptis/" rel="noopener">Fintech News Malaysia</a>). Its Shopify app is now listed as ADAPTIS Payment Gateway (eGHL) (<a href="https://apps.shopify.com/eghl-payment-gateway" rel="noopener">Shopify App Store</a>). <b>Fees:</b> on request; we found no published rates.</p>` },
+      { id: 'fees-compared', h: 'Payment gateway fees compared', html: `<p>Published fees use two shapes: a flat amount per payment (like RM1.00), or a percentage, sometimes with a small amount added. Flat fees cost the same on a big payment as on a small one; percentages grow with the payment. That is why the cheapest payment gateway in Malaysia depends on how your customers pay and how much they spend.</p>
+<div class="btable" tabindex="0" role="region" aria-label="Published payment gateway fees in Malaysia"><table><thead><tr><th scope="col">Gateway</th><th scope="col">Malaysian cards</th><th scope="col">FPX (B2C)</th><th scope="col">E-wallets and DuitNow QR</th><th scope="col">Fixed fees</th></tr></thead><tbody>
+<tr><th scope="row">Stripe</th><td>3% + RM1.00</td><td>3% + RM1.00</td><td>GrabPay 3%</td><td>None (Billing 0.7% for subscriptions)</td></tr>
+<tr><th scope="row">Billplz Basic</th><td>1.8% (MYR)</td><td>RM1.25</td><td>1.5%</td><td>None (Standard plan RM999 a year)</td></tr>
+<tr><th scope="row">toyyibPay Standard</th><td>1.50% (through partners)</td><td>RM1.00</td><td>DuitNow QR 1.00% or RM1.00</td><td>Cards: RM100 onboarding, RM100 a year from year two</td></tr>
+<tr><th scope="row">CHIP</th><td>Credit 2.0%, debit 1.0%</td><td>RM1.00</td><td>E-wallets 1.4%, DuitNow QR 1.0%</td><td>None (ask about 8% SST)</td></tr>
+<tr><th scope="row">senangPay</th><td>2.5%, at least RM0.65</td><td>1.5%, at least RM1</td><td>1.5%, at least RM0.65</td><td>RM199 or RM349 a year</td></tr>
+<tr><th scope="row">HitPay</th><td>1.2% + RM1</td><td>1.8% + RM0.40</td><td>DuitNow 1.2%, e-wallets 1.9% to 2.2%</td><td>None (plugins and links add 0.2%)</td></tr>
+<tr><th scope="row">iPay88, Fiuu, eGHL</th><td colspan="4">Fees on request</td></tr>
+</tbody></table></div>
+<h3>An example with real numbers</h3>
+<p>Here is what one payment would cost at those published rates, before any SST. It is arithmetic, not a quote.</p>
+<div class="btable" tabindex="0" role="region" aria-label="Example fee on one payment"><table><thead><tr><th scope="col">Gateway</th><th scope="col">RM100 by FPX</th><th scope="col">RM1,000 by FPX</th><th scope="col">RM100 by Malaysian credit card</th><th scope="col">RM1,000 by Malaysian credit card</th></tr></thead><tbody>
+<tr><th scope="row">Stripe</th><td>RM4.00</td><td>RM31.00</td><td>RM4.00</td><td>RM31.00</td></tr>
+<tr><th scope="row">Billplz Basic</th><td>RM1.25</td><td>RM1.25</td><td>RM1.80</td><td>RM18.00</td></tr>
+<tr><th scope="row">toyyibPay Standard</th><td>RM1.00</td><td>RM1.00</td><td>RM1.50</td><td>RM15.00</td></tr>
+<tr><th scope="row">CHIP</th><td>RM1.00</td><td>RM1.00</td><td>RM2.00</td><td>RM20.00</td></tr>
+<tr><th scope="row">senangPay</th><td>RM1.50</td><td>RM15.00</td><td>RM2.50</td><td>RM25.00</td></tr>
+<tr><th scope="row">HitPay</th><td>RM2.20</td><td>RM18.40</td><td>RM2.20</td><td>RM13.00</td></tr>
+</tbody></table></div>
+<div class="btip"><b>Before you compare</b>Add any yearly or onboarding fee, check which plan the rate belongs to, and ask about SST, refund fees and chargeback fees. Fees were checked on 19 November 2026 from each provider's own pricing page and can change, so check the provider's page before you sign up.</div>` },
+      { id: 'how-to-choose', h: 'How to choose a payment gateway', html: `<p>Start from your customers, not from the gateway. Then check these points for each one you consider:</p>
+<ul><li><b>Fees for the methods your customers use.</b> If most pay by FPX, a flat FPX fee matters most. If most pay by card, compare card percentages. Work it out with your own average payment, like the example above.</li>
+<li><b>Payment methods.</b> Make sure the cards, banks and e-wallets your customers use are included, and whether some need a separate application.</li>
+<li><b>Settlement time.</b> How soon the money reaches your bank. Published examples range from the next business day to several business days, and can differ by method.</li>
+<li><b>Setup, monthly and yearly fees.</b> Some gateways have none, some charge a yearly plan, some charge to switch on cards.</li>
+<li><b>Documents needed.</b> Expect to be asked for your SSM registration, a bank account in the business name (or the owner's name for a sole proprietor), the owner's IC and a website or page that shows your terms and refund policy. senangPay, for example, lists bank statements, proof of address and policy pages (<a href="https://guide.senangpay.com/required-documents-to-register" rel="noopener">senangPay documents</a>), and HitPay asks for an SSM Business Profile (<a href="https://docs.hitpayapp.com/onboarding/requirements-my" rel="noopener">HitPay requirements</a>).</li>
+<li><b>Subscriptions.</b> If customers pay every month, check that the gateway supports payments that renew by themselves, and with which methods.</li>
+<li><b>How it connects.</b> Plugins for your shop platform, payment links, or an API for a custom website or web app.</li></ul>
+<div class="btip"><b>Avoid this</b>Do not pick on the lowest headline rate alone. A gateway that is cheaper on cards can cost more on FPX, and a low rate can sit behind a yearly fee.</div>` },
+      { id: 'how-it-connects', h: 'How does a gateway connect to a website?', html: `<p>There are four common ways, from simplest to most flexible:</p>
+<ol><li><b>Payment link.</b> The gateway gives you a link to its own payment page. You put it on a button or send it in a message. No code on your website.</li>
+<li><b>Plugin.</b> For shop platforms and website builders, many gateways offer a plugin you switch on and fill in with your account keys.</li>
+<li><b>Hosted checkout page.</b> Your website asks the gateway to open a payment page for this exact order, the customer pays there and comes back to your website. The price is set on your server, so nobody can change it in the browser.</li>
+<li><b>Embedded form or API.</b> The payment form sits inside your own page. This gives the most control, and needs the most care.</li></ol>
+<p>Whichever way you choose, your website should only treat an order as paid when the gateway confirms it. Gateways do this with a message to your server, called a webhook, which your server checks before it confirms the order or unlocks access.</p>` },
+      { id: 'security-basics', h: 'Is a payment gateway safe for your customers?', html: `<p>A good set up keeps the risky part away from your website. Card payments must follow a security standard called PCI DSS. <a href="https://docs.stripe.com/security/guide" rel="noopener">Stripe explains</a> that a business that handles card details itself can face more than 300 security controls, while low risk integrations send the payment details straight to Stripe without passing through the business's servers.</p>
+<ul class="bcheck"><li><b>Use a hosted payment page.</b> The customer types their card details on the gateway's own page, so the details never touch your website.</li>
+<li><b>Use HTTPS everywhere.</b> Your website and payment pages should show the padlock in the browser.</li>
+<li><b>Keep secret keys on the server.</b> Never put a gateway's secret key in your website's pages.</li>
+<li><b>Check every webhook.</b> Confirm it really came from the gateway before you mark an order as paid.</li>
+<li><b>Keep your own records small.</b> Store the order and the gateway's payment reference, never full card numbers.</li></ul>
+<p>Read how we build websites in layers in <a href="/website-development/#secure">website development</a>.</p>` },
+      { id: 'how-we-set-up-stripe', h: 'How we set up Stripe payments', html: `<p>For the websites and web apps we build, we set up Stripe. It is the same set up seoxpert.my uses to take payments. Your customers pay on Stripe's own secure payment page, and your website never sees their card details.</p>
+<ul class="bcheck"><li><b>Card, FPX and GrabPay</b> on one payment page</li>
+<li><b>One-time payments</b> for a product, a service or a booking</li>
+<li><b>Subscriptions</b> that renew monthly or yearly by card (FPX and GrabPay are for single payments)</li>
+<li><b>Payment links</b> you can send in a message</li>
+<li><b>Receipts by email</b> from Stripe, and a billing portal where customers change their card or plan</li>
+<li><b>Prices checked on the server</b> and every payment confirmed by a checked webhook before an order or access goes through</li></ul>
+<p>Payments, logins and dashboards are quoted on their scope. See <a href="/web-app-development-malaysia/">web app and payment gateway development in Malaysia</a>. For a business website, our website design packages start from ${px(starter)}: see the <a href="/packages/">packages and prices</a>. Online shops and booking systems get their own quote.</p>` },
+      { id: 'sources', h: 'Where these fees come from', html: `<p>Every fee in this guide was copied from the provider's own page on 19 November 2026. Fees and plans change, so check the latest version before you sign up.</p>
+<ul><li><a href="https://stripe.com/en-my/pricing" rel="noopener">Stripe pricing, Malaysia</a> and <a href="https://stripe.com/en-my/pricing/local-payment-methods" rel="noopener">Stripe local payment methods pricing</a></li>
+<li><a href="https://docs.stripe.com/payments/fpx" rel="noopener">Stripe: FPX payments</a> and <a href="https://docs.stripe.com/payments/grabpay" rel="noopener">Stripe: GrabPay payments</a></li>
+<li><a href="https://main.billplz.com/pricing" rel="noopener">Billplz pricing</a></li>
+<li><a href="https://www.toyyibpay.com/pricing-plans/" rel="noopener">toyyibPay pricing plans</a></li>
+<li><a href="https://www.chip-in.asia/pricing" rel="noopener">CHIP pricing</a></li>
+<li><a href="https://senangpay.com/pricing/" rel="noopener">senangPay pricing</a></li>
+<li><a href="https://www.hitpayapp.com/my/pricing" rel="noopener">HitPay pricing, Malaysia</a></li>
+<li><a href="https://my.nttdatapay.com/en/payment-services/adaptis-e-commerce" rel="noopener">NTT DATA Payment Services: ADAPTIS e-commerce</a> (where ipay88.com leads)</li>
+<li><a href="https://fiuu.com/" rel="noopener">Fiuu</a> and <a href="https://apps.shopify.com/eghl-payment-gateway" rel="noopener">ADAPTIS Payment Gateway (eGHL) on the Shopify App Store</a></li>
+<li><a href="https://knowledgebase.paynet.my/hc/en-us/articles/49581289084185-What-is-DuitNow-QR" rel="noopener">PayNet: What is DuitNow QR?</a></li>
+<li><a href="https://docs.stripe.com/security/guide" rel="noopener">Stripe: integration security guide</a></li></ul>` },
+    ],
+    faqs: [
+      { q: 'What is the cheapest payment gateway in Malaysia?', a: 'It depends on how your customers pay. For FPX, CHIP and toyyibPay (Standard plan) publish a flat RM1.00 per B2C payment, and Billplz RM0.75 on its Standard plan, which costs RM999 a year. For cards, the published percentages differ by gateway and plan. Work it out with your own average payment and add any yearly fee. Fees were checked on 19 November 2026 and can change.' },
+      { q: 'Does Stripe work in Malaysia?', a: 'Yes. Businesses in Malaysia can take cards, FPX and GrabPay with Stripe. Its published fees are 3% + RM1.00 for domestic cards and FPX and 3% for GrabPay, with no setup or monthly fee. Stripe asks for a Business Registration Number before you can take FPX.' },
+      { q: 'Do I need SSM registration to use a payment gateway?', a: 'Usually, yes. Most gateways ask for your SSM registration, a bank account in the business name (or the owner\'s name for a sole proprietor) and the owner\'s IC. Check each gateway\'s own list of documents before you apply.' },
+      { q: 'Can customers pay a subscription with FPX?', a: 'Not with Stripe: FPX and GrabPay are for single payments, so subscriptions renew by card. Other gateways have their own rules, so ask before you choose.' },
+      { q: 'Will my website see my customers\' card details?', a: 'Not if you use a hosted payment page. The customer types their card details on the gateway\'s own page, and your website only receives the result.' },
+      { q: 'Which payment gateway does SEOXpert set up?', a: 'Stripe, with card, FPX and GrabPay, one-time payments, subscriptions, payment links, receipts and a billing portal. It is the same set up seoxpert.my uses.' },
+    ],
+    cta: { pill: 'Payments', title: 'Stripe payments set up on your website or web app', href: '/web-app-development-malaysia/', label: 'Web app development' },
+  },
+  {
     slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15', updated: '2026-11-18',
     h1: 'Cloud hosting in Malaysia: what it is, and when it is free',
     title: 'Cloud Hosting in Malaysia: What It Is and When It Is Free',
     description: 'Cloud hosting in Malaysia in plain words: what it is, how it differs from shared hosting, what to check before you pay, and when free cloud hosting is real.',
     card: 'What cloud hosting is, how it differs from shared hosting, and when free cloud hosting is real.',
-    short: `Cloud hosting keeps your website on a network of many computers instead of one, so it stays fast and online even when one of them has a problem or many people visit at once. Free cloud hosting is real, but it usually comes with limits or as part of another service. At SEOXpert, free high speed cloud hosting is included with every XpertRank plan on websites we build${offerOn() ? `, and every website we build that is ordered before ${offer.endsText} gets 1 year of free high speed cloud hosting` : ''}. We do not sell hosting on its own.`,
+    short: `Cloud hosting keeps your website on a network of many computers instead of one, so it stays fast and online even when one of them has a problem or many people visit at once. Free cloud hosting is real, but it usually comes with limits or as part of another service. At SEOXpert, free high speed cloud hosting is included with every paid XpertRank plan on websites we build${offerOn() ? `, and every website we build that is ordered by ${offer.endsText} gets ${hostMonths} months of free high speed cloud hosting` : ''}. We do not sell hosting on its own.`,
     sections: [
       { id: 'what-is-cloud-hosting', h: 'What is cloud hosting?', html: `<p>Every website lives on a computer that is always switched on and connected to the internet. That computer is called a server, and renting space on one is called hosting.</p>
 <p>With older kinds of hosting, your website sits on one server in one building. With <b>cloud hosting</b>, your website is kept on a network of many servers, often in many places. When someone opens your website, the network answers from a server that is close to them and free to respond.</p>
@@ -72,14 +407,14 @@ export const posts: Post[] = [
 <p>Some cloud companies offer a free plan. These are real and can be very good, but they are made for people who can set up and look after a website themselves. They usually have limits, and there is nobody to call when something goes wrong.</p>
 <h3>Free hosting that comes with another service</h3>
 <p>Here the hosting is included in something else you pay for, such as a website build or a monthly SEO plan. You do not pay for it separately, and the people who built the website also look after where it lives.</p>
-<p>That second kind is how we do it${offerOn() ? `. Every website ordered before ${offer.endsText} gets <b>1 year of free high speed cloud hosting</b>, and websites we build keep free high speed cloud hosting with every XpertRank plan` : ': websites we build get free high speed cloud hosting with every XpertRank plan'}. See the <a href="/packages/">packages and prices</a>.</p>
+<p>That second kind is how we do it${offerOn() ? `. Every website we build that is ordered by ${offer.endsText} gets <b>${hostMonths} months of free high speed cloud hosting</b>. After that, the hosting stays free while you keep a paid XpertRank plan, and if you stop XpertRank during those ${hostMonths} months, your hosting still runs until they end` : ': websites we build get free high speed cloud hosting with every paid XpertRank plan'}. ${buyer.handover} See the <a href="/packages/">packages and prices</a>.</p>
 <div class="btip"><b>Before you choose free</b>Ask what happens when the free period ends, what the limits are, and who fixes it if the website goes down. Free hosting with nobody looking after it can cost more in lost customers than paid hosting.</div>` },
       { id: 'hosting-and-google', h: 'Does hosting help you rank on Google?', html: `<p>Hosting alone does not put a website on page 1, and nobody can promise that. But it does affect two things Google and your visitors both care about:</p>
 <ul><li><b>Speed.</b> Google measures how quickly real pages load, and uses it as one of many signals. Visitors also leave slow pages, especially on mobile data.</li>
 <li><b>Being online.</b> A website that is often down cannot be visited by customers or read by Google.</li></ul>
 <p>The words on your pages and how well they answer what people search for still matter most. Read our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a> for the full picture.</p>` },
       { id: 'how-we-do-it', h: 'How SEOXpert includes cloud hosting', html: `<p>We build websites and look after them every month. We do not sell hosting on its own. For websites we build, the hosting is part of the service:</p>
-<ul class="bcheck"><li>High speed cloud hosting, included with every XpertRank plan</li>
+<ul class="bcheck"><li>High speed cloud hosting, included with every paid XpertRank plan${offerOn() ? `, and for the first ${hostMonths} months with the launch offer` : ''}</li>
 <li>Backups, uptime watch and security, included</li>
 <li>Your domain and SSL certificate renewal dates shown in your XpertInsight dashboard, with reminders before they run out</li>
 <li>Speed checked with Google's own speed scores, on phone and computer</li>
@@ -91,20 +426,20 @@ ${careTable}
       { q: 'What is cloud hosting in simple words?', a: 'Your website is kept on a network of many computers instead of one, so it loads from a place near each visitor and stays online if one computer has a problem.' },
       { q: 'Is cloud hosting better than shared hosting?', a: 'For most business websites, yes: it handles busy days better and is less likely to go offline. A small website can still run well on shared hosting if it is built well.' },
       { q: 'Is free cloud hosting safe to use?', a: 'It can be. Check the limits, what happens when the free period ends, and who fixes the website if it goes down.' },
-      { q: 'Does SEOXpert sell cloud hosting on its own?', a: 'No. High speed cloud hosting is included with every XpertRank plan, for websites we build.' },
+      { q: 'Does SEOXpert sell cloud hosting on its own?', a: 'No. High speed cloud hosting is included with every paid XpertRank plan, for websites we build.' },
       { q: 'Does my hosting need to be in Malaysia?', a: 'Not exactly. What matters is that your website is served from a place near your customers. A cloud network with a location in or near Malaysia does that.' },
     ],
     cta: { pill: 'XpertRank', title: 'High speed cloud hosting, included with your website care', href: '/packages/', label: 'See packages and prices' },
   },
   {
-    slug: 'local-seo-malaysia', tag: 'Local SEO', art: 'map', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'local-seo-malaysia', tag: 'Local SEO', art: 'map', date: '2026-11-11', updated: '2026-11-19',
     h1: 'Local SEO in Malaysia: how to be found in your area',
     title: 'Local SEO in Malaysia: How to Be Found in Your Area',
     description: 'Local SEO in Malaysia, step by step: say where you work, complete your Google Business Profile, keep your details the same, earn real reviews and make contact easy.',
     card: 'A step by step guide to help people near you find your business on Google and Google Maps.',
     short: 'Local SEO is the work of helping people near you find your business when they search with a place in mind, such as a service in Kuala Lumpur, Selangor or Petaling Jaya, or simply "near me". It comes down to six steps: say clearly where you work, complete your Google Business Profile, keep your details the same everywhere, earn real reviews, give each service something useful to say, and make it easy to get in touch.',
     sections: [
-      { id: 'what-is-local-seo', h: 'What local SEO means, and who needs it', html: `<p>Some searches are about a topic, like "how to clean an air conditioner". Others are about a place: "aircon service Petaling Jaya", "tuition centre near me", "dentist open now". For the second kind, Google shows results in two places: a map with a short list of businesses, and the normal list of websites below it.</p>
+      { id: 'what-is-local-seo', h: 'What local SEO means, and who needs it', html: `<p>Some searches are about a topic, like "how to clean an air conditioner". Others are about a place: "aircon service Petaling Jaya", "tuition centre near me", "dentist open now". For the second kind, Google shows results in two places: a map with a short list of businesses, and the normal list of websites below it. Our <a href="/blog/keyword-research-seo-malaysia/">keyword research guide</a> shows how to find the place words your customers search with.</p>
 <p>Local SEO is the work that helps your business appear in both. It matters most if customers come to you, or you go to them:</p>
 <ul><li>Shops, restaurants, cafes and salons</li><li>Clinics, dentists and other health services</li><li>Tuition centres, schools and studios</li><li>Contractors, repair services, movers and cleaners</li><li>Professional offices such as lawyers and accountants</li></ul>
 <p>If you sell only online to customers anywhere, normal SEO matters more. Start with our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a>.</p>` },
@@ -207,7 +542,7 @@ ${careTable}
 <li><b>Accounts:</b> who has access to things like Google Search Console and Google Analytics for your website?</li></ul>
 <p>Clear answers now save a lot of trouble later, for example if you ever want to change providers.</p>` },
       { id: 'after-launch', h: '7. Someone looks after it after launch', html: `<p>A website needs updates, backups and fixes once it is live, and it needs new content to keep growing. Ask who does this work, what it costs, and how you ask for a change.</p>
-<p>With us that is <a href="/website-maintenance/">XpertRank</a>, our optional expert SEO service, from ${px(basic)} a month, with free high speed cloud hosting for websites we build. We actively check your website every few days, fix what we find and make SEO and AI search improvements when they are needed.</p>` },
+<p>With us that is <a href="/website-maintenance/">XpertRank</a>, our optional expert SEO service, from ${px(basic)} a month${rankNote()}, with free high speed cloud hosting for websites we build. We actively check your website every few days, fix what we find and make SEO and AI search improvements when they are needed.</p>` },
       { id: 'do-you-need-to-meet', h: 'Do you need to meet in person?', html: `<p>No. We work remotely, with businesses in Kuala Lumpur, Selangor, Petaling Jaya, across Malaysia and all around the world. Everything starts with a friendly conversation by email or chat: tell us a little about your business and what you would love your website to do, and we take it from there.</p>` },
       { id: 'the-checklist', h: 'The whole checklist on one screen', html: `<ul class="bcheck"><li>I know the one main job of my website</li><li>The website will say clearly where I work</li><li>I have the full price in writing, in ringgit</li><li>I know what is paid once and what is paid every month</li><li>The writing is included and planned around real searches</li><li>Their websites load quickly and work well on my phone</li><li>Every page is planned for Google and AI search before design</li><li>I know who owns the domain name, the content and the accounts</li><li>I know who looks after the website after launch</li></ul>` },
     ],
@@ -221,14 +556,14 @@ ${careTable}
     cta: { pill: 'XpertForge', title: `Website design from ${px(starter)}, paid once`, href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11', updated: '2026-11-19',
     h1: 'Website design packages in Malaysia: which one fits?',
     title: 'Website Design Packages in Malaysia: Which One Fits?',
     description: `Compare website design packages in Malaysia: Starter, Business and Growth, from ${fmt(starter)}. See what each includes, with examples of which one fits which business.`,
     card: 'Starter, Business or Growth? What each website design package includes, with examples of who it suits.',
     short: `Choose a website design package by counting the pages you need. ${starter.name} (${px(starter)}) covers up to 5 pages, ${business.name} (${px(business)}) up to 10 pages, and ${growth.name} (${px(growth)}) up to 20 pages. Every package also has a blog, counted separately from the pages. Each is paid once, and highly rankable content and keyword research are included in all three.`,
     sections: [
-      { id: 'side-by-side', h: 'The three packages side by side', html: `<p>Our website builds are called XpertForge. Prices are in ringgit and paid once.</p>${buildTable}
+      { id: 'side-by-side', h: 'The three packages side by side', html: `<p>Our <a href="/website-design/">website design</a> builds are called XpertForge. Prices are in ringgit and paid once.</p>${buildTable}
 <p>The size changes. The quality does not. Every package includes:</p>${inEvery}` },
       { id: 'what-counts-as-a-page', h: 'What counts as a page', html: `<p>A page is one address on your website with its own topic, such as your home page, your about page or one service. Most businesses need a few pages that every website has, plus one for each main thing they sell:</p>
 <ul><li><b>Home:</b> what you do, for whom and where, and how to get in touch.</li>
@@ -249,7 +584,7 @@ ${careTable}
 <p>Blog posts also help with AI tools, which look for clear, direct answers to quote. The posts written at launch give your blog a start, and an XpertRank plan adds new ones every month.</p>` },
       { id: 'revision-rounds', h: 'How revision rounds work', html: `<p>A revision round is one batch of changes you ask for after seeing the design and writing. ${starter.name} includes 2 rounds, and ${business.name} and ${growth.name} include 3.</p>
 <p>To get the most from each round, collect all your changes in one list before you send them, and ask anyone else who needs to approve the website to add theirs to the same list. Clear, complete feedback in one go gives a better result than many small messages.</p>` },
-      { id: 'add-xpertrank', h: 'Adding XpertRank after launch', html: `<p>After launch you can add XpertRank, our optional expert SEO service, with free high speed cloud hosting for the websites we build. With every plan we actively check your website every few days, fix what we find, and make SEO and AI search improvements when they are needed.</p>${careTable}
+      { id: 'add-xpertrank', h: 'Adding XpertRank after launch', html: `<p>After launch you can add XpertRank, our optional expert SEO service, with free high speed cloud hosting for the websites we build. With every plan we actively check your website every few days, fix what we find, and make SEO and AI search improvements when they are needed. Our <a href="/seo-packages-malaysia/">SEO packages</a> page compares every plan.</p>${careTable}
 <p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} and ${elite.name} need Growth. Pay yearly and you get ${yearly.text}.</p>
 <p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p><p>See what the monthly <a href="/website-maintenance/">website maintenance and SEO service</a> includes, or <a href="/packages/">compare website design packages</a>.</p>` },
       { id: 'still-not-sure', h: 'Between two sizes?', html: `<p>Think about the next year, not only launch day. If you plan to add services, or want a page for each type of job you do, the bigger size gives you room.</p>
@@ -257,7 +592,7 @@ ${careTable}
     ],
     faqs: [
       { q: 'What is the cheapest website design package?', a: `${starter.name} at ${px(starter)}, paid once, for up to 5 pages.` },
-      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month.` },
+      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month${rankNote()}. It is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}` },
       { q: 'Do blog posts count as pages?', a: 'No. Every package comes with its own blog, counted separately from your pages, with 2, 5 or 10 posts written at launch depending on the package.' },
       { q: 'Do all packages include the writing?', a: 'Yes. Highly rankable content and full keyword research are included in every XpertForge package.' },
       { q: 'Can I take a small website with the biggest care plan?', a: `No. A care plan can be as big as the website, not bigger. ${starter.name} takes ${basic.name}.` },
@@ -265,7 +600,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'Compare the packages and build your plan', href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-19',
     h1: 'Website design price in Malaysia: what does it cost?',
     title: 'Website Design Price in Malaysia: What It Costs | SEOXpert',
     description: `Website design in Malaysia costs from ${fmt(starter)} with SEOXpert, paid once. See what changes the price, the costs to ask about and what it costs each month.`,
@@ -276,7 +611,7 @@ ${careTable}
 <h3>How many pages you need</h3><p>A five page website for a new business is far less work than a twenty page website with a blog. Each page needs planning, writing, design and checking.</p>
 <h3>Who writes the words</h3><p>Many quotes leave the writing to you. Writing is slow, and a website with thin writing is hard to find. A quote that includes proper writing will look higher, but it saves you weeks.</p>
 <h3>Whether search is planned in</h3><p>Keyword research, titles, descriptions, headings and structured data take time to do properly. Some quotes charge extra for this, and some skip it.</p>
-<h3>Custom design or a template</h3><p>A ready made template is quicker and cheaper. A design made for your business takes longer, but fits your brand and your content.</p>
+<h3>Custom design or a template</h3><p>An off-the-shelf template is quicker and cheaper to start with. A design made for your business takes longer, but fits your brand and your content.</p>
 <h3>How many rounds of changes you get</h3><p>Every round of changes is more work, so most companies set a number. Check it before you agree.</p>` },
       { id: 'package-prices', h: 'Our website design prices in Malaysia', html: `<p>Our website builds are called XpertForge. There are three sizes, and each one is a single price, paid once.</p>${buildTable}
 <p>Every package includes:</p>${inEvery}
@@ -287,8 +622,8 @@ ${careTable}
 <li><b>Business email.</b> Email addresses on your own domain are often a separate service.</li>
 <li><b>Changes after launch.</b> What it costs to update a price, a photo or a page later.</li>
 <li><b>Photos and licences.</b> Whether stock photos, fonts or paid plugins are included.</li></ul>
-<p>With us, websites we build get free high speed cloud hosting with every XpertRank plan, and changes, new blog posts and active checks are part of the plan.</p>` },
-      { id: 'monthly-cost', h: 'How much does a website cost after launch?', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertRank. It costs ${px(basic)} to ${px(elite)} a month for websites we build and includes free high speed cloud hosting, backups, security, active checks every few days with fixes, SEO and AI search optimisation when needed, new blog posts and a monthly Google and AI visibility report.</p>${careTable}
+<p>With us, websites we build get free high speed cloud hosting with every paid XpertRank plan${offerOn() ? ` (and for the first ${hostMonths} months after launch with the launch offer)` : ''}. Changes, new blog posts and active checks are part of that plan.</p>` },
+      { id: 'monthly-cost', h: 'How much does a website cost after launch?', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertRank. It costs ${px(basic)} to ${px(elite)} a month for websites we build${rankNote(true)} and includes free high speed cloud hosting, backups, security, active checks every few days with fixes, SEO and AI search optimisation when needed, new blog posts and a monthly Google and AI visibility report.</p>${careTable}
 <p>If you pay yearly you get ${yearly.text}. These prices are for websites we build; a website built elsewhere has its own price. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
       { id: 'cheap-or-good-value', h: 'A cheap website or a good value one?', html: `<p>A very low price usually means something has been left out. It might be the writing, the search planning, the phone testing, or any help after launch. None of that shows on day one, but all of it shows over the following months, when the website brings few enquiries.</p>
 <p>A good value website is one that pays for itself: people can find it, understand it quickly and get in touch easily. When you compare two quotes, line them up against the same list of what is included, and ask about anything missing.</p>` },
@@ -299,15 +634,15 @@ ${careTable}
     ],
     faqs: [
       { q: 'How much does a website cost in Malaysia?', a: `With SEOXpert a website costs ${px(starter)} to ${px(growth)}, paid once, depending mostly on how many pages you need.` },
-      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month.` },
+      { q: 'Is the price paid once or every month?', a: `The website build is paid once. XpertRank, our expert SEO service, is separate and optional, from ${px(basic)} a month${rankNote()}. It is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}` },
       { q: 'Is the writing included in the price?', a: 'Yes. Highly rankable content is included in every XpertForge package. We write answer first copy for each page and our experts check it.' },
-      { q: 'Do I have to take a monthly plan?', a: 'No. XpertRank is optional.' },
+      { q: 'Do I have to take a monthly plan?', a: `No. XpertRank is optional. If you choose it, it is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}` },
       { q: 'Are the prices in ringgit?', a: 'Yes. Prices are shown in RM first. The packages page also has a switch to US dollars.' },
     ],
     cta: { pill: 'XpertForge', title: `Get a website from ${px(starter)}`, href: '/packages/', label: 'See packages' },
   },
   {
-    slug: 'seo-malaysia-guide', tag: 'SEO', art: 'seo', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'seo-malaysia-guide', tag: 'SEO', art: 'seo', date: '2026-11-11', updated: '2026-11-19',
     h1: 'SEO in Malaysia: how search engine optimisation works',
     title: 'SEO in Malaysia: How Search Engine Optimisation Works',
     description: 'SEO in Malaysia in plain words: how Google finds pages, keyword research, on page and technical SEO, content, links, local SEO and the free tools to start with.',
@@ -322,12 +657,7 @@ ${careTable}
 <li><b>Understanding.</b> Google reads each page and stores what it is about. Clear titles, headings and writing make this easy. Words hidden inside pictures make it hard.</li>
 <li><b>Ranking.</b> When someone searches, Google picks the pages it thinks answer best, looking at how relevant, useful and trustworthy each one seems, and whether it works well on the device being used.</li></ol>` },
       { id: 'keyword-research', h: 'Keyword research: start with what people type', html: `<p>Keyword research means finding the words people actually use when they search for what you offer. Businesses often describe themselves one way while customers search another. A company may say "climate control solutions" while customers type "aircon service".</p>
-<h3>How to start</h3>
-<ul><li>List your services, then write down how a customer would describe each one.</li>
-<li>Type those words into Google and look at the suggestions that appear as you type.</li>
-<li>Look at the "People also ask" questions on the results page.</li>
-<li>Once your website is live, Google Search Console shows the real searches it appears for.</li></ul>
-<p>Then give each important search its own page, and match what the searcher wants. Someone searching a price wants prices. Someone searching "how to" wants steps. With every XpertForge website, full keyword research with XpertCore is done before anything is designed.</p>` },
+<p>Give each important search its own page, and match what the searcher wants: someone searching a price wants prices, someone searching "how to" wants steps. Our <a href="/blog/keyword-research-seo-malaysia/">keyword research for SEO guide</a> walks through it step by step, with free tools. With every XpertForge website, full keyword research with XpertCore is done before anything is designed.</p>` },
       { id: 'on-page-seo', h: 'On page SEO: the part inside your pages', html: `<p>On page SEO is the work done on the pages themselves. It is the part you control most.</p>
 <ul><li><b>One clear topic per page</b>, chosen from what people actually search for.</li>
 <li><b>A title</b> that says plainly what the page is about. It is the blue link people see in Google.</li>
@@ -349,7 +679,7 @@ ${careTable}
 <p>Our <a href="/blog/local-seo-malaysia/">local SEO guide</a> goes through it step by step.</p>` },
       { id: 'starts-with-the-website', h: 'Why SEO starts with how the website is built', html: `<p>Most websites are designed first and fixed for search later. That order causes the same problems again and again: pages with no clear topic, important words placed inside pictures where machines cannot read them, heavy pages that load slowly on phones.</p>
 <p>Fixing these later often means rebuilding pages, so you pay twice. Our <a href="/website-design/">website design in Malaysia</a> works the other way round: every page is planned for Google and AI search before it is designed. Planning for search does not mean a plain website. You can try live animation and 3D in <a href="/demos/">XpertLab</a>.</p><p>Want it done for you? See our <a href="/seo-services-malaysia/">SEO services in Malaysia</a>, the <a href="/seo-audit-malaysia/">weekly technical SEO audit</a>, and <a href="/seo-packages-malaysia/">SEO packages and prices</a>.</p>` },
-      { id: 'how-long', h: 'How long does SEO take?', html: `<p>SEO is slow by nature. Google needs time to find and trust new pages, and how long it takes depends on how many others compete for the same searches and how much useful content you have. Think in months, not days, and be wary of anyone who promises fast results.</p>
+      { id: 'how-long', h: 'How long does SEO take?', html: `<p>SEO is slow by nature. Google needs time to find and trust new pages, and how long it takes depends on how many others compete for the same searches and how much useful content you have. Think in months, not days, and be wary of anyone who promises fast results. To see who you are up against for your own searches, follow our <a href="/blog/seo-competitor-analysis/">SEO competitor analysis guide</a>.</p>
 <p>Search visibility also builds on itself, which is why a website needs looking after once it is live. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>. More and more people also ask AI tools instead of searching, and the same clear website helps there too. See <a href="/blog/ai-seo-malaysia/">AI SEO in Malaysia</a>.</p>` },
       { id: 'free-tools', h: 'Free tools to start with', html: `<ul><li><b>Google Search Console:</b> which searches you appear for, which pages are found, and any problems Google sees.</li>
 <li><b>Google Business Profile:</b> your listing on Google Search and Maps.</li>
@@ -366,7 +696,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'A website planned for search from day one', href: '/website-design/', label: 'Website design in Malaysia' },
   },
   {
-    slug: 'ai-seo-malaysia', tag: 'AI search', art: 'ai', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'ai-seo-malaysia', tag: 'AI search', art: 'ai', date: '2026-11-11', updated: '2026-11-19',
     h1: 'AI SEO in Malaysia: what it is, and does it work?',
     title: 'AI SEO in Malaysia: What It Is, and Does It Work?',
     description: 'AI SEO means making your website easy for AI tools like ChatGPT and Gemini to read, trust and quote. How it works, how to write for it, and how to check it.',
@@ -397,12 +727,12 @@ ${careTable}
 <li>Ask the questions your customers would ask, for example "Who offers this service in my area?" or "What does this business do?" using your business name.</li>
 <li>Note what is said, and whether any facts are wrong or missing.</li>
 <li>Fix the source: make the facts clear on your website and your Google profile.</li></ol>
-<p>Answers change over time and from one person to the next, so check again every month or two rather than relying on one test.</p>` },
+<p>Answers change over time and from one person to the next, so check again every month or two rather than relying on one test. To see which competitors AI answers name instead of you, follow step 6 of our <a href="/blog/seo-competitor-analysis/">SEO competitor analysis guide</a>.</p>` },
       { id: 'does-it-work', h: 'Does AI SEO work?', html: `<p>It helps, with honest limits. Nobody can promise that an AI tool will name your business, because the companies that make those tools decide how they choose sources, and they change it often.</p>
 <p>What you can control is how clear, consistent and well structured your website is. The good news is that the same work also helps on Google, so nothing is wasted. Be careful with anyone who guarantees results in AI answers.</p>` },
       { id: 'other-names', h: 'Other names you may hear', html: `<p>AI SEO goes by several names. GEO means generative engine optimisation (also spelled generative engine optimization). AEO means answer engine optimisation. Some people say LLM optimisation, after the large language models behind the AI tools. They all describe the same idea: helping AI tools understand and use your content.</p>` },
       { id: 'how-we-do-it', h: 'How we build it in', html: `<p>Every website we build is planned for Google and AI search before it is designed. <a href="/ai-seo-advisor/">XpertCore, our own AI SEO advisor</a>, drafts the page plan, headings and answer first copy, and adds structured data and an AI ranking file. Then our experts check and refine every page.</p>
-<p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places.</p><p>To have it done for you every month, see our <a href="/ai-seo-services-malaysia/">AI SEO services in Malaysia</a>.</p>` },
+<p>After launch, every XpertRank plan includes active checks every few days with SEO and AI search (LLM) optimisation when needed, plus a monthly Google and AI visibility report, so you can see how you are doing in both places. AI SEO builds on normal SEO, so it is part of our <a href="/seo-services-malaysia/">SEO services</a> too.</p><p>To have it done for you every month, see our <a href="/ai-seo-services-malaysia/">AI SEO services in Malaysia</a>.</p>` },
     ],
     faqs: [
       { q: 'Is AI SEO different from normal SEO?', a: 'It builds on normal SEO. The basics are the same: clear pages, good structure and useful answers. AI SEO adds short answer blocks, consistent facts, structured data and an AI ranking file.' },
@@ -414,12 +744,12 @@ ${careTable}
     cta: { pill: 'XpertCore', title: 'See how our AI SEO advisor guides every page', href: '/ai-seo-advisor/', label: 'How XpertCore works' },
   },
   {
-    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-19',
     h1: 'Website maintenance in Malaysia: what it covers and costs',
     title: 'Website Maintenance in Malaysia: Cost and What It Covers',
     description: `Website maintenance in Malaysia: the regular work that keeps a website safe, up to date and growing: what it covers, what can go wrong and the cost, from ${fmt(basic)} a month.`,
     card: 'The regular work that keeps a website safe, up to date and growing after launch, and what it costs.',
-    short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${px(basic)} to ${px(elite)} a month for websites we build, with free high speed cloud hosting included. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
+    short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${px(basic)} to ${px(elite)} a month for websites we build${rankNote(true)}, with free high speed cloud hosting included. It is a subscription that renews monthly (or yearly) until you cancel, and you can cancel any time from your XpertInsight dashboard. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
     sections: [
       { id: 'what-it-covers', h: 'What does website maintenance include?', html: `<ul><li><b>Hosting.</b> A fast, reliable home for your website.</li>
 <li><b>Backups.</b> Regular copies are saved, so nothing is lost if something goes wrong.</li>
@@ -439,9 +769,10 @@ ${careTable}
       { id: 'xpertrank-rhythm', h: 'What happens every few days, every week and every month', html: `<p>With XpertRank, the work follows a steady rhythm:</p>
 <h3>Every few days</h3><p>We actively check your website: that it is up, working and fast, that forms send and links work. We fix what we find, and when a page needs it, we make SEO and AI search (LLM) improvements.</p>
 <h3>Every week</h3><p>Your keywords are tracked, so we can see which pages are rising and which need work.</p>
-<h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand.</p>` },
+<h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand in <a href="/website-report-dashboard/">XpertInsight, your website report dashboard</a>.</p>` },
       { id: 'what-it-costs', h: 'How much does website maintenance cost?', html: `<p>Website maintenance prices vary a lot, so check what is included before you compare. XpertRank has four plans. For websites we build, free high speed cloud hosting is included in every one; websites built elsewhere keep their own hosting.</p>${careTable}
-<p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>` },
+<p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>
+<p>XpertRank is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}</p>` },
       { id: 'choosing-a-plan', h: 'How to choose a plan size', html: `<p>Choose by how often your website needs to change and how fast you want it to grow:</p>
 <ul><li><b>${basic.name}</b> keeps the website healthy, with a few changes and a new blog post each month. It fits any XpertForge website.</li>
 <li><b>${plus.name}</b> keeps it growing, with more changes, more posts and more target keywords optimised and tracked. It needs a Business or Growth website.</li>
@@ -452,7 +783,7 @@ ${careTable}
 <p>XpertRank is optional. See the plans on the <a href="/website-maintenance/">website maintenance</a> page.</p><p>See our <a href="/website-maintenance/">website maintenance service in Malaysia</a> and the <a href="/seo-audit-malaysia/">weekly technical SEO audit</a> that comes with it.</p>` },
     ],
     faqs: [
-      { q: 'Is hosting included?', a: 'For websites we build, yes: free high speed cloud hosting is included with every XpertRank plan. Websites built elsewhere keep their own hosting.' },
+      { q: 'Is hosting included?', a: 'For websites we build, yes: free high speed cloud hosting is included with every paid XpertRank plan. Websites built elsewhere keep their own hosting.' },
       { q: 'How often do you check my website?', a: 'Every few days. We fix what we find and make SEO and AI search improvements when they are needed.' },
       { q: 'Can you maintain a website that someone else built?', a: 'Yes. XpertRank works on websites built by others too, at its own price and without hosting.' },
       { q: 'Can I pay for a year at once?', a: `Yes. Pay yearly and you get ${yearly.text}.` },

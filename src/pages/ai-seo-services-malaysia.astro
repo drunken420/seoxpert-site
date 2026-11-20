@@ -8,20 +8,21 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import PageFaq from '../components/PageFaq.astro';
 import Glance from '../components/Glance.astro';
 import pictures from '../data/pictures.json';
 import Packages from '../components/Packages.astro';
 import '../styles/page.css';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
-import { care, fmt, offersLd } from '../data/packages';
+import { care, fmt, fmtOther, offersLd } from '../data/packages';
 import { pageFaq } from '../lib/faq';
 const [basic, , , elite] = care.tiers;
 const q = (t: typeof basic) => t.rows.join(' ').match(/<b>(\d+)<\/b> AI search questions/)?.[1];
 const pf = pageFaq(['How do you make my website ready for AI search?', 'How do I know if AI tools mention my business?', 'What is an AI ranking file?', 'What is structured data?', 'What is answer first writing?', 'Can you guarantee first page on Google?']);
 const extraLd = [{ '@type': 'Service', name: 'AI SEO services in Malaysia: XpertRank', serviceType: 'AI search optimisation (AI SEO, generative engine optimisation)', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/ai-seo-services-malaysia/`, areaServed: areaLd, description: 'XpertRank optimises your website for AI search (LLM) as well as Google: answer first content, structured data, an AI ranking file, and monthly checks of what ChatGPT, Gemini, Perplexity and Google AI Overviews say.', offers: offersLd(care) }, pf.ld];
 ---
-<Base image={`/img/${pictures["ai-seo-services-malaysia"].file}.jpg`} title="AI SEO Services Malaysia for ChatGPT and AI Overviews | SEOXpert" description={`AI SEO services in Malaysia from ${fmt(basic)} a month. XpertRank optimises your website for ChatGPT, Gemini, Perplexity and Google AI Overviews, and checks them monthly.`} path="/ai-seo-services-malaysia/" crumb="AI SEO services" extraLd={extraLd}>
+<Base image={`/img/${pictures["ai-seo-services-malaysia"].file}.jpg`} title="AI SEO Services Malaysia for ChatGPT and AI Overviews | SEOXpert" description={`AI SEO services in Malaysia: XpertRank from ${fmt(basic)} a month for websites we build, ${fmtOther(basic)} for existing ones. Optimised for ChatGPT, Gemini, Perplexity and Google AI.`} path="/ai-seo-services-malaysia/" crumb="AI SEO services" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="AI SEO services" brand="XpertRank" art="aiseo" crumb="AI SEO services" word="AI">
   <Fragment slot="title">AI SEO services in Malaysia, <em>for Google and AI search</em>.</Fragment>
@@ -49,7 +50,7 @@ const extraLd = [{ '@type': 'Service', name: 'AI SEO services in Malaysia: Xpert
     <h2 class="rv">Know when AI tools name your business.</h2>
     <p class="sub rv">The AI answers view in your <a href="/website-report-dashboard/">XpertInsight dashboard</a> shows, question by question, whether each AI tool mentioned you this month, and the visits AI tools sent your website.</p>
   </div>
-  <figure class="pshot rv"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>ai-answers</b></span></div><img src="/img/xi-shot-ai-answers.webp" srcset="/img/xi-shot-ai-answers-720.webp 720w, /img/xi-shot-ai-answers.webp 1200w" sizes="(max-width: 1000px) 94vw, 640px" width="1200" height="750" loading="lazy" decoding="async" alt="The AI answers view of XpertInsight for the Sample Bakery, showing which AI tools named the business" /></figure>
+  <figure class="pshot rv"><div class="xiwbar" aria-hidden="true"><i></i><i></i><i></i><span>insight.seoxpert.my/<b>ai-answers</b></span></div><img src="/img/xi-shot2-ai-answers.webp" srcset="/img/xi-shot2-ai-answers-720.webp 720w, /img/xi-shot2-ai-answers.webp 1200w" sizes="(max-width: 1000px) 94vw, 640px" width="1200" height="750" loading="lazy" decoding="async" alt="The AI answers view of XpertInsight: which questions ChatGPT, Gemini, Perplexity and Google AI Overview name Sample Bakery for, and visits sent by AI tools" /></figure>
 </div></section>
 
 <section class="solid tint band"><div class="wrap split">
@@ -59,7 +60,7 @@ const extraLd = [{ '@type': 'Service', name: 'AI SEO services in Malaysia: Xpert
     <p class="sub rv">You always see what we checked and what we changed, in plain words.</p>
   </div>
   <ol class="nsteps">
-    <li class="rv"><h3>We pick the questions</h3><p>The real questions your customers ask, chosen with you from our keyword research.</p></li>
+    <li class="rv"><h3>We pick the questions</h3><p>The real questions your customers ask, chosen with you from our keyword research in <a href="/seo-tools/">XpertForesight</a>.</p></li>
     <li class="rv" style="--d:1"><h3>We ask the AI tools</h3><p>Every month, in ChatGPT, Gemini, Perplexity and Google AI Overviews.</p></li>
     <li class="rv" style="--d:2"><h3>We improve your pages</h3><p>Where you are missing, we make your answers clearer and easier to quote.</p></li>
     <li class="rv" style="--d:3"><h3>You see the change</h3><p>In XpertInsight and your monthly XpertRecap PDF, in plain words.</p></li>
@@ -69,10 +70,11 @@ const extraLd = [{ '@type': 'Service', name: 'AI SEO services in Malaysia: Xpert
 <section id="plans" class="solid band"><div class="wrap">
   <span class="eyebrow rv">XpertRank plans</span>
   <h2 class="rv">How much do AI SEO services cost in Malaysia?</h2>
-  <p class="sub rv">AI SEO is part of every XpertRank plan, not an extra. We never promise that an AI tool will name you; we show you honestly where you stand and what we are doing about it. See also our <a href="/seo-services-malaysia/">SEO services</a>.</p>
+  <p class="sub rv">AI SEO is part of every XpertRank plan, not an extra. We never promise that an AI tool will name you; we show you honestly where you stand and what we are doing about it. See also our <a href="/seo-services-malaysia/">SEO services</a>, or compare the <a href="/seo-packages-malaysia/">SEO packages</a> to see how many AI search questions each one checks.</p>
   <Packages show="care" pickHref="/packages/#plan" />
 </div></section>
 
+<Suite here="rank" tint title="Which SEOXpert service fits your business?" intro="Our AI SEO services are part of XpertRank. Here is how it fits with a new website from XpertForge and with XpertForesight, our SEO tools." />
 <Glance page="ai-seo-services-malaysia" guides={['ai-seo-malaysia', 'seo-malaysia-guide']} />
 <PageFaq title="AI SEO questions, answered." items={pf.items} tint />
 <Related skip="/ai-seo-services-malaysia/" />

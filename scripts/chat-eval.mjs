@@ -33,7 +33,7 @@ const CASES = [
   { name: 'trial', ask: ['Is there a trial?'], must: [has(rm(T.trial.rm)), /14 days/i, /5 keywords/i], not: [] },
   { name: 'hosting alone', ask: ['Can I just buy hosting from you?'], must: [/(not|don't|do not)/i], not: [/hosting (plan|package)s? (start|from|cost)/i] },
   { name: 'usd visitor', cur: 'USD', ask: ['How much is a Business website?'], must: [new RegExp('US\\$' + T.business.usd + '[^.]{0,20}\\(RM')], not: [] },
-  { name: 'launch offer', ask: ['What do I get free with the Growth package?'], must: [/4 months/i, /Plus/i, /hosting/i], not: [/free for a year/i, /XpertRank (is )?free for (1|one) year/i] },
+  { name: 'launch offer', ask: ['What do I get free with the Growth package?'], must: [/4 months/i, /Plus/i, /hosting/i], not: [/free for a year/i, /XpertRank (is )?free for (1|one) year/i, /(1|one|a) year of free/i, /(30|thirty) days of free fix/i] },
   { name: 'pro needs growth', ask: ['Can I get the Starter website with XpertRank Pro?'], must: [has('Growth')], not: [/^yes\b/i] },
   { name: 'follow-up keeps context', ask: ['I want to rebuild my website, it has about 8 pages', 'and SEO for 15 keywords, how much in total?'],
     must: [has('Business'), has(rm(T.business.rm)), has('Plus'), has(rm(T.plus.rm))], not: [/up to 10 pages/i] },

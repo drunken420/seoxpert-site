@@ -8,6 +8,7 @@ import { site } from '../../config';
 import { posts, postUrl, niceDate, type Post } from '../../data/blog';
 export function getStaticPaths() { return posts.map((post) => ({ params: { slug: post.slug }, props: { post } })); }
 const { post } = Astro.props as { post: Post };
+const numbered = post.sections.some((s) => /^\d+\.\s/.test(s.h)); // step headings carry their own numbers, so the contents list shows none
 const url = site.url + postUrl(post);
 const strip = (t: string) => t.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 const pic = `/img/guide-${post.slug}`;
@@ -40,7 +41,7 @@ const extraLd = [
     </section>
   </div>
   <div class="baside">
-    <nav class="bbox toc" aria-label="In this guide"><b>In this guide</b><ol>{post.sections.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}<li><a href="#questions">Questions people ask</a></li></ol></nav>
+    <nav class="bbox toc" aria-label="In this guide"><b>In this guide</b><ol class={numbered ? 'nonum' : undefined}>{post.sections.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}<li><a href="#questions">Questions people ask</a></li></ol></nav>
     <div class="bbox dk"><span class="xp lt">{post.cta.pill}</span><h3 set:html={post.cta.title} /><a class="btn" href={post.cta.href}>{post.cta.label}</a></div>
   </div>
 </div></section>

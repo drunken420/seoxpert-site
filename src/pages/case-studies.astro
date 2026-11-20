@@ -7,6 +7,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import '../styles/page.css';
 import '../styles/blog.css';
 import { site, whatsappLink, talkLabel } from '../config';
@@ -27,11 +28,11 @@ const guides = posts.length;
 const url = `${site.url}/case-studies/`;
 const extraLd = [{ '@type': 'Article', headline: 'SEO case study: seoxpert.my, the first days after launch', description: `Live Google results for seoxpert.my after launch: ${first.impressions} Google impressions from ${first.searches} different searches in the first days, and ${visits.people} visitors.`, url, mainEntityOfPage: url, datePublished: updated, dateModified: updated, inLanguage: 'en', author: { '@id': `${site.url}/#org` }, publisher: { '@id': `${site.url}/#org` }, about: { '@type': 'WebSite', name: 'SEOXpert', url: site.url }, image: { '@type': 'ImageObject', url: `${site.url}/work/gsc-seoxpert-first-days.jpg`, width: 1400, height: 936 } }];
 ---
-<Base title="SEO Case Studies Malaysia: Live Results | SEOXpert" image="/work/gsc-seoxpert-first-days.jpg" description={`Live SEO results from websites we built, straight from Google. seoxpert.my was shown on Google ${first.impressions} times for ${first.searches} different searches in its first days.`} path="/case-studies/" crumb="Case studies" extraLd={extraLd}>
+<Base title="SEO Case Studies Malaysia: Live Results | SEOXpert" image="/work/gsc-seoxpert-first-days.jpg" description={`Live SEO results from a website we built, straight from Google. seoxpert.my was shown on Google ${first.impressions} times for ${first.searches} different searches in its first days.`} path="/case-studies/" crumb="Case studies" extraLd={extraLd}>
 <main id="main">
 <PageHero kicker="Case studies" brand="XpertRank" art="seo" crumb="Case studies" word="Results">
-  <Fragment slot="title">Live SEO results, <em>from real websites</em>.</Fragment>
-  <Fragment slot="lede">Real numbers from websites we built, straight from Google Search Console and Google Analytics. No made-up figures. We add new results as they come in.</Fragment>
+  <Fragment slot="title">Live SEO results, <em>from a real website</em>.</Fragment>
+  <Fragment slot="lede">Our first case study is our own website, seoxpert.my, with real numbers straight from Google Search Console and Google Analytics. No made-up figures. We add client websites, with their permission, as their results come in.</Fragment>
   <Fragment slot="cta"><a class="btn" href="#seoxpert">See the first case study</a><a class="btn ghost" href="/seo-services-malaysia/">Our SEO services</a></Fragment>
 </PageHero>
 
@@ -65,8 +66,8 @@ const extraLd = [{ '@type': 'Article', headline: 'SEO case study: seoxpert.my, t
   <span class="eyebrow rv">The proof</span>
   <h2 class="rv">Straight from Google, not retyped.</h2>
   <div class="cshots">
-    <figure class="rv"><img src="/work/gsc-seoxpert-first-days.webp" alt={`Google Search Console for seoxpert.my, ${first.range}: ${first.clicks} clicks, ${first.impressions} impressions, average position ${first.position}, with the top searches.`} width="1400" height="936" loading="lazy" decoding="async"><figcaption>Google Search Console, {first.range}.</figcaption></figure>
-    <figure class="rv" style="--d:1"><img src="/work/gsc-seoxpert-24-hours.webp" alt={`Google Search Console for seoxpert.my, the last 24 hours: ${day.clicks} click, ${day.impressions} impressions, average position ${day.position}, with the top searches.`} width="1400" height="982" loading="lazy" decoding="async"><figcaption>Google Search Console, the last 24 hours.</figcaption></figure>
+    <figure class="rv"><a class="czoom" href="/work/gsc-seoxpert-first-days.webp" target="_blank" rel="noopener"><img src="/work/gsc-seoxpert-first-days.webp" alt={`Google Search Console for seoxpert.my, ${first.range}: ${first.clicks} clicks, ${first.impressions} impressions, average position ${first.position}, with the top searches.`} width="1400" height="936" loading="lazy" decoding="async"><span class="czhint" aria-hidden="true">Open full size</span><span class="vh"> (opens full size in a new tab)</span></a><figcaption>Google Search Console, {first.range}. Click or tap the picture to see it full size.</figcaption></figure>
+    <figure class="rv" style="--d:1"><a class="czoom" href="/work/gsc-seoxpert-24-hours.webp" target="_blank" rel="noopener"><img src="/work/gsc-seoxpert-24-hours.webp" alt={`Google Search Console for seoxpert.my, the last 24 hours: ${day.clicks} click, ${day.impressions} impressions, average position ${day.position}, with the top searches.`} width="1400" height="982" loading="lazy" decoding="async"><span class="czhint" aria-hidden="true">Open full size</span><span class="vh"> (opens full size in a new tab)</span></a><figcaption>Google Search Console, the last 24 hours. Click or tap the picture to see it full size.</figcaption></figure>
   </div>
   <figure class="cwide rv"><img src="/work/xi-seoxpert-visitors.webp" alt="Visitors by day for seoxpert.my in the XpertInsight dashboard, from Google Analytics: visitors start on 11 November 2026, the day the new website went live." width="1400" height="395" loading="lazy" decoding="async"><figcaption>Visitors by day in XpertInsight, our live dashboard, from Google Analytics. {visits.computer}% of visitors used a computer and {visits.phone}% a phone.</figcaption></figure>
 </div></section>
@@ -86,6 +87,7 @@ const extraLd = [{ '@type': 'Article', headline: 'SEO case study: seoxpert.my, t
 <section class="solid band"><div class="wrap">
   <div class="note rv"><h3>More case studies are coming</h3><p>As client websites go live, we will add their results here, with their permission. Want your website to be the next one? <a href={whatsappLink}>{talkLabel}</a>.</p></div>
 </div></section>
+<Suite tint title="Which SEOXpert service is right for you?" />
 <Related skip="/case-studies/" />
 <Cta title="Want results like these for your business?" />
 </main>

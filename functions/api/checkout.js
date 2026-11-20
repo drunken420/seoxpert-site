@@ -13,7 +13,7 @@
 //   basic/plus/pro/elite  XpertRank for a website built elsewhere ("I already have a website"), every month or year.
 //                         Websites we build start XpertRank after launch, through a payment link our team sends.
 //   starter/business/growth  XpertForge builds, the full price before we start (Suhen 2026-11-16)
-import { build, care, trial, yearly, offerOn } from '../../src/data/packages.ts';
+import { build, care, trial, yearly, offerOn, terms } from '../../src/data/packages.ts';
 
 const STRIPE = 'https://api.stripe.com/v1';
 /** How builds are paid online: 'off' (contact form only) or 'full' (the whole price before we start). */
@@ -35,16 +35,22 @@ export function form(obj, pre = '', out = new URLSearchParams()) {
 export function item(id, cur, bill) {
   const usd = cur === 'USD', live = offerOn();
   const now = (t) => (usd ? (live ? t.usd : t.usdNew) : (live ? t.rm : t.rmNew));
-  if (id === 'trial') return { kind: 'trial', pid: 'seoxpert-trial', name: trial.name, text: `${trial.days} days of XpertRank with your own XpertInsight dashboard`, amount: now(trial) * 100, mode: 'payment' };
+  if (id === 'trial') return { kind: 'trial', pid: 'seoxpert-trial', name: trial.name, text: `${trial.days} days of XpertRank with your own XpertInsight dashboard. ${terms.trial}`, amount: now(trial) * 100, mode: 'payment' };
   const c = care.tiers.find((t) => t.id === id);
   if (c) {
     const month = usd ? c.usdOther : c.rmOther; // online = a website built elsewhere (no launch price, no hosting, no money-back promise)
     const yr = bill === 'year';
-    return { kind: 'xpertrank', pid: `seoxpert-xpertrank-${c.id}`, name: `${c.name} (${c.for})`, text: `For a website built elsewhere, paid ${yr ? `yearly (12 months for the price of ${yearly.pay})` : 'monthly'}. No free hosting or money-back promise.`, amount: month * (yr ? yearly.pay : 1) * 100, mode: 'subscription', interval: yr ? 'year' : 'month' };
+    return { kind: 'xpertrank', pid: `seoxpert-xpertrank-${c.id}`, name: `${c.name} (${c.for})`, text: `For a website built elsewhere, paid ${yr ? `yearly (12 months for the price of ${yearly.pay})` : 'monthly'}. No free hosting or money-back promise. A subscription: it renews automatically until you cancel.`, amount: month * (yr ? yearly.pay : 1) * 100, mode: 'subscription', interval: yr ? 'year' : 'month' };
   }
   const b = build.tiers.find((t) => t.id === id);
-  if (b && BUILD_PAY === 'full') return { kind: 'build', pid: `seoxpert-build-${b.id}`, name: b.name, text: `${b.short}. Paid in full before we start.`, amount: now(b) * 100, mode: 'payment' };
+  if (b && BUILD_PAY === 'full') return { kind: 'build', pid: `seoxpert-build-${b.id}`, name: b.name, text: `${b.short}. Paid in full before we start. ${terms.build}`, amount: now(b) * 100, mode: 'payment' };
   return null;
+}
+
+/** The line Stripe shows above its pay button: a subscription renews until cancelled; a Trial or a build is paid once. */
+export function submitText(it) {
+  if (it.mode === 'subscription') return `This is a subscription. It renews automatically every ${it.interval} until you cancel. ${terms.cancel}`;
+  return it.kind === 'trial' ? terms.trial : terms.build;
 }
 
 /** The boxes Stripe Checkout shows under the email: name, company and website. Keys stay the same for the payment email. */
@@ -105,6 +111,8 @@ export async function onRequestPost({ request, env }) {
     // Stripe always asks for the email. We also ask for the name, the company and the website (Suhen 2026-11-16);
     // a new build may not have a website yet, so there it is optional. Stripe allows 3 custom fields, labels up to 50 letters.
     custom_fields: fields(it.kind),
+    // Said above Stripe's pay button (Suhen 2026-11-20: "its a subscription not a one time payment").
+    custom_text: { submit: { message: submitText(it) } },
     phone_number_collection: { enabled: 'true' },
     // codes (e.g. the Trial price off a first month, or a free test code) only for XpertRank and the Trial: website builds
     // are always paid in full, so Stripe shows no code box for them (Suhen 2026-11-17: "no trial for website builds")

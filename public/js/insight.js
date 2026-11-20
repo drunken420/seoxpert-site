@@ -28,8 +28,10 @@
   function fit() {
     // on phones the views sit in one column and differ a lot in height: let each be its own height
     if (small.matches) { views.forEach(function (v) { v.style.minHeight = ''; }); return; }
-    var keep = views.map(function (v) { v.style.minHeight = ''; return v.hidden; }), h = 0;
-    views.forEach(function (v) { views.forEach(function (o) { o.hidden = o !== v; }); h = Math.max(h, v.offsetHeight); });
+    // show every view at once (they stack, all at the same width) and read all heights in ONE layout, not one per view
+    // (2026-11-19 speed review: eight forced layouts here cost about 160 ms)
+    var keep = views.map(function (v) { v.style.minHeight = ''; var k = v.hidden; v.hidden = false; return k; });
+    var h = Math.max.apply(null, views.map(function (v) { return v.offsetHeight; }));
     views.forEach(function (v, k) { v.hidden = keep[k]; v.style.minHeight = h / 16 + 'rem'; });
   }
   var rt = 0; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(fit, 150); }); fit();
@@ -48,7 +50,10 @@
   function go(i, focus) {
     i = (i + tabs.length) % tabs.length; if (i === cur && !focus) return; cur = i;
     tabs.forEach(function (b, k) { var on = k === i; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
+    // a screen that was never near (a jump by tab) is laid out first, so it can still fade in
+    if (!shots[i].classList.contains('near')) { shots[i].classList.add('near'); void shots[i].offsetWidth; }
     shots.forEach(function (im, k) { im.classList.toggle('on', k === i); });
+    near(i);
     var d = list[i]; if (d) { g.textContent = d.g; h.textContent = d.h; p.textContent = d.p; u.textContent = d.f; }
     c.textContent = i + 1; panel.setAttribute('aria-labelledby', tabs[i].id);
     [g, h, p].forEach(function (x) { x.classList.remove('swap'); void x.offsetWidth; x.classList.add('swap'); });
@@ -72,8 +77,10 @@
   var box = t.querySelector('.xitshots'), x0 = null, y0 = 0;
   box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
   box.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null; if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { stop(); go(cur + (dx < 0 ? 1 : -1)); } }, { passive: true });
-  // load every screen once the section is near; tour only while it is on screen
-  new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { shots.forEach(function (x) { x.loading = 'eager'; }); o.disconnect(); } }, { rootMargin: '600px 0px' }).observe(t);
+  // load only the screen on show and the next one (CSS keeps the others out of the layout, so the browser skips them);
+  // the next screen loads once the section is near. Tour only while it is on screen.
+  function near(i) { [i, (i + 1) % shots.length].forEach(function (k) { shots[k].classList.add('near'); shots[k].loading = 'eager'; }); }
+  new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { near(cur); o.disconnect(); } }, { rootMargin: '600px 0px' }).observe(t);
   new IntersectionObserver(function (es) {
     seen = es[0].isIntersecting;
     if (!auto) return;

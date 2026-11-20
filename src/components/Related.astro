@@ -7,11 +7,15 @@ const all = [
   { href: '/website-development/', title: 'Website development', text: 'How every website is coded for Google and AI search, and secured, from the ground up.' },
   { href: '/website-maintenance/', title: 'Website maintenance', text: 'XpertRank: monthly SEO and care for any website, with free high speed cloud hosting when we build it.' },
   { href: '/seo-services-malaysia/', title: 'SEO services in Malaysia', text: 'XpertRank, our expert SEO service for Google and AI search, with a money-back promise for websites we build.' },
+  { href: '/web-app-development-malaysia/', title: 'Web app development', text: 'Dashboards, logins and Stripe payments with card, FPX and GrabPay, from the team behind XpertInsight.' },
   { href: '/ai-seo-services-malaysia/', title: 'AI SEO services in Malaysia', text: 'Get your business named in ChatGPT, Gemini, Perplexity and Google AI answers, checked every month.' },
   { href: '/seo-packages-malaysia/', title: 'SEO packages in Malaysia', text: 'Four XpertRank SEO packages, with the monthly price on every one.' },
   { href: '/seo-audit-malaysia/', title: 'SEO audit in Malaysia', text: 'A technical SEO audit every week, with fixes by our team.' },
-  { href: '/case-studies/', title: 'SEO case studies', text: 'Live results from websites we built, straight from Google Search Console and Analytics.' },
+  { href: '/case-studies/', title: 'SEO case studies', text: 'Live results from a website we built, our own seoxpert.my, straight from Google Search Console and Analytics.' },
   { href: '/website-report-dashboard/', title: 'Website report dashboard', text: 'XpertInsight: your live dashboard of visitors, leads, keywords and AI answers, with XpertRank.' },
+  { href: '/seo-tools/', title: 'SEO tools', text: 'XpertForesight, our own SEO research tool: keyword research, competitors, site audits and AI plans.' },
+  { href: '/blog/keyword-research-seo-malaysia/', title: 'Keyword research for SEO', text: 'A plain guide to finding the keywords your customers in Malaysia really search for.' },
+  { href: '/blog/seo-competitor-analysis/', title: 'SEO competitor analysis', text: 'A step-by-step guide to seeing who ranks above you on Google, and why.' },
   { href: '/ai-seo-advisor/', title: 'AI SEO advisor', text: 'How XpertCore, our own AI SEO advisor, guides what we plan, write and mark up on every page.' },
   { href: '/packages/', title: 'Website design packages', text: 'What every package includes, and what a website costs.' },
   { href: '/demos/', title: 'Interactive website demos', text: 'Live 3D and animation we can build into your website.' },
@@ -19,7 +23,25 @@ const all = [
   { href: '/faq/', title: 'Website design questions', text: 'Short, plain answers about websites, Google and AI search.' },
   { href: '/about/', title: 'About our web design company', text: 'Founder led, selective and white hat only.' },
 ];
-const items = all.filter((x) => x.href !== skip).slice(0, 4);
+// The most related services for each service page (2026-11-19 internal links round), so every service is linked from
+// the pages closest to it. Pages not listed here show the first four of `all`.
+const near: Record<string, string[]> = {
+  '/website-design/': ['/website-development/', '/packages/', '/web-app-development-malaysia/', '/website-maintenance/'],
+  '/website-development/': ['/website-design/', '/web-app-development-malaysia/', '/seo-audit-malaysia/', '/ai-seo-advisor/'],
+  '/web-app-development-malaysia/': ['/website-development/', '/website-report-dashboard/', '/seo-tools/', '/packages/'],
+  '/website-maintenance/': ['/seo-services-malaysia/', '/seo-packages-malaysia/', '/website-report-dashboard/', '/seo-audit-malaysia/'],
+  '/seo-services-malaysia/': ['/ai-seo-services-malaysia/', '/seo-packages-malaysia/', '/seo-audit-malaysia/', '/seo-tools/'],
+  '/ai-seo-services-malaysia/': ['/seo-services-malaysia/', '/ai-seo-advisor/', '/seo-tools/', '/website-report-dashboard/'],
+  '/seo-packages-malaysia/': ['/seo-services-malaysia/', '/packages/', '/website-maintenance/', '/seo-tools/'],
+  '/seo-audit-malaysia/': ['/seo-services-malaysia/', '/website-report-dashboard/', '/seo-tools/', '/seo-packages-malaysia/'],
+  '/ai-seo-advisor/': ['/ai-seo-services-malaysia/', '/website-design/', '/seo-tools/', '/seo-services-malaysia/'],
+  '/website-report-dashboard/': ['/website-maintenance/', '/seo-services-malaysia/', '/seo-tools/', '/seo-audit-malaysia/'],
+  // XpertForesight (2026-11-19): the two research guides, then the SEO pages closest to it.
+  '/seo-tools/': ['/blog/keyword-research-seo-malaysia/', '/blog/seo-competitor-analysis/', '/seo-audit-malaysia/', '/seo-services-malaysia/'],
+  '/packages/': ['/website-design/', '/seo-packages-malaysia/', '/website-maintenance/', '/web-app-development-malaysia/'],
+};
+const pick = near[skip]?.map((h) => all.find((x) => x.href === h)).filter((x): x is (typeof all)[number] => !!x);
+const items = pick && pick.length === 4 ? pick : all.filter((x) => x.href !== skip).slice(0, 4);
 ---
 <section class="solid band related"><div class="wrap">
   <span class="eyebrow rv">Keep exploring</span>

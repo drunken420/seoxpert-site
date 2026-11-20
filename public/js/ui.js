@@ -1,4 +1,8 @@
 (function () {
+  /* header height first, before the word wrapping below changes the page, so the browser lays the page out once (2026-11-19 speed review) */
+  var head = document.querySelector('.site-head');
+  function hh() { document.documentElement.style.setProperty('--head-h', head.offsetHeight + 'px'); }
+  hh(); window.addEventListener('resize', hh);
   /* headings reveal word by word: wrap each word (and each inline element, kept whole) in a span */
   [].forEach.call(document.querySelectorAll('main h2.rv'), function (h) {
     var i = 0, kids = [].slice.call(h.childNodes);
@@ -10,11 +14,8 @@
   });
   var rv = [].slice.call(document.querySelectorAll('.rv'));
   if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' }); rv.forEach(function (el) { io.observe(el); }); } else rv.forEach(function (el) { el.classList.add('in'); });
-  var head = document.querySelector('.site-head');
-  function hh() { document.documentElement.style.setProperty('--head-h', head.offsetHeight + 'px'); }
-  hh(); window.addEventListener('resize', hh);
   /* cards: a soft light follows the pointer */
-  document.addEventListener('pointermove', function (e) { var c = e.target.closest && e.target.closest('.fcard,.rcard,.way'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); }, { passive: true });
+  document.addEventListener('pointermove', function (e) { var c = e.target.closest && e.target.closest('.fcard,.rcard,.way,.stc'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); }, { passive: true });
   /* FAQ chat */
   var log = document.getElementById('chatlog'), src = [].slice.call(document.querySelectorAll('#faqsrc p')), btns = [].slice.call(document.querySelectorAll('.qlist button')), tmr = 0;
   function ask(i, instant) {
@@ -189,7 +190,14 @@
   if (fab) ['pointerenter', 'focus', 'touchstart'].forEach(function (ev) { fab.addEventListener(ev, function () { load().catch(function () {}); }, { passive: true, once: true }); });
   /* phones: keep the chat button out of the way while the homepage "Build it" box is on screen */
   var promptBox = document.getElementById('prompt');
-  if (fab && promptBox && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { fab.classList.toggle('tuck', es[0].isIntersecting && window.matchMedia('(max-width: 900px)').matches && panel.hidden); }).observe(promptBox);
+  // On phones the chat button steps aside while it would cover something to tap: the homepage prompt box, a pay button,
+  // the plan summary buttons or the footer (Back to top) (2026-11-19 review). It comes back as soon as they scroll away.
+  if (fab && 'IntersectionObserver' in window) {
+    var cover = [].slice.call(document.querySelectorAll('#prompt, [data-pay], [data-sum="send"], .fbar')), inView = [];
+    var tuck = function () { fab.classList.toggle('tuck', inView.length > 0 && window.matchMedia('(max-width: 900px)').matches && panel.hidden); };
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { var k = inView.indexOf(e.target); if (e.isIntersecting && k < 0) inView.push(e.target); else if (!e.isIntersecting && k > -1) inView.splice(k, 1); }); tuck(); });
+    cover.forEach(function (el) { io.observe(el); });
+  }
   document.addEventListener('click', function (e) { var o = e.target.closest('[data-chat-open]'); if (o) { e.preventDefault(); if (panel.hidden) open(); else if (o === fab) close(); } else if (e.target.closest('.cp-x')) { close(); if (fab) fab.focus(); } });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { close(); if (fab) fab.focus(); } });
   form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value.trim(); if (!v || busy) return; input.value = ''; ask(v.slice(0, 600)); });
@@ -206,7 +214,7 @@
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
     var a = e.target, v = a.querySelector('video');
     if (e.isIntersecting && !v) { var img = a.querySelector('img'), wrap = document.createElement('span'); wrap.className = 'shot'; img.parentNode.insertBefore(wrap, img); wrap.appendChild(img);
-      v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true'); v.preload = 'auto';
+      v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true'); v.preload = 'auto'; v.poster = img.currentSrc || img.src; // the screenshot, if the video stalls
       ['webm', 'mp4'].forEach(function (t) { var s = document.createElement('source'); s.src = a.dataset.vid + '.' + t; s.type = 'video/' + t; v.appendChild(s); });
       v.addEventListener('playing', function () { v.classList.add('on'); }); wrap.appendChild(v); }
     if (v) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); }

@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
 import { pageFaq } from '../lib/faq';
@@ -10,15 +11,15 @@ import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Packages from '../components/Packages.astro';
 import { site, whatsappLink, talkLabel, areaLd } from '../config';
-import { care, offersLd, fmt } from '../data/packages';
+import { care, offersLd, fmt, fmtOther } from '../data/packages';
 const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertRank, a monthly website maintenance service with expert SEO for any website: updates, backups, fixes, new content and SEO and AI search optimisation. Websites built by SEOXpert also get free high speed cloud hosting.', offers: offersLd(care) }];
-const pf = pageFaq(['What does XpertRank include?', 'What is the difference between the XpertRank plans?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
+const pf = pageFaq(['What does XpertRank include?', 'What is the difference between the XpertRank plans?', 'Is XpertRank a subscription? How do I cancel?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
 ---
-<Base title="Website Maintenance Malaysia: Monthly Service with SEO | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description={`Website maintenance in Malaysia from ${fmt(care.tiers[0])} a month. XpertRank keeps any website updated, backed up, checked every few days and growing with expert SEO.`} path="/website-maintenance/" crumb="Website maintenance" extraLd={[...extraLd, pf.ld]}>
+<Base title="Website Maintenance Malaysia: Monthly Service with SEO | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description={`Website maintenance in Malaysia: XpertRank from ${fmt(care.tiers[0])} a month for websites we build, or ${fmtOther(care.tiers[0])} for existing websites, with backups, fixes and SEO.`} path="/website-maintenance/" crumb="Website maintenance" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
 <PageHero kicker="Expert SEO and maintenance" brand="XpertRank" art="care" crumb="Website maintenance" word="Care">
   <Fragment slot="title">Website maintenance in Malaysia, <em>month after month</em>.</Fragment>
-  <Fragment slot="lede">Website maintenance is the regular work that keeps a website safe, up to date and growing after launch. XpertRank does it for any website: we check it every few days, fix what we find and add new SEO content every month. Websites we build also get free high speed cloud hosting.</Fragment>
+  <Fragment slot="lede">Website maintenance is the regular work that keeps a website safe, up to date and growing after launch. XpertRank does it for any website: we check it every few days, fix what we find and add new SEO content every month. Websites we build also get free high speed cloud hosting. It is a monthly or yearly subscription that you can cancel any time.</Fragment>
   <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#xpertrank">See XpertRank plans</a></Fragment>
 </PageHero>
 
@@ -29,9 +30,9 @@ const pf = pageFaq(['What does XpertRank include?', 'What is the difference betw
   <div class="grid3">
     <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Updates</h3><p>Your website is kept up to date, so it keeps working the way it should.</p></div>
     <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Backups</h3><p>Regular copies of your website are saved, so nothing is lost if something goes wrong.</p></div>
-    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Active checks</h3><p>We check your website every few days. When something breaks or looks off, we put it right.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Active checks</h3><p>We check your website every few days, and our <a href="/seo-audit-malaysia/">technical SEO audit</a> runs every week. When something breaks or looks off, we put it right.</p></div>
     <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>New content</h3><p>Fresh pages and answers, so your website keeps growing instead of standing still, built the same way as our <a href="/website-design/">website design</a>.</p></div>
-    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>SEO and LLM optimisation</h3><p>We watch how your pages do on Google and AI search, and optimise them for both whenever they need it.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>SEO and LLM optimisation</h3><p>We watch how your pages do on Google and AI search, and optimise them for both whenever they need it. See our <a href="/seo-services-malaysia/">SEO services</a>.</p></div>
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Clear reporting</h3><p><a href="/website-report-dashboard/">XpertInsight</a>, your live website report dashboard, plus a monthly XpertRecap PDF, so you always know where you stand and what we are working on.</p></div>
   </div>
 </div></section>
@@ -39,7 +40,7 @@ const pf = pageFaq(['What does XpertRank include?', 'What is the difference betw
 <section id="xpertrank" class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">XpertRank plans</span>
   <h2 class="rv">How much does website maintenance cost in Malaysia?</h2>
-  <p class="sub rv">XpertRank is our expert SEO and maintenance service for any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so the website lives with us and we look after all of it. Pick the size that fits how often your website changes, and add it to any of our <a href="/packages/">website design packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
+  <p class="sub rv">XpertRank is our expert SEO and maintenance service for any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so the website lives with us and we look after all of it. Pick the size that fits how often your website changes, and add it to any of our <a href="/packages/">website design packages</a>. Every plan side by side: our <a href="/seo-packages-malaysia/">SEO packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
   <Packages show="care" pickHref="/packages/#plan" />
   <div class="note rv"><h3>Built by us, or built elsewhere</h3><p>For websites we build with XpertForge, Basic fits any size, Plus needs Business or Growth, and Pro and Elite need Growth, with free high speed cloud hosting. Already have a website? Any XpertRank plan works on it, at its own price and without hosting. See both prices on the <a href="/packages/#plan">packages page</a>.</p></div>
 </div></section>
@@ -48,6 +49,7 @@ const pf = pageFaq(['What does XpertRank include?', 'What is the difference betw
   <span class="eyebrow rv">Why it matters</span>
   <p class="creed rv">Search visibility <em>builds over time</em>. A website that is looked after keeps its gains instead of losing them.</p>
 </div></section>
+<Suite here="rank" tint title="How does XpertRank fit with our other services?" intro="XpertRank looks after any website, including the ones we build with XpertForge, and XpertInsight comes free with it. Would rather do the research yourself? That is XpertForesight." />
 <Glance page="website-maintenance" guides={['website-maintenance-malaysia', 'cloud-hosting-malaysia']} />
 <PageFaq title="Website maintenance questions, answered." items={pf.items} tint />
 <Related skip="/website-maintenance/" />

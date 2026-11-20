@@ -1,0 +1,9 @@
+---
+// "What happens after you pay" for a website build (Suhen 2026-11-19, after the customer review). Steps and times come from `buyer`
+// in packages.ts, so /packages/, /paid/ and the FAQ always say the same thing. Times are usual times, never a promise.
+import { buyer } from '../data/packages';
+---
+<ol class="nsteps">
+  {buyer.steps.map((s, i) => <li class="rv" style={`--d:${i % 4}`}><h3>{s.t}</h3><p>{s.d}</p></li>)}
+</ol>
+<p class="sub aftnote rv"><b>How long it takes:</b> XpertForge {buyer.times}, {buyer.from}. {buyer.revision} {buyer.bigger}</p>

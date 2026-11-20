@@ -3,16 +3,17 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Cta from '../components/Cta.astro';
 import Related from '../components/Related.astro';
+import Suite from '../components/Suite.astro';
 import Glance from '../components/Glance.astro';
 import PageFaq from '../components/PageFaq.astro';
 import { pageFaq } from '../lib/faq';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Work from '../components/Work.astro';
-import { build, fmt, px } from '../data/packages';
+import { build, fmt, px, buyer } from '../data/packages';
 import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
 const extraLd = [{ '@type': 'Service', name: 'Website design', serviceType: 'Website design and building', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-design/`, areaServed: areaLd, description: 'Website design for businesses in Malaysia, planned for Google and AI search before it is designed, guided by XpertCore, our own AI SEO advisor, and finished by hand.' }];
-const pf = pageFaq(['How does a website project start?', 'How much does a website cost?', 'Is copywriting included?', 'Can you redesign my current website?', 'Which areas do you work in?']);
+const pf = pageFaq(['How does a website project start?', 'How long does a website take?', 'How much does a website cost?', 'Is the domain name included?', 'Is copywriting included?', 'Can I change text or photos after launch?', 'Can you redesign my current website?', 'Which areas do you work in?']);
 ---
 <Base title="Website Design Malaysia for Google and AI Search | SEOXpert" image={`/img/${pictures["website-design"].file}.jpg`} description="Website design in Malaysia for businesses that want to be found. Planned for Google and AI search first, guided by our own AI SEO advisor and finished by hand." path="/website-design/" crumb="Website design" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
@@ -40,14 +41,17 @@ const pf = pageFaq(['How does a website project start?', 'How much does a websit
   <div class="stick">
     <span class="eyebrow rv">How it works</span>
     <h2 class="rv">From a conversation to a finished website.</h2>
-    <p class="sub rv">Four steps. You always know which one we are on.</p>
+    <p class="sub rv">Four steps. You always know which one we are on. XpertForge {buyer.times}, {buyer.from}.</p>
   </div>
+  <div>
   <ol class="nsteps">
-    <li class="rv"><h3>Tell us about your business</h3><p>Tell us a little about your business and what you would love your website to do. A short, friendly chat is all it takes to begin.</p></li>
+    <li class="rv"><h3>Tell us about your business</h3><p>Tell us a little about your business and what you would love your website to do. After you order, we email you within one working day, then a short call or a simple form gives us your details: your business information, your logo and photos (or we use good stock photos).</p></li>
     <li class="rv" style="--d:1"><h3>We plan the pages</h3><p><a href="/ai-seo-advisor/">XpertCore, our AI SEO advisor</a>, drafts the page plan, headings and answer first copy, with search in mind from the first line.</p></li>
-    <li class="rv" style="--d:2"><h3>We design and refine by hand</h3><p>We shape the design around your brand, then check every page for clarity, accuracy and speed.</p></li>
-    <li class="rv" style="--d:3"><h3>Launch, then look after it</h3><p>Your website goes live with the Google and AI setup in place. <a href="/seo-services-malaysia/">XpertRank, our expert SEO service,</a> keeps it healthy after that.</p></li>
+    <li class="rv" style="--d:2"><h3>We design and refine by hand</h3><p>We shape the design around your brand, then check every page for clarity, accuracy and speed. You check your first draft, and we refine it in your revision rounds ({buyer.rounds}). {buyer.revision}</p></li>
+    <li class="rv" style="--d:3"><h3>Launch, then look after it</h3><p>Your website goes live with the Google and AI setup in place, with {buyer.fixes}. <a href="/seo-services-malaysia/">XpertRank, our expert SEO service,</a> keeps it healthy and growing after that, and our team makes your changes. Without XpertRank, we hand your website over with a simple editing dashboard, on the hosting you choose.</p></li>
   </ol>
+  <p class="sub rv" style="margin-top:22px">{buyer.bigger} The domain name is not included: you buy it in your own name with our help, or we buy it for you and transfer it to you. <a href="/packages/#after-pay">See what happens after you pay</a>.</p>
+  </div>
 </div></section>
 
 <section id="packages" class="solid band"><div class="wrap">
@@ -58,14 +62,16 @@ const pf = pageFaq(['How does a website project start?', 'How much does a websit
     {build.tiers.map((t, i) => <div class="fcard rv" style={`--d:${i}`}><h3>{t.name}</h3><p><b set:html={px(t)} />. {t.short} at launch.</p></div>)}
   </div>
   <div class="pkall rv" style="margin-top:30px"><h3>Included with every website we build</h3><ul>{build.all.map((x) => <li>{x}</li>)}</ul></div>
-  <p class="sub rv" style="margin-top:28px"><a href="/packages/">Compare the packages and build your plan</a>.</p>
+  <p class="sub rv" style="margin-top:28px"><a href="/packages/">Compare the packages and build your plan</a>. After launch, our <a href="/website-maintenance/">website maintenance</a> plan, XpertRank, keeps your new website growing on Google and in <a href="/ai-seo-services-malaysia/">AI search</a>, and your <a href="/website-report-dashboard/">XpertInsight dashboard</a>, free with every XpertRank plan, shows the results live.</p>
 </div></section>
 
 <section id="work" class="solid tint band"><div class="wrap">
   <span class="eyebrow rv">Our work</span>
   <h2 class="rv">Website design we have built.</h2>
+  <p class="sub rv">Need a dashboard, a login area or online payments too? See the web apps we have built on our <a href="/web-app-development-malaysia/">web app development</a> page.</p>
   <Work />
 </div></section>
+<Suite here="forge" title="What comes after your new website?" eyebrow="Build it, then grow it" intro="XpertForge builds your website. After launch, XpertRank, our expert SEO service, keeps growing it on Google and AI search, and XpertInsight shows you the results live. Would rather do your own SEO? That is XpertForesight." />
 <Glance page="website-design" guides={['website-design-price-malaysia', 'website-design-kuala-lumpur-selangor', 'choose-web-design-company-malaysia']} />
 <PageFaq title="Website design questions, answered." items={pf.items} tint />
 <Related skip="/website-design/" />

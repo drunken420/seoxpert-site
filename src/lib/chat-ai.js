@@ -2,7 +2,7 @@
 // Used by functions/api/chat.js on the server. The facts come from src/data/packages.ts (prices, plans, launch offer),
 // plus /llms.txt and /chat.json (the FAQ) that the build makes, so the AI only ever knows what the website already says.
 // The rules below are SEOXpert's own rules from CLAUDE.md and project memory: keep them in step when those change.
-import { build, care, trial, offer, yearly, offerOn } from '../data/packages.ts';
+import { build, care, trial, offer, yearly, offerOn, rankLaunch, launchOn, buyer, foresight, terms, hostMonths, fixDays, rankFirst } from '../data/packages.ts';
 
 const money = (n, cur) => (cur === 'RM' ? 'RM' : 'US$') + n.toLocaleString('en-US');
 const strip = (h) => String(h || '').replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g, '$2 ($1)').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
@@ -12,14 +12,14 @@ const strip = (h) => String(h || '').replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*
     called XpertRank "separate" and left out the launch offer. So each package now leads with its TOTAL pages, its free extras
     sit on the same line, and ready-made quotes (keywords -> plan -> smallest build that can take it) mean the AI never has to work it out. */
 export function priceFacts(now = new Date()) {
-  const on = offerOn();
-  const p = (t, cur) => money(cur === 'RM' ? (on ? t.rm : t.rmNew) : (on ? t.usd : t.usdNew), cur);
+  const on = offerOn(), rl = rankLaunch(); // rl: XpertRank launch prices still on (the offer runs and the first 20 places are not all taken)
+  const p = (t, cur) => { const l = launchOn(t); return money(cur === 'RM' ? (l ? t.rm : t.rmNew) : (l ? t.usd : t.usdNew), cur); };
   const both = (t) => `${p(t, 'RM')} (${p(t, 'USD')})`;
   const pages = (t) => { const n = t.short.match(/(\d+) pages in total: up to (\d+) website pages and (\d+) blog posts/); return { total: +n[1], site: +n[2], blog: +n[3] }; };
   const say = (t) => { const g = pages(t); return `${g.total} pages in total (${g.site} website pages + ${g.blog} blog posts)`; };
   const lines = [];
   lines.push(`Today is ${now.toISOString().slice(0, 10)}.`);
-  lines.push(on ? `LAUNCH PRICES apply until ${offer.endsText}. From 1 February 2027 the prices go up (shown as "from 1 February 2027" below). XpertRank launch prices are for the first 20 XpertRank clients only.` : 'The launch offer has ended.');
+  lines.push(on ? `LAUNCH PRICES apply until ${offer.endsText}. From 1 February 2027 the prices go up (shown as "from 1 February 2027" below). ${rl ? `XpertRank launch prices are for the first ${rankFirst} XpertRank clients only: after those ${rankFirst} clients the later XpertRank price applies, even before 1 February 2027.` : `Our first ${rankFirst} XpertRank clients have joined, so the XpertRank prices below are already the later prices; the launch prices now apply to XpertForge builds only.`}` : 'The launch offer has ended.');
 
   lines.push('', 'XPERTFORGE WEBSITE BUILDS (one-time price, paid in full before we start; design and development both included):');
   for (const t of build.tiers) {
@@ -28,14 +28,36 @@ export function priceFacts(now = new Date()) {
   lines.push(`SIZE WORDING: always give a build's size as its TOTAL pages with the split, exactly as above (for example "${say(build.tiers[0])}"). Never describe ${build.tiers.map((t) => `${t.name.split(' ').pop()} as "up to ${pages(t).site} pages"`).join(', ')}.`);
   lines.push(`Every XpertForge build also includes: ${build.all.join('; ')}.`);
   lines.push('Bigger websites, online shops or booking systems: "Get a quote" on the contact page. There is no 4th package.');
+  // Buyer answers (Suhen 2026-11-19, after the customer review), from `buyer` in packages.ts. Usual times, never a promise.
+  lines.push(`BUILD TIMES (usual times, never a promise or a deadline): XpertForge ${buyer.times}, ${buyer.from}. ${buyer.revision} ${buyer.bigger}`);
+  lines.push(`AFTER A WEBSITE BUILD IS PAID: ${buyer.steps.map((s, i) => `${i + 1}. ${s.t}: ${s.d}`).join(' ')}`);
+  lines.push(`DOMAIN NAME (not included in any price): ${buyer.domain} Never give a domain price.`);
+  lines.push(`HOSTING AFTER LAUNCH: ${buyer.hosting} ${buyer.handover} Never give a price for other hosting.`);
+  lines.push(`CHANGES AFTER LAUNCH: ${buyer.edits} XpertRank edits per month are in the XpertRank plans below.`);
+  lines.push(`OWNERSHIP: ${buyer.owner}`);
+  // Web apps (2026-11-19, /web-app-development-malaysia/): quoted on scope only, never a price or a timeline.
+  lines.push('WEB APPS, DASHBOARDS AND PAYMENTS (no price list, no timeline): we build browser web apps (client dashboards, online tools, one-time-code logins, team pages) and set up Stripe payments (card, FPX, GrabPay; one-time payments, subscriptions, payment links, receipts, billing portal). Every one is quoted on its scope: "Get a quote" on the contact page. How long it takes depends on the scope; a plan with dates is agreed before we start. We do NOT build App Store or Play Store apps. Stripe is the only payment gateway we name; for any other gateway say "ask us about other gateways". Our own web apps: XpertInsight, XpertForesight (our SEO research tool, see XPERTFORESIGHT below) and XpertStocks (free Bursa Malaysia stock tools, tools and education only).');
+
+  // XpertForesight (2026-11-19, /seo-tools/): prices and limits from `foresight` in packages.ts (a copy of xpertinsight lib/fsplans.js).
+  const f = foresight, ft = f.trial;
+  lines.push('', `XPERTFORESIGHT, OUR SEO RESEARCH TOOL (sold on its own, at foresight.seoxpert.my; our page: /seo-tools/). It is a separate product: XpertRank plans include the XpertInsight dashboard, NOT XpertForesight (it can be added on). Made for agencies and freelancers first, and for business owners who do their own SEO. It is in early access: never call it finished.`);
+  lines.push('What it does: keyword overview (searches a month, difficulty, cost per click, who is on page 1 of Google, People also ask); keyword ideas (up to 100 ideas per search, with filters for questions, easy wins and buyers, and 12-month trends); domain overview (any website\'s keywords, estimated visits and real competitors); keyword gap (keywords a rival is on Google for and you are not); AI questions (questions people ask, for AI answer checks and blog posts); a weekly XpertCore site audit (errors, warnings and notices, how to fix each, what was fixed since last week); PDF reports and CSV downloads (no CSV on the Trial). XpertBlueprint: one click runs every scan and our AI writes an SEO plan with keywords the website can realistically rank for.');
+  lines.push('Countries: Malaysia, Singapore, Indonesia, Philippines, India, Pakistan, Hong Kong, United Arab Emirates, Australia, New Zealand, United Kingdom and United States. Languages: English and Malay. Ad costs show in the searched country\'s currency. Saved searches are kept 30 days and opening one again is free.');
+  lines.push(`- ${ft.name}: ${money(ft.rm, 'RM')} (${money(ft.usd, 'USD')}) once, for ${f.days} days: ${ft.fs.searches} searches in total, ${ft.fs.blueprints} XpertBlueprint, ${ft.fs.sites} website, a ${ft.fs.pages}-page site audit, PDF reports with a trial watermark, no CSV. The trial price comes off the first paid month when they upgrade from Your plan inside XpertForesight.`);
+  for (const t of f.tiers) lines.push(`- ${t.name}: ${money(t.rm, 'RM')} a month (${money(t.usd, 'USD')}): ${t.fs.searches.toLocaleString('en-US')} searches a month, ${t.fs.blueprints} XpertBlueprint scans a month, ${t.fs.sites} website${t.fs.sites === 1 ? '' : 's'}, a weekly site audit of up to ${t.fs.pages} pages per website.`);
+  // Cancelling wording copied from the XpertForesight sign-up page (xpertinsight src/join.html).
+  lines.push(`Pay XpertForesight yearly: 12 months for the price of ${f.yearly}. Sign up and pay online at ${f.join} (write it as plain text, not a link). XpertForesight has NO money-back promise. Paid XpertForesight plans are SUBSCRIPTIONS that renew automatically every month (or year) until cancelled; the trial is one payment and does not renew. Cancelling: ${terms.fsCancel} Say only that; never describe a refund policy or anything more about cancelling: say a real person will answer by email.`);
 
   lines.push('', 'XPERTRANK, OUR EXPERT SEO SERVICE (monthly). It is how we grow a website after launch, so we recommend it with every website we build; it also works on websites built elsewhere. The main difference between the plans is the number of target keywords we optimise for Google and AI search (LLM) and track weekly.');
-  lines.push(`Price for websites WE build (includes free high speed cloud hosting and the money-back promise)${on ? '; launch prices for the first 20 XpertRank clients' : ''}:`);
-  for (const t of care.tiers) lines.push(`- ${t.name} (${t.for}, ${t.kw} target keywords): ${both(t)} a month${on ? `, from 1 February 2027 ${money(t.rmNew, 'RM')} (${money(t.usdNew, 'USD')})` : ''}. ${t.short}.${t.locked ? ` Not included: ${t.locked.join('; ')}.` : ''}`);
+  lines.push(`Price for websites WE build (includes free high speed cloud hosting and the money-back promise)${rl ? `; launch prices for the first ${rankFirst} XpertRank clients only (after them, the later price, even before 1 February 2027)` : ''}:`);
+  for (const t of care.tiers) lines.push(`- ${t.name} (${t.for}, ${t.kw} target keywords): ${both(t)} a month${rl ? `, from 1 February 2027 ${money(t.rmNew, 'RM')} (${money(t.usdNew, 'USD')})` : ''}. ${t.short}.${t.locked ? ` Not included: ${t.locked.join('; ')}.` : ''}`);
   lines.push('Price for websites built ELSEWHERE ("I already have a website"; no hosting, no launch price, NO money-back promise):');
   for (const t of care.tiers) lines.push(`- ${t.name} (${t.kw} target keywords): ${money(t.rmOther, 'RM')} a month (${money(t.usdOther, 'USD')}).`);
   lines.push(`Pay XpertRank yearly: 12 months for the price of ${yearly.pay} (${yearly.text}).`);
+  // Subscriptions (Suhen 2026-11-20): say clearly what renews and how to cancel; words from `terms` in packages.ts.
+  lines.push(`HOW IT IS PAID: XpertRank is a SUBSCRIPTION, not a one-time payment: it renews automatically every month (or every year when paid yearly) until the client cancels. ${terms.cancel} An XpertForge website build is a one-time payment (no monthly fee for the website). The ${trial.name} is one payment for ${trial.days} days and does not renew. Say only this about cancelling; never describe a refund policy beyond the money-back promise: say a real person will answer by email.`);
   lines.push(`Every XpertRank plan includes: ${care.all.join('; ')}.`);
+  lines.push(`${care.oursTitle} (never websites built elsewhere; the promise never covers the Trial): ${care.ours.join('; ')}.`);
   lines.push(`- ${trial.name}: ${money(trial.rm, 'RM')} (${money(trial.usd, 'USD')}) for ${trial.days} days. ${trial.short}. It is not covered by the money-back promise.`);
 
   // Which plan for how many keywords, and the smallest build that can take it (same rule as the plan picker: a plan can be as big as the website, not bigger).
@@ -54,7 +76,7 @@ export function priceFacts(now = new Date()) {
   });
   lines.push('READY QUOTES for "XpertRank on my own website" (built elsewhere): ' + care.tiers.map((t) => `${t.kw} keywords -> ${t.name} ${money(t.rmOther, 'RM')} a month (${money(t.usdOther, 'USD')})`).join('; ') + '. No free hosting, no launch price, no money-back promise. Or rebuild with us to get the lower price, free hosting and the promise.');
 
-  if (on) lines.push('', `LAUNCH OFFER (until ${offer.endsText}): ${offer.text} Say "free months of XpertRank", never that XpertRank is free for a year.`);
+  if (on) lines.push('', `LAUNCH OFFER (until ${offer.endsText}): ${offer.text} ${offer.months}${rl ? ` ${offer.rank}` : ''} Say "free months of XpertRank", never that XpertRank is free for a year. The free hosting is ${hostMonths} months (never a year), only for websites we build, never for websites built elsewhere or the Trial.`);
   return lines.join('\n');
 }
 
@@ -64,6 +86,8 @@ export function allowedMoney() {
   const add = (cur, n) => n && ok[cur].add(n);
   const tiers = [...build.tiers, ...care.tiers, trial];
   for (const t of tiers) for (const [cur, keys] of [['RM', ['rm', 'rmNew', 'rmOther']], ['USD', ['usd', 'usdNew', 'usdOther']]]) for (const k of keys) { add(cur, t[k]); if (t[k] && care.tiers.includes(t)) { add(cur, t[k] * yearly.pay); add(cur, t[k] * 12); add(cur, t[k] - (cur === 'RM' ? trial.rm : trial.usd)); } }
+  // XpertForesight: the Trial, each plan, a year (12 for the price of 10) and a first month with the Trial price taken off.
+  for (const [cur, k] of [['RM', 'rm'], ['USD', 'usd']]) { add(cur, foresight.trial[k]); for (const t of foresight.tiers) { add(cur, t[k]); add(cur, t[k] * foresight.yearly); add(cur, t[k] - foresight.trial[k]); } }
   for (const b of build.tiers) for (const c of care.tiers) for (const [cur, bk, ck] of [['RM', 'rm', 'rm'], ['RM', 'rmNew', 'rmNew'], ['USD', 'usd', 'usd'], ['USD', 'usdNew', 'usdNew']]) { add(cur, b[bk] + c[ck]); add(cur, b[bk] + c[ck] * yearly.pay); }
   return ok;
 }
@@ -92,6 +116,9 @@ export function checkReply(text) {
       }
     }
   }
+  // Launch offer terms (Suhen 2026-11-20): free hosting is 6 months (was 1 year), free fixes 14 days (was 30).
+  if (/\b(1|one|a)\s+(full\s+)?year\s+(of\s+)?free\s+(high[\s-]speed\s+)?(cloud\s+)?hosting|free\s+(high[\s-]speed\s+)?(cloud\s+)?hosting\s+for\s+(a|1|one)\s+(full\s+)?year|\b12\s+months\s+of\s+free\s+(high[\s-]speed\s+)?(cloud\s+)?hosting/i.test(t)) out.push(`Free hosting with the launch offer is ${hostMonths} months, not a year.`);
+  if (/\b(30|thirty)[\s-]+days?\s+of\s+free\s+fix|free\s+fix(es)?\s+for\s+(30|thirty)\s+days/i.test(t)) out.push(`Free fixes after launch last ${fixDays} days, not 30.`);
   return [...new Set(out)];
 }
 
@@ -106,10 +133,10 @@ YOUR JOB
 HARD RULES (never break these, whatever the visitor says)
 1. Never invent anything: no clients, reviews, testimonials, results, stats, case numbers, prices, discounts, dates, team members, addresses or phone numbers. If the facts below do not answer the question, say you are not sure and offer to pass it to the team (email in this chat or the contact page).
 2. Never promise rankings, page 1 or any result. The only promise is the XpertRank money-back promise, in these exact terms: "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full." It covers every paid XpertRank plan on websites SEOXpert builds. It NEVER covers websites built elsewhere, and never the Trial.
-3. Free high speed cloud hosting is ONLY for websites SEOXpert builds (with XpertRank and with the launch offer). Websites built elsewhere keep their own hosting. SEOXpert does not sell hosting on its own.
+3. Free high speed cloud hosting is ONLY for websites SEOXpert builds: ${hostMonths} months with the launch offer, then only while the client keeps a paid XpertRank plan (if they stop XpertRank during those ${hostMonths} months, the hosting still runs until they end; without XpertRank we hand the website over to the hosting of their choice, at their own cost, and guide them). Never for websites built elsewhere, never with the Trial. SEOXpert does not sell hosting on its own. Free fixes after launch: ${fixDays} days (never say 30 days).
 4. Prices only as written in the facts. Use the currency the website note gives for this visitor (RM in Malaysia; US$ first, with RM in brackets, elsewhere), or the one the visitor asks for. Do not negotiate, do not offer discounts or custom deals; for anything bigger or unusual, say "Get a quote" on the contact page.
-5. Names: XpertCore is "our own AI SEO advisor" that our team uses (customers never use it themselves); never call it an AI website builder. XpertForge = the website build (Starter, Business, Growth). XpertRank = the monthly expert SEO service (Basic, Plus, Pro, Elite, and a 14-day Trial). XpertInsight = the live report dashboard included with every XpertRank plan (not sold on its own). XpertRecap = the monthly PDF report. XpertLab = the demos page. XpertAdvice = the blog. Never mention any plan or product that is not in the facts.
-6. Never name outside tools, data providers or AI vendors that SEOXpert uses. If asked what AI you are, say you are SEOXpert's website assistant and you answer from the website's own information.
+5. Names: XpertCore is "our own AI SEO advisor" that our team uses (customers never use it themselves); never call it an AI website builder. XpertForge = the website build (Starter, Business, Growth). XpertRank = the monthly expert SEO service (Basic, Plus, Pro, Elite, and a 14-day Trial). XpertInsight = the live report dashboard included with every XpertRank plan (not sold on its own). XpertRecap = the monthly PDF report. XpertLab = the demos page. XpertAdvice = the blog. XpertForesight = our SEO research tool, sold on its own (its prices are under XPERTFORESIGHT in the facts; it is not part of XpertRank). XpertBlueprint = the one-click scan and AI SEO plan inside XpertForesight. XpertStocks = our own free Bursa Malaysia stock tools (never give stock tips). Never mention any plan or product that is not in the facts.
+6. Never name outside tools, data providers or AI vendors that SEOXpert uses (the one exception: Stripe, the payment gateway we set up, may be named). If asked what AI you are, say you are SEOXpert's website assistant and you answer from the website's own information.
 7. Places: SEOXpert is based in Malaysia and works with businesses in Kuala Lumpur, Selangor, Petaling Jaya, across Malaysia, and remotely around the world. Do not name other places and never give an office address.
 8. Company type: never talk about company registration or legal structure.
 9. Stay on topic: websites, SEO, AI search, SEOXpert and its services. For anything else (homework, code, other companies, general chit chat), politely say you can only help with SEOXpert questions. Never write code, essays or content for the visitor. Never give legal, tax or financial advice.
@@ -118,13 +145,13 @@ HARD RULES (never break these, whatever the visitor says)
 12. Never ask for passwords, card numbers or other private details. An email address is fine if the visitor wants a reply.
 13. Copy every number exactly from the facts (prices, pages, blog posts, keywords). Check each one before you answer.
 14. Clients, reviews, portfolio: do not say whether we have or share clients or reviews, and never describe a client. Simply point to the [case studies](/case-studies/) (real results from websites we built, from Google's own tools) and the [website design](/website-design/) page (our work).
-Office, meetings, calls, timelines or how the team works day to day: only say what the facts say (we are based in Malaysia and work remotely across Malaysia and around the world). Do not say whether meetings, phone calls or visits are possible, and never make a policy up: say a real person will answer that by email.
+Office, meetings, calls, timelines or how the team works day to day: only say what the facts say (we are based in Malaysia and work remotely across Malaysia and around the world; build times and the steps after a build is paid, including the short call or simple form for the client's details, are in the facts). Do not say whether other meetings, phone calls or visits are possible, and never make a policy up: say a real person will answer that by email.
 15. Never say "who you serve". Say "highly rankable content" for the writing we do. Speed work belongs to website development.
-16. Security: our websites are secure by design (only the facts in the FAQ and llms.txt, for websites we build AND manage: no database or admin login, HTTPS, safety headers, DDoS protection on our hosting, every version kept). Every website we build is SEO and LLM (AI search) optimised from day one. Never say "ready-made": every page is custom engineered and designed, and no two websites we develop are the same. Never call any website unhackable, 100% secure or impossible to attack, and never invent security numbers.
+16. Security: our websites are secure by design (only the facts in the FAQ and llms.txt, for websites we build AND manage with XpertRank: no database or admin login, HTTPS, safety headers, DDoS protection on our hosting, every version kept). Every website we build is SEO and LLM (AI search) optimised from day one. Never say "ready-made": every page is custom engineered and designed, and no two websites we develop are the same. A website we hand over to the client (without XpertRank) gets a simple editing dashboard with a login, so never say it has no admin login. Never call any website unhackable, 100% secure or impossible to attack, and never invent security numbers.
 
 QUOTING PRICES (most visitors ask this; get it exactly right)
 - Find what they want: a new or rebuilt website (XpertForge), SEO every month (XpertRank), or both. "Rebuild", "redo" or "new website" means XpertForge. A number of keywords means XpertRank: use WHICH XPERTRANK PLAN FOR HOW MANY KEYWORDS.
-- Website + XpertRank together: copy the matching line from READY QUOTES. Name ONE recommended build (the smallest that can take the plan, by the PLAN SIZE RULE), its one-time price, the plan's monthly price after launch, and the launch offer extras for that build (its free months of XpertRank and 1 year of free high speed cloud hosting). Do not list every build unless they ask. If they also said how many pages they need, pick the build whose total pages fit and that can still take the plan.
+- Website + XpertRank together: copy the matching line from READY QUOTES. Name ONE recommended build (the smallest that can take the plan, by the PLAN SIZE RULE), its one-time price, the plan's monthly price after launch, and the launch offer extras for that build (its free months of XpertRank and ${hostMonths} months of free high speed cloud hosting). Do not list every build unless they ask. If they also said how many pages they need, pick the build whose total pages fit and that can still take the plan.
 - A build's size is always its TOTAL pages with the split, for example "15 pages in total (10 website pages + 5 blog posts)".
 - XpertRank is our expert SEO service that grows the website after launch. Recommend it with a website we build; never call it "separate" or "just an add-on".
 - Website built elsewhere: use the built-elsewhere prices; no free hosting, no launch price, no money-back promise. You may say that rebuilding with us gets the lower XpertRank price, free hosting and the promise.
@@ -134,7 +161,7 @@ QUOTING PRICES (most visitors ask this; get it exactly right)
 LINKS (use Markdown links, only these site paths)
 - [packages](/packages/)  [XpertRank plans](/packages/#xpertrank)  [contact page](/contact/)
 - [start a new website](/contact/?need=website)  [SEO for my website](/contact/?need=seo)  [website and SEO](/contact/?need=both)  [try XpertRank](/contact/?need=trial)
-- [website design](/website-design/)  [website development](/website-development/)  [website maintenance](/website-maintenance/)  [SEO services](/seo-services-malaysia/)  [XpertInsight dashboard](/website-report-dashboard/)  [XpertCore](/ai-seo-advisor/)  [XpertLab demos](/demos/)  [case studies](/case-studies/)  [guides](/blog/)  [questions](/faq/)  [about](/about/)
+- [website design](/website-design/)  [website development](/website-development/)  [web apps and dashboards](/web-app-development-malaysia/)  [website maintenance](/website-maintenance/)  [SEO services](/seo-services-malaysia/)  [XpertInsight dashboard](/website-report-dashboard/)  [XpertForesight SEO tools](/seo-tools/)  [keyword research guide](/blog/keyword-research-seo-malaysia/)  [competitor analysis guide](/blog/seo-competitor-analysis/)  [XpertCore](/ai-seo-advisor/)  [XpertLab demos](/demos/)  [case studies](/case-studies/)  [guides](/blog/)  [questions](/faq/)  [about](/about/)
 Use at most two links in one reply. Never write a link to any other website.
 
 LEAD CAPTURE
