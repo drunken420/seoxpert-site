@@ -3,25 +3,25 @@
 // RULE: when you change a page's words, set its date here to the day it goes live. Never move a date without a real change.
 // Guides keep their own dates in src/data/blog.ts. First filled from the Git history on 2026-11-17.
 export const updated: Record<string, string> = {
-  '/': '2026-11-19',
+  '/': '2026-11-21',
   '/about/': '2026-11-19',
   '/ai-seo-advisor/': '2026-11-19',
   '/ai-seo-services-malaysia/': '2026-11-19',
   '/case-studies/': '2026-11-19',
   '/contact/': '2026-11-19',
   '/demos/': '2026-11-19',
-  '/faq/': '2026-11-19',
-  '/packages/': '2026-11-19',
+  '/faq/': '2026-11-21',
+  '/packages/': '2026-11-21',
   '/seo-audit-malaysia/': '2026-11-19',
-  '/seo-packages-malaysia/': '2026-11-19',
-  '/seo-services-malaysia/': '2026-11-19',
-  '/web-app-development-malaysia/': '2026-11-19',
-  '/website-design/': '2026-11-19',
-  '/website-development/': '2026-11-19',
+  '/seo-packages-malaysia/': '2026-11-21',
+  '/seo-services-malaysia/': '2026-11-21',
+  '/web-app-development-malaysia/': '2026-11-21',
+  '/website-design/': '2026-11-21',
+  '/website-development/': '2026-11-21',
   '/website-maintenance/': '2026-11-19',
   '/website-report-dashboard/': '2026-11-19',
   '/seo-tools/': '2026-11-19',
-  '/blog/': '2026-11-19',
+  '/blog/': '2026-11-21',
 };
 
 // What kind of page it is, for structured data (default WebPage).

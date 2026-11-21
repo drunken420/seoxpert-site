@@ -14,6 +14,8 @@ export interface Post {
   sections: { id: string; h: string; html: string }[];
   faqs: { q: string; a: string }[];
   cta: { pill: string; title: string; href: string; label: string };
+  /** Slugs of the three guides shown under "Keep reading" (default: the three newest). */
+  related?: string[];
 }
 
 const [starter, business, growth] = build.tiers;
@@ -508,7 +510,7 @@ ${careTable}
     cta: { pill: 'XpertForge', title: 'A website that says clearly where you work', href: '/website-design/', label: 'Website design in Malaysia' },
   },
   {
-    slug: 'website-design-kuala-lumpur-selangor', tag: 'Website design', art: 'city', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'website-design-kuala-lumpur-selangor', tag: 'Website design', art: 'city', date: '2026-11-11', updated: '2026-11-21',
     h1: 'Website design in Kuala Lumpur and Selangor: a checklist',
     title: 'Website Design in Kuala Lumpur and Selangor: A Checklist',
     description: 'Getting a website designed for a business in Kuala Lumpur, Selangor or Petaling Jaya? Use this checklist before you choose a designer and before you pay.',
@@ -526,7 +528,7 @@ ${careTable}
       { id: 'clear-price', h: '2. The price is clear, and in ringgit', html: `<p>You should know the full price, and what it includes, before you agree to anything. Ask for it in writing. Our website builds are called XpertForge, and each one is a single price, paid once:</p>${buildTable}
 <p>Whoever you choose, ask these questions about the price:</p>
 <ul class="bcheck"><li>Is this the full price, or are there extras later?</li><li>How many pages and how many rounds of changes are included?</li><li>Is anything charged every month or every year, and is it optional?</li><li>When do I pay, and how much up front?</li></ul>
-<p>See what each package includes on the <a href="/packages/">website design packages</a> page, or read <a href="/blog/website-design-price-malaysia/">website design price in Malaysia</a>.</p>` },
+<p>See <a href="/blog/website-design-packages-malaysia/">which web design package fits</a>, or read the full <a href="/blog/website-design-price-malaysia/">web design price guide for Malaysia and Kuala Lumpur</a>.</p>` },
       { id: 'writing-included', h: '3. The writing is included, and written to rank', html: `<p>Many quotes leave the words to you. Writing is usually the slowest part of a new website, and it is the part that decides whether people understand you and whether search engines can find you. A beautiful design with thin words does not bring customers.</p>
 <p>Ask who writes the pages, and how. Good website writing:</p>
 <ul><li>starts each page with a short, direct answer to what the visitor wants to know,</li><li>uses the words customers actually search for, found through keyword research,</li><li>sounds like your business, not like a template.</li></ul>
@@ -547,32 +549,38 @@ ${careTable}
       { id: 'the-checklist', h: 'The whole checklist on one screen', html: `<ul class="bcheck"><li>I know the one main job of my website</li><li>The website will say clearly where I work</li><li>I have the full price in writing, in ringgit</li><li>I know what is paid once and what is paid every month</li><li>The writing is included and planned around real searches</li><li>Their websites load quickly and work well on my phone</li><li>Every page is planned for Google and AI search before design</li><li>I know who owns the domain name, the content and the accounts</li><li>I know who looks after the website after launch</li></ul>` },
     ],
     faqs: [
-      { q: 'How much does website design cost in Kuala Lumpur?', a: `With SEOXpert it costs ${px(starter)} to ${px(growth)}, paid once, wherever you are. The price depends mostly on how many pages you need.` },
+      { q: 'Do you charge more for website design in Kuala Lumpur?', a: `No. With SEOXpert a website costs ${px(starter)} to ${px(growth)}, paid once, wherever you are. See the full <a href="/blog/website-design-price-malaysia/">web design price guide for Malaysia and Kuala Lumpur</a>.` },
       { q: 'Do you only work with businesses in Kuala Lumpur and Selangor?', a: 'No. We work remotely, so we work with businesses across Malaysia and all around the world.' },
       { q: 'Is the writing included?', a: 'Yes. Every XpertForge package includes highly rankable content, written for you from keyword research and checked by our experts.' },
       { q: 'What should I prepare before I contact a designer?', a: 'Decide the one main job of your website, then gather your logo, real photos, a list of your services and the questions customers ask you most.' },
       { q: 'How do I start?', a: 'Just send us a message. Tell us a little about your business and what you would love your website to do, and we will happily suggest the package that fits you best.' },
     ],
     cta: { pill: 'XpertForge', title: `Website design from ${px(starter)}, paid once`, href: '/packages/', label: 'See packages' },
+    related: ['website-design-price-malaysia', 'website-design-packages-malaysia', 'local-seo-malaysia'],
   },
   {
-    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11', updated: '2026-11-19',
+    slug: 'website-design-packages-malaysia', tag: 'Packages', art: 'stack', date: '2026-11-11', updated: '2026-11-21',
     h1: 'Website design packages in Malaysia: which one fits?',
-    title: 'Website Design Packages in Malaysia: Which One Fits?',
-    description: `Compare website design packages in Malaysia: Starter, Business and Growth, from ${fmt(starter)}. See what each includes, with examples of which one fits which business.`,
-    card: 'Starter, Business or Growth? What each website design package includes, with examples of who it suits.',
-    short: `Choose a website design package by counting the pages you need. ${starter.name} (${px(starter)}) covers up to 5 pages, ${business.name} (${px(business)}) up to 10 pages, and ${growth.name} (${px(growth)}) up to 20 pages. Every package also has a blog, counted separately from the pages. Each is paid once, and highly rankable content and keyword research are included in all three.`,
+    title: `Web Design Packages Malaysia from ${fmt(starter)}: Which One Fits?`,
+    description: `Web design packages in Malaysia from ${fmt(starter)}, paid once: up to 5, 10 or 20 pages plus a blog, with the writing, keyword research and SEO included.`,
+    card: 'Starter, Business or Growth? What each web design package includes, how long it takes and who it suits.',
+    short: `Our web design packages in Malaysia are ${starter.name} (${px(starter)}, up to 5 pages), ${business.name} (${px(business)}, up to 10 pages) and ${growth.name} (${px(growth)}, up to 20 pages). Each one is paid once, and highly rankable content, keyword research, and Google and AI search optimisation are included in all three. Every package also has its own blog, counted separately from the pages. To choose a website design package, count the pages you need.`,
     sections: [
-      { id: 'side-by-side', h: 'The three packages side by side', html: `<p>Our <a href="/website-design/">website design</a> builds are called XpertForge. Prices are in ringgit and paid once.</p>${buildTable}
+      { id: 'side-by-side', h: 'Web design packages compared: Starter, Business and Growth', html: `<p>Our <a href="/website-design/">website design</a> builds are called XpertForge. Prices are in ringgit and paid once, and design and coding are one price: see what our <a href="/website-development/">website development packages</a> build into the code.</p>${buildTable}
 <p>The size changes. The quality does not. Every package includes:</p>${inEvery}` },
-      { id: 'what-counts-as-a-page', h: 'What counts as a page', html: `<p>A page is one address on your website with its own topic, such as your home page, your about page or one service. Most businesses need a few pages that every website has, plus one for each main thing they sell:</p>
+      { id: 'whats-included', h: 'What is included in every web design package?', html: `<p>Every XpertForge build comes with:</p>
+<ul class="bcheck">${build.all.map((x) => `<li>${x}</li>`).join('')}</ul>
+<p><b>How long it takes:</b> ${buyer.times}, ${buyer.from}. ${buyer.revision}</p>
+${offerOn() ? `<p><b>Launch offer, until ${offer.endsText}:</b> ${offer.text}</p>` : ''}
+<p>${buyer.domain} ${buyer.bigger}</p>` },
+      { id: 'what-counts-as-a-page', h: 'What counts as a page?', html: `<p>A page is one address on your website with its own topic, such as your home page, your about page or one service. Most businesses need a few pages that every website has, plus one for each main thing they sell:</p>
 <ul><li><b>Home:</b> what you do, for whom and where, and how to get in touch.</li>
 <li><b>About:</b> who is behind the business and why customers can trust you.</li>
 <li><b>One page for each main service or product.</b></li>
 <li><b>Contact:</b> every way to reach you, with your hours.</li>
 <li><b>Questions:</b> the answers customers ask for before they buy.</li></ul>
 <p>Blog posts are not counted as pages. Every package also comes with its own blog, with posts written at launch: 2 with Starter, 5 with Business and 10 with Growth.</p>` },
-      { id: 'count-your-pages', h: 'Three examples to help you count', html: `<p>These are made up examples, to show how the counting works.</p>
+      { id: 'count-your-pages', h: 'Which website design package do I need? Three examples', html: `<p>These are made up examples, to show how the counting works.</p>
 <h3>A home tuition service: ${starter.name}</h3>
 <p>Home, About, Subjects, Fees and how it works, Contact. That is 5 pages, which fits ${starter.name}. The 2 blog posts at launch could answer questions parents ask, like how to choose a tutor.</p>
 <h3>An air conditioning company: ${business.name}</h3>
@@ -586,9 +594,10 @@ ${careTable}
 <p>To get the most from each round, collect all your changes in one list before you send them, and ask anyone else who needs to approve the website to add theirs to the same list. Clear, complete feedback in one go gives a better result than many small messages.</p>` },
       { id: 'add-xpertrank', h: 'Adding XpertRank after launch', html: `<p>After launch you can add XpertRank, our optional expert SEO service, with free high speed cloud hosting for the websites we build. With every plan we actively check your website every few days, fix what we find, and make SEO and AI search improvements when they are needed. Our <a href="/seo-packages-malaysia/">SEO packages</a> page compares every plan.</p>${careTable}
 <p>Your care plan can be as big as your website, not bigger: ${basic.name} fits any XpertForge website, ${plus.name} needs Business or Growth, and ${pro.name} and ${elite.name} need Growth. Pay yearly and you get ${yearly.text}.</p>
-<p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p><p>See what the monthly <a href="/website-maintenance/">website maintenance and SEO service</a> includes, or <a href="/packages/">compare website design packages</a>.</p>` },
+<p>The <a href="/packages/#plan">plan picker</a> on the packages page adds it up for you.</p><p>See what the monthly <a href="/website-maintenance/">website maintenance and SEO service</a> includes, or see every <a href="/packages/">web design and SEO package, with prices</a>.</p>` },
       { id: 'still-not-sure', h: 'Between two sizes?', html: `<p>Think about the next year, not only launch day. If you plan to add services, or want a page for each type of job you do, the bigger size gives you room.</p>
-<p>If you are still unsure, <a href="/contact/">tell us about your business</a> and we will say honestly which size fits. If a smaller package is enough, we will tell you.</p>` },
+<p>If you are still unsure, <a href="/contact/">tell us about your business</a> and we will say honestly which size fits. If a smaller package is enough, we will tell you.</p>
+<p>We work remotely with businesses in Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia, at the same prices. Comparing designers in KL? Use our <a href="/blog/website-design-kuala-lumpur-selangor/">website design checklist for Kuala Lumpur and Selangor</a>, and read what affects the <a href="/blog/website-design-price-malaysia/">web design price in Malaysia and Kuala Lumpur</a>.</p>` },
     ],
     faqs: [
       { q: 'What is the cheapest website design package?', a: `${starter.name} at ${px(starter)}, paid once, for up to 5 pages.` },
@@ -596,16 +605,21 @@ ${careTable}
       { q: 'Do blog posts count as pages?', a: 'No. Every package comes with its own blog, counted separately from your pages, with 2, 5 or 10 posts written at launch depending on the package.' },
       { q: 'Do all packages include the writing?', a: 'Yes. Highly rankable content and full keyword research are included in every XpertForge package.' },
       { q: 'Can I take a small website with the biggest care plan?', a: `No. A care plan can be as big as the website, not bigger. ${starter.name} takes ${basic.name}.` },
+      { q: 'Is SEO included in the web design package?', a: `Yes, the SEO a new website needs is built in: keyword research, a page plan around those keywords, and the search setup on every page. Monthly SEO after launch is separate and optional: compare the <a href="/packages/">web design and SEO packages</a>.` },
+      { q: 'Is hosting included?', a: `${buyer.hosting} ${buyer.handover}` },
+      { q: 'How long does each package take?', a: `${buyer.times}, ${buyer.from}. These are usual times, not a promise.` },
+      { q: 'Do you offer web design packages in Kuala Lumpur and Selangor?', a: 'Yes. We work remotely with businesses in Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia, at the same prices. You do not need to meet in person.' },
     ],
     cta: { pill: 'XpertForge', title: 'Compare the packages and build your plan', href: '/packages/', label: 'See packages' },
+    related: ['website-design-price-malaysia', 'website-design-kuala-lumpur-selangor', 'choose-web-design-company-malaysia'],
   },
   {
-    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-19',
-    h1: 'Website design price in Malaysia: what does it cost?',
-    title: 'Website Design Price in Malaysia: What It Costs | SEOXpert',
-    description: `Website design in Malaysia costs from ${fmt(starter)} with SEOXpert, paid once. See what changes the price, the costs to ask about and what it costs each month.`,
+    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-21',
+    h1: 'Web design price in Malaysia and Kuala Lumpur: what does it cost?',
+    title: 'Website Design Price in Malaysia and Kuala Lumpur | SEOXpert',
+    description: `Web design price in Malaysia and Kuala Lumpur: ${fmt(starter)} to ${fmt(growth)} with SEOXpert, paid once, writing and SEO included. See what changes the price and the yearly costs.`,
     card: `A new business website in Malaysia costs from ${px(starter)}, paid once. The price depends mostly on how many pages you need.`,
-    short: `The price of website design in Malaysia depends mostly on how many pages you need, whether the writing is included, and extra features such as booking or online payments. At SEOXpert a business website costs ${px(starter)} to ${px(growth)}, paid once. Highly rankable content, keyword research, and Google and AI search optimisation are included in every package. When you compare quotes, compare what is included, not only the price.`,
+    short: `The price of website design in Malaysia, including Kuala Lumpur and Selangor, depends mostly on how many pages you need, whether the writing is included, and extra features such as booking or online payments. At SEOXpert a business website costs ${px(starter)} to ${px(growth)}, paid once. We work remotely, so the price is the same wherever you are in Malaysia. Highly rankable content, keyword research, and Google and AI search optimisation are included in every package. When you compare quotes, compare what is included, not only the price.`,
     sections: [
       { id: 'what-changes-the-price', h: 'What changes the price of a website?', html: `<p>Website design prices in Malaysia vary widely from one company to the next, which makes quotes hard to compare. Most of the cost is the amount of work, and five things decide how much work there is.</p>
 <h3>How many pages you need</h3><p>A five page website for a new business is far less work than a twenty page website with a blog. Each page needs planning, writing, design and checking.</p>
@@ -615,7 +629,9 @@ ${careTable}
 <h3>How many rounds of changes you get</h3><p>Every round of changes is more work, so most companies set a number. Check it before you agree.</p>` },
       { id: 'package-prices', h: 'Our website design prices in Malaysia', html: `<p>Our website builds are called XpertForge. There are three sizes, and each one is a single price, paid once.</p>${buildTable}
 <p>Every package includes:</p>${inEvery}
-<p>You can compare them on the <a href="/packages/">website design packages</a> page, where prices show in ringgit (RM) first, with US dollars as an option.</p><p>See how our <a href="/website-design/">website design in Malaysia</a> works, from the first call to launch.</p>` },
+<p>You can compare them on the <a href="/packages/">packages and prices</a> page, where prices show in ringgit (RM) first, with US dollars as an option.</p><p>See how our <a href="/website-design/">website design in Malaysia</a> works, from the first call to launch.</p>` },
+      { id: 'kuala-lumpur', h: 'Is web design more expensive in Kuala Lumpur?', html: `<p>Not with us. We work remotely with businesses in Kuala Lumpur, Selangor, Petaling Jaya and across Malaysia, and the price is the same everywhere: ${px(starter)} to ${px(growth)}, paid once. What changes the price is the work (the pages, the writing, the search planning and the rounds of changes), not where you are.</p>
+<p>Choosing a designer in KL? Use our <a href="/blog/website-design-kuala-lumpur-selangor/">website design checklist for Kuala Lumpur and Selangor</a> before you pay.</p>` },
       { id: 'costs-to-ask-about', h: 'Costs to ask about before you agree', html: `<p>The build price is only part of what a website costs. Whoever you work with, ask about these before you sign:</p>
 <ul><li><b>Domain name.</b> Your address on the web is renewed every year with a registrar. Ask who pays, and make sure it is registered in your name.</li>
 <li><b>Hosting.</b> Where the website lives, and what it costs each month or year.</li>
@@ -627,10 +643,10 @@ ${careTable}
 <p>If you pay yearly you get ${yearly.text}. These prices are for websites we build; a website built elsewhere has its own price. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
       { id: 'cheap-or-good-value', h: 'A cheap website or a good value one?', html: `<p>A very low price usually means something has been left out. It might be the writing, the search planning, the phone testing, or any help after launch. None of that shows on day one, but all of it shows over the following months, when the website brings few enquiries.</p>
 <p>A good value website is one that pays for itself: people can find it, understand it quickly and get in touch easily. When you compare two quotes, line them up against the same list of what is included, and ask about anything missing.</p>` },
-      { id: 'which-package', h: 'Which package fits your business', html: `<ul><li><b>${starter.name}</b> suits a first website: who you are, what you do and how to reach you, in up to 5 pages.</li>
+      { id: 'which-package', h: 'Which website design package fits your business?', html: `<ul><li><b>${starter.name}</b> suits a first website: who you are, what you do and how to reach you, in up to 5 pages.</li>
 <li><b>${business.name}</b> suits a growing business that needs a page for each service, in up to 10 pages.</li>
 <li><b>${growth.name}</b> suits a bigger website with many services, products or projects to show, in up to 20 pages.</li></ul>
-<p>For worked examples, read <a href="/blog/website-design-packages-malaysia/">website design packages in Malaysia</a>. Not sure? <a href="/contact/">Tell us about your business</a> and we will say honestly which size fits.</p>` },
+<p>For worked examples, read <a href="/blog/website-design-packages-malaysia/">web design packages compared</a>. Not sure? <a href="/contact/">Tell us about your business</a> and we will say honestly which size fits.</p>` },
     ],
     faqs: [
       { q: 'How much does a website cost in Malaysia?', a: `With SEOXpert a website costs ${px(starter)} to ${px(growth)}, paid once, depending mostly on how many pages you need.` },
@@ -638,8 +654,11 @@ ${careTable}
       { q: 'Is the writing included in the price?', a: 'Yes. Highly rankable content is included in every XpertForge package. We write answer first copy for each page and our experts check it.' },
       { q: 'Do I have to take a monthly plan?', a: `No. XpertRank is optional. If you choose it, it is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}` },
       { q: 'Are the prices in ringgit?', a: 'Yes. Prices are shown in RM first. The packages page also has a switch to US dollars.' },
+      { q: 'How much does a website cost per year in Malaysia?', a: `With us the build is paid once, so there is no yearly fee for the website itself. Your domain name renews at its own price, paid by you. ${buyer.hosting} ${buyer.handover} XpertRank is optional, from ${px(basic)} a month${rankNote()}.` },
+      { q: 'How long does a website take?', a: `${buyer.times}, ${buyer.from}. These are usual times, not a promise.` },
     ],
     cta: { pill: 'XpertForge', title: `Get a website from ${px(starter)}`, href: '/packages/', label: 'See packages' },
+    related: ['website-design-packages-malaysia', 'website-design-kuala-lumpur-selangor', 'website-maintenance-malaysia'],
   },
   {
     slug: 'seo-malaysia-guide', tag: 'SEO', art: 'seo', date: '2026-11-11', updated: '2026-11-19',
@@ -744,10 +763,10 @@ ${careTable}
     cta: { pill: 'XpertCore', title: 'See how our AI SEO advisor guides every page', href: '/ai-seo-advisor/', label: 'How XpertCore works' },
   },
   {
-    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-19',
+    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-21',
     h1: 'Website maintenance in Malaysia: what it covers and costs',
-    title: 'Website Maintenance in Malaysia: Cost and What It Covers',
-    description: `Website maintenance in Malaysia: the regular work that keeps a website safe, up to date and growing: what it covers, what can go wrong and the cost, from ${fmt(basic)} a month.`,
+    title: 'Website Maintenance Malaysia: Monthly Cost and Checklist',
+    description: `Website maintenance in Malaysia, explained: hosting, backups, security, fixes and SEO, what goes wrong without it, and the cost, from ${fmt(basic)} a month.`,
     card: 'The regular work that keeps a website safe, up to date and growing after launch, and what it costs.',
     short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${px(basic)} to ${px(elite)} a month for websites we build${rankNote(true)}, with free high speed cloud hosting included. It is a subscription that renews monthly (or yearly) until you cancel, and you can cancel any time from your XpertInsight dashboard. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
     sections: [
@@ -766,7 +785,7 @@ ${careTable}
 <li>A link breaks after a page is moved, and visitors hit a dead end.</li>
 <li>Search visibility slips while competitors keep publishing and improving.</li></ul>
 <p>Each of these costs customers. Regular checks catch them while they are small.</p>` },
-      { id: 'xpertrank-rhythm', h: 'What happens every few days, every week and every month', html: `<p>With XpertRank, the work follows a steady rhythm:</p>
+      { id: 'xpertrank-rhythm', h: 'Website maintenance checklist: every few days, week and month', html: `<p>With XpertRank, the work follows a steady rhythm:</p>
 <h3>Every few days</h3><p>We actively check your website: that it is up, working and fast, that forms send and links work. We fix what we find, and when a page needs it, we make SEO and AI search (LLM) improvements.</p>
 <h3>Every week</h3><p>Your keywords are tracked, so we can see which pages are rising and which need work.</p>
 <h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand in <a href="/website-report-dashboard/">XpertInsight, your website report dashboard</a>.</p>` },
@@ -792,7 +811,7 @@ ${careTable}
     cta: { pill: 'XpertRank', title: `Expert SEO from ${px(basic)}, free cloud hosting for websites we build`, href: '/website-maintenance/', label: 'See XpertRank plans' },
   },
   {
-    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-18',
+    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-21',
     h1: 'How to choose a web design company in Malaysia',
     title: 'How to Choose a Web Design Company in Malaysia | SEOXpert',
     description: 'Choose a web design company in Malaysia by checking real work, a clear price, a plan for search, who does the work, what you own and who looks after the website.',
@@ -807,7 +826,7 @@ ${careTable}
 <p>We only show work we built ourselves. You can see it on our <a href="/website-design/#work">website design we have built</a> page, and this website is built the same way.</p>` },
       { id: 'get-a-clear-price', h: '2. Get a clear price', html: `<p>A good web design company can tell you the price and what it includes before a long sales call. Check these points:</p>
 <ul><li>Is the writing included, or do you have to supply every word?</li><li>How many pages do you get?</li><li>How many rounds of changes are included?</li><li>Is anything charged every month or year, and is it optional?</li></ul>
-<p>Our prices are public on the <a href="/packages/">website design packages</a> page. Read more in <a href="/blog/website-design-price-malaysia/">website design price in Malaysia</a>.</p>` },
+<p>Our prices are public on the <a href="/packages/">packages and prices</a> page, and our <a href="/blog/website-design-packages-malaysia/">web design packages guide</a> shows which size fits. Read more in <a href="/blog/website-design-price-malaysia/">website design price in Malaysia</a>.</p>` },
       { id: 'ask-about-search', h: '3. Ask how they plan for search', html: `<p>A website nobody can find does not help your business. Ask how the company plans for Google and for AI tools. A good answer mentions keyword research before design, one clear topic per page, titles and descriptions, fast pages and structured data.</p>
 <p>If search is described as an extra to add later, expect to pay for it twice. Read more in our <a href="/blog/seo-malaysia-guide/">guide to SEO in Malaysia</a>.</p>` },
       { id: 'who-does-the-work', h: '4. Ask who actually does the work', html: `<p>Some companies sell the website and pass the work to someone else. That is not always bad, but you should know, because it affects quality, speed and who answers when something goes wrong.</p>
