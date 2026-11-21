@@ -4,6 +4,7 @@
 //   invoice.payment_failed         a monthly XpertRank payment failed (Stripe retries and emails the client itself)
 //   customer.subscription.deleted  an XpertRank plan was cancelled
 // Stripe sends the client their own receipt, so nothing goes to the client from here.
+// XpertInsight hears about build orders, failed payments and cancellations too (notify(), for its team Tasks board).
 //
 // Settings (Cloudflare Pages > Settings > Variables and Secrets): STRIPE_WEBHOOK_SECRET (whsec_..., from the webhook
 // you add in Stripe for https://seoxpert.my/api/stripe-webhook) and RESEND_API_KEY (already there for the contact form).
@@ -87,13 +88,41 @@ export async function invite(env, session, f = fetch) {
   } catch (e) { return { why: e.message }; }
 }
 
-export async function onRequestPost({ request, env }) {
+/** A short note to XpertInsight for its team Tasks board (Suhen 2026-11-21): only Stripe ids, the dashboard reads the rest
+ *  from Stripe with its own key. Short timeout, never throws: a dashboard that is down never breaks this webhook. */
+export async function notify(env, path, payload, f = fetch, ms = 4000) {
+  try {
+    const r = await f(`${env.INSIGHT_URL || 'https://insight.seoxpert.my'}${path}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload), redirect: 'manual', signal: AbortSignal.timeout(ms) });
+    if (!r.ok) console.log(`XpertInsight ${path} answered ${r.status}`);
+    return r.ok;
+  } catch (e) { console.log(`XpertInsight ${path} failed: ${e.message}`); return false; }
+}
+
+/** What XpertInsight hears about for its Tasks board: a website build order (shows as "not started yet"), and failed
+ *  payments and cancellations (to follow up). Every other event: nothing, as before. */
+export function tasksFor(ev) {
+  const o = (ev && ev.data && ev.data.object) || {};
+  if (ev.type === 'checkout.session.completed' && (o.metadata || {}).kind === 'build') return [['/hooks/paid', { session: o.id }]];
+  if (ev.type === 'invoice.payment_failed' || ev.type === 'customer.subscription.deleted') return [['/hooks/event', { id: ev.id, object: o.id }]];
+  return [];
+}
+
+export async function onRequestPost({ request, env, waitUntil }) {
   const body = await request.text();
   if (!(await verify(body, request.headers.get('stripe-signature'), String(env.STRIPE_WEBHOOK_SECRET || '').trim()))) return new Response('bad signature', { status: 400 });
   let ev; try { ev = JSON.parse(body); } catch { return new Response('bad body', { status: 400 }); }
+  const notes = tasksFor(ev).map(([path, payload]) => notify(env, path, payload));
+  // Fire and forget: Cloudflare keeps the notes running after we answer (waitUntil); without it (tests) we wait for them.
+  const res = await handle(ev, env);
+  if (notes.length) { if (waitUntil) waitUntil(Promise.all(notes)); else await Promise.all(notes); }
+  return res;
+}
+
+async function handle(ev, env) {
   const m = mail(ev);
   // Trial and XpertRank for a website built elsewhere: XpertInsight sends the dashboard invite by itself (Suhen 2026-11-16,
-  // "Yes, automatic"). It asks Stripe about the session with its own key, so we only pass the id. Builds stay manual.
+  // "Yes, automatic"). It asks Stripe about the session with its own key, so we only pass the id. Builds stay manual
+  // (no invite, same emails); tasksFor() only tells XpertInsight about them for its team Tasks board.
   const kind = m && ev.type === 'checkout.session.completed' ? ((ev.data.object.metadata || {}).kind || '') : '';
   let invited; // did XpertInsight send the dashboard invite? (the buyer's email says so)
   // A free test code on a dashboard upgrade: XpertInsight still has to stop that plan after its first month.
