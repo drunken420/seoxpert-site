@@ -17,7 +17,7 @@ const all = [
   { href: '/blog/keyword-research-seo-malaysia/', title: 'Keyword research for SEO', text: 'A plain guide to finding the keywords your customers in Malaysia really search for.' },
   { href: '/blog/seo-competitor-analysis/', title: 'SEO competitor analysis', text: 'A step-by-step guide to seeing who ranks above you on Google, and why.' },
   { href: '/ai-seo-advisor/', title: 'AI SEO advisor', text: 'How XpertCore, our own AI SEO advisor, guides what we plan, write and mark up on every page.' },
-  { href: '/packages/', title: 'Website design packages', text: 'What every package includes, and what a website costs.' },
+  { href: '/packages/', title: 'Web design and SEO packages', text: 'Every website and SEO price, what each package includes, and a plan picker for your total.' },
   { href: '/demos/', title: 'Interactive website demos', text: 'Live 3D and animation we can build into your website.' },
   { href: '/blog/', title: 'Website design and SEO guides', text: 'Plain guides on prices, SEO, AI SEO and website maintenance in Malaysia.' },
   { href: '/faq/', title: 'Website design questions', text: 'Short, plain answers about websites, Google and AI search.' },
@@ -27,7 +27,7 @@ const all = [
 // the pages closest to it. Pages not listed here show the first four of `all`.
 const near: Record<string, string[]> = {
   '/website-design/': ['/website-development/', '/packages/', '/web-app-development-malaysia/', '/website-maintenance/'],
-  '/website-development/': ['/website-design/', '/web-app-development-malaysia/', '/seo-audit-malaysia/', '/ai-seo-advisor/'],
+  '/website-development/': ['/website-design/', '/packages/', '/web-app-development-malaysia/', '/seo-audit-malaysia/'],
   '/web-app-development-malaysia/': ['/website-development/', '/website-report-dashboard/', '/seo-tools/', '/packages/'],
   '/website-maintenance/': ['/seo-services-malaysia/', '/seo-packages-malaysia/', '/website-report-dashboard/', '/seo-audit-malaysia/'],
   '/seo-services-malaysia/': ['/ai-seo-services-malaysia/', '/seo-packages-malaysia/', '/seo-audit-malaysia/', '/seo-tools/'],
@@ -38,7 +38,7 @@ const near: Record<string, string[]> = {
   '/website-report-dashboard/': ['/website-maintenance/', '/seo-services-malaysia/', '/seo-tools/', '/seo-audit-malaysia/'],
   // XpertForesight (2026-11-19): the two research guides, then the SEO pages closest to it.
   '/seo-tools/': ['/blog/keyword-research-seo-malaysia/', '/blog/seo-competitor-analysis/', '/seo-audit-malaysia/', '/seo-services-malaysia/'],
-  '/packages/': ['/website-design/', '/seo-packages-malaysia/', '/website-maintenance/', '/web-app-development-malaysia/'],
+  '/packages/': ['/website-development/', '/website-design/', '/seo-packages-malaysia/', '/website-maintenance/'],
 };
 const pick = near[skip]?.map((h) => all.find((x) => x.href === h)).filter((x): x is (typeof all)[number] => !!x);
 const items = pick && pick.length === 4 ? pick : all.filter((x) => x.href !== skip).slice(0, 4);
