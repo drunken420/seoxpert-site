@@ -68,6 +68,71 @@ for (const f of ['llms.txt', 'chat.json']) { const p = path.join(dist, f); if (f
     if (got !== want) fail(fsPage, `the SoftwareApplication Offers should be priced ${want} (got ${got || 'none'})`);
   }
 }
+// Stripe webhook (functions/api/stripe-webhook.js, 2026-11-21): signed test events with a stand-in fetch, nothing leaves this PC.
+// Build orders go to /hooks/paid, failed payments and cancellations to /hooks/event (ids only), other events nowhere,
+// and a dashboard that is down or slow never changes the answer or the team email.
+{
+  const wh = await import('../functions/api/stripe-webhook.js');
+  const { createHmac } = await import('node:crypto');
+  const secret = 'whsec_check';
+  const run = async (ev, insight = 'ok', waitUntil) => {
+    const calls = [], realFetch = globalThis.fetch, realLog = console.log;
+    globalThis.fetch = async (url, o = {}) => {
+      calls.push({ url: String(url), body: o.body ? JSON.parse(o.body) : null });
+      if (String(url).includes('insight.')) {
+        if (insight === 'down') throw new Error('network down');
+        if (insight === 'slow') return new Promise((_, no) => { const keep = setTimeout(() => {}, 10000); o.signal.addEventListener('abort', () => { clearTimeout(keep); no(new Error('timed out')); }); });
+        return new Response(JSON.stringify({ ok: true }), { status: 200 });
+      }
+      return new Response('{}', { status: 200 });
+    };
+    console.log = () => {};
+    try {
+      const body = JSON.stringify(ev), t = Math.floor(Date.now() / 1000);
+      const sig = createHmac('sha256', secret).update(`${t}.${body}`).digest('hex');
+      const request = new Request('https://seoxpert.my/api/stripe-webhook', { method: 'POST', body, headers: { 'stripe-signature': `t=${t},v1=${sig}` } });
+      const res = await wh.onRequestPost({ request, env: { STRIPE_WEBHOOK_SECRET: secret, RESEND_API_KEY: 're_check' }, waitUntil });
+      return { status: res.status, calls };
+    } finally { globalThis.fetch = realFetch; console.log = realLog; }
+  };
+  const hooks = (r, p) => r.calls.filter((c) => c.url.endsWith(p));
+  const mails = (r) => r.calls.filter((c) => c.url.includes('resend.com'));
+  const session = (kind, extra = {}) => ({ id: 'evt_s', type: 'checkout.session.completed', livemode: false, data: { object: { id: 'cs_test_1', mode: 'payment', amount_total: 79900, amount_subtotal: 79900, currency: 'myr', metadata: { kind, item: 'starter' }, customer_details: { email: 'buyer@example.com', name: 'Test' }, ...extra } } });
+  const failed = { id: 'evt_f', type: 'invoice.payment_failed', livemode: false, data: { object: { id: 'in_1', amount_due: 19900, currency: 'myr', customer_email: 'c@example.com', attempt_count: 1 } } };
+  const ended = { id: 'evt_d', type: 'customer.subscription.deleted', livemode: false, data: { object: { id: 'sub_1', customer: 'cus_1', metadata: { item: 'care:basic' } } } };
+  const want = (ok, msg) => { if (!ok) fail('stripe-webhook.js', msg); };
+
+  const b = await run(session('build'));
+  want(b.status === 200, `build order answered ${b.status}`);
+  want(hooks(b, '/hooks/paid').length === 1 && hooks(b, '/hooks/paid')[0].body.session === 'cs_test_1' && Object.keys(hooks(b, '/hooks/paid')[0].body).length === 1, 'a build order should send only {session} to /hooks/paid once');
+  want(mails(b).length === 2, `a build order should still send the team email and the order email (sent ${mails(b).length})`);
+  const bMail = mails(b)[0] && mails(b)[0].body.text || '';
+  want(bMail.includes('Next: email them to start planning their website. It is paid in full.'), 'the build team email "Next" line changed');
+  for (const how of ['down', 'slow']) {
+    const r = await run(session('build'), how);
+    want(r.status === 200 && mails(r).length === 2, `a ${how} dashboard broke the build order (status ${r.status}, ${mails(r).length} emails)`);
+  }
+  for (const [ev, name] of [[failed, 'failed payment'], [ended, 'cancellation']]) {
+    const r = await run(ev);
+    const h = hooks(r, '/hooks/event');
+    want(r.status === 200, `${name} answered ${r.status}`);
+    want(h.length === 1 && h[0].body.id === ev.id && h[0].body.object === ev.data.object.id && Object.keys(h[0].body).length === 2, `a ${name} should send only {id, object} to /hooks/event once`);
+    want(mails(r).length === 1, `a ${name} should still send one team email (sent ${mails(r).length})`);
+    want(!hooks(r, '/hooks/paid').length, `a ${name} must not call /hooks/paid`);
+    const d = await run(ev, 'down');
+    want(d.status === 200 && mails(d).length === 1, `a ${name} with the dashboard down answered ${d.status}`);
+    // On Cloudflare the note runs after the answer (waitUntil)
+    const later = []; const w = await run(ev, 'ok', (p) => later.push(p));
+    want(w.status === 200 && later.length === 1, `a ${name} should hand its note to waitUntil`);
+    await Promise.all(later);
+  }
+  // Other events keep their old behaviour: the Trial still invites through /hooks/paid, nothing goes to /hooks/event
+  const tr = await run(session('trial', { amount_total: 2500, amount_subtotal: 2500, metadata: { kind: 'trial', item: 'trial:trial' } }));
+  want(hooks(tr, '/hooks/paid').length === 1 && !hooks(tr, '/hooks/event').length, 'the Trial should call /hooks/paid once and never /hooks/event');
+  const other = await run({ id: 'evt_o', type: 'invoice.paid', livemode: false, data: { object: { id: 'in_2' } } });
+  want(other.status === 200 && !other.calls.length, 'an event we do not use should call nothing');
+  want(wh.tasksFor(session('xpertrank')).length === 0, 'tasksFor should ignore checkouts that are not builds');
+}
 // Code protection (scripts/obfuscate.mjs): no source maps anywhere, our scripts are obfuscated, three.js is left alone.
 {
   const fs2 = await import('node:fs'), path2 = await import('node:path');
