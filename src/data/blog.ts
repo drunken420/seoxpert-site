@@ -3,7 +3,7 @@
 // Never promise rankings. No invented numbers, clients or results: examples are clearly marked as examples.
 // Add a new guide at the TOP of the list. Headings use single quotes and no apostrophes (scripts/make-pics.cjs reads them).
 // Styling helpers inside html: <h3>, <ol>, <div class="btip"><b>Tip</b>...</div>, <ul class="bcheck"> (tick list).
-import { build, care, fmt, px, yearly, offer, offerOn, rankLaunch, terms, hostMonths, rankNote, buyer } from './packages';
+import { build, care, fmt, fmtOther, px, yearly, offer, offerOn, rankLaunch, terms, hostMonths, rankNote, buyer } from './packages';
 
 export interface Post {
   slug: string; tag: string; art: 'cost' | 'care' | 'ai' | 'seo' | 'pick' | 'map' | 'city' | 'stack';
@@ -31,6 +31,15 @@ const careTable = `<div class="btable" tabindex="0" role="region" aria-label="Xp
 <tr><td>${pro.name}</td><td>${px(pro)}</td><td>${px(pro, 'year')}</td><td>6 on-page SEO edits, 4 new SEO blog posts, 30 target keywords optimised and tracked weekly</td></tr>
 <tr><td>${elite.name}</td><td>${px(elite)}</td><td>${px(elite, 'year')}</td><td>10 on-page SEO edits, 8 new SEO blog posts, 50 target keywords optimised and tracked weekly</td></tr>
 </tbody></table></div>${rankLaunch() ? `<p>Prices for websites we build. ${offer.rank}</p>` : ''}`;
+// Maintenance guide helpers (SEO round 2026-11-25): every number is read from packages.ts, never typed.
+const rowNum = (t: typeof basic, re: RegExp) => t.rows.join(' ').match(re)?.[1] ?? '';
+const nEdits = (t: typeof basic) => rowNum(t, /<b>(\d+)<\/b> on-page SEO edit/);
+const nPosts = (t: typeof basic) => rowNum(t, /<b>(\d+)<\/b> new SEO blog post/);
+const byPlan = (f: (t: typeof basic) => string | number) => { const v = care.tiers.map((t) => String(f(t))); return `${v.slice(0, -1).join(', ')} or ${v[v.length - 1]}`; };
+const mEdits = byPlan(nEdits), mPosts = byPlan(nPosts), mKw = byPlan((t) => t.kw ?? ''), mAi = byPlan((t) => rowNum(t, /<b>(\d+)<\/b> AI search questions/)), mAudit = byPlan((t) => rowNum(t, /audit of up to <b>(\d+)<\/b>/));
+const maintTable = `<div class="btable" tabindex="0" role="region" aria-label="Website maintenance cost table"><table><thead><tr><th>Plan</th><th>Website we build, a month</th><th>Website built elsewhere, a month</th><th>Every month</th></tr></thead><tbody>
+${care.tiers.map((t) => `<tr><td>${t.name}</td><td>${px(t)}</td><td>${px(t, 'other')}</td><td>${nEdits(t)} on-page SEO edits, ${nPosts(t)} new SEO blog post${nPosts(t) === '1' ? '' : 's'}, ${t.kw} target keywords optimised and tracked weekly</td></tr>`).join('\n')}
+</tbody></table></div>${rankLaunch() ? `<p>${offer.rank}</p>` : ''}`;
 const inEvery = `<ul class="bcheck"><li>Highly rankable content: answer first copy for every page, checked by our experts</li>
 <li>Full keyword research with XpertCore, before anything is designed</li>
 <li>Google SEO and AI search optimisation, including structured data and an AI ranking file</li>
@@ -375,7 +384,7 @@ export const posts: Post[] = [
     cta: { pill: 'Payments', title: 'Stripe payments set up on your website or web app', href: '/web-app-development-malaysia/', label: 'Web app development' },
   },
   {
-    slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15', updated: '2026-11-18',
+    slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15', updated: '2026-11-25',
     h1: 'Cloud hosting in Malaysia: what it is, and when it is free',
     title: 'Cloud Hosting in Malaysia: What It Is and When It Is Free',
     description: 'Cloud hosting in Malaysia in plain words: what it is, how it differs from shared hosting, what to check before you pay, and when free cloud hosting is real.',
@@ -418,11 +427,11 @@ export const posts: Post[] = [
       { id: 'how-we-do-it', h: 'How SEOXpert includes cloud hosting', html: `<p>We build websites and look after them every month. We do not sell hosting on its own. For websites we build, the hosting is part of the service:</p>
 <ul class="bcheck"><li>High speed cloud hosting, included with every paid XpertRank plan${offerOn() ? `, and for the first ${hostMonths} months with the launch offer` : ''}</li>
 <li>Backups, uptime watch and security, included</li>
-<li>Your domain and SSL certificate renewal dates shown in your XpertInsight dashboard, with reminders before they run out</li>
+<li>Your domain and SSL certificate renewal dates shown in your XpertInsight dashboard, with a warning when one is close</li>
 <li>Speed checked with Google's own speed scores, on phone and computer</li>
 <li>One team for the website, the hosting and the monthly SEO work</li></ul>
 ${careTable}
-<p>The free high speed cloud hosting comes with websites we build with XpertForge. See <a href="/website-maintenance/">website maintenance in Malaysia</a> for what each plan does every month.</p>` },
+<p>The free high speed cloud hosting comes with websites we build with XpertForge. See our <a href="/website-maintenance/">website maintenance services</a> for what each plan does every month, or read <a href="/blog/website-maintenance-malaysia/">what website maintenance costs in Malaysia</a>.</p>` },
     ],
     faqs: [
       { q: 'What is cloud hosting in simple words?', a: 'Your website is kept on a network of many computers instead of one, so it loads from a place near each visitor and stays online if one computer has a problem.' },
@@ -432,6 +441,7 @@ ${careTable}
       { q: 'Does my hosting need to be in Malaysia?', a: 'Not exactly. What matters is that your website is served from a place near your customers. A cloud network with a location in or near Malaysia does that.' },
     ],
     cta: { pill: 'XpertRank', title: 'High speed cloud hosting, included with your website care', href: '/packages/', label: 'See packages and prices' },
+    related: ['website-maintenance-malaysia', 'website-design-price-malaysia', 'payment-gateway-malaysia'],
   },
   {
     slug: 'local-seo-malaysia', tag: 'Local SEO', art: 'map', date: '2026-11-11', updated: '2026-11-19',
@@ -614,7 +624,7 @@ ${offerOn() ? `<p><b>Launch offer, until ${offer.endsText}:</b> ${offer.text}</p
     related: ['website-design-price-malaysia', 'website-design-kuala-lumpur-selangor', 'choose-web-design-company-malaysia'],
   },
   {
-    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-21',
+    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-25',
     h1: 'Web design price in Malaysia and Kuala Lumpur: what does it cost?',
     title: 'Website Design Price in Malaysia and Kuala Lumpur | SEOXpert',
     description: `Web design price in Malaysia and Kuala Lumpur: ${fmt(starter)} to ${fmt(growth)} with SEOXpert, paid once, writing and SEO included. See what changes the price and the yearly costs.`,
@@ -640,7 +650,7 @@ ${offerOn() ? `<p><b>Launch offer, until ${offer.endsText}:</b> ${offer.text}</p
 <li><b>Photos and licences.</b> Whether stock photos, fonts or paid plugins are included.</li></ul>
 <p>With us, websites we build get free high speed cloud hosting with every paid XpertRank plan${offerOn() ? ` (and for the first ${hostMonths} months after launch with the launch offer)` : ''}. Changes, new blog posts and active checks are part of that plan.</p>` },
       { id: 'monthly-cost', h: 'How much does a website cost after launch?', html: `<p>A website needs looking after once it is live. With us that is optional, and it is called XpertRank. It costs ${px(basic)} to ${px(elite)} a month for websites we build${rankNote(true)} and includes free high speed cloud hosting, backups, security, active checks every few days with fixes, SEO and AI search optimisation when needed, new blog posts and a monthly Google and AI visibility report.</p>${careTable}
-<p>If you pay yearly you get ${yearly.text}. These prices are for websites we build; a website built elsewhere has its own price. Read more in <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia</a>.</p>` },
+<p>If you pay yearly you get ${yearly.text}. These prices are for websites we build; a website built elsewhere has its own price. Read more in our guide to <a href="/blog/website-maintenance-malaysia/#what-it-costs">website maintenance cost in Malaysia</a>.</p>` },
       { id: 'cheap-or-good-value', h: 'A cheap website or a good value one?', html: `<p>A very low price usually means something has been left out. It might be the writing, the search planning, the phone testing, or any help after launch. None of that shows on day one, but all of it shows over the following months, when the website brings few enquiries.</p>
 <p>A good value website is one that pays for itself: people can find it, understand it quickly and get in touch easily. When you compare two quotes, line them up against the same list of what is included, and ask about anything missing.</p>` },
       { id: 'which-package', h: 'Which website design package fits your business?', html: `<ul><li><b>${starter.name}</b> suits a first website: who you are, what you do and how to reach you, in up to 5 pages.</li>
@@ -763,55 +773,103 @@ ${offerOn() ? `<p><b>Launch offer, until ${offer.endsText}:</b> ${offer.text}</p
     cta: { pill: 'XpertCore', title: 'See how our AI SEO advisor guides every page', href: '/ai-seo-advisor/', label: 'How XpertCore works' },
   },
   {
-    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-21',
-    h1: 'Website maintenance in Malaysia: what it covers and costs',
+    // SEO round 2026-11-25: this guide OWNS "website maintenance malaysia", "website maintenance", cost, what-is, how often,
+    // the checklist and the one WordPress section. The service page /website-maintenance/ owns "website maintenance service(s)",
+    // packages and plans: link up to it with those words, never copy its headings or FAQ questions.
+    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-25',
+    h1: 'Website maintenance in Malaysia: cost, checklist and what it covers',
     title: 'Website Maintenance Malaysia: Monthly Cost and Checklist',
-    description: `Website maintenance in Malaysia, explained: hosting, backups, security, fixes and SEO, what goes wrong without it, and the cost, from ${fmt(basic)} a month.`,
-    card: 'The regular work that keeps a website safe, up to date and growing after launch, and what it costs.',
-    short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and growing after it goes live: hosting, backups, security, checks and fixes, changes, new content and search improvements. With SEOXpert it is called XpertRank and costs ${px(basic)} to ${px(elite)} a month for websites we build${rankNote(true)}, with free high speed cloud hosting included. It is a subscription that renews monthly (or yearly) until you cancel, and you can cancel any time from your XpertInsight dashboard. We actively check your website every few days and make SEO and AI search improvements when they are needed.`,
+    description: `Website maintenance in Malaysia: XpertRank costs ${fmt(basic)} to ${fmt(elite)} a month for websites we build, or from ${fmtOther(basic)} for other websites. What it covers, plus a checklist.`,
+    card: 'What website maintenance costs in Malaysia, what it covers, how often it is done, and a checklist of questions to ask before you pay.',
+    short: `Website maintenance is the regular work that keeps a website safe, fast, up to date and easy to find after it goes live: backups, security and uptime checks, fixes, content changes, new content and search improvements. In Malaysia, our website maintenance plan, XpertRank, costs ${px(basic)} to ${px(elite)} a month for websites we build${rankNote(true)}, with free high speed cloud hosting, and ${px(basic, 'other')} to ${px(elite, 'other')} a month for a website built elsewhere, which keeps its own hosting. Every plan includes expert SEO, checks every few days and a live report dashboard. It is a subscription that you can cancel any time from your XpertInsight dashboard.`,
     sections: [
-      { id: 'what-it-covers', h: 'What does website maintenance include?', html: `<ul><li><b>Hosting.</b> A fast, reliable home for your website.</li>
+      { id: 'what-is-website-maintenance', h: 'What is website maintenance?', html: `<p>Website maintenance is the regular work that keeps a website working, safe, up to date and easy to find after it goes live. Some people call it web maintenance, website support or site maintenance. It covers the checks, fixes, backups, content changes and search improvements that stop a website from slowly going out of date.</p>
+<p>A website is not finished on launch day. Details change, links break, forms stop sending and competitors keep publishing. Maintenance is how those things get noticed and put right while they are still small.</p>` },
+      { id: 'what-it-covers', h: 'What does website maintenance include?', html: `<p>A full website maintenance plan covers eight jobs. This is the scope of work to look for, and how XpertRank handles each one:</p>
+<ul><li><b>Hosting.</b> A fast, reliable home for your website. Free high speed cloud hosting comes with websites we build; a website built elsewhere keeps its own hosting.</li>
 <li><b>Backups.</b> Regular copies are saved, so nothing is lost if something goes wrong.</li>
 <li><b>Uptime watch and security.</b> Someone notices when the website is down or at risk.</li>
-<li><b>Active checks.</b> We check the website every few days, fix what we find, and make SEO and AI search (LLM) improvements when they are needed.</li>
-<li><b>Changes.</b> New prices, new photos, new opening hours, new offers.</li>
-<li><b>New content.</b> Fresh blog posts that answer customer questions, so the website keeps growing.</li>
-<li><b>Search health.</b> Your target keywords are optimised for Google and AI search and tracked every week, and pages that are not ranking yet are improved.</li>
-<li><b>Reporting.</b> A Google and AI visibility report every month.</li></ul>` },
-      { id: 'what-goes-wrong', h: 'What goes wrong when nobody looks after a website', html: `<p>A website is not finished on launch day. Problems rarely announce themselves. They happen quietly, and visitors notice before you do:</p>
+<li><b>Active checks and fixes.</b> We check the website every few days, fix what we find, and make SEO and AI search (LLM) improvements when they are needed.</li>
+<li><b>Changes.</b> New prices, new photos, new opening hours, new offers: ${mEdits} on-page SEO edits a month, by plan.</li>
+<li><b>New content.</b> ${mPosts} new SEO blog posts a month, by plan, that answer customer questions, so the website keeps growing.</li>
+<li><b>Search health.</b> ${mKw} target keywords, by plan, optimised for Google and AI search and tracked every week, and pages that are not ranking yet are improved.</li>
+<li><b>Reporting.</b> A website maintenance report you can read: your live <a href="/website-report-dashboard/">XpertInsight dashboard</a> and a monthly XpertRecap PDF show what was done and how your website is doing.</li></ul>` },
+      { id: 'what-it-costs', h: 'How much does website maintenance cost in Malaysia?', html: `<p><b>Our four plans cost between ${px(basic)} and ${px(elite)} a month for a website we build, and between ${px(basic, 'other')} and ${px(elite, 'other')} a month for a website built elsewhere.</b> Every plan includes expert SEO, not only upkeep. The table shows what each one does.</p>
+<h3>Website maintenance cost per month</h3>
+${maintTable}
+<p>Websites we build also get free high speed cloud hosting; websites built elsewhere keep their own hosting, and have no launch price or money-back promise.</p>
+<h3>Website maintenance cost per year</h3>
+<p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}. That is ${px(basic, 'year')} to ${px(elite, 'year')} a year for a website we build${rankNote(true)}, and ${px(basic, 'yearOther')} to ${px(elite, 'yearOther')} a year for a website built elsewhere.</p>
+<h3>What is not in the monthly fee</h3>
+<ul><li>Your domain name. You pay for it and you own it.</li>
+<li>Hosting for a website built elsewhere. We do not sell hosting on its own.</li>
+<li>A new website or a redesign. That is an <a href="/packages/">XpertForge website package</a>, paid once.</li>
+<li>Online shops, bookings and web apps, which are quoted on their scope.</li></ul>
+<p>Website maintenance prices in Malaysia vary a lot from one company to the next, and so does what is included, so compare the work you get each month, not only the number. The <a href="#checklist">checklist below</a> helps.</p>` },
+      { id: 'how-often', h: 'How often should a website be maintained?', html: `<p><b>Little and often.</b> A website that is only looked at when something breaks has usually been broken for a while. With XpertRank, a website is checked every few days, measured every week and improved every month:</p>
+<div class="btable fit" role="region" aria-label="How often each website maintenance task is done"><table><thead><tr><th>How often</th><th>What is done</th></tr></thead><tbody>
+<tr><td>Every day</td><td>Your XpertInsight dashboard reads your visitors, Google search data, speed and uptime.</td></tr>
+<tr><td>Every few days</td><td>Our team checks the website is online and fast, tests forms and links, and fixes what we find.</td></tr>
+<tr><td>Every week</td><td>Your keyword positions are checked, and a <a href="/seo-audit-malaysia/">technical SEO audit</a> runs on up to ${mAudit} pages, by plan.</td></tr>
+<tr><td>Every month</td><td>${mEdits} on-page SEO edits and ${mPosts} new SEO blog posts, by plan. AI tools are asked ${mAi} of the questions your customers ask. Backlinks are checked (every week on Pro and Elite). Your XpertRecap PDF report is ready.</td></tr>
+<tr><td>Ongoing</td><td>Regular backups, uptime watch and security. Your domain and SSL certificate renewal dates sit in your dashboard, which warns you when one is close.</td></tr>
+</tbody></table></div>` },
+      { id: 'what-goes-wrong', h: 'What happens if you do not maintain your website?', html: `<p><b>Small problems pile up quietly, and visitors notice before you do.</b> This is why website maintenance is important:</p>
 <ul><li>A contact form stops sending, and enquiries disappear without anyone knowing.</li>
 <li>A page slows down after a large photo is added, and people leave before it loads.</li>
 <li>A price, a phone number or opening hours go out of date.</li>
 <li>A link breaks after a page is moved, and visitors hit a dead end.</li>
 <li>Search visibility slips while competitors keep publishing and improving.</li></ul>
 <p>Each of these costs customers. Regular checks catch them while they are small.</p>` },
-      { id: 'xpertrank-rhythm', h: 'Website maintenance checklist: every few days, week and month', html: `<p>With XpertRank, the work follows a steady rhythm:</p>
-<h3>Every few days</h3><p>We actively check your website: that it is up, working and fast, that forms send and links work. We fix what we find, and when a page needs it, we make SEO and AI search (LLM) improvements.</p>
-<h3>Every week</h3><p>Your keywords are tracked, so we can see which pages are rising and which need work.</p>
-<h3>Every month</h3><p>Your text or photo changes and new blog posts, depending on your plan, plus a Google and AI visibility report so you can see where you stand in <a href="/website-report-dashboard/">XpertInsight, your website report dashboard</a>.</p>` },
-      { id: 'what-it-costs', h: 'How much does website maintenance cost?', html: `<p>Website maintenance prices vary a lot, so check what is included before you compare. XpertRank has four plans. For websites we build, free high speed cloud hosting is included in every one; websites built elsewhere keep their own hosting.</p>${careTable}
-<p>Pay yearly and you get ${yearly.text}: 12 months for the price of ${yearly.pay}.</p>
-<p>XpertRank is a subscription that renews monthly (or yearly) until you cancel. ${terms.cancel}</p>` },
-      { id: 'choosing-a-plan', h: 'How to choose a plan size', html: `<p>Choose by how often your website needs to change and how fast you want it to grow:</p>
+      { id: 'wordpress', h: 'Does a WordPress website need maintenance?', html: `<p><b>Yes. A WordPress website needs regular updates to WordPress itself, its theme and its plugins, plus backups and security checks.</b> WordPress runs on a database, a login page and add-on plugins, and each part gets new versions. WordPress says so in its own guide: "You should always update WordPress to the latest version" (<a href="https://wordpress.org/documentation/article/updating-wordpress/" rel="noopener">WordPress documentation</a>). So if your website runs on WordPress, make sure someone owns those updates: you, your developer or your hosting company.</p>
+<p>Websites we build work differently. Every XpertForge website is built into secure static files, with no database and no admin login on the live website when we build and manage it with XpertRank, so there is no password to guess and no plugin to fall out of date. Our team makes changes in the code and publishes them. <a href="/website-development/#secure">See how our websites are secured</a>.</p>
+<p>Already have a WordPress website? XpertRank works on any website, at the price for websites built elsewhere. We check your website, suggest improvements and make the fixes, and it stays on its own hosting. <a href="/contact/">Tell us about your website</a> and we will tell you honestly what fits.</p>` },
+      { id: 'hosting', h: 'Is website maintenance the same as hosting?', html: `<p><b>No. Hosting is the place your website lives; maintenance is the work done on it.</b> A hosting bill keeps the website online, but it does not check your forms, update your prices, write new content or improve your pages for search.</p>
+<p>We do not sell hosting on its own. ${buyer.hosting} Websites built elsewhere keep their own hosting. Read more in <a href="/blog/cloud-hosting-malaysia/">cloud hosting in Malaysia</a>.</p>` },
+      { id: 'seo', h: 'Does website maintenance include SEO?', html: `<p><b>Not always, so ask before you pay.</b> Keeping a website running and helping it get found are two different jobs, and a plan can do one without the other. XpertRank is our expert SEO service and monthly website maintenance in one: keyword research and an SEO plan, target keywords optimised for Google and AI search (LLM) and tracked every week, on-page SEO edits, new SEO blog posts and a weekly technical SEO audit. See our <a href="/seo-services-malaysia/">SEO services in Malaysia</a>.</p>
+<p>Nobody can promise rankings. For websites we build, every paid XpertRank plan has one promise in writing: "If none of your tracked keywords reaches Google's top 50 in your first month, we refund that month of XpertRank in full." It does not cover websites built elsewhere or the Trial.</p>` },
+      { id: 'do-it-yourself', h: 'Can you maintain a website yourself?', html: `<p><b>Yes, if the website is small and you have the time each week.</b> A simple routine:</p>
+<ol><li>Send a test message through your contact form.</li>
+<li>Open your main pages on a phone and check that they load quickly.</li>
+<li>Click through your menu and footer links to find any that are broken.</li>
+<li>Check that your prices, phone number and opening hours are still right.</li>
+<li>Save a backup copy, and update your website software if it has any.</li>
+<li>Look at Google Search Console for pages with problems and searches you are starting to appear for.</li>
+<li>Add or improve one page or post that answers a real customer question.</li></ol>
+<p>The hard part is doing it every week, for years. Paying only when something breaks can look cheaper, but nobody is watching in between, so problems are found late. If you would rather do your own SEO research, <a href="/seo-tools/">XpertForesight, our SEO research tool</a>, is made for that. If you would rather hand all of it over, that is what XpertRank is for.</p>` },
+      { id: 'checklist', h: 'Website maintenance checklist: 10 questions to ask before you pay', html: `<p>Use this checklist with any website maintenance company in Malaysia, including us. Our own answer follows each question.</p>
+<ol><li><b>What exactly is done every month?</b> With XpertRank it is written on the plan: ${mEdits} on-page SEO edits, ${mPosts} new SEO blog posts and ${mKw} target keywords tracked, by plan.</li>
+<li><b>How often is the website checked?</b> Every few days, with a technical SEO audit every week.</li>
+<li><b>Who does the work?</b> Our own team, in house.</li>
+<li><b>Are backups included?</b> Yes. Regular copies of your website are saved with every XpertRank plan.</li>
+<li><b>Is hosting included, or billed separately?</b> Free high speed cloud hosting comes with websites we build. A website built elsewhere keeps its own hosting.</li>
+<li><b>Is SEO included?</b> Yes. It is the main part of XpertRank.</li>
+<li><b>How will I see what was done?</b> In your live XpertInsight dashboard, and in a monthly XpertRecap PDF.</li>
+<li><b>Is there a contract, and how do I cancel?</b> XpertRank is a subscription. ${terms.cancel}</li>
+<li><b>Do you look after websites you did not build?</b> Yes. XpertRank works on any website, at the price for websites built elsewhere, and your website stays on its own hosting.</li>
+<li><b>Who owns the website, the content and the domain?</b> ${buyer.owner}</li></ol>` },
+      { id: 'choosing-a-plan', h: 'How do you choose a plan size?', html: `<p>Choose by how often your website needs to change and how fast you want it to grow:</p>
 <ul><li><b>${basic.name}</b> keeps the website healthy, with a few changes and a new blog post each month. It fits any XpertForge website.</li>
 <li><b>${plus.name}</b> keeps it growing, with more changes, more posts and more target keywords optimised and tracked. It needs a Business or Growth website.</li>
 <li><b>${pro.name}</b> grows it faster, with more changes, posts and keywords. It needs a Growth website.</li>
 <li><b>${elite.name}</b> is our biggest plan, with the most changes, posts and keywords. It needs a Growth website.</li></ul>
-<p>Your care plan can be as big as your website, not bigger, because a small website does not need the biggest plan.</p>` },
-      { id: 'who-it-is-for', h: 'Who XpertRank is for', html: `<p>XpertRank works on any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so we know every part of what we look after. A website built elsewhere can have XpertRank too, at its own price and without hosting.</p>
-<p>XpertRank is optional. See the plans on the <a href="/website-maintenance/">website maintenance</a> page.</p><p>See our <a href="/website-maintenance/">website maintenance service in Malaysia</a> and the <a href="/seo-audit-malaysia/">weekly technical SEO audit</a> that comes with it.</p>` },
+<p>A plan can be as big as your website, not bigger, because a small website does not need the biggest plan. A website built elsewhere can take any plan.</p>
+<p>XpertRank is optional. If you want it, <a href="/website-maintenance/#xpertrank">compare our website maintenance packages</a>, or look at the live numbers from our own website in our <a href="/case-studies/">SEO case study</a>.</p>` },
     ],
     faqs: [
-      { q: 'Is hosting included?', a: 'For websites we build, yes: free high speed cloud hosting is included with every paid XpertRank plan. Websites built elsewhere keep their own hosting.' },
-      { q: 'How often do you check my website?', a: 'Every few days. We fix what we find and make SEO and AI search improvements when they are needed.' },
-      { q: 'Can you maintain a website that someone else built?', a: 'Yes. XpertRank works on websites built by others too, at its own price and without hosting.' },
-      { q: 'Can I pay for a year at once?', a: `Yes. Pay yearly and you get ${yearly.text}.` },
-      { q: 'Does maintenance guarantee better rankings?', a: 'No. Nobody can promise rankings. Maintenance keeps your website healthy and improves the pages that are not ranking yet.' },
+      { q: 'How much does it cost to pay someone to maintain a website?', a: `Per month, with SEOXpert, ${px(basic)} to ${px(elite)} a month for a website we build${rankNote(true)}, and ${px(basic, 'other')} to ${px(elite, 'other')} a month for a website built elsewhere. Every plan includes checks every few days, fixes, new SEO content and a live report dashboard. Other companies set their own prices, so compare what is included.` },
+      { q: 'How much does website maintenance cost per year?', a: `Paid yearly, XpertRank is ${px(basic, 'year')} to ${px(elite, 'year')} a year for a website we build${rankNote(true)}, and ${px(basic, 'yearOther')} to ${px(elite, 'yearOther')} a year for a website built elsewhere. That is 12 months for the price of ${yearly.pay}.` },
+      { q: 'Do I need website maintenance if my website is already live?', a: 'It is your choice, but a live website still needs someone to look after it. Forms stop sending, details go out of date and search visibility slips while competitors keep publishing. Maintenance is how those problems are caught while they are small.' },
+      { q: 'What do you call someone who maintains websites?', a: 'Usually a webmaster or a web developer. Many small businesses use a <a href="/website-maintenance/">website maintenance company</a> instead, so one team handles the checks, the fixes and the new content. That is what our website maintenance services do.' },
+      { q: 'Is website maintenance a contract? Can I cancel?', a: `XpertRank is a subscription. It renews every month, or every year if you pay yearly, until you cancel. ${terms.cancel}` },
+      { q: 'What happens if my website goes down or something breaks?', a: 'With XpertRank we keep backups, watch uptime and check your website every few days, and we fix what we find. On a website we build, every version is kept, so we can put an earlier version back quickly.' },
+      { q: 'Does website maintenance guarantee better rankings?', a: 'No. Nobody can promise rankings. Maintenance keeps your website healthy and improves the pages that are not ranking yet.' },
     ],
-    cta: { pill: 'XpertRank', title: `Expert SEO from ${px(basic)}, free cloud hosting for websites we build`, href: '/website-maintenance/', label: 'See XpertRank plans' },
+    cta: { pill: 'XpertRank', title: `Website maintenance with expert SEO, from ${px(basic)} a month for websites we build${rankNote()}`, href: '/website-maintenance/', label: 'See website maintenance services' },
+    related: ['cloud-hosting-malaysia', 'website-design-price-malaysia', 'seo-malaysia-guide'],
   },
   {
-    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-21',
+    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-25',
     h1: 'How to choose a web design company in Malaysia',
     title: 'How to Choose a Web Design Company in Malaysia | SEOXpert',
     description: 'Choose a web design company in Malaysia by checking real work, a clear price, a plan for search, who does the work, what you own and who looks after the website.',
@@ -834,7 +892,8 @@ ${offerOn() ? `<p><b>Launch offer, until ${offer.endsText}:</b> ${offer.text}</p
       { id: 'what-you-own', h: '5. Ask what you will own', html: `<ul><li><b>Domain name:</b> registered in your name, and who renews it.</li><li><b>Content:</b> the words and photos made for your website.</li><li><b>Accounts:</b> access to tools like Google Search Console and Google Analytics.</li></ul>
 <p>Clear answers now prevent problems later, for example if you ever change providers.</p>` },
       { id: 'ask-what-happens-after', h: '6. Ask what happens after launch', html: `<p>Websites need hosting, updates, backups and fixes, and they need new content to keep growing. Ask who does that work, what it costs, how you ask for a change and how quickly it happens.</p>
-<p>With us, that is <a href="/website-maintenance/">XpertRank</a>, our optional expert SEO service, with free high speed cloud hosting for websites we build. We actively check your website every few days, fix what we find and make SEO and AI search improvements when needed.</p>` },
+<p>With us, that is <a href="/website-maintenance/">XpertRank</a>, our optional expert SEO service, with free high speed cloud hosting for websites we build. We actively check your website every few days, fix what we find and make SEO and AI search improvements when needed.</p>
+<p>Not sure what to ask about the months after launch? Use our <a href="/blog/website-maintenance-malaysia/#checklist">website maintenance checklist</a>.</p>` },
       { id: 'questions-to-ask', h: 'Ten questions to ask any web design company', html: `<ol><li>Can I see live websites you built, and visit them on my phone?</li><li>What is the full price, and what exactly does it include?</li><li>Who writes the words, and is keyword research included?</li><li>How do you plan each page for Google and AI search?</li><li>How many pages and rounds of changes do I get?</li><li>Who will do the work, and who will I talk to?</li><li>How long will it take, and what do you need from me?</li><li>Will the domain name be in my name?</li><li>What happens after launch, and what does it cost each month?</li><li>How do I ask for a change, and how fast is it done?</li></ol>` },
       { id: 'red-flags', h: 'Warning signs to watch for', html: `<ul><li><b>Promises of page 1.</b> Nobody controls Google or AI tools. Honest companies promise the work, not the ranking.</li>
 <li><b>No price until a call.</b> It can mean the price depends on what they think you can pay.</li>

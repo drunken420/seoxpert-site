@@ -10,39 +10,108 @@ import { pageFaq } from '../lib/faq';
 import pictures from '../data/pictures.json';
 import '../styles/page.css';
 import Packages from '../components/Packages.astro';
-import { site, whatsappLink, talkLabel, areaLd } from '../config';
-import { care, offersLd, fmt, fmtOther } from '../data/packages';
-const extraLd = [{ '@type': 'Service', name: 'Website maintenance', serviceType: 'Monthly website maintenance', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertRank, a monthly website maintenance service with expert SEO for any website: updates, backups, fixes, new content and SEO and AI search optimisation. Websites built by SEOXpert also get free high speed cloud hosting.', offers: offersLd(care) }];
-const pf = pageFaq(['What does XpertRank include?', 'What is the difference between the XpertRank plans?', 'Is XpertRank a subscription? How do I cancel?', 'Is XpertRank an SEO service?', 'Is there a money-back promise?', 'Is hosting included?', 'How often do you check my website?', 'Can you look after a website built by someone else?']);
+// SEO round 2026-11-25 (maintenance cluster). This page OWNS the buying searches: "website maintenance service(s)",
+// "site maintenance services", company, packages and plans. The guide /blog/website-maintenance-malaysia/ owns
+// "website maintenance malaysia", "website maintenance", cost, what-is, how often, the checklist and the one WordPress section.
+// Link to the guide for those; never repeat its title start, H1, H2s or FAQ questions here. Every number comes from packages.ts.
+import { site, whatsappLink, talkLabel, areaText, areaLd } from '../config';
+import { care, trial, offersLd, fmt, fmtOther, px, yearly, terms, rankFirst, rankNote, rankLaunch } from '../data/packages';
+import { posts } from '../data/blog';
+const [basic, , , elite] = care.tiers;
+const short = (n: string) => n.replace('XpertRank ', '');
+const num = (t: typeof basic, re: RegExp) => t.rows.join(' ').match(re)?.[1] ?? '';
+// "2, 4, 6 or 10": one number per plan, read from packages.ts, never typed
+const each = (f: (t: typeof basic) => string | number) => { const v = care.tiers.map((t) => String(f(t))); return `${v.slice(0, -1).join(', ')} or ${v[v.length - 1]}`; };
+const edits = each((t) => num(t, /<b>(\d+)<\/b> on-page SEO edit/));
+const blogs = each((t) => num(t, /<b>(\d+)<\/b> new SEO blog post/));
+const kws = each((t) => t.kw ?? '');
+const aiq = each((t) => num(t, /<b>(\d+)<\/b> AI search questions/));
+const auditMin = num(basic, /audit of up to <b>(\d+)<\/b>/), auditMax = num(elite, /audit of up to <b>(\d+)<\/b>/);
+const priceList = (kind: 'now' | 'other') => care.tiers.map((t) => `${short(t.name)} ${px(t, kind)}`).join(', ');
+// A website we build next to a website built elsewhere: [row, ours, elsewhere]. Only facts the site already states.
+const cmp: [string, string, string][] = [
+  ['Price a month', priceList('now') + rankNote(true), priceList('other')],
+  ['Paid yearly', `12 months for the price of ${yearly.pay}`, `12 months for the price of ${yearly.pay}`],
+  ['Checks every few days with fixes, on-page SEO edits, new SEO blog posts, weekly keyword tracking and a weekly technical SEO audit', 'Yes', 'Yes'],
+  ['XpertInsight dashboard and monthly XpertRecap PDF', 'Yes', 'Yes'],
+  ['Hosting', 'Free high speed cloud hosting with every paid plan', 'Not included. You keep your own hosting'],
+  ...(rankLaunch() ? [['Launch price', `Yes, for our first ${rankFirst} XpertRank clients`, 'No'] as [string, string, string]] : []),
+  ['Money-back promise', 'Yes, on every paid plan', 'No'],
+  ['Plan sizes', 'Basic fits any website we build, Plus needs Business or Growth, Pro and Elite need Growth', 'Any plan'],
+  ['How we work on it', 'We look after the code, the speed and the hosting too, so we can change anything that holds it back', 'We check your website, suggest improvements and make the fixes'],
+  ['How to start', 'Add XpertRank to your website package in the <a href="/packages/#plan">plan picker</a>. It starts after launch', `<a href="/packages/?plan=build:3#plan">See your price</a> and pay online, or try the ${trial.name} first`],
+];
+const extraLd = [{ '@type': 'Service', name: 'Website maintenance services', serviceType: 'Website maintenance service', provider: { '@id': `${site.url}/#org` }, url: `${site.url}/website-maintenance/`, areaServed: areaLd, description: 'XpertRank: website maintenance services with expert SEO for any website. Checks every few days with fixes, on-page SEO edits and new SEO blog posts every month, target keywords tracked every week, a weekly technical SEO audit, backups, uptime watch and security, and a live report dashboard. Websites built by SEOXpert also get free high speed cloud hosting.', offers: offersLd(care) }];
+const pf = pageFaq(['What do your website maintenance services include?', 'How much do your website maintenance plans cost?', 'What is the difference between the XpertRank plans?', 'Can you look after a website built by someone else?', 'Is hosting included?', 'How often do you check my website?', 'Is XpertRank a subscription? How do I cancel?', 'Is there a money-back promise?', 'Is XpertRank an SEO service?', 'Can I try XpertRank first?']);
 ---
-<Base title="Website Maintenance Malaysia: Monthly Service with SEO | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description={`Website maintenance in Malaysia: XpertRank from ${fmt(care.tiers[0])} a month for websites we build, or ${fmtOther(care.tiers[0])} for existing websites, with backups, fixes and SEO.`} path="/website-maintenance/" crumb="Website maintenance" extraLd={[...extraLd, pf.ld]}>
+<Base title="Website Maintenance Services Malaysia: Monthly Plans | SEOXpert" image={`/img/${pictures["website-maintenance"].file}.jpg`} description={`Website maintenance services in Malaysia with expert SEO: XpertRank plans from ${fmt(basic)} a month for websites we build, or ${fmtOther(basic)} for a website built elsewhere.`} path="/website-maintenance/" crumb="Website maintenance services" extraLd={[...extraLd, pf.ld]}>
 <main id="main">
-<PageHero kicker="Expert SEO and maintenance" brand="XpertRank" art="care" crumb="Website maintenance" word="Care">
-  <Fragment slot="title">Website maintenance in Malaysia, <em>month after month</em>.</Fragment>
-  <Fragment slot="lede">Website maintenance is the regular work that keeps a website safe, up to date and growing after launch. XpertRank does it for any website: we check it every few days, fix what we find and add new SEO content every month. Websites we build also get free high speed cloud hosting. It is a monthly or yearly subscription that you can cancel any time.</Fragment>
-  <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#xpertrank">See XpertRank plans</a></Fragment>
+<PageHero kicker="Website maintenance and expert SEO" brand="XpertRank" art="care" crumb="Website maintenance services" word="Care">
+  <Fragment slot="title">Website maintenance services in Malaysia, <em>with expert SEO built in</em>.</Fragment>
+  <Fragment slot="lede">Our website maintenance services keep your website safe, up to date and growing after launch, with expert SEO in the same monthly plan. The plan is called XpertRank: our own team checks your website every few days, fixes what we find, makes your changes and adds new SEO content every month. Plans start at <Fragment set:html={px(basic)} /> a month for websites we build{rankNote()}, with free high speed cloud hosting, and at <Fragment set:html={px(basic, 'other')} /> a month for a website built elsewhere. It is a subscription that you can cancel any time.</Fragment>
+  <Fragment slot="cta"><a class="btn" href={whatsappLink}>{talkLabel}</a><a class="btn ghost" href="#xpertrank">See plans and prices</a></Fragment>
 </PageHero>
 
 <section id="what" class="solid band"><div class="wrap">
-  <span class="eyebrow rv">The regular work that keeps a website healthy</span>
-  <h2 class="rv">What is website maintenance?</h2>
-  <p class="sub rv">Website maintenance means keeping your website up to date, safe and useful after it goes live. XpertRank is our website maintenance service and expert SEO service in one, developed in house, so that work is done for you by our own team.</p>
+  <span class="eyebrow rv">Done for you, every month</span>
+  <h2 class="rv">What do our website maintenance services include?</h2>
+  <p class="sub rv">Looking for a website maintenance company or site maintenance services? XpertRank is website support and maintenance with expert SEO in one monthly plan, done in house by our own team for businesses in {areaText}. Here is what every plan includes. New to website maintenance? Read our guide to <a href="/blog/website-maintenance-malaysia/">website maintenance in Malaysia: cost and checklist</a>.</p>
   <div class="grid3">
-    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Updates</h3><p>Your website is kept up to date, so it keeps working the way it should.</p></div>
-    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Backups</h3><p>Regular copies of your website are saved, so nothing is lost if something goes wrong.</p></div>
-    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>Active checks</h3><p>We check your website every few days, and our <a href="/seo-audit-malaysia/">technical SEO audit</a> runs every week. When something breaks or looks off, we put it right.</p></div>
-    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>New content</h3><p>Fresh pages and answers, so your website keeps growing instead of standing still, built the same way as our <a href="/website-design/">website design</a>.</p></div>
-    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>SEO and LLM optimisation</h3><p>We watch how your pages do on Google and AI search, and optimise them for both whenever they need it. See our <a href="/seo-services-malaysia/">SEO services</a>.</p></div>
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:0deg"></div><h3>Checks every few days, with fixes</h3><p>We check that your website is up, working and fast, and that forms send and links work. When something breaks or looks off, we put it right. Our weekly <a href="/seo-audit-malaysia/">technical SEO audit</a> also checks up to {auditMin} pages on Basic and up to {auditMax} on Elite.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:90deg"></div><h3>Your changes, made for you</h3><p>New prices, new photos, new opening hours. Our team makes the changes for you: {edits} on-page SEO edits a month, by plan.</p></div>
+    <div class="fcard rv" style="--d:2"><div class="pet" style="--r:180deg"></div><h3>New SEO blog posts</h3><p>{blogs} new SEO blog posts a month, by plan, written with XpertCore, our AI core, and checked by our experts, so your website keeps growing instead of standing still.</p></div>
+    <div class="fcard rv" style="--d:0"><div class="pet" style="--r:270deg"></div><h3>Keywords and AI search</h3><p>{kws} target keywords, by plan, optimised for Google and AI search (LLM) and tracked every week, plus {aiq} AI search questions checked every month. See our <a href="/seo-services-malaysia/">SEO services</a>.</p></div>
+    <div class="fcard rv" style="--d:1"><div class="pet" style="--r:45deg"></div><h3>Backups, uptime watch and security</h3><p>Regular copies of your website are saved, so nothing is lost if something goes wrong, and someone notices when the website is down or at risk.</p></div>
     <div class="fcard rv" style="--d:2"><div class="pet" style="--r:135deg"></div><h3>Clear reporting</h3><p><a href="/website-report-dashboard/">XpertInsight</a>, your live website report dashboard, plus a monthly XpertRecap PDF, so you always know where you stand and what we are working on.</p></div>
   </div>
 </div></section>
 
 <section id="xpertrank" class="solid tint band"><div class="wrap">
-  <span class="eyebrow rv">XpertRank plans</span>
-  <h2 class="rv">How much does website maintenance cost in Malaysia?</h2>
-  <p class="sub rv">XpertRank is our expert SEO and maintenance service for any website. Websites we build with XpertForge get the lower price and free high speed cloud hosting, so the website lives with us and we look after all of it. Pick the size that fits how often your website changes, and add it to any of our <a href="/packages/">website design packages</a>. Every plan side by side: our <a href="/seo-packages-malaysia/">SEO packages</a>. More answers are on the <a href="/faq/">questions page</a>.</p>
+  <span class="eyebrow rv">Plans and prices</span>
+  <h2 class="rv">Which website maintenance package fits your website?</h2>
+  <p class="sub rv">Four plans, each with its monthly price on the card. Prices shown are for websites we build with XpertForge{rankLaunch() ? `, at the launch price for our first ${rankFirst} XpertRank clients` : ''}, with free high speed cloud hosting. Already have a website? <a href="#built-elsewhere">See the price for a website built elsewhere</a>. Add a plan to any of our <a href="/packages/">website design packages</a>, or read <a href="/blog/website-maintenance-malaysia/#what-it-costs">what the monthly fee covers</a>.</p>
   <Packages show="care" pickHref="/packages/#plan" />
-  <div class="note rv"><h3>Built by us, or built elsewhere</h3><p>For websites we build with XpertForge, Basic fits any size, Plus needs Business or Growth, and Pro and Elite need Growth, with free high speed cloud hosting. Already have a website? Any XpertRank plan works on it, at its own price and without hosting. See both prices on the <a href="/packages/#plan">packages page</a>.</p></div>
+</div></section>
+
+<section id="built-elsewhere" class="solid band"><div class="wrap">
+  <span class="eyebrow rv">Built by us, or built elsewhere</span>
+  <h2 class="rv">Can you maintain a website you did not build?</h2>
+  <p class="sub rv">Yes. XpertRank works on any website. The monthly work is the same; the price, the hosting and the money-back promise are different. Here are the two side by side.</p>
+  <div class="cmpwrap cmpsay rv" role="region" aria-label="XpertRank for a website we build and for a website built elsewhere">
+    <table class="cmptab">
+      <thead><tr><th scope="col">XpertRank</th><th scope="col" class="hot">A website we build<small>with XpertForge</small></th><th scope="col">A website built elsewhere<small>your existing website</small></th></tr></thead>
+      <tbody>{cmp.map(([h, a, b]) => <tr><th scope="row">{h}</th><td class="hot" data-col="A website we build"><b set:html={a} /></td><td data-col="A website built elsewhere"><b set:html={b} /></td></tr>)}</tbody>
+    </table>
+  </div>
+  <div class="note rv"><h3>What is not part of XpertRank</h3><p>Not included: your domain name (it stays yours), hosting for a website built elsewhere, and new websites or redesigns, which are <a href="/packages/">XpertForge packages</a>. See <a href="/blog/website-maintenance-malaysia/#what-it-costs">what the monthly fee covers</a>.</p></div>
+  <p class="sub rv" style="margin-top:28px">Websites we build and manage with XpertRank are published as static files, with no database and no admin login, so there is no WordPress-style plugin to keep updated. Have a WordPress website built elsewhere? Our guide explains <a href="/blog/website-maintenance-malaysia/#wordpress">what a WordPress website needs</a>.</p>
+</div></section>
+
+<section id="how" class="solid tint band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">Step by step</span>
+    <h2 class="rv">How does our website maintenance service work?</h2>
+    <p class="sub rv">Five steps. We do the work; you follow it in your dashboard.</p>
+  </div>
+  <ol class="nsteps">
+    <li class="rv"><h3>Choose a plan, or try it first</h3><p>Pick Basic, Plus, Pro or Elite by how many keywords, edits and blog posts you want each month. Not sure yet? The {trial.name} is <Fragment set:html={px(trial)} /> for {trial.days} days, paid once, and its price comes off your first paid month. If we are building your website, XpertRank starts after launch.</p></li>
+    <li class="rv" style="--d:1"><h3>Get your XpertInsight dashboard</h3><p>Every plan comes with your own login to XpertInsight, our live website report dashboard. A fresh code is sent to your email each time you log in, so there is no password to remember.</p></li>
+    <li class="rv" style="--d:2"><h3>Keyword research and an SEO plan</h3><p>Every plan includes keyword research and an SEO plan for your website. It sets your target keywords: {kws}, by plan.</p></li>
+    <li class="rv" style="--d:3"><h3>Then the work repeats</h3><p>Every few days we check your website and fix what we find. Every week your keywords are tracked and the technical SEO audit runs. Every month your on-page SEO edits and new SEO blog posts go live, and your XpertRecap PDF sums it up.</p></li>
+    <li class="rv" style="--d:0"><h3>Stay only while it helps</h3><p>XpertRank is a subscription that renews monthly, or yearly with {yearly.text}. {terms.cancel}</p></li>
+  </ol>
+</div></section>
+
+<section id="proof" class="solid band"><div class="wrap split">
+  <div class="stick">
+    <span class="eyebrow rv">Proof, not promises</span>
+    <h2 class="rv">Do we maintain our own website this way?</h2>
+  </div>
+  <div class="prose">
+    <p class="rv">Yes. Our first case study is our own website, seoxpert.my. We rebuilt it with XpertForge and XpertCore, the same way we build every client website, and it gets the same work that goes into every XpertRank plan: one clear topic per page, answer first writing, structured data and new guides on <a href="/blog/">XpertAdvice</a> ({posts.length} so far).</p>
+    <p class="rv">We publish its real numbers straight from Google Search Console, with the dates they cover. No made-up figures. Client websites are added only with their permission. <a href="/case-studies/">See the SEO case study</a>.</p>
+    <p class="rv">We never promise rankings. The one promise we make is the <a href="#money-back">money-back promise</a> under the packages above, for websites we build.</p>
+  </div>
 </div></section>
 
 <section class="dark band"><div class="wrap">
@@ -51,7 +120,7 @@ const pf = pageFaq(['What does XpertRank include?', 'What is the difference betw
 </div></section>
 <Suite here="rank" tint title="How does XpertRank fit with our other services?" intro="XpertRank looks after any website, including the ones we build with XpertForge, and XpertInsight comes free with it. Would rather do the research yourself? That is XpertForesight." />
 <Glance page="website-maintenance" guides={['website-maintenance-malaysia', 'cloud-hosting-malaysia']} />
-<PageFaq title="Website maintenance questions, answered." items={pf.items} tint />
+<PageFaq title="Website maintenance services: your questions, answered." items={pf.items} tint />
 <Related skip="/website-maintenance/" />
 <Cta title="Let us look after your website." />
 </main>
