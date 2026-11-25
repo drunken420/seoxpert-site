@@ -384,7 +384,7 @@ export const posts: Post[] = [
     cta: { pill: 'Payments', title: 'Stripe payments set up on your website or web app', href: '/web-app-development-malaysia/', label: 'Web app development' },
   },
   {
-    slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15', updated: '2026-11-25',
+    slug: 'cloud-hosting-malaysia', tag: 'Cloud hosting', art: 'care', date: '2026-11-15', updated: '2026-11-26',
     h1: 'Cloud hosting in Malaysia: what it is, and when it is free',
     title: 'Cloud Hosting in Malaysia: What It Is and When It Is Free',
     description: 'Cloud hosting in Malaysia in plain words: what it is, how it differs from shared hosting, what to check before you pay, and when free cloud hosting is real.',
@@ -624,7 +624,7 @@ ${offerOn() ? `<p><b>Launch offer, until ${offer.endsText}:</b> ${offer.text}</p
     related: ['website-design-price-malaysia', 'website-design-kuala-lumpur-selangor', 'choose-web-design-company-malaysia'],
   },
   {
-    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-25',
+    slug: 'website-design-price-malaysia', tag: 'Website design', art: 'cost', date: '2026-11-11', updated: '2026-11-26',
     h1: 'Web design price in Malaysia and Kuala Lumpur: what does it cost?',
     title: 'Website Design Price in Malaysia and Kuala Lumpur | SEOXpert',
     description: `Web design price in Malaysia and Kuala Lumpur: ${fmt(starter)} to ${fmt(growth)} with SEOXpert, paid once, writing and SEO included. See what changes the price and the yearly costs.`,
@@ -776,7 +776,7 @@ ${offerOn() ? `<p><b>Launch offer, until ${offer.endsText}:</b> ${offer.text}</p
     // SEO round 2026-11-25: this guide OWNS "website maintenance malaysia", "website maintenance", cost, what-is, how often,
     // the checklist and the one WordPress section. The service page /website-maintenance/ owns "website maintenance service(s)",
     // packages and plans: link up to it with those words, never copy its headings or FAQ questions.
-    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-25',
+    slug: 'website-maintenance-malaysia', tag: 'Website maintenance', art: 'care', date: '2026-11-11', updated: '2026-11-26',
     h1: 'Website maintenance in Malaysia: cost, checklist and what it covers',
     title: 'Website Maintenance Malaysia: Monthly Cost and Checklist',
     description: `Website maintenance in Malaysia: XpertRank costs ${fmt(basic)} to ${fmt(elite)} a month for websites we build, or from ${fmtOther(basic)} for other websites. What it covers, plus a checklist.`,
@@ -869,7 +869,7 @@ ${maintTable}
     related: ['cloud-hosting-malaysia', 'website-design-price-malaysia', 'seo-malaysia-guide'],
   },
   {
-    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-25',
+    slug: 'choose-web-design-company-malaysia', tag: 'Choosing', art: 'pick', date: '2026-11-11', updated: '2026-11-26',
     h1: 'How to choose a web design company in Malaysia',
     title: 'How to Choose a Web Design Company in Malaysia | SEOXpert',
     description: 'Choose a web design company in Malaysia by checking real work, a clear price, a plan for search, who does the work, what you own and who looks after the website.',
