@@ -79,7 +79,7 @@ for (const f of ['llms.txt', 'chat.json']) { const p = path.join(dist, f); if (f
     const calls = [], realFetch = globalThis.fetch, realLog = console.log;
     globalThis.fetch = async (url, o = {}) => {
       calls.push({ url: String(url), body: o.body ? JSON.parse(o.body) : null });
-      if (String(url).includes('insight.')) {
+      if (String(url).includes('insight.') || String(url).includes('foresight.')) {
         if (insight === 'down') throw new Error('network down');
         if (insight === 'slow') return new Promise((_, no) => { const keep = setTimeout(() => {}, 10000); o.signal.addEventListener('abort', () => { clearTimeout(keep); no(new Error('timed out')); }); });
         return new Response(JSON.stringify({ ok: true }), { status: 200 });
@@ -132,6 +132,17 @@ for (const f of ['llms.txt', 'chat.json']) { const p = path.join(dist, f); if (f
   const other = await run({ id: 'evt_o', type: 'invoice.paid', livemode: false, data: { object: { id: 'in_2' } } });
   want(other.status === 200 && !other.calls.length, 'an event we do not use should call nothing');
   want(wh.tasksFor(session('xpertrank')).length === 0, 'tasksFor should ignore checkouts that are not builds');
+  // XpertForesight orders (2026-11-26, its own Cloudflare project): the session goes to foresight.seoxpert.my/hooks/paid
+  // once, never to XpertInsight; when it is confirmed we send no email, when the host is down our team still gets one.
+  const fsSession = () => session('foresight', { mode: 'subscription', amount_total: 7900, amount_subtotal: 7900, metadata: { kind: 'foresight', plan: 'XpertForesight Basic' } });
+  const fsHook = (r) => r.calls.filter((c) => c.url === 'https://foresight.seoxpert.my/hooks/paid');
+  const fo = await run(fsSession());
+  want(fo.status === 200 && fsHook(fo).length === 1 && fsHook(fo)[0].body.session === 'cs_test_1', 'an XpertForesight order should send {session} to foresight.seoxpert.my/hooks/paid once');
+  want(!fo.calls.some((c) => c.url.includes('insight.')), 'an XpertForesight order must not call XpertInsight any more');
+  want(mails(fo).length === 0, `a confirmed XpertForesight order should send no email from here (sent ${mails(fo).length})`);
+  const fd = await run(fsSession(), 'down');
+  want(fd.status === 200 && fsHook(fd).length === 1 && mails(fd).length >= 1, `with foresight.seoxpert.my down, our team should still get the payment email (status ${fd.status}, ${mails(fd).length} emails)`);
+  want(wh.foresightUrl({}) === 'https://foresight.seoxpert.my' && wh.foresightUrl({ FORESIGHT_URL: 'https://x.xpertforesight.pages.dev' }) === 'https://x.xpertforesight.pages.dev', 'FORESIGHT_URL should change where XpertForesight orders go');
 }
 // Code protection (scripts/obfuscate.mjs): no source maps anywhere, our scripts are obfuscated, three.js is left alone.
 {

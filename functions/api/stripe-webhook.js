@@ -76,10 +76,11 @@ export function mail(ev) {
   return null;
 }
 
-/** Asks XpertInsight to invite the payer (insight.seoxpert.my/hooks/paid). Never throws: the payment email still goes out. */
-export async function invite(env, session, f = fetch) {
+/** Asks XpertInsight to invite the payer (insight.seoxpert.my/hooks/paid). Never throws: the payment email still goes out.
+ *  `base` is the address to ask: XpertInsight by default; XpertForesight orders use foresightUrl(). */
+export async function invite(env, session, f = fetch, base = env.INSIGHT_URL || 'https://insight.seoxpert.my') {
   try {
-    const r = await f(`${env.INSIGHT_URL || 'https://insight.seoxpert.my'}/hooks/paid`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ session }), redirect: 'manual' });
+    const r = await f(`${base}/hooks/paid`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ session }), redirect: 'manual' });
     const j = await r.json().catch(() => ({}));
     const t = { test: !!j.test, testError: j.testError || '' };
     if (r.ok && j.ok) return { ok: true, invited: j.invited, plan: j.plan, ...t };
@@ -87,6 +88,8 @@ export async function invite(env, session, f = fetch) {
     return { ...t, why: j.skip || j.error || (j.notes && j.notes[0]) || (r.status >= 300 && r.status < 400 ? 'the dashboard asked for a login: the /hooks Bypass is not set up yet' : `error ${r.status}`), plan: j.plan };
   } catch (e) { return { why: e.message }; }
 }
+/** Where XpertForesight orders are confirmed: its own project (optional setting FORESIGHT_URL). */
+export const foresightUrl = (env) => env.FORESIGHT_URL || 'https://foresight.seoxpert.my';
 
 /** A short note to XpertInsight for its team Tasks board (Suhen 2026-11-21): only Stripe ids, the dashboard reads the rest
  *  from Stripe with its own key. Short timeout, never throws: a dashboard that is down never breaks this webhook. */
@@ -134,10 +137,11 @@ async function handle(ev, env) {
       : `The automatic XpertInsight invite did not go out (${r.why}). Send it on the setup page: "Let the client set it up" with ${r.plan || 'their plan'}.`;
     if (m.free && ev.data.object.mode === 'subscription') m.next = (m.next ? m.next + ' ' : '') + (r.test ? 'Free code (founder\'s invite): this plan stops by itself after 14 days, so they are never charged.' : `Free code: please check in Stripe that this plan is set to cancel after 14 days${r.testError ? ` (${r.testError})` : ''}.`);
   }
-  // XpertForesight (Suhen 2026-11-17, ready to sell): XpertInsight makes the account, sends the welcome email and emails
+  // XpertForesight (Suhen 2026-11-17, ready to sell): XpertForesight makes the account, sends the welcome email and emails
   // our team itself (finish() in its lib/fscheckout.js). We only pass the session on, in case the buyer closed the page
-  // before it came back from Stripe, and send no second email.
-  if (kind === 'foresight') { const r = await invite(env, ev.data.object.id); if (r.ok || r.already) return new Response('ok'); m.next = `XpertForesight did not confirm this order (${r.why || 'no answer'}). Open the XpertForesight team page and check the customer's plan.`; }
+  // before it came back from Stripe, and send no second email. Since XpertForesight has its own Cloudflare project
+  // (Suhen 2026-11-26), the session goes to foresight.seoxpert.my/hooks/paid (FORESIGHT_URL), no longer to XpertInsight.
+  if (kind === 'foresight') { const r = await invite(env, ev.data.object.id, fetch, foresightUrl(env)); if (r.ok || r.already) return new Response('ok'); m.next = `XpertForesight did not confirm this order (${r.why || 'no answer'}). Open the XpertForesight team page and check the customer's plan.`; }
   if (!m || !env.RESEND_API_KEY) return new Response('ok');
   const html = paymentMail(ev, m);
   // If the email fails, Stripe still has the payment; answer 500 so Stripe tries this message again later.
