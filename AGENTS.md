@@ -5,7 +5,7 @@ Owner: Suhen (a beginner: explain in plain words, small steps, one question at a
 
 ## Shared SEOXpert rules (the same in every SEOXpert repo)
 
-Copied from the workspace file `C:\Websites\seoxpert-my\AGENTS.md` (Suhen 2026-11-26), which also has the tech stack, secrets, code protection, SEO and design rules. If you change a shared rule, change it there and in every repo. When a rule for this repo (further down) disagrees with a shared rule, the repo rule wins.
+Copied from the workspace file `C:\Websites\seoxpert\business\AGENTS.md` (Suhen 2026-11-26), which also has the tech stack, secrets, code protection, SEO and design rules. If you change a shared rule, change it there and in every repo. When a rule for this repo (further down) disagrees with a shared rule, the repo rule wins.
 
 ### How to work with Suhen
 - Beginner with code, servers and the command line. Windows PC, Malaysia.
@@ -22,7 +22,7 @@ Copied from the workspace file `C:\Websites\seoxpert-my\AGENTS.md` (Suhen 2026-1
 - Never change a price without asking. Keep seoxpert-site `src/data/packages.ts` and xpertinsight `lib/prices.js` matching.
 - Read this whole file before changing anything; record each new decision in it with the date.
 
-### Wording rules (full list in `C:\Websites\seoxpert-my\HANDOVER.md` section 3)
+### Wording rules (full list in `C:\Websites\seoxpert\business\HANDOVER.md` section 3)
 - Product names: XpertForge, XpertRank, XpertInsight, XpertRecap, XpertForesight, XpertCore. Never "XpertCare". Never call XpertCore an "AI website builder".
 - Never "ready-made"; never "unhackable" / "100% secure"; "no admin login" only for sites we build **and manage**.
 - Customer emails signed "The Founder, SEOXpert". Never name outside tools (Ubersuggest, DataForSEO, the AI provider) to customers.
@@ -40,7 +40,7 @@ Copied from the workspace file `C:\Websites\seoxpert-my\AGENTS.md` (Suhen 2026-1
 
 - `npm test` fails on a source map, an unobfuscated script, a broken link, a repeated id, or a title/description outside the limits.
 - Every new kind of bug gets a permanent check in `scripts/check-site.mjs`.
-- Before sending a preview: look at the changed pages at phone (390, 360), tablet (768) and desktop (~1366) widths; save pictures in `C:\Websites\seoxpert-my\release\<topic>-<YYYY-MM-DD>\`.
+- Before sending a preview: look at the changed pages at phone (390, 360), tablet (768) and desktop (~1366) widths; save pictures in `C:\Websites\seoxpert\business\release\<topic>-<YYYY-MM-DD>\`.
 - After go-live: check the live pages yourself, then tell Suhen what is live and what was not checked.
 
 ## Hard rules
