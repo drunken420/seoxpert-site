@@ -81,6 +81,8 @@ for (const f of ['llms.txt', 'chat.json']) { const p = path.join(dist, f); if (f
       calls.push({ url: String(url), body: o.body ? JSON.parse(o.body) : null });
       if (String(url).includes('insight.') || String(url).includes('foresight.')) {
         if (insight === 'down') throw new Error('network down');
+        if (insight === 'already') return new Response(JSON.stringify({ already: true }), { status: 200 });
+        if (insight === 'login') return new Response('', { status: 302, headers: { location: 'https://x.cloudflareaccess.com/' } });
         if (insight === 'slow') return new Promise((_, no) => { const keep = setTimeout(() => {}, 10000); o.signal.addEventListener('abort', () => { clearTimeout(keep); no(new Error('timed out')); }); });
         return new Response(JSON.stringify({ ok: true }), { status: 200 });
       }
@@ -140,9 +142,14 @@ for (const f of ['llms.txt', 'chat.json']) { const p = path.join(dist, f); if (f
   want(fo.status === 200 && fsHook(fo).length === 1 && fsHook(fo)[0].body.session === 'cs_test_1', 'an XpertForesight order should send {session} to foresight.seoxpert.my/hooks/paid once');
   want(!fo.calls.some((c) => c.url.includes('insight.')), 'an XpertForesight order must not call XpertInsight any more');
   want(mails(fo).length === 0, `a confirmed XpertForesight order should send no email from here (sent ${mails(fo).length})`);
+  const fsWarned = (r) => mails(r).filter((m) => (m.body.text || '').includes('XpertForesight did not confirm this order'));
   const fd = await run(fsSession(), 'down');
-  want(fd.status === 200 && fsHook(fd).length === 1 && mails(fd).length >= 1, `with foresight.seoxpert.my down, our team should still get the payment email (status ${fd.status}, ${mails(fd).length} emails)`);
-  want(wh.foresightUrl({}) === 'https://foresight.seoxpert.my' && wh.foresightUrl({ FORESIGHT_URL: 'https://x.xpertforesight.pages.dev' }) === 'https://x.xpertforesight.pages.dev', 'FORESIGHT_URL should change where XpertForesight orders go');
+  want(fd.status === 200 && fsHook(fd).length === 1 && fsWarned(fd).length === 1,`with foresight.seoxpert.my down, our team should get the payment email saying it was not confirmed (status ${fd.status}, ${mails(fd).length} emails)`);
+  const fa = await run(fsSession(), 'already');
+  want(fa.status === 200 && fsHook(fa).length === 1 && mails(fa).length === 0, `an XpertForesight order already made (Stripe retry or the buyer's return page first) should send no email (sent ${mails(fa).length})`);
+  const fl = await run(fsSession(), 'login');
+  want(fl.status === 200 && fsWarned(fl).length === 1 && fsWarned(fl)[0].body.text.includes('/hooks Bypass'), 'with no Access Bypass on foresight.seoxpert.my/hooks, the team email should say so');
+  want(wh.foresightUrl({}) === 'https://foresight.seoxpert.my' && wh.foresightUrl({ FORESIGHT_URL: 'https://x.xpertforesight.pages.dev' }) === 'https://x.xpertforesight.pages.dev' && wh.foresightUrl({ FORESIGHT_URL: ' https://x.xpertforesight.pages.dev/ ' }) === 'https://x.xpertforesight.pages.dev', 'FORESIGHT_URL should change where XpertForesight orders go (a trailing slash or space is ignored)');
 }
 // Code protection (scripts/obfuscate.mjs): no source maps anywhere, our scripts are obfuscated, three.js is left alone.
 {

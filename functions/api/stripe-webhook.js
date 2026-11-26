@@ -89,7 +89,7 @@ export async function invite(env, session, f = fetch, base = env.INSIGHT_URL || 
   } catch (e) { return { why: e.message }; }
 }
 /** Where XpertForesight orders are confirmed: its own project (optional setting FORESIGHT_URL). */
-export const foresightUrl = (env) => env.FORESIGHT_URL || 'https://foresight.seoxpert.my';
+export const foresightUrl = (env) => String(env.FORESIGHT_URL || 'https://foresight.seoxpert.my').trim().replace(/\/+$/, '');
 
 /** A short note to XpertInsight for its team Tasks board (Suhen 2026-11-21): only Stripe ids, the dashboard reads the rest
  *  from Stripe with its own key. Short timeout, never throws: a dashboard that is down never breaks this webhook. */
